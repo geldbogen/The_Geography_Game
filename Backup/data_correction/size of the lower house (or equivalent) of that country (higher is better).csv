@@ -1,0 +1,224 @@
+Unnamed: 0,0,1,2
+1,China,2980.0,National People's Congress
+2,United Kingdom,650.0,Parliament of the United Kingdom
+3,Italy,630.0,Italian Parliament
+4,France,577.0,French Parliament
+5,Egypt,596.0,Parliament of Egypt
+6,India,543.0,Parliament of India
+7,Germany,736.0,–
+8,Thailand,500.0,National  Assembly of Thailand
+10,Indonesia,575.0,People's Consultative Assembly
+11,Japan,465.0,National Diet
+12,North Korea,687.0,Supreme People's Assembly
+13,Morocco,395.0,Parliament of Morocco
+14,Myanmar,440.0,Assembly of the Union
+15,Ethiopia,547.0,Federal Parliamentary Assembly
+16,Mexico,500.0,Congress of the Union
+17,Russia,450.0,Federal Assembly
+18,Cuba,612.0,National Assembly of People's Power
+19,Democratic Republic of the Congo,500.0,Parliament of the Democratic Republic of the Congo
+20,Spain,350.0,Cortes Generales
+21,Algeria,462.0,Parliament of Algeria
+22,Turkey,600.0,Grand National Assembly of Turkey
+23,Brazil,513.0,National Congress of Brazil
+24,Poland,460.0,Parliament of Poland
+25,United States,435.0,United States Congress
+26,Sudan,450.0,National Legislature
+27,Vietnam,500.0,National Assembly
+28,South Africa,400.0,Parliament of South Africa
+29,Nigeria,360.0,National Assembly
+30,Romania,329.0,Parliament of Romania
+31,Ukraine,450.0,Verkhovna Rada
+32,Pakistan,342.0,Parliament of Pakistan
+33,Canada,338.0,Parliament of Canada
+34,Kenya,349.0,Parliament of Kenya
+35,Yemen,301.0,Parliament of Yemen
+36,South Sudan,332.0,National Legislature
+37,Uganda,529.0,Parliament of Uganda
+38,Tanzania,357.0,National Assembly
+39,Côte d’Ivoire,255.0,Parliament of Ivory Coast
+40,Afghanistan,250.0,National Assembly
+41,Zimbabwe,270.0,Parliament of Zimbabwe
+42,Sweden,349.0,Riksdag
+43,Nepal,275.0,Federal Parliament of Nepal
+44,Argentina,257.0,National Congress of Argentina
+45,Somalia,275.0,Federal Parliament of Somalia
+46,Philippines,304.0,Congress of the Philippines
+47,Iraq,325.0,Council of Representatives of Iraq
+48,Bangladesh,300.0,Jatiya Sangsad
+49,Greece,300.0,Hellenic Parliament
+50,South Korea,300.0,National Assembly
+51,Malaysia,222.0,Parliament of Malaysia
+52,Iran,290.0,Islamic Consultative Assembly
+53,Czech Republic,200.0,Parliament of the Czech Republic
+54,Cameroon,180.0,Parliament of Cameroon
+55,Ghana,275.0,Parliament of Ghana
+56,Colombia,166.0,Congress of Colombia
+57,Mozambique,250.0,Assembly of the Republic
+58,Serbia,250.0,National Assembly
+59,Uzbekistan,150.0,Oliy Majlis
+60,Syria,250.0,People's Assembly of Syria
+61,Switzerland,200.0,Federal Assembly
+62,Austria,183.0,Austrian Parliament
+63,Bulgaria,240.0,National Assembly
+64,Portugal,230.0,Assembly of the Republic
+65,Australia,151.0,Parliament of Australia
+66,Ireland,160.0,Oireachtas
+67,Netherlands,150.0,States General of the Netherlands
+68,Sri Lanka,225.0,Parliament of Sri Lanka
+69,Gabon,120.0,Parliament of Gabon
+70,Belgium,150.0,Belgian Federal Parliament
+71,Angola,220.0,National Assembly
+72,Tunisia,217.0,Assembly of the Representatives of the People
+73,Dominican Republic,183.0,Congress of the Dominican Republic
+74,Republic of the Congo,139.0,Parliament of the Republic of the Congo
+75,Jordan,150.0,Parliament of Jordan
+76,Finland,200.0,Parliament of Finland
+77,Libya,200.0,House of Representatives
+78,Hungary,199.0,National Assembly
+79,Malawi,193.0,National Assembly
+80,Chad,188.0,National Assembly
+81,Cambodia,123.0,Parliament of Cambodia
+82,Madagascar,151.0,Parliament of Madagascar
+83,Denmark,179.0,Folketing
+84,Belarus,110.0,National Assembly of Belarus
+85,Equatorial Guinea,100.0,Parliament of Equatorial Guinea
+86,Norway,169.0,Storting
+87,Bolivia,130.0,Plurinational Legislative Assembly
+88,Venezuela,165.0,National Assembly
+89,Mali,160.0,National Assembly
+90,Chile,155.0,National Congress of Chile
+91,Guatemala,158.0,Congress of the Republic of Guatemala
+92,Zambia,158.0,National Assembly of Zambia
+93,Oman,84.0,Council of Oman
+94,Burundi,120.0,Parliament of Burundi
+95,Kazakhstan,107.0,Parliament of Kazakhstan
+96,Lesotho,120.0,Parliament of Lesotho
+97,Croatia,151.0,Croatian Parliament
+98,Eritrea,150.0,National Assembly
+99,Georgia,150.0,Parliament of Georgia
+100,Saudi Arabia,150.0,Consultative Assembly of Saudi Arabia
+101,Senegal,150.0,National Assembly
+102,Slovakia,150.0,National Council
+103,Mauritania,146.0,Mauritanian Parliament
+104,Lithuania,141.0,Parliament of Lithuania
+105,Albania,140.0,Parliament of Albania
+106,Ecuador,137.0,National Assembly
+107,Laos,149.0,National Assembly
+108,Armenia,118.0,National Assembly
+109,Palestinian Territories,132.0,Palestinian Legislative Council
+110,Peru,130.0,Congress of the Republic of Peru
+111,Slovenia,90.0,Slovenian Parliament
+112,Haiti,99.0,Haitian Parliament
+113,Uruguay,99.0,General Assembly of Uruguay
+114,Honduras,128.0,National Congress of Honduras
+115,Lebanon,128.0,Parliament of Lebanon
+116,Burkina Faso,127.0,National Assembly of Burkina Faso
+117,Azerbaijan,125.0,National Assembly
+118,Paraguay,80.0,Congress of Paraguay
+119,Turkmenistan,125.0,Assembly of Turkmenistan
+120,Sierra Leone,124.0,Parliament of Sierra Leone
+121,North Macedonia,123.0,Assembly of North Macedonia
+122,Israel,120.0,Knesset
+124,Kyrgyzstan,120.0,Supreme Council
+125,New Zealand,120.0,Parliament of New Zealand
+126,Guinea,114.0,National Assembly
+127,Niger,113.0,National Assembly
+128,Taiwan,113.0,Legislative Yuan
+129,Papua New Guinea,111.0,National Parliament of Papua New Guinea
+130,Rwanda,80.0,Parliament of Rwanda
+131,Central African Republic,105.0,Parliament of the Central African Republic
+132,Liberia,73.0,Legislature of Liberia
+133,Guinea-Bissau,102.0,National People's Assembly
+134,Estonia,101.0,Riigikogu
+135,Moldova,101.0,Parliament of the Republic of Moldova
+136,Latvia,100.0,Saeima
+137,Namibia,72.0,Parliament of Namibia
+138,Tajikistan,63.0,Supreme Assembly
+139,Eswatini,65.0,Parliament of Eswatini
+140,Nicaragua,92.0,National Assembly
+141,Togo,91.0,National Assembly
+142,Singapore,87.0,Parliament of Singapore
+143,Maldives,85.0,People's Majlis
+144,El Salvador,84.0,Legislative Assembly of El Salvador
+145,Jamaica,63.0,Parliament of Jamaica
+146,Benin,83.0,National Assembly
+147,Montenegro,81.0,Parliament of Montenegro
+148,Bahrain,40.0,National Assembly
+149,Cyprus,80.0,House of Representatives
+150,Puerto Rico,51.0,Legislative Assembly of Puerto Rico
+151,Mongolia,76.0,State Great Khural
+152,Bhutan,47.0,Parliament of Bhutan
+153,Cape Verde,72.0,National Assembly
+154,Trinidad & Tobago,41.0,Parliament of Trinidad and Tobago
+155,Panama,71.0,Parliament of Panama
+156,Hong Kong,70.0,Legislative Council of Hong Kong
+157,Mauritius,70.0,National Assembly
+158,Djibouti,65.0,National Assembly
+159,Guyana,65.0,National Assembly
+160,Kuwait,65.0,National Assembly
+161,Malta,65.0,Parliament of Malta
+162,Timor-Leste,65.0,National Parliament
+163,Botswana,63.0,Parliament of Botswana
+164,Iceland,63.0,Althing
+165,Luxembourg,60.0,Chamber of Deputies
+166,San Marino,60.0,Grand and General Council
+167,Jersey,58.0,States Assembly
+168,Bosnia and Herzegovina,42.0,Parliamentary Assembly of Bosnia and Herzegovina
+169,Costa Rica,57.0,Legislative Assembly of Costa Rica
+170,French Polynesia,57.0,Assembly of French Polynesia
+171,São Tomé & Príncipe,55.0,National Assembly
+172,Bahamas,38.0,Parliament of the Bahamas
+173,New Caledonia,54.0,Congress of New Caledonia
+174,Gambia,53.0,National  Assembly of the Gambia
+175,Vanuatu,52.0,Parliament of Vanuatu
+176,Barbados,30.0,Parliament of Barbados
+177,Suriname,51.0,National Assembly
+178,Fiji,50.0,Parliament of Fiji
+179,Solomon Islands,50.0,National Parliament of Solomon Islands
+180,Samoa,49.0,Legislative Assembly of Samoa
+181,Bermuda,36.0,Parliament of Bermuda
+182,Kiribati,46.0,House of Assembly
+183,Guernsey,45.0,States of Guernsey
+184,Qatar,45.0,Consultative Assembly of Qatar
+186,Belize,31.0,Parliament of Belize
+187,United Arab Emirates,40.0,Federal National Council
+188,American Samoa,21.0,American Samoa Fono
+189,Isle of Man,24.0,Tynwald
+191,Antigua & Barbuda,17.0,Parliament of Antigua and Barbuda
+192,Seychelles,34.0,National Assembly
+195,Brunei,33.0,Legislative Council of Brunei
+196,Comoros,33.0,Assembly of the Union of the Comoros
+197,Faroe Islands,33.0,Løgting
+198,Macao,33.0,Legislative Council of Macau
+199,Marshall Islands,33.0,Legislature of the Marshall Islands
+200,Dominica,32.0,House of Assembly of Dominica
+201,Greenland,31.0,Inatsisartut
+202,Northern Mariana Islands,20.0,Northern Mariana Islands Commonwealth Legislature
+203,Andorra,28.0,General Council
+204,Grenada,15.0,Parliament of Grenada
+206,Tonga,26.0,Legislative Assembly of Tonga
+207,Liechtenstein,25.0,Landtag of Liechtenstein
+208,Palau,16.0,Palau National Congress
+209,Cook Islands,24.0,Parliament of the Cook Islands
+210,Monaco,24.0,National Council
+213,Aruba,21.0,Parliament of Aruba
+214,Cayman Islands,21.0,Parliament of the Cayman Islands
+215,Curaçao,21.0,Parliament of Curaçao
+217,Niue,20.0,Niue Assembly
+218,Tokelau,20.0,General Fono
+220,Nauru,19.0,Parliament of Nauru
+224,Gibraltar,18.0,Gibraltar Parliament
+226,British Virgin Islands,15.0,House of Assembly of the British Virgin Islands
+227,Guam,15.0,Legislature of Guam
+228,Sint Maarten,15.0,Parliament of Sint Maarten
+229,Tuvalu,15.0,Parliament of Tuvalu
+231,Micronesia,14.0,Congress of the Federated States of Micronesia
+233,Anguilla,11.0,House of Assembly
+234,Montserrat,11.0,Legislative Assembly of Montserrat
+235,Falkland Islands,10.0,Legislative Assembly of the Falkland Islands
+236,Pitcairn Islands,10.0,Island Council
+237,Christmas Island,9.0,Shire of Christmas Island
+238,Norfolk Island,9.0,Norfolk Island Legislative Assembly
+239,Cocos (Keeling) Islands,7.0,Shire of Cocos
+240,Vatican City,7.0,Pontifical Commission for Vatican City State

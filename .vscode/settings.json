@@ -1,0 +1,7 @@
+{
+    "explorer.sortOrder": "modified",
+    "gopls": {
+    "build.allowImplicitNetworkAccess": false
+    },
+    "cSpell.enabled": false
+}

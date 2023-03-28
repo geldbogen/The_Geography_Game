@@ -1,0 +1,198 @@
+country,number,item,item_id
+Afghanistan,2300,--,--
+Albania,5466,--,--
+Algeria,9508,--,--
+Andorra,650,--,--
+Angola,1822,--,--
+Antigua and Barbuda,427,--,--
+Argentina,48101,--,--
+Armenia,11955,--,--
+Australia,65659,--,--
+Austria,56131,--,--
+Azerbaijan,18909,--,--
+The Bahamas,705,--,--
+Bahrain,1113,--,--
+Bangladesh,6013,--,--
+Barbados,963,--,--
+Belarus,21175,--,--
+Belgium,41968,--,--
+Belize,423,--,--
+Benin,917,--,--
+Bhutan,317,--,--
+Bolivia,3253,--,--
+Bosnia and Herzegovina,6596,--,--
+Botswana,563,--,--
+Brazil,79361,--,--
+Brunei,284,--,--
+Bulgaria,23202,--,--
+Burkina Faso,1068,--,--
+Burundi,481,--,--
+Cape Verde,682,--,--
+Cambodia,930,--,--
+Cameroon,4035,--,--
+Canada,92964,--,--
+Central African Republic,448,--,--
+Chad,509,--,--
+Chile,17874,--,--
+People's Republic of China,50692,--,--
+Colombia,16575,--,--
+Comoros,248,--,--
+Democratic Republic of the Congo,3243,--,--
+Republic of the Congo,1160,--,--
+Costa Rica,3168,--,--
+Ivory Coast,3074,--,--
+Croatia,12749,--,--
+Cuba,8973,--,--
+Cyprus,3083,--,--
+Czech Republic,49503,--,--
+Denmark,30711,--,--
+Djibouti,201,--,--
+Dominica,385,--,--
+Dominican Republic,4643,--,--
+Ecuador,5531,--,--
+Egypt,11347,--,--
+El Salvador,1843,--,--
+Equatorial Guinea,491,--,--
+Eritrea,493,--,--
+Estonia,17091,--,--
+Eswatini,238,--,--
+Ethiopia,1891,--,--
+Fiji,1389,--,--
+Finland,50200,--,--
+France,174986,--,--
+Gabon,685,--,--
+The Gambia,1265,--,--
+Georgia,9098,--,--
+Germany,304826,--,--
+Ghana,6277,--,--
+Greece,22495,--,--
+Grenada,389,--,--
+Guatemala,2000,--,--
+Guinea,1277,--,--
+Guinea-Bissau,524,--,--
+Guyana,900,--,--
+Haiti,2159,--,--
+Honduras,2213,--,--
+Hungary,51037,--,--
+Iceland,4331,--,--
+India,63660,--,--
+Indonesia,27123,--,--
+Iran,21086,--,--
+Iraq,5560,--,--
+Republic of Ireland,19757,--,--
+Israel,35547,--,--
+Italy,147106,--,--
+Jamaica,4466,--,--
+Japan,244477,--,--
+Jordan,2044,--,--
+Kazakhstan,12615,--,--
+Kenya,4515,--,--
+Kiribati,115,--,--
+Kosovo,1519,--,--
+Kuwait,1921,--,--
+Kyrgyzstan,2159,--,--
+Laos,396,--,--
+Latvia,10604,--,--
+Lebanon,5109,--,--
+Lesotho,316,--,--
+Liberia,775,--,--
+Libya,1083,--,--
+Liechtenstein,920,--,--
+Lithuania,12473,--,--
+Luxembourg,5923,--,--
+Madagascar,799,--,--
+Malawi,510,--,--
+Malaysia,8198,--,--
+Maldives,359,--,--
+Mali,2027,--,--
+Malta,1685,--,--
+Marshall Islands,68,--,--
+Mauritania,506,--,--
+Mauritius,776,--,--
+Mexico,35534,--,--
+Federated States of Micronesia,109,--,--
+Moldova,4658,--,--
+Monaco,492,--,--
+Mongolia,1761,--,--
+Montenegro,2607,--,--
+Morocco,8064,--,--
+Mozambique,923,--,--
+Myanmar,2158,--,--
+Namibia,1446,--,--
+Nauru,154,--,--
+Nepal,1970,--,--
+Netherlands,28971,--,--
+New Zealand,23760,--,--
+Nicaragua,1049,--,--
+Niger,827,--,--
+Nigeria,11080,--,--
+North Korea,2069,--,--
+North Macedonia,5304,--,--
+Norway,55290,--,--
+Oman,472,--,--
+Pakistan,11511,--,--
+Palau,111,--,--
+State of Palestine,1964,--,--
+Panama,2138,--,--
+Papua New Guinea,897,--,--
+Paraguay,3849,--,--
+Peru,10229,--,--
+Philippines,9999,--,--
+Poland,113005,--,--
+Portugal,19231,--,--
+Qatar,1366,--,--
+Romania,33413,--,--
+Russia,158700,--,--
+Rwanda,787,--,--
+Saint Kitts and Nevis,345,--,--
+Saint Lucia,323,--,--
+Saint Vincent and the Grenadines,293,--,--
+Samoa,618,--,--
+San Marino,740,--,--
+São Tomé and Príncipe,239,--,--
+Saudi Arabia,6160,--,--
+Senegal,3710,--,--
+Serbia,17638,--,--
+Seychelles,295,--,--
+Sierra Leone,818,--,--
+Singapore,3053,--,--
+Slovakia,16364,--,--
+Slovenia,18513,--,--
+Solomon Islands,331,--,--
+Somalia,766,--,--
+South Africa,20967,--,--
+South Korea,41221,--,--
+South Sudan,215,--,--
+Spain,132445,--,--
+Sri Lanka,5121,--,--
+Sudan,975,--,--
+Suriname,1529,--,--
+Sweden,77515,--,--
+Switzerland,43102,--,--
+Syria,4244,--,--
+Taiwan,11356,--,--
+Tajikistan,1936,--,--
+Tanzania,1783,--,--
+Thailand,11034,--,--
+East Timor,1257,--,--
+Togo,707,--,--
+Tonga,674,--,--
+Trinidad and Tobago,2000,--,--
+Tunisia,7013,--,--
+Turkey,37296,--,--
+Turkmenistan,1100,--,--
+Tuvalu,166,--,--
+Uganda,2829,--,--
+Ukraine,81447,--,--
+United Arab Emirates,2053,--,--
+United Kingdom,204598,--,--
+United States of America,564512,--,--
+Uruguay,11585,--,--
+Uzbekistan,4436,--,--
+Vanuatu,328,--,--
+Vatican City,23,--,--
+Venezuela,10455,--,--
+Vietnam,6379,--,--
+Yemen,1468,--,--
+Zambia,1429,--,--
+Zimbabwe,2843,--,--

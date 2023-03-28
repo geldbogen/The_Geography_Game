@@ -1,0 +1,11 @@
+wd:Q37
+wd:Q1019
+wd:Q702
+wd:Q1029
+wd:Q221
+wd:Q695
+wd:Q958
+wd:Q863
+wd:Q945
+wd:Q678
+wd:Q686

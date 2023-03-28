@@ -1,0 +1,182 @@
+Country,Amount,Date
+"Greenland","$4.57",2013
+"Norway","$3.42",2014
+"Barbados","$2.75",2014
+"Cayman Islands","$2.64",2014
+"Zimbabwe","$2.62",2014
+"Grenada","$2.61",2014
+"Bermuda","$2.58",2014
+"Faroe Islands","$2.56",2014
+"Falkland Islands (Islas Malvinas)","$2.54",2012
+"Venezuela","$2.52",2014
+"British Virgin Islands","$2.50",2014
+"Isle of Man","$2.49",2013
+"Australia","$2.42",2014
+"Finland","$2.41",2014
+"Guernsey","$2.41",2014
+"Iceland","$2.38",2014
+"Guam","$2.33",2013
+"Guyana","$2.25",2014
+"Papua New Guinea","$2.20",2014
+"Sweden","$2.19",2014
+"New Zealand","$2.12",2014
+"Burundi","$2.08",2013
+"Andorra","$2.05",2014
+"Aruba","$2.00",2014
+"Dominica","$2.00",2013
+"Democratic Republic of the Congo","$1.98",2014
+"Jersey","$1.91",2014
+"Ireland","$1.91",2014
+"French Polynesia","$1.91",2013
+"Reunion","$1.88",2014
+"Canada","$1.85",2014
+"Costa Rica","$1.82",2014
+"The Bahamas","$1.80",2014
+"United States","$1.75",2014
+"Puerto Rico","$1.75",2014
+"United Kingdom","$1.74",2014
+"Samoa","$1.70",2013
+"Hong Kong","$1.68",2014
+"Denmark","$1.67",2014
+"Curacao","$1.56",2013
+"Vanuatu","$1.56",2013
+"New Caledonia","$1.54",2013
+"Zambia","$1.50",2014
+"Suriname","$1.46",2014
+"Trinidad and Tobago","$1.46",2014
+"Japan","$1.41",2014
+"Jamaica","$1.41",2014
+"Brunei","$1.40",2014
+"Singapore","$1.40",2014
+"Seychelles","$1.40",2014
+"Fiji","$1.39",2014
+"Lesotho","$1.39",2014
+"Botswana","$1.38",2014
+"Namibia","$1.35",2014
+"Argentina","$1.31",2014
+"Uruguay","$1.30",2014
+"Chile","$1.27",2014
+"Panama","$1.26",2014
+"Gibraltar","$1.25",2014
+"Haiti","$1.25",2014
+"Belgium","$1.23",2014
+"Madagascar","$1.23",2014
+"Cameroon","$1.20",2014
+"Colombia","$1.20",2014
+"South Korea","$1.19",2014
+"Israel","$1.19",2014
+"Switzerland","$1.19",2014
+"Ghana","$1.18",2014
+"Nicaragua","$1.16",2014
+"Greece","$1.14",2014
+"Paraguay","$1.14",2014
+"Netherlands","$1.13",2014
+"Cyprus","$1.13",2014
+"France","$1.12",2014
+"Angola","$1.12",2014
+"South Africa","$1.10",2014
+"Croatia","$1.10",2014
+"Luxembourg","$1.09",2014
+"Monaco","$1.08",2013
+"Bahrain","$1.06",2014
+"Senegal","$1.06",2014
+"Bolivia","$1.04",2014
+"Malawi","$1.03",2013
+"Estonia","$1.02",2014
+"Taiwan","$1.02",2014
+"Mozambique","$1.02",2014
+"Kenya","$1.01",2014
+"Mali","$1.00",2014
+"Gabon","$1.00",2014
+"Liberia","$1.00",2013
+"Swaziland","$0.99",2014
+"Equatorial Guinea","$0.99",2013
+"Guatemala","$0.97",2014
+"Peru","$0.96",2014
+"Yemen","$0.94",2014
+"Cuba","$0.94",2014
+"Mexico","$0.93",2014
+"Brazil","$0.93",2014
+"Ecuador","$0.92",2014
+"Dominican Republic","$0.91",2014
+"Honduras","$0.91",2014
+"Belize","$0.90",2014
+"Latvia","$0.90",2014
+"Russia","$0.88",2014
+"Uganda","$0.88",2014
+"Tanzania","$0.87",2014
+"El Salvador","$0.85",2014
+"Malta","$0.85",2014
+"Lebanon","$0.84",2014
+"Slovenia","$0.84",2014
+"Azerbaijan","$0.84",2014
+"Gambia","$0.84",2014
+"Nigeria","$0.83",2014
+"Austria","$0.82",2014
+"Slovakia","$0.81",2014
+"Belarus","$0.81",2014
+"Lithuania","$0.79",2014
+"Mauritius","$0.77",2014
+"Somalia","$0.75",2014
+"Bosnia and Herzegovina","$0.74",2014
+"Saint Lucia","$0.74",2014
+"Romania","$0.74",2014
+"Spain","$0.73",2014
+"Philippines","$0.72",2014
+"Morocco","$0.72",2014
+"Portugal","$0.71",2014
+"Rwanda","$0.71",2014
+"Iraq","$0.70",2014
+"Montenegro","$0.69",2014
+"Germany","$0.69",2014
+"Cape Verde","$0.68",2014
+"Albania","$0.68",2014
+"Ethiopia","$0.67",2014
+"Malaysia","$0.67",2014
+"Maldives","$0.66",2014
+"Laos","$0.66",2014
+"Czech Republic","$0.65",2014
+"Cambodia","$0.64",2014
+"China","$0.64",2014
+"Armenia","$0.64",2014
+"Kazakhstan","$0.64",2014
+"Jordan","$0.63",2014
+"Poland","$0.63",2014
+"Sri Lanka","$0.63",2014
+"Ukraine","$0.62",2014
+"Georgia","$0.61",2014
+"Sudan","$0.60",2014
+"Bulgaria","$0.60",2014
+"Moldova","$0.58",2014
+"Qatar","$0.58",2014
+"Serbia","$0.58",2014
+"Vietnam","$0.56",2014
+"Uzbekistan","$0.55",2014
+"Italy","$0.55",2014
+"Djibouti","$0.55",2013
+"Saudi Arabia","$0.54",2014
+"Kuwait","$0.54",2014
+"Mongolia","$0.54",2014
+"Republic of Macedonia","$0.53",2014
+"United Arab Emirates","$0.53",2014
+"Burma","$0.52",2014
+"Tajikistan","$0.52",2013
+"Oman","$0.51",2014
+"Turkey","$0.49",2014
+"Thailand","$0.49",2014
+"Kyrgyzstan","$0.48",2014
+"Afghanistan","$0.46",2014
+"Hungary","$0.44",2014
+"Pakistan","$0.44",2014
+"Libya","$0.43",2014
+"Egypt","$0.43",2014
+"Syria","$0.42",2014
+"Turkmenistan","$0.40",2013
+"Indonesia","$0.39",2014
+"Iran","$0.39",2014
+"Tunisia","$0.37",2014
+"India","$0.36",2014
+"Algeria","$0.35",2014
+"Bangladesh","$0.34",2014
+"Nepal","$0.34",2014
+"Bhutan","$0.31",2014

@@ -1,0 +1,8 @@
+wd:Q242
+wd:Q921
+wd:Q977
+wd:Q710
+wd:Q819
+wd:Q826
+wd:Q709
+wd:Q686
