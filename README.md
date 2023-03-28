@@ -95,7 +95,13 @@ After this failed attack, B 🔵 immediately takes control of the country where 
 
 ![grafik](https://user-images.githubusercontent.com/65167682/228326859-9b9d25ce-6e73-4f74-8121-6c0ec433d632.png)
 
+### Rerolls
+Every player starts with a set amount of rerolls. They are indicated on the bottom-left corner:
 
+![AAG](https://user-images.githubusercontent.com/65167682/228332402-5da78646-314e-4956-a3e2-a3c2a2efb99c.png)
+
+
+While it's their turn any player may click on this button in order to get a new atteribute.
 
 ### Strong victory
 
