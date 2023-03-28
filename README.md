@@ -42,7 +42,7 @@ On the upper part of the screen you can see the following:
 ![AAE](https://user-images.githubusercontent.com/65167682/228307041-a951801f-eb54-49a1-a56b-9e245b50157e.png)
 
 
-Every turn a new attribute is randomly chosen. In this case, it is "number of urban areas with more than 1 mio. citizens". This attribute determines, whether you are succesful with your attack. For example, after A 🔴 starts the attack, he would see the following:
+Every turn a new attribute is randomly chosen. In this case, it is "number of urban areas with more than 1 mio. citizens" (we only deal with this attribute for the rest of this instruction). This attribute determines, whether you are succesful with your attack. For example, after A 🔴 starts the attack, he would see the following:
 
 ![grafik](https://user-images.githubusercontent.com/65167682/228307642-34a3dd19-6da7-4480-83be-0de1ca263611.png)
 
@@ -56,3 +56,20 @@ Because the United States has more, A 🔴's attack is succesful and Canada now 
  A 🔴 can click now on the "success" button to close the window and give the turn to B 🔵.
 
 https://user-images.githubusercontent.com/65167682/228309367-4d4b93c1-3ace-43ef-b17f-e6ef15aeef1c.mp4
+
+
+Now, it is B 🔵's turn. They think, that France has mor urban areas than Germany, hence they attack Germany with France.
+
+![grafik](https://user-images.githubusercontent.com/65167682/228323090-8d7c403b-6dc6-4670-b1aa-ed22f5c1bea8.png)
+
+However, because Germany has actually more urban areas than France (4 in France and 7 in Germany), they do not get Germany, and their attack fail. After clicking on the "Fail"-Button it is C 🟢's turn. The game usually ends after a specific number of turns is played (compare section ending conditions). Let us skip the turn of C 🟢 (who was able to capture Italy) and come to the next turn of  A 🔴 . The board looks like this:
+
+![grafik](https://user-images.githubusercontent.com/65167682/228324444-a7ef920d-7198-4f07-8eec-afccc7348459.png)
+
+
+Now, because  A 🔴 owns both, Canada and USA, they can attack with Canada Ireland. They can also attack Mexico with the USA. However, they can NOT attack Mexico with Canada. Only neighboring countries can attack each other.
+
+## More Rules
+
+
+
