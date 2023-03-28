@@ -71,6 +71,13 @@ Now, because  A 🔴 owns both, Canada and USA, they can attack with Canada Irel
 
 ## More Rules
 
+### Dealing with missing data
+If one of the countries don't have any data (or it is missing) regarding the current attribute, the Button changes to a pondering emoji and the player whose turn it was may attack again.
+This usually looks like this:
+
+![grafik](https://user-images.githubusercontent.com/65167682/228331533-46246e78-2351-4a5b-82f0-12f1b1fb262c.png)
+
+
 ### Attacking other people's country
 
 Unless you play in peace mode (see section "game modes" for more details), you are able to attack countries which are possessed by other players. However this comes with a caveat: if your attack fails, the attacked player claims the country of the origin of the attack.
@@ -90,7 +97,7 @@ After this failed attack, B 🔵 immediately takes control of the country where 
 
 
 
-### strong victory
+### Strong victory
 
 If your country wins with at least 100 worldranks difference, you will get an extra turn. For example, assume the following board state:
 
