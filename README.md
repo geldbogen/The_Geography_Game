@@ -62,7 +62,7 @@ Now, it is B 🔵's turn. They think, that France has mor urban areas than Germa
 
 ![grafik](https://user-images.githubusercontent.com/65167682/228323090-8d7c403b-6dc6-4670-b1aa-ed22f5c1bea8.png)
 
-However, because Germany has actually more urban areas than France (4 in France and 7 in Germany), they do not get Germany, and their attack fail. After clicking on the "Fail"-Button it is C 🟢's turn. The game usually ends after a specific number of turns is played (compare section ending conditions). Let us skip the turn of C 🟢 (who was able to capture Italy) and come to the next turn of  A 🔴 . The board looks like this:
+However, because Germany has actually more urban areas than France (4 in France and 7 in Germany), they do not get Germany, and their attack fail. After clicking on the "Fail"-Button it is C 🟢's turn. The game usually ends after a specific number of turns is played (see section game modes for more details). Let us skip the turn of C 🟢 (who was able to capture Italy) and come to the next turn of  A 🔴 . The board looks like this:
 
 ![grafik](https://user-images.githubusercontent.com/65167682/228324444-a7ef920d-7198-4f07-8eec-afccc7348459.png)
 
@@ -71,5 +71,21 @@ Now, because  A 🔴 owns both, Canada and USA, they can attack with Canada Irel
 
 ## More Rules
 
+### Attacking other people's country
+
+Unless you play in peace mode (see section "game modes" for more details), you are able to attack countries which are possessed by other players. However this comes with a caveat: if your attack fails, the attacked player claims the country of the origin of the attack.
+Compare the following board state:
+
+![grafik](https://user-images.githubusercontent.com/65167682/228326238-b171578a-44c3-43de-9d29-4843d43cb824.png)
+
+As you can see, the current attribute is "number of airports". Now, player  A 🔴 thinks, that Portugal has more airports than Spain. Therefore he attacks Spain (currently under control of B 🔵) with Portugal
+
+However, he fails.
+
+![grafik](https://user-images.githubusercontent.com/65167682/228326622-d817d066-4798-4e70-8c7f-5de81e5c6082.png)
+
+After this failed attack, B 🔵 immediately takes control of the country where the attack started from (in this case, Portugal), and the board state looks like this:
+
+![grafik](https://user-images.githubusercontent.com/65167682/228326859-9b9d25ce-6e73-4f74-8121-6c0ec433d632.png)
 
 
