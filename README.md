@@ -116,6 +116,8 @@ In Fact, because the difference between France and Luxembourg is so big (at leas
 
 ### Active Categories
 
+### Wormholes
+
 ## Game Modes and End of Game
 
 ## Start screen
