@@ -89,3 +89,15 @@ After this failed attack, B 🔵 immediately takes control of the country where 
 ![grafik](https://user-images.githubusercontent.com/65167682/228326859-9b9d25ce-6e73-4f74-8121-6c0ec433d632.png)
 
 
+
+### strong victory
+
+If your country wins with at least 100 worldranks difference, you will get an extra turn. For example, assume the following board state:
+
+![grafik](https://user-images.githubusercontent.com/65167682/228329960-8d1a4666-8515-4332-9eb3-0cc43e001ddf.png)
+
+Because B 🔵 thinks, that France has more airports than Luxembourg (the small nation between France and Germany) they attack it. 
+In Fact, because the difference between France and Luxembourg is so big (at least airport-wise) the button changes to "Great Success" and B 🔵 gets an extra turn after this.
+
+![grafik](https://user-images.githubusercontent.com/65167682/228330583-b64d2529-9c58-424a-9264-c3bde8d88acd.png)
+
