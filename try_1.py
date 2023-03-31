@@ -21,6 +21,8 @@ from requests.api import options
 import wikipedia
 import webbrowser
 import sv_ttk
+
+#local files
 import alternative_names
 
 
@@ -2781,7 +2783,7 @@ dictionary_of_properties=dict()
 # bettersetupdata("fragile state index (more stable is better) (lower is better).csv",ascending=True)
 # bettersetupdata("homeless population by 10,000 population (lower is better).csv",ascending=True)
 # bettersetupdata("GDP growth in 2020 (higher is better).csv")
-# bettersetupdata("population density (in citizens per km^2) (higher is better).csv")
+bettersetupdata("population density (in citizens per km^2) (higher is better).csv")
 # bettersetupdata("number of wiki-languages of most famous geographical feature of that country (higher is better).csv",additional_information=True,additional_information_column=[2,3,4])
 # bettersetupdata("number of wiki-languages of most famous one-day event between 1950 and 2000 (higher is better).csv",additional_information=True,additional_information_column=[2,3,4])
 # bettersetupdata("number of wiki-languages of most famous city with at most 500,000 citizens (higher is better).csv",additional_information=True,additional_information_column=[2,3,4])
@@ -2892,7 +2894,7 @@ dictionary_of_properties=dict()
 # bettersetupdata("Average import duty in % (lower is better).csv",ascending=True)
 # bettersetupdata("Average inflation rate 2017-2021 (lower is better).csv",ascending=True)
 # bettersetupdata("S&P credit rating (better rating is better) (lower is better).csv",ascending=True,additional_information=True,additional_information_column=[2])
-bettersetupdata("Amount of currencies one US$ can buy (higher is better).csv",additional_information=True,additional_information_column=[2,3,4])
+# bettersetupdata("Amount of currencies one US$ can buy (higher is better).csv",additional_information=True,additional_information_column=[2,3,4])
 # bettersetupdata("export to import ratio (higher is better).csv")
 # bettersetupdata("Number of characters of official name of that country (higher is better).csv",additional_information=True)
 # bettersetupdata("Refugee population (by 100,000 population) (higher is better).csv")

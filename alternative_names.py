@@ -7,8 +7,8 @@ countries_alternative_names={\
     "United Arab Emirates":["Arab Emirates","UAE","UA Emirates"],\
     "Macao":["China, Macao SAR","Macao SAR China","Macau","Macau *","Macau, China","Macau (China)"],\
     "Papua New Guinea":["New Guinea","Papua N.G."],\
-    "Republic of the Congo":["R. of Congo","Congo-Brazzaville","Congo (Brazzaville)","Congo","Republic of the Congo","Congo, Republic of the","Congo, Republic of"],\
-    "Democratic Republic of the Congo":["Congo, D. R.","Congo-Kinshasa","DR Congo *","Dr Congo","Congo DR","DR Congo *","Congo (Kinshasa)","DR Congo","Democratic Republic of Congo","Congo, Democratic Republic of the","Congo, Democratic Republic of"],\
+    "Republic of the Congo":["Republic Of The Congo","R. of Congo","Congo-Brazzaville","Congo (Brazzaville)","Congo","Republic of the Congo","Congo, Republic of the","Congo, Republic of"],\
+    "Democratic Republic of the Congo":["Dr Congo","Congo, D. R.","Congo-Kinshasa","DR Congo *","Dr Congo","Congo DR","DR Congo *","Congo (Kinshasa)","DR Congo","Democratic Republic of Congo","Congo, Democratic Republic of the","Congo, Democratic Republic of"],\
     "Dominican Republic":["Dominican Rep.","Domin. Rep."],\
     "Central African Republic":["Central Africa","C.A. Republic"],\
     "Eswatini":["Swaziland"],\
@@ -47,7 +47,9 @@ countries_alternative_names={\
     "Iran":["Iran (Islamic Republic of)"],\
     "Tanzania":["United Republic of Tanzania"],\
     "Venezuela":["Venezuela (Bolivarian Republic of)"],\
-    "Bolivia":["Bolivia (Plurinational State of)"]
+    "Bolivia":["Bolivia (Plurinational State of)"],\
+    "Guinea-Bissau":["Guinea Bissau"],\
+    "Bosnia and Herzegovina":["Bosnia And Herzegovina"],\
     
     }
 reverse_countries_alternative_names=dict()
