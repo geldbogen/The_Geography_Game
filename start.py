@@ -27,7 +27,7 @@ import alternative_names
 
 
 filename=os.path.realpath(__file__).replace("\\","/")
-filename=filename.rstrip("/Backup/try_1.py")
+filename=filename.rstrip("/Backup/start.py")
 print(filename)
 os.chdir(filename)
 pd.options.display.max_rows = None
@@ -99,11 +99,11 @@ for mlist in countries_alternative_names.values():
     for key in countries_alternative_names.keys():
         if countries_alternative_names[key]==mlist:
             for item in mlist:
-                reverse_countries_alternative_names[item]=key
+                reverse_countries_alternative_names[item.lower()]=key
 
 
 for item in countries_for_language_en:
-    reverse_countries_alternative_names[item[1]]=item[1]
+    reverse_countries_alternative_names[item[1].lower()]=item[1]
 
 
 
@@ -255,7 +255,7 @@ def setupdata(data,column,namecolumn,nameofattribute,ascending,treatmissingdataa
     def append_dataframe(series,nameofattribute,numberofranked):
         additional_informations=[]
         try:
-            countryname=reverse_countries_alternative_names[series.iloc[0]]
+            countryname=reverse_countries_alternative_names[series.iloc[0].lower()]
         except KeyError:
             return None  
         if not callcountrybyname(countryname) in preallCountries:
@@ -2718,7 +2718,7 @@ dictionary_of_properties=dict()
 # bettersetupdata("number of urban areas with more than 1 mio. citizens (higher is better).csv",dif=1)
 # bettersetupdata("number of twitter followers of head of state resp. head of government (higher is better).csv",dif=1,additional_information=True,additional_information_column=[2,3,4])
 # bettersetupdata("number of models from that country with a wiki-page (by 1,000,000 population) (higher is better).csv",dif=2)
-# bettersetupdata("number of first level administrative regions (i.e. states in the US or prefectures in Japan) (higher is better).csv",dif=4)
+bettersetupdata("number of first level administrative regions (i.e. states in the US or prefectures in Japan) (higher is better).csv",dif=4)
 # bettersetupdata("number of airports (higher is better).csv",treatmissingdataasbad=True,dif=2)
 # bettersetupdata("number of airports (by 1,000,000 population) (higher is better).csv",treatmissingdataasbad=True,dif=3)
 # bettersetupdata("number of wiki-languages of head of state resp. head of government (higher is better).csv",dif=2,additional_information=True,treatmissingdataasbad=True,additional_information_column=[2,3,4])
