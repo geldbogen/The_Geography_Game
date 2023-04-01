@@ -147,6 +147,7 @@ sparqllist=[\
 ,"wd:Q843"\
 ,"wd:Q695"\
 ,"wd:Q219060"\
+,"wd:Q8646"\
 ,"wd:Q804"\
 ,"wd:Q691"\
 ,"wd:Q733"\
@@ -202,6 +203,7 @@ sparqllist=[\
 ,"wd:Q145"\
 ,"wd:Q30"\
 ,"wd:Q77"\
+,"wd:Q14773"\
 ,"wd:Q265"\
 ,"wd:Q686"\
 ,"wd:Q237"\
@@ -210,6 +212,7 @@ sparqllist=[\
 ,"wd:Q805"\
 ,"wd:Q953"\
 ,"wd:Q954"\
+,"wd:Q1011"\
 ]
 sparqllist2=[
 "wd:Q228",\
@@ -218,7 +221,6 @@ sparqllist2=[
 "wd:Q917",\
 "wd:Q963",\
 "wd:Q967",\
-"wd:Q1011",\
 "wd:Q929",\
 "wd:Q657",\
 "wd:Q970",\
@@ -308,6 +310,7 @@ def fetchitems(itemname,errorlist_index=False,errorlist_timeout=False):
     j=0
     errorlist=list()
     indexerrorlist=list()
+
     for item in sparqllist:
         print(item +"\n" +"Let's go \n\n\n\n")
         counter=0
