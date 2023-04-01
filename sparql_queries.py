@@ -330,14 +330,14 @@ def fetchitems(itemname,errorlist_index=False,errorlist_timeout=False):
             filter(?sitelinks>0)} 
             UNION
             {?novelist wdt:P276 [wdt:P17 ?country];
-                        wikibase:sitelinks ?sitelinks.
+                        wikibase:site ?sitelinks.
             filter(?sitelinks>0)}
                     
-            wd:Q178561 ^wdt:P279*/^wdt:P31 ?novelist
+            wd:Q1248784 ^wdt:P279*/^wdt:P31 ?novelist
             
             }
             ORDER BY DESC(?sitelinks)
-            LIMIT 50
+            
             '''
             query2='''SELECT DISTINCT ?pageid ?novelist ?novelistLabel ?countryLabel ?sitelinks WHERE {
     
@@ -711,5 +711,5 @@ def fetchitems(itemname,errorlist_index=False,errorlist_timeout=False):
     print(itemname)
 
 # read_errorlists("most_famous_person_after_2000") 
-fetchitems("most_famous_battle")
+fetchitems("most_famous_airport")
 
