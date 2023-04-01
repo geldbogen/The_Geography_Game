@@ -316,7 +316,49 @@ def fetchitems(itemname,errorlist_index=False,errorlist_timeout=False):
         counter=0
         try:
             url = 'https://query.wikidata.org/sparql'
-            query='''
+            query = '''
+                        SELECT DISTINCT ?pageid ?novelist ?novelistLabel ?countryLabel ?sitelinks WHERE {
+    
+            SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
+            hint:Query hint:optimizer "None".
+            
+            VALUES ?country {'''+item+'''}
+            
+            
+            {?novelist wdt:P17 ?country;
+                        wikibase:sitelinks ?sitelinks
+            filter(?sitelinks>0)} 
+            UNION
+            {?novelist wdt:P276 [wdt:P17 ?country];
+                        wikibase:sitelinks ?sitelinks.
+            filter(?sitelinks>0)}
+                    
+            wd:Q178561 ^wdt:P279*/^wdt:P31 ?novelist
+            
+            }
+            ORDER BY DESC(?sitelinks)
+            LIMIT 50
+            '''
+            query2='''SELECT DISTINCT ?pageid ?novelist ?novelistLabel ?countryLabel ?sitelinks WHERE {
+    
+            SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
+            hint:Query hint:optimizer "None".
+            
+            VALUES ?country {'''+item+'''}
+            
+            wd:Q4830453 ^wdt:P279*/^wdt:P31 ?novelist.
+            
+            ?novelist wdt:P17 ?country;
+                      wikibase:sitelinks ?sitelinks.
+            MINUS {?novelist wdt:P31 wd:Q46970}
+            MINUS {?novelist wdt:P31 wd:Q6579042}
+  
+            
+            }
+            ORDER BY DESC(?sitelinks)
+            LIMIT 50
+            '''
+            query2='''
             SELECT DISTINCT ?pageid ?novelist ?novelistLabel ?countryLabel ?sitelinks WHERE {
     
             SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
@@ -350,29 +392,6 @@ def fetchitems(itemname,errorlist_index=False,errorlist_timeout=False):
                     
             ?novelist wdt:P569 ?date.
             filter(YEAR(?date)>=2000)
-            
-            }
-            ORDER BY DESC(?sitelinks)
-            LIMIT 50
-            '''
-            query2 = '''
-            SELECT DISTINCT ?pageid ?novelist ?novelistLabel ?countryLabel ?sitelinks WHERE {
-    
-            SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
-            hint:Query hint:optimizer "None".
-            
-            VALUES ?country {'''+ item + '''}
-            
-            
-            {?novelist wdt:P27 ?country;
-                        wikibase:sitelinks ?sitelinks
-            filter(?sitelinks>30)} 
-            UNION
-            {?novelist wdt:P19 [wdt:P17 ?country];
-                        wikibase:sitelinks ?sitelinks.
-            filter(?sitelinks>30)}
-                    
-            wd:Q16727193 ^wdt:P279*/^wdt:P106 ?novelist
             
             }
             ORDER BY DESC(?sitelinks)
@@ -692,5 +711,5 @@ def fetchitems(itemname,errorlist_index=False,errorlist_timeout=False):
     print(itemname)
 
 # read_errorlists("most_famous_person_after_2000") 
-fetchitems("most_famous_drink")
+fetchitems("most_famous_battle")
 

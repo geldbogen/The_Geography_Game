@@ -258,6 +258,8 @@ def setupdata(data,column,namecolumn,nameofattribute,ascending,treatmissingdataa
             countryname=reverse_countries_alternative_names[series.iloc[0].lower()]
         except KeyError:
             return None  
+        except AttributeError:
+            return None  
         if not callcountrybyname(countryname) in preallCountries:
             return None
         value=series.iloc[1]
@@ -2718,7 +2720,7 @@ dictionary_of_properties=dict()
 # bettersetupdata("number of urban areas with more than 1 mio. citizens (higher is better).csv",dif=1)
 # bettersetupdata("number of twitter followers of head of state resp. head of government (higher is better).csv",dif=1,additional_information=True,additional_information_column=[2,3,4])
 # bettersetupdata("number of models from that country with a wiki-page (by 1,000,000 population) (higher is better).csv",dif=2)
-bettersetupdata("number of first level administrative regions (i.e. states in the US or prefectures in Japan) (higher is better).csv",dif=4)
+# bettersetupdata("number of first level administrative regions (i.e. states in the US or prefectures in Japan) (higher is better).csv",dif=4)
 # bettersetupdata("number of airports (higher is better).csv",treatmissingdataasbad=True,dif=2)
 # bettersetupdata("number of airports (by 1,000,000 population) (higher is better).csv",treatmissingdataasbad=True,dif=3)
 # bettersetupdata("number of wiki-languages of head of state resp. head of government (higher is better).csv",dif=2,additional_information=True,treatmissingdataasbad=True,additional_information_column=[2,3,4])
@@ -2783,7 +2785,7 @@ bettersetupdata("number of first level administrative regions (i.e. states in th
 # bettersetupdata("fragile state index (more stable is better) (lower is better).csv",ascending=True)
 # bettersetupdata("homeless population by 10,000 population (lower is better).csv",ascending=True)
 # bettersetupdata("GDP growth in 2020 (higher is better).csv")
-bettersetupdata("population density (in citizens per km^2) (higher is better).csv")
+# bettersetupdata("population density (in citizens per km^2) (higher is better).csv")
 # bettersetupdata("number of wiki-languages of most famous geographical feature of that country (higher is better).csv",additional_information=True,additional_information_column=[2,3,4])
 # bettersetupdata("number of wiki-languages of most famous one-day event between 1950 and 2000 (higher is better).csv",additional_information=True,additional_information_column=[2,3,4])
 # bettersetupdata("number of wiki-languages of most famous city with at most 500,000 citizens (higher is better).csv",additional_information=True,additional_information_column=[2,3,4])
@@ -2889,9 +2891,9 @@ bettersetupdata("population density (in citizens per km^2) (higher is better).cs
 # bettersetupdata("Global Terrorism Index (less incidents are better) (lower is better).csv",ascending=True)
 # bettersetupdata("Youth unemployment in 2021 (lower is better).csv",ascending=True)
 # bettersetupdata("Year of first KFC opening in that country (lower is better).csv",ascending=True)
-# bettersetupdata("Year of first Burger King opening in that country (lower is better).csv",ascending=True)
+bettersetupdata("Year of first Burger King opening in that country (lower is better).csv",ascending=True)
 # bettersetupdata("inflation rate in 2021 (lower is better).csv",ascending=True)
-# bettersetupdata("Average import duty in % (lower is better).csv",ascending=True)
+bettersetupdata("Average import duty in % (lower is better).csv",ascending=True)
 # bettersetupdata("Average inflation rate 2017-2021 (lower is better).csv",ascending=True)
 # bettersetupdata("S&P credit rating (better rating is better) (lower is better).csv",ascending=True,additional_information=True,additional_information_column=[2])
 # bettersetupdata("Amount of currencies one US$ can buy (higher is better).csv",additional_information=True,additional_information_column=[2,3,4])
@@ -2915,6 +2917,9 @@ bettersetupdata("population density (in citizens per km^2) (higher is better).cs
 # bettersetupdata("Number of different taxes (lower is better).csv",ascending=True)
 # bettersetupdata("Government debt as percentage of GDP (lower is better).csv",ascending=True)
 # bettersetupdata("Income from natural resources as percent of GDP (lower is better).csv",ascending=True)
+# bettersetupdata("Number of tanks (by 10,000,000 population) (higher is better).csv",treatmissingdataasbad=True)
+# bettersetupdata("Number of military ships (by 100,000,000 population) (higher is better).csv",treatmissingdataasbad=True)
+# bettersetupdata("Number of military aricrafts (by 10,000,000 population) (higher is better).csv",treatmissingdataasbad=True)
 
 save_properties()
 # print(clusterdict.keys())
