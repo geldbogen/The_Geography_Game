@@ -11,7 +11,7 @@ import json
 import wikipedia
 import urllib.request
 import requests
-os.chdir("C:\\Users\juliu\Google Drive\Infoprojekte\geogame")
+os.chdir("C:\\Users\juliu\Google Drive\Infoprojekte\The_Geography_Game")
 pd.options.display.max_rows = None
 url="https://wikitable2json.com/api/Age_of_criminal_responsibility"
 notimportanturl="https://wikitable2json.com/api/"
