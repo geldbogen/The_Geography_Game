@@ -2922,6 +2922,7 @@ bettersetupdata("Average import duty in % (lower is better).csv",ascending=True)
 # bettersetupdata("National Holiday (earlier in the year is better).csv",ascending=True,additional_information=True,additional_information_column=[2,3,4])
 # bettersetupdata("number of wiki-languages of most famous desert of that country (higher is better).csv",dif=2,treatmissingdataasbad=True,additional_information=True,additional_information_column=[2,7,8])
 # bettersetupdata("number of wiki-languages of most famous airport of that country (higher is better).csv",dif=2,treatmissingdataasbad=True,additional_information=True,additional_information_column=[2,7,8])
+# bettersetupdata("Number of wiki-languages of most famous national park - garden - zoo in that country (higher is better).csv",dif=2,treatmissingdataasbad=True,additional_information=True,additional_information_column=[2,7,8])
 # bettersetupdata("Number of mobile phone lines (by 100 population) (higher is better).csv")
 
 

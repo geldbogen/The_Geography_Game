@@ -189,8 +189,8 @@ def clean_everything(path,wordlist,extra_columns=[3,8,9],namecolumn=1,columnscon
 
 
 # filter_for_words_in_wiki("rawdata_with_fetcher/buildings_by_countries_writer.csv",["novelist","poet"," writer","philosopher","dramatist","author","playwright"])
-# fetch_pageid("rawdata_with_fetcher/most_famous_airport.csv")
-filter_for_words_in_wiki("rawdata/most_famous_airport.csv",wordlist=[""],with_wikidatadesciription=False)
+# fetch_pageid("rawdata_with_fetcher/most_famous_park.csv")
+filter_for_words_in_wiki("rawdata/most_famous_park.csv",wordlist=[""],with_wikidatadesciription=False)
 # fetch_pageid("rawdata/person_after_2000.csv")
 # clean_everything("rawdata_with_fetcher/")
 l=list()
