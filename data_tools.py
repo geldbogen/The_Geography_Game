@@ -1,4 +1,5 @@
 import pandas as pd
+import traceback
 import alternative_names
 def apply_bypopulation(df):
     def good_multiplication(a,b):
@@ -122,3 +123,25 @@ def allesinklammernlöschen(string,startcharacter,endcharacter):
 def replace_credit_rating(string):
     ratings=["AAA","AA+","AA","AA-","A+","A","A-","BBB+","BBB","BBB-","BB+","BB","BB-","B+","B","B-","CCC+","CCC","CCC-","SD"]
     return ratings.index(string)+1
+
+def use_coordinates(string:str) -> float:
+    string2=string
+    k=1
+    try:
+        if "S" in string:
+            k=-1
+        string=string.replace("°",".")
+        string=string.replace("N","")
+        string=string.replace("S","")
+        string=string.replace("′","")
+    except TypeError:
+        traceback.print_exc()
+        print(string2)
+    try:
+        return float(string)*k 
+    except ValueError:
+        print(string2)
+        traceback.print_exc()
+    except TypeError:
+        traceback.print_exc()
+        print(string2)

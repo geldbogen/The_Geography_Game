@@ -146,7 +146,7 @@ class Player:
         self.rerolls_left=reroll_number
 
 class Category:
-    def __init__(self,name:str,isActive:bool,treatMissingDataAsBad:bool,difficulty:int,explanation:str="",cluster:str=""):
+    def __init__(self,name:str,isActive:bool,treatMissingDataAsBad:bool,difficulty:int,explanation:str="",cluster:str="",is_end_only:bool=False):
         pass
         self.name=name
         self.isActive=isActive
@@ -154,6 +154,7 @@ class Category:
         self.treatMissingDataAsBad=treatMissingDataAsBad
         self.difficulty=difficulty
         self.explanation=explanation
+        self.is_end_only=is_end_only
         all_categories.append(self)
         if not cluster=="":
             if not cluster in all_categories_names_and_clusters:
@@ -333,7 +334,7 @@ def setupdata(data,column,namecolumn,nameofattribute,ascending,treatmissingdataa
 
 
 
-def bettersetupdata(name,column=1,namecolumn=0,ascending=False,treatmissingdataasbad=False,applyfrac=False,dif=0,additional_information=False,additional_information_column=[2],cluster=None):
+def bettersetupdata(name,column=1,namecolumn=0,ascending=False,treatmissingdataasbad=False,applyfrac=False,dif=0,additional_information=False,additional_information_column=[2],cluster=None,is_end_only:bool=False):
     global additional_informationdict
     if "lower is better" in name:
         ascending=True
@@ -347,7 +348,7 @@ def bettersetupdata(name,column=1,namecolumn=0,ascending=False,treatmissingdataa
         explanation=""
     
     #create Category with information provided
-    Category(name,isActive=additional_information,treatMissingDataAsBad=treatmissingdataasbad,difficulty=dif,explanation=explanation)
+    Category(name,isActive=additional_information,treatMissingDataAsBad=treatmissingdataasbad,difficulty=dif,explanation=explanation,is_end_only=is_end_only)
 
 
     difficultydict[name]=dif
@@ -708,7 +709,13 @@ class MainWindow():
         counter=0
         atleast_one=False
         self.currentattribute=self.getrandomattribute_with_cluster()
-        print(self.currentattribute.name)
+
+
+        # if the attribute is end only it should not be a valid attribute
+        if self.currentattribute.is_end_only:
+            self.getgoodattribute(player)
+
+
         for country in player.list_of_possessed_countries:
             #TODO:make it better if just some continents are chosen
             #simulate attacks in order to get an attribute, with which one can actually do something (to no frustrate players)
@@ -2967,7 +2974,10 @@ bettersetupdata("Number of wiki-languages of most famous desert of that country 
 bettersetupdata("Number of wiki-languages of most famous airport of that country (higher is better).csv",dif=2,treatmissingdataasbad=True,additional_information=True,additional_information_column=[2,7,8])
 bettersetupdata("Number of wiki-languages of most famous national park - garden - zoo in that country (higher is better).csv",dif=2,treatmissingdataasbad=True,additional_information=True,additional_information_column=[2,7,8])
 bettersetupdata("Number of mobile phone lines (by 100 population) (higher is better).csv")
-
+bettersetupdata("Country size (higher is better).csv",is_end_only=True)
+bettersetupdata("Population (higher is better).csv",is_end_only=True)
+bettersetupdata("Latitude of northernmost point of that country (northern is better) (higher is better).csv",is_end_only=True)
+bettersetupdata("Latitude of southernmost point of that country (southern is better) (lower is better).csv",is_end_only=True)
 
 save_properties()
 # print(clusterdict.keys())
