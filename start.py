@@ -24,6 +24,7 @@ import sv_ttk
 
 #local files
 import alternative_names
+import additional_explanations
 
 
 filename=os.path.realpath(__file__).replace("\\","/")
@@ -123,7 +124,10 @@ white=(255,255,255)
 realgrey=(105,105,105)
 gold=(255,215,0)
 
-allCountries=[]
+all_countries=[]
+all_categories=[]
+all_categories_names_and_clusters=[]
+dictionary_for_choosing_properties={}
 countrynamelist=[]
 flagframedict=dict()
 preallCountries=[]
@@ -140,6 +144,27 @@ class Player:
         self.list_of_possessed_countries_gold=[]
         allPlayers[self.name]=self
         self.rerolls_left=reroll_number
+
+class Category:
+    def __init__(self,name:str,isActive:bool,treatMissingDataAsBad:bool,difficulty:int,explanation:str="",cluster:str=""):
+        pass
+        self.name=name
+        self.isActive=isActive
+        self.numberOfChosenAlready=0
+        self.treatMissingDataAsBad=treatMissingDataAsBad
+        self.difficulty=difficulty
+        self.explanation=explanation
+        all_categories.append(self)
+        if not cluster=="":
+            if not cluster in all_categories_names_and_clusters:
+                all_categories_names_and_clusters.append(cluster)
+            try:
+                dictionary_for_choosing_properties[cluster].append(self)
+            except KeyError:
+                dictionary_for_choosing_properties[cluster]=[self]
+        else:
+            all_categories_names_and_clusters.append(self.name)
+            dictionary_for_choosing_properties[self.name]=[self]
 
 
 def coloring(xcoordinate,ycoordinate,color,image):
@@ -212,11 +237,11 @@ class Country:
         h=float(flagimage.height)
         return ImageTk.PhotoImage(flagimage.resize((int(height*w/h),int(height)),Image.ANTIALIAS))
     def loadpixels(self):
-        global allCountries
+        global all_countries
         global countrynamelist
         if self.name=="Unknown Country":
             self.set_of_pixels=set()
-            allCountries.append(self)
+            all_countries.append(self)
             countrynamelist.append(self.name)
             return None
         try:
@@ -227,7 +252,7 @@ class Country:
         except Exception as e:
             print(str(e))
             self.setpixels(pngim)  
-        allCountries.append(self)
+        all_countries.append(self)
         countrynamelist.append(self.name)
 
 
@@ -276,7 +301,6 @@ def setupdata(data,column,namecolumn,nameofattribute,ascending,treatmissingdataa
         pass
 
     
-    # data=data.rename(columns={0:"a"})
     if not treatmissingdataasbad:
         data=data[data["1"]!=float(-1)]
     else:
@@ -288,8 +312,6 @@ def setupdata(data,column,namecolumn,nameofattribute,ascending,treatmissingdataa
     data=data.reset_index(drop=True)
     dlist=data.iloc[:,0].tolist()
     pass
-    # print(reverse_countries_alternative_names)
-    # quit()
     for index,item in enumerate(dlist):
         try:
             dlist[index]=reverse_countries_alternative_names[item]
@@ -318,6 +340,16 @@ def bettersetupdata(name,column=1,namecolumn=0,ascending=False,treatmissingdataa
     data=pd.read_csv("data/" + name,index_col=False)
     setupdata(data,column,namecolumn,name,ascending=ascending,treatmissingdataasbad=treatmissingdataasbad,applyfrac=applyfrac,additional_information=additional_information,additional_information_column=additional_information_column)
     
+    #get additional explanations, if it is provided
+    try:
+        explanation=additional_explanations.additional_explanations[name]
+    except KeyError:
+        explanation=""
+    
+    #create Category with information provided
+    Category(name,isActive=additional_information,treatMissingDataAsBad=treatmissingdataasbad,difficulty=dif,explanation=explanation)
+
+
     difficultydict[name]=dif
     additional_informationdict[name]=additional_information
     if cluster!=None:
@@ -396,10 +428,12 @@ class MainWindow():
 
         self.peacemode=peacemode
 
-        self.currentattributenumber=random.randrange(1,len(dictionary_of_properties)+1)
-        print("length")
-        print(len(dictionary_of_properties))
-        self.currentattribute=dictionary_of_properties[self.currentattributenumber]
+
+
+        # self.currentattributenumber=random.randrange(1,len(dictionary_of_properties)+1)
+        # print("length")
+        # print(len(dictionary_of_properties))
+        self.currentattribute=all_categories[0]
 
         self.main=main
 
@@ -466,8 +500,7 @@ class MainWindow():
         self.turncounterlabel=tk.Label(self.frame4,text=str(self.turncounter),font="Helvetica 50")
         self.turncounterlabel.pack(side="right")
         
-        self.currentattribute_2=self.currentattribute.replace(".csv","")
-        self.showingcurrentattributee=tk.Label(self.frame4,text="The current attribute is: \n" + self.currentattribute_2,font="Helvetica 25")
+        self.showingcurrentattributee=tk.Label(self.frame4,text="Welcome!",font="Helvetica 25")
         self.showingcurrentattributee.pack(anchor="nw",expand=True,fill="both")
 
         self.frame4.pack(side="top",fill="x")
@@ -494,7 +527,7 @@ class MainWindow():
             self.choosingindex=0
             self.active_player=self.listofplayers[self.randompeoplestart[self.choosingindex]]
             self.showingcurrentattributee["text"]="Choose a starting country of your choice"
-            self.showingcountrylabel["text"]=self.active_player.name + " Please choose a starting country"
+            self.showingcountrylabel["text"]=self.active_player.name + "\n Please choose a starting country"
         
         if self.startingcountries=="random":
             self.choosingindex=len(self.listofplayers)
@@ -502,25 +535,31 @@ class MainWindow():
             while True:
                 
                 j=0
-                self.randomstart=random.sample(range(0,len(allCountries)),len(self.listofplayers))
+                self.randomstart=random.sample(range(0,len(all_countries)),len(self.listofplayers))
                 for rng in self.randomstart:
-                    if len(allCountries[rng].neighboringcountries)<3:
+                    if len(all_countries[rng].neighboringcountries)<3:
                         j=1
                     for rng2 in self.randomstart:
-                        if Countriesareconnected(allCountries[rng2],allCountries[rng]):
+                        if Countriesareconnected(all_countries[rng2],all_countries[rng]):
                             j=1
                     if self.winningcondition=="attribute":
                         try:
-                            allCountries[rng].dictofattributes[self.endattribute][0]
+                            all_countries[rng].dictofattributes[self.endattribute][0]
                         except:
                             # print("nonono")
                             j=1
                 if j==0:
                     break
             for i in range (len(self.listofplayers)):
-                self.claimcountry(self.listofplayers[i],allCountries[self.randomstart[i]])
-                print(allCountries[self.randomstart[i]].name)
+                self.claimcountry(self.listofplayers[i],all_countries[self.randomstart[i]])
+                print(all_countries[self.randomstart[i]].name)
 
+        #TODO check why I can not use getgoodattribute here
+        print("Player:")
+        print(self.active_player)
+        self.getgoodattribute(self.active_player)
+        print(self.currentattribute)
+        self.showingcurrentattributee["text"]="The current attribute is: \n" + self.currentattribute.name
         
         main.mainloop()
 
@@ -570,7 +609,7 @@ class MainWindow():
         myset=set(countrya.name)
         q=[[countrya.name,0]]
         print(q)
-        for country in allCountries:
+        for country in all_countries:
             mydict[country.name]=country.neighboringcountries
         while countryb.name not in myset:
             temp=q[0]
@@ -592,29 +631,28 @@ class MainWindow():
         self.d=""
         self.showingcountrylabel["text"]=""
         self.chosencountrya=None
-        result=self.attackwithattribute(self.currentattribute,countrya,countryb)
+        result=self.attackwithattribute(self.currentattribute.name,countrya,countryb)
         if result=="no data":
-            self.popupwinorloose(countrya,countryb,self.currentattribute,wl="no data")
-            self.currentattributenumber=random.randrange(1,len(dictionary_of_properties)+1)
-            self.currentattribute=dictionary_of_properties[self.currentattributenumber]
-            self.showingcurrentattributee["text"]="The current attribute is: \n" + self.currentattribute
+            self.popupwinorloose(countrya,countryb,self.currentattribute.name,wl="no data")
+            self.getgoodattribute(self.active_player)
+            self.showingcurrentattributee["text"]="The current attribute is: \n" + self.currentattribute.name
             return None
         if result=="draw!":
-            self.popupwinorloose(countrya,countryb,self.currentattribute,wl="draw!")
+            self.popupwinorloose(countrya,countryb,self.currentattribute.name,wl="draw!")
             self.getgoodattribute(self.active_player)
-            self.showingcurrentattributee["text"]="The current attribute is: \n" + self.currentattribute
+            self.showingcurrentattributee["text"]="The current attribute is: \n" + self.currentattribute.name
             return None
         if result=="hard defeat!":
             self.claimcountry(self.active_player,countryb)
-            self.popupwinorloose(countrya,countryb,self.currentattribute,wl="hard defeat!")
+            self.popupwinorloose(countrya,countryb,self.currentattribute.name,wl="hard defeat!")
             return None
         if result=="True":
             self.claimcountry(self.active_player,countryb)
-            self.popupwinorloose(countrya,countryb,self.currentattribute,wl="you win!")
+            self.popupwinorloose(countrya,countryb,self.currentattribute.name,wl="you win!")
             
             
         else:
-            self.popupwinorloose(countrya,countryb,self.currentattribute,wl="you loose!")
+            self.popupwinorloose(countrya,countryb,self.currentattribute.name,wl="you loose!")
             if countryb.owner!="Nobody":
                 self.claimcountry(callplayerbyname(countryb.owner),countrya)
 
@@ -623,26 +661,26 @@ class MainWindow():
                 
 
     def transition(self,sameplayeragain=False):
-        print("The distance of China and Saudi Arabia is:" + str(self.find_distance(China,Saudi_Arabia)))
 
-        print(self.endattribute)
-        print(self.wormholemode)
-        print(len(self.active_player.list_of_possessed_countries))
         if not sameplayeragain:
             if self.checkifgameshouldend():
                 return None
             self.activeplayercounter=self.activeplayercounter+1
         self.index=self.activeplayercounter%len(self.listofplayers)
+        
         if not sameplayeragain:
             if self.index==0:
                 self.turncounter+=1
+
+        #update the interface
         self.turncounterlabel["text"]=str(self.turncounter)
         self.flagframedict[self.active_player.name].pack_forget()
         self.active_player=self.listofplayers[self.index]
         self.showingcountrylabel["text"]="It is the turn of " +self.active_player.name +"\n You have not chosen any country yet"
-        self.getgoodattribute(self.active_player)#
-        self.currentattribute_2=self.currentattribute.replace(".csv","")
-        self.showingcurrentattributee["text"]="The current attribute is: \n" + self.currentattribute_2
+        
+        #roll a new attribute
+        self.getgoodattribute(self.active_player)
+        self.showingcurrentattributee["text"]="The current attribute is: \n" + self.currentattribute.name.replace(".csv","")
         self.flagframedict[self.active_player.name].pack(side="top")
         if self.wormholemode=="every round changing wormholes":
             if self.index==0:
@@ -666,41 +704,47 @@ class MainWindow():
             return None
         player.rerolls_left-=1
         self.getgoodattribute(self.active_player)
-        self.showingcurrentattributee["text"]="The current attribute is: \n" + self.currentattribute
+        self.showingcurrentattributee["text"]="The current attribute is: \n" + self.currentattribute.name.replace(".csv","")
         self.reroll_button["text"]="rerolls left:\n " +str(self.active_player.rerolls_left)
 
 
-    def getgoodattribute(self,player,counter=0,i=0):
+    def getgoodattribute(self,player,counter=0,i=0) -> None:
         i=0
         counter=0
-        player=player
-        self.currentattribute=self.getrandomattribute_with_cluster()
         atleast_one=False
+        self.currentattribute=self.getrandomattribute_with_cluster()
+        print(self.currentattribute.name)
         for country in player.list_of_possessed_countries:
-            #hier noch besser machen wenn man nur paar kontinente ausgewählt hat
+            #TODO:make it better if just some continents are chosen
+            #simulate attacks in order to get an attribute, with which one can actually do something (to no frustrate players)
             for neighboringcountrystring in list(set(country.neighboringcountries)):
-                i=i+1
-                if self.attackwithattribute(self.currentattribute,country,callcountrybyname(neighboringcountrystring))=="no data":
+                i+=1
+                if self.attackwithattribute(self.currentattribute.name,country,callcountrybyname(neighboringcountrystring))=="no data":
                     counter = counter+1
                     print(neighboringcountrystring +" \n" + country.name)
-                if self.attackwithattribute(self.currentattribute,country,callcountrybyname(neighboringcountrystring)) in ["draw","True"]:
+                if self.attackwithattribute(self.currentattribute.name,country,callcountrybyname(neighboringcountrystring)) in ["draw","True"]:
                     if not callcountrybyname(neighboringcountrystring) in player.list_of_possessed_countries:
                         atleast_one=True
+        
         print(float(counter)/float(i))
         if float(counter)/float(i)>0.25 or not atleast_one:
-            print(self.currentattribute)
+            print(self.currentattribute.name)
             print("doesn't work because of the missing above we get a new attribute!")
             self.getgoodattribute(player)
 
 
-    def getrandomattribute_with_cluster(self):
+    def getrandomattribute_with_cluster(self) -> Category:
 
-        self.currentattributenumber=random.randrange(1,len(dictionary_of_properties))
-        if dictionary_of_properties[self.currentattributenumber] in clusternamelist:
-            self.currentattributenumber_2=random.randrange(1,len(clusterdict[dictionary_of_properties[self.currentattributenumber]]))
-            return clusterdict[dictionary_of_properties[self.currentattributenumber]][self.currentattributenumber_2]
+        # get a random attribute name (including the name of a cluster)
+        
+        self.currentattributename_with_cluster=random.choice(all_categories_names_and_clusters)
+
+        # if a cluster is chosen choose a random attribute from that cluster
+        if len(dictionary_for_choosing_properties[self.currentattributename_with_cluster])>1:
+            return random.choice(dictionary_for_choosing_properties[self.currentattributename_with_cluster])
+        # if it is not a cluster, just return the attribute
         else: 
-            return dictionary_of_properties[self.currentattributenumber] 
+            return dictionary_for_choosing_properties[self.currentattributename_with_cluster][0]
         
 
 
@@ -712,7 +756,6 @@ class MainWindow():
         self.showingcountrylabel["text"]=""
         self.d=""
     def attackwithattribute(self,attributename,countrya,countryb):
-        # print(countrya.dictofattributes)
         try:
             if isinstance(countrya.dictofattributes[attributename][1],int) and isinstance(countryb.dictofattributes[attributename][1],int):
                 if countrya.dictofattributes[attributename][0]==countryb.dictofattributes[attributename][0]:
@@ -805,8 +848,7 @@ class MainWindow():
         if self.choosingindex==len(self.listofplayers):
             self.active_player=self.listofplayers[self.index]
             self.showingcountrylabel["text"]="It is the turn of " +self.active_player.name +"\n You have not chosen any country yet"
-            self.currentattribute_2=self.currentattribute.replace(".csv","")
-            self.showingcurrentattributee["text"]="The current attribute is: \n" + self.currentattribute_2
+            self.showingcurrentattributee["text"]="The current attribute is: \n" + self.currentattribute.name.replace(".csv","")
             self.setupgame()
         else:
             self.active_player=self.listofplayers[self.randompeoplestart[self.choosingindex]]
@@ -931,7 +973,7 @@ class MainWindow():
         if player!=None:
             while (country2.name in country1.neighboringcountries or country1.name in country2.neighboringcountries or country1.continent==country2.continent or country2 in player.list_of_possessed_countries or country1==Unknown_country or country2==Unknown_country or (self.peacemode==1 and (country1.owner!="Nobody" and country2.owner!="Nobody"))):
                 country1=player.list_of_possessed_countries[random.randrange(1,len(player.list_of_possessed_countries))]
-                country2=allCountries[random.randrange(1,len(allCountries))]
+                country2=all_countries[random.randrange(1,len(all_countries))]
             country1.neighboringcountries.append(country2.name)
             self.wormholed_countries.append([country1,country2])
             create_good_line(country1,country2)
@@ -941,8 +983,8 @@ class MainWindow():
         for i in range(numberofwormholes):
             
             while (country2.name in country1.neighboringcountries or country1.name in country2.neighboringcountries or country1.continent==country2.continent):
-                country1=allCountries[random.randrange(1,len(allCountries))]
-                country2=allCountries[random.randrange(1,len(allCountries))]
+                country1=all_countries[random.randrange(1,len(all_countries))]
+                country2=all_countries[random.randrange(1,len(all_countries))]
             country1.neighboringcountries.append(country2.name)
             self.wormholed_countries.append([country1,country2])
             create_good_line(country1,country2)
@@ -1472,29 +1514,29 @@ class MainWindow():
     def setupclaim2countries(self):
         Target=Player(realgrey,"Nobody")
         if self.choosingindex==len(self.listofplayers):
-            self.targetcountry1=allCountries[random.randrange(1,len(allCountries))]
-            self.targetcountry2=allCountries[random.randrange(1,len(allCountries))]
+            self.targetcountry1=all_countries[random.randrange(1,len(all_countries))]
+            self.targetcountry2=all_countries[random.randrange(1,len(all_countries))]
             if self.targetcountry1.name ==self.targetcountry2.name:
-                self.targetcountry2=allCountries[random.randrange(1,len(allCountries))]
+                self.targetcountry2=all_countries[random.randrange(1,len(all_countries))]
             self.claimcountry(Target,self.targetcountry1)
             print(self.targetcountry1.name)
             self.claimcountry(Target,self.targetcountry2)
     def setupgold(self):
         def get_good_ids(numberofgold):
-            self.goldids=random.sample(range(len(allCountries)),numberofgold)
+            self.goldids=random.sample(range(len(all_countries)),numberofgold)
             for i in self.goldids:
-                if allCountries[i].owner!="Nobody" or allCountries[i].name=="Unknown Country":
+                if all_countries[i].owner!="Nobody" or all_countries[i].name=="Unknown Country":
                     get_good_ids(numberofgold)
             return None
         for player in self.listofplayers:
             player.gold=0
         Target=Player(gold,"Nobody")
-        self.numberofgold=len(allCountries)//20
+        self.numberofgold=len(all_countries)//20
         print(self.numberofgold)
         get_good_ids(self.numberofgold)
         for i in self.goldids:
-            self.claimcountry(Target,allCountries[i])
-            self.goldlist.append(allCountries[i])
+            self.claimcountry(Target,all_countries[i])
+            self.goldlist.append(all_countries[i])
             
     def getstartingattribute(self):
         if self.pred_attribute!="random":
@@ -1506,7 +1548,7 @@ class MainWindow():
             while numberofnodata >5:
                 attribute=self.getrandomattribute_with_cluster()
                 numberofnodata=0
-                for country in allCountries:
+                for country in all_countries:
                     try:
                         if isinstance(country.dictofattributes[attribute],list):
                             try:
@@ -1537,7 +1579,7 @@ class MainWindow():
             self.grey_no_data()
     
     def grey_no_data(self):
-        for country in allCountries:
+        for country in all_countries:
             if country==Unknown_country:
                 continue
             try:
@@ -1556,7 +1598,7 @@ class MainWindow():
                     return False
             return True
         def roll_random_country(oldcountry):
-            return allCountries[random.randrange(1,len(allCountries))]
+            return all_countries[random.randrange(1,len(all_countries))]
 
         def show_targets(player:Player):
             self.no_targets_yetlist.remove(player)
@@ -1598,7 +1640,7 @@ class MainWindow():
     def setup_secret_attribute(self,n):
         def find_top_n_countries(n,attribute):
             returnlist=list()
-            for country in allCountries:
+            for country in all_countries:
                 try:
                     if country.dictofattributes[attribute][1]<=n:
                         returnlist.append(country)
@@ -1655,7 +1697,7 @@ class MainWindow():
             else:
                 self.higherorlower="higher"
 
-        for country in allCountries:
+        for country in all_countries:
             try:
                 if (country.dictofattributes[self.endattribute][0])!=float(-1):
                     propertylist.append((country.dictofattributes[self.endattribute][0]))            
@@ -1960,7 +2002,7 @@ class IntroWindow :
         self.roll_button=tk.Button(self.winconditionframe,text="Randomize!",command=roll_attribute)
         self.roll_button.grid(row=5,column=1,sticky="w")
     def gogo(self):
-        global allCountries
+        global all_countries
         global preallCountries
         self.activecontinents=list()
         if self.africavar.get()==1:
@@ -1981,20 +2023,20 @@ class IntroWindow :
 
         for country in preallCountries:
             if country.continent in self.activecontinents:
-                allCountries.append(country)
-        allCountries.append(Unknown_country)
+                all_countries.append(country)
+        all_countries.append(Unknown_country)
         self.numberofrounds=self.numberofroundsentry.get()
 
-        for country in allCountries:
+        for country in all_countries:
             name=country.name
             countrynamelist.append(name)
 
-        for acountry in allCountries:
+        for acountry in all_countries:
             try:
                 if acountry==Unknown_country:
                     continue
                 data=neighboring_countries[neighboring_countries[0]==acountry.name]
-                for bcountry in allCountries:
+                for bcountry in all_countries:
                     if bcountry==Unknown_country:
                         continue
                     if bcountry.name in data.iat[0,5]:
@@ -2002,7 +2044,7 @@ class IntroWindow :
             except: 
                 continue
 
-        for country in allCountries:
+        for country in all_countries:
             try:
                 country.dictofattributes=mypropertydict[country.name]
             except:
@@ -2891,7 +2933,7 @@ bettersetupdata("number of wiki-languages of most famous historical person (at l
 # bettersetupdata("Youth unemployment in 2021 (lower is better).csv",ascending=True)
 # bettersetupdata("Year of first KFC opening in that country (lower is better).csv",ascending=True)
 bettersetupdata("Year of first Burger King opening in that country (lower is better).csv",ascending=True)
-# bettersetupdata("inflation rate in 2021 (lower is better).csv",ascending=True)
+bettersetupdata("inflation rate in 2021 (lower is better).csv",ascending=True)
 bettersetupdata("Average import duty in % (lower is better).csv",ascending=True)
 # bettersetupdata("Average inflation rate 2017-2021 (lower is better).csv",ascending=True)
 # bettersetupdata("S&P credit rating (better rating is better) (lower is better).csv",ascending=True,additional_information=True,additional_information_column=[2])
