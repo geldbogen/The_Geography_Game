@@ -521,19 +521,18 @@ class MainWindow():
         self.randompeoplestart=random.sample(range(0,len(self.listofplayers)),len(self.listofplayers))
 
 
-
+        #usher choosing countries procedure if that mode was chosen
         if self.startingcountries=="choose":
-            print("yes")
             self.choosingindex=0
             self.active_player=self.listofplayers[self.randompeoplestart[self.choosingindex]]
             self.showingcurrentattributee["text"]="Choose a starting country of your choice"
             self.showingcountrylabel["text"]=self.active_player.name + "\n Please choose a starting country"
         
+        #roll starting countries for the players
         if self.startingcountries=="random":
             self.choosingindex=len(self.listofplayers)
             self.setupgame()
             while True:
-                
                 j=0
                 self.randomstart=random.sample(range(0,len(all_countries)),len(self.listofplayers))
                 for rng in self.randomstart:
@@ -546,7 +545,6 @@ class MainWindow():
                         try:
                             all_countries[rng].dictofattributes[self.endattribute][0]
                         except:
-                            # print("nonono")
                             j=1
                 if j==0:
                     break
@@ -554,11 +552,8 @@ class MainWindow():
                 self.claimcountry(self.listofplayers[i],all_countries[self.randomstart[i]])
                 print(all_countries[self.randomstart[i]].name)
 
-        #TODO check why I can not use getgoodattribute here
-        print("Player:")
-        print(self.active_player)
+        #roll first attribute
         self.getgoodattribute(self.active_player)
-        print(self.currentattribute)
         self.showingcurrentattributee["text"]="The current attribute is: \n" + self.currentattribute.name
         
         main.mainloop()
@@ -2616,14 +2611,14 @@ Unknown_country=Country(xcoordinate=[0],ycoordinate=[0],name="Unknown Country",)
 
 
 
-# bettersetupdata("city with most sons or daughter having a wiki-page by 1,000 inhabitans (of that city) (higher is better).csv",additional_information=True,additional_information_column=[2,3,4])
-# bettersetupdata("account with the most social media followers of that country (higher is better).csv",additional_information=True,additional_information_column=[2,3,4])
-# bettersetupdata("billionaires per million people (higher is better).csv",treatmissingdataasbad=True,dif=2)
-# bettersetupdata("percentage of minimum wage (PPP) over GDP per capita (higher is better).csv",treatmissingdataasbad=True,dif=3)
-# bettersetupdata("number of wiki-languages of most famous movie from that country (higher is better).csv",dif=3,treatmissingdataasbad=True,additional_information=True,additional_information_column=[2,3,4])
-# bettersetupdata("number of subscribers of most-subscribed youtube-channel from that country (higher is better).csv",treatmissingdataasbad=True,dif=3,additional_information=True)
-# bettersetupdata("number of wiki-languages of most famous journalist of that country (higher is better).csv",additional_information=True,additional_information_column=[2,3,4])
-# bettersetupdata("health expenditure per capita in Int$ (lower is better).csv",ascending=True,dif=3)
+# bettersetupdata("City with most sons or daughter having a wiki-page by 1,000 inhabitans (of that city) (higher is better).csv",additional_information=True,additional_information_column=[2,3,4])
+# bettersetupdata("Account with the most social media followers of that country (higher is better).csv",additional_information=True,additional_information_column=[2,3,4])
+# bettersetupdata("Billionaires per million people (higher is better).csv",treatmissingdataasbad=True,dif=2)
+# bettersetupdata("Percentage of minimum wage (PPP) over GDP per capita (higher is better).csv",treatmissingdataasbad=True,dif=3)
+# bettersetupdata("Number of wiki-languages of most famous movie from that country (higher is better).csv",dif=3,treatmissingdataasbad=True,additional_information=True,additional_information_column=[2,3,4])
+# bettersetupdata("Number of subscribers of most-subscribed youtube-channel from that country (higher is better).csv",treatmissingdataasbad=True,dif=3,additional_information=True)
+# bettersetupdata("Number of wiki-languages of most famous journalist of that country (higher is better).csv",additional_information=True,additional_information_column=[2,3,4])
+# bettersetupdata("Health expenditure per capita in Int$ (lower is better).csv",ascending=True,dif=3)
 
 
 
