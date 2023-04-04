@@ -45,9 +45,6 @@ greenimage=greenimage.resize((3500,1737), Image.ANTIALIAS)
 resize_ratio=[3500/14063,1737/6981]
 
 greenimage2=greenimage.load()
-dictionary_of_properties=dict()
-difficultydict=dict()
-additional_informationdict=dict()
 
 # for item in countries_for_language("en"):
 #     print(item)
@@ -66,15 +63,11 @@ with open("data/important/whichcountrydict_new  ","rb") as f:
 with open("backenddata/propertydict_new","rb") as handle:
     mypropertydict=pickle.load(handle)
 
-with open("backenddata/additional_informationdict","rb") as handle:
-    additional_informationdict=pickle.load(handle)
-
-with open("backenddata/difficultydict","rb") as handle:
-    difficultydict=pickle.load(handle)
 
 
-with open("backenddata/dictionary_of_propertynames", "rb") as handle:
-    dictionary_of_properties=pickle.load(handle)
+
+
+
 
 p=pd.read_csv("data/important/countrylist.csv",index_col=False,keep_default_na=False)
 countries_for_language_en=p.values.tolist()
@@ -158,7 +151,10 @@ class Category:
         all_categories.append(self)
         if not cluster=="":
             if not cluster in all_categories_names_and_clusters:
-                all_categories_names_and_clusters.append(cluster)
+                # here one can tune the probability of choosing the specific cluster
+                # set it as 5/number of attribute
+                for i in range(5):
+                    all_categories_names_and_clusters.append(cluster)
             try:
                 dictionary_for_choosing_properties[cluster].append(self)
             except KeyError:
@@ -265,12 +261,6 @@ def save_properties():
         propertydict[country.name]=country.dictofattributes
     with open("backenddata/propertydict_new","wb") as f:
         pickle.dump(propertydict,f)
-    with open ("backenddata/dictionary_of_propertynames","wb") as f:
-        pickle.dump(dictionary_of_properties,f)
-    with open ("backenddata/additional_informationdict","wb") as f:
-        pickle.dump(additional_informationdict,f)
-    with open ("backenddata/difficultydict","wb") as f:
-        pickle.dump(difficultydict,f)
     print("\n\n\n !properties saved! \n\n\n")
 
 
@@ -335,7 +325,7 @@ def setupdata(data,column,namecolumn,nameofattribute,ascending,treatmissingdataa
 
 
 def bettersetupdata(name,column=1,namecolumn=0,ascending=False,treatmissingdataasbad=False,applyfrac=False,dif=0,additional_information=False,additional_information_column=[2],cluster=None,is_end_only:bool=False):
-    global additional_informationdict
+
     if "lower is better" in name:
         ascending=True
     data=pd.read_csv("data/" + name,index_col=False)
@@ -350,19 +340,6 @@ def bettersetupdata(name,column=1,namecolumn=0,ascending=False,treatmissingdataa
     #create Category with information provided
     Category(name,isActive=additional_information,treatMissingDataAsBad=treatmissingdataasbad,difficulty=dif,explanation=explanation,is_end_only=is_end_only)
 
-
-    difficultydict[name]=dif
-    additional_informationdict[name]=additional_information
-    if cluster!=None:
-        if cluster in clusternamelist:
-            clusterdict[cluster].append(name)
-        else:
-            clusternamelist.append(cluster)
-            clusterdict[cluster]=[name]
-            dictionary_of_properties[len(dictionary_of_properties)+1]=cluster
-    else:
-        dictionary_of_properties[len(dictionary_of_properties)+1]=name
-    pass
 
 def callcountrybyname(name):
     for country in preallCountries:
@@ -429,11 +406,6 @@ class MainWindow():
 
         self.peacemode=peacemode
 
-
-
-        # self.currentattributenumber=random.randrange(1,len(dictionary_of_properties)+1)
-        # print("length")
-        # print(len(dictionary_of_properties))
         self.currentattribute=all_categories[0]
 
         self.main=main
@@ -629,26 +601,26 @@ class MainWindow():
         self.chosencountrya=None
         result=self.attackwithattribute(self.currentattribute.name,countrya,countryb)
         if result=="no data":
-            self.popupwinorloose(countrya,countryb,self.currentattribute.name,wl="no data")
+            self.popupwinorloose(countrya,countryb,self.currentattribute,wl="no data")
             self.getgoodattribute(self.active_player)
             self.showingcurrentattributee["text"]="The current attribute is: \n" + self.currentattribute.name
             return None
         if result=="draw!":
-            self.popupwinorloose(countrya,countryb,self.currentattribute.name,wl="draw!")
+            self.popupwinorloose(countrya,countryb,self.currentattribute,wl="draw!")
             self.getgoodattribute(self.active_player)
             self.showingcurrentattributee["text"]="The current attribute is: \n" + self.currentattribute.name
             return None
         if result=="hard defeat!":
             self.claimcountry(self.active_player,countryb)
-            self.popupwinorloose(countrya,countryb,self.currentattribute.name,wl="hard defeat!")
+            self.popupwinorloose(countrya,countryb,self.currentattribute,wl="hard defeat!")
             return None
         if result=="True":
             self.claimcountry(self.active_player,countryb)
-            self.popupwinorloose(countrya,countryb,self.currentattribute.name,wl="you win!")
+            self.popupwinorloose(countrya,countryb,self.currentattribute,wl="you win!")
             
             
         else:
-            self.popupwinorloose(countrya,countryb,self.currentattribute.name,wl="you loose!")
+            self.popupwinorloose(countrya,countryb,self.currentattribute,wl="you loose!")
             if countryb.owner!="Nobody":
                 self.claimcountry(callplayerbyname(countryb.owner),countrya)
 
@@ -1015,7 +987,7 @@ class MainWindow():
         for item in self.pointlist:
             self.pointlist.remove(item)
     
-    def popupwinorloose(self,countrya,countryb,property,wl):
+    def popupwinorloose(self,countrya,countryb,property:Category,wl):
         def kill_guessed_correct():
             self.transition(sameplayeragain=True)
             win.destroy()
@@ -1028,9 +1000,7 @@ class MainWindow():
         def _on_mousewheel(event):
             canvas11.yview_scroll(int(-1*(float(event.delta)/120)), "units")
         
-        
-
-        additional_information=additional_informationdict[property]
+        additional_information=property.isActive
         win=tk.Toplevel()
         win.geometry("1400x825")
         frame11=tk.Frame(win)
@@ -1113,16 +1083,16 @@ class MainWindow():
 
         
         try:
-            l1=tk.Label(frame12,text=countrya.name + "\n" + property.replace(".csv","") +"\n" +\
-                format((countrya.dictofattributes[property][0]),",") + "\n" +"worldrank:"+str(countrya.dictofattributes[property][1])+ "\n (of " + str(countrya.dictofattributes[property][2])+ " countries ranked)",font="Helvetica 25",wraplength=500 )
+            l1=tk.Label(frame12,text=countrya.name + "\n" + property.name.replace(".csv","") +"\n" +\
+                format((countrya.dictofattributes[property.name][0]),",") + "\n" +"worldrank:"+str(countrya.dictofattributes[property.name][1])+ "\n (of " + str(countrya.dictofattributes[property.name][2])+ " countries ranked)",font="Helvetica 25",wraplength=500 )
         except:
-            l1=tk.Label(frame12,text=countrya.name + "\n" + property.replace(".csv","") +"\n" + "sorry no data",font="Helvetica 25" )
+            l1=tk.Label(frame12,text=countrya.name + "\n" + property.name.replace(".csv","") +"\n" + "sorry no data",font="Helvetica 25" )
         
         try:
-            l2=tk.Label(frame12,text=countryb.name + "\n" + property.replace(".csv","") +"\n" + format((countryb.dictofattributes[property][0]),",") + "\n" +"worldrank:"+str(countryb.dictofattributes[property][1])+ "\n (of " + str(countryb.dictofattributes[property][2])+ " countries ranked)",font="Helvetica 25",wraplength=500)
+            l2=tk.Label(frame12,text=countryb.name + "\n" + property.name.replace(".csv","") +"\n" + format((countryb.dictofattributes[property.name][0]),",") + "\n" +"worldrank:"+str(countryb.dictofattributes[property.name][1])+ "\n (of " + str(countryb.dictofattributes[property.name][2])+ " countries ranked)",font="Helvetica 25",wraplength=500)
         except:
             traceback.print_exc()
-            l2=tk.Label(frame12,text=countryb.name + "\n" + property.replace(".csv","") +"\n" + "sorry no data",font="Helvetica 25")
+            l2=tk.Label(frame12,text=countryb.name + "\n" + property.name.replace(".csv","") +"\n" + "sorry no data",font="Helvetica 25")
         
         killbutton=tk.Button(frame12,image=img7,command=kill_button,width=400,height=200)
 
@@ -1169,10 +1139,10 @@ class MainWindow():
             guessed_correct_button=tk.Button(frame12,text="guessed correct",font="Helvetica 30",command=kill_guessed_correct)
             guessed_correct_button.grid(row=3,column=1)
             try:
-                wiki_summary_A_extra=countrya.dictofattributes[property][4]
-                wiki_summary_B_extra=countryb.dictofattributes[property][4]
-                wikiurl_A=countrya.dictofattributes[property][5]
-                wikiurl_B=countryb.dictofattributes[property][5]
+                wiki_summary_A_extra=countrya.dictofattributes[property.name][4]
+                wiki_summary_B_extra=countryb.dictofattributes[property.name][4]
+                wikiurl_A=countrya.dictofattributes[property.name][5]
+                wikiurl_B=countryb.dictofattributes[property.name][5]
             except:
                 traceback.print_exc()
                 wiki_summary_A_extra=""
@@ -1181,9 +1151,8 @@ class MainWindow():
                 wikiurl_B=""
             height=320
             try:
-                # print(countrya.dictofattributes[property])
                 
-                urlA="pictures/attribute_pictures/" + property.replace(".csv","") + "/"+ countrya.dictofattributes[property][3] + ".jpg"
+                urlA="pictures/attribute_pictures/" + property.name.replace(".csv","") + "/"+ countrya.dictofattributes[property.name][3] + ".jpg"
                 try:
                     imgA=Image.open(urlA)
                 except FileNotFoundError:
@@ -1194,13 +1163,13 @@ class MainWindow():
                 frame12.imgA=imgA
                 panelA=tk.Label(frame12,image=imgA)
                 panelA.grid(row=2,column=0)
-                panelA_extra=tk.Label(frame12,text=countrya.dictofattributes[property][3],font="Helvetica 20",wraplength=500)
+                panelA_extra=tk.Label(frame12,text=countrya.dictofattributes[property.name][3],font="Helvetica 20",wraplength=500)
                 panelA_extra.grid(row=3,column=0)
             except:
                 traceback.print_exc()
             try:
 
-                urlB="pictures/attribute_pictures/" + property.replace(".csv","") +"/" + countryb.dictofattributes[property][3] + ".jpg"
+                urlB="pictures/attribute_pictures/" + property.name.replace(".csv","") +"/" + countryb.dictofattributes[property.name][3] + ".jpg"
                 try:
                     imgB=Image.open(urlB)
                 except FileNotFoundError:
@@ -1217,15 +1186,15 @@ class MainWindow():
                 panelB.grid(row=2,column=2)
 
                 
-                panelB_extra=tk.Label(frame12,text=countryb.dictofattributes[property][3],font="Helvetica 20",wraplength=500)
+                panelB_extra=tk.Label(frame12,text=countryb.dictofattributes[property.name][3],font="Helvetica 20",wraplength=500)
                 
                 panelB_extra.grid(row=3,column=2)
             except:
                 traceback.print_exc()
             try:
-                if countrya.dictofattributes[property][3]!=countrya.name:
+                if countrya.dictofattributes[property.name][3]!=countrya.name:
                     if wikiurl_A=="":
-                        self.search_string=countrya.dictofattributes[property][3]
+                        self.search_string=countrya.dictofattributes[property.name][3]
                         self.search_string=wikipedia.search(self.search_string)[0]
                         print(self.search_string)
                         print(wikipedia.search(self.search_string)[0])
@@ -1248,9 +1217,9 @@ class MainWindow():
             except:
                 traceback.print_exc()
             try:
-                if countryb.dictofattributes[property][3]!=countryb.name:
+                if countryb.dictofattributes[property.name][3]!=countryb.name:
                     if wikiurl_B=="":
-                        self.search_string=countryb.dictofattributes[property][3]
+                        self.search_string=countryb.dictofattributes[property.name][3]
                         self.search_string=wikipedia.search(self.search_string)[0]
                         print(self.search_string)
                         print(wikipedia.search(self.search_string)[0])
@@ -1277,20 +1246,20 @@ class MainWindow():
 
 
         try:
-            countrya_top5=countrya.dictofattributes[property][1]<6
+            countrya_top5=countrya.dictofattributes[property.name][1]<6
         except: countrya_top5=False
 
         try:
-            countryb_top5=countryb.dictofattributes[property][1]<6
+            countryb_top5=countryb.dictofattributes[property.name][1]<6
         except: countryb_top5=False
 
         try:
-            countrya_worst5=countrya.dictofattributes[property][2]-countrya.dictofattributes[property][1] <6
+            countrya_worst5=countrya.dictofattributes[property.name][2]-countrya.dictofattributes[property.name][1] <6
         except:
             countrya_worst5=False
             
         try:
-            countryb_worst5=countryb.dictofattributes[property][2]-countryb.dictofattributes[property][1] <6
+            countryb_worst5=countryb.dictofattributes[property.name][2]-countryb.dictofattributes[property.name][1] <6
         except:
             countryb_worst5=False  
 
@@ -1409,7 +1378,7 @@ class MainWindow():
                     self.newlabel.grid(row=0)
                     countryscorelabel.grid(row=1)
                     countrylabel.grid(row=2)
-                    if additional_informationdict[self.endattribute]:
+                    if self.endattribute.isActive:
                         try:
                             label_of_thing=tk.Label(self.name_value_rank_frame,text=str(country.dictofattributes[self.endattribute][3]),font="Helvetica 20")
                         except:
@@ -1547,7 +1516,7 @@ class MainWindow():
             self.goldlist.append(all_countries[i])
             
     def getstartingattribute(self):
-        if self.pred_attribute!="random":
+        if self.pred_attribute!="Random":
             print(self.pred_attribute)
             attribute= self.pred_attribute
             
@@ -1751,15 +1720,7 @@ class MainWindow():
         return False
 
     def setupgame(self):
-        for i in range (5):
-            dictionary_of_properties[len(dictionary_of_properties)+1]="pricecluster"
-            dictionary_of_properties[len(dictionary_of_properties)+1]="productioncluster"
-            dictionary_of_properties[len(dictionary_of_properties)+1]="death_by_cause_cluster"
-
         
-
-
-
         if self.wormholemode=="fixed starting wormholes":
             self.activate_wormholes(5)
         if self.wormholemode=="every round changing wormholes":
@@ -1979,7 +1940,7 @@ class IntroWindow :
 
     def show_option_for_pred_attribute(self):
         def roll_attribute():
-            rng=random.randrange(1,len(self.mlist))
+            rng=random.randrange(1,len(self.displayed_list))
             print(rng)
             self.choose_pred_attribute.current(rng)
             if random.random() <=0.5:
@@ -1993,12 +1954,12 @@ class IntroWindow :
 
         pred_choose_var=tk.StringVar(self.winconditionframe)
         pred_choose_var.set("Random")
-        self.mlist=list(dictionary_of_properties.values())
-        self.mlist.sort()
-        self.mlist=["random"] + self.mlist
-        self.mlist=[m.rstrip(".csv") for m in self.mlist]
+        self.displayed_list=[c.name for c in all_categories]
+        self.displayed_list.sort()
+        self.displayed_list=["Random"] + self.displayed_list
+        self.displayed_list=[m.rstrip(".csv") for m in self.displayed_list]
         self.current_var=tk.StringVar()
-        self.choose_pred_attribute=ttk.Combobox(self.winconditionframe,values=self.mlist,width=100,state="readonly",textvariable=self.current_var)
+        self.choose_pred_attribute=ttk.Combobox(self.winconditionframe,values=self.displayed_list,width=100,state="readonly",textvariable=self.current_var)
         self.choose_pred_attribute.current(0)
         self.choose_pred_attribute.grid(row=5,column=0,)
 
@@ -2632,7 +2593,6 @@ Unknown_country=Country(xcoordinate=[0],ycoordinate=[0],name="Unknown Country",)
 
 
 
-dictionary_of_properties=dict()
 bettersetupdata("Percentage of railway being electrified (higher is better).csv",treatmissingdataasbad=True,dif=3) 
 
 bettersetupdata("Length of rail per country size (in km) (higher is better).csv",1,0,ascending=False,treatmissingdataasbad=True,applyfrac=True,dif=3)
