@@ -120,7 +120,15 @@ gold=(255,215,0)
 all_countries=[]
 all_categories=[]
 all_categories_names_and_clusters=[]
-dictionary_for_choosing_properties={}
+
+
+
+# a dictionary which takes a string and if it is a clustername
+# returns the list of categories associated to it. If it is just a normal 
+# categoryname it returns a list with only the asked category in it.
+dictionary_attribute_name_to_attribute={}
+
+
 countrynamelist=[]
 flagframedict=dict()
 preallCountries=[]
@@ -130,38 +138,93 @@ clusternamelist=list()
 allPlayers=dict()
 class Player:
     def __init__(self,color,name,reroll_number=3):
+        # name of the player
         self.name=name
+
+        # color of the player (on the map)
         self.color=color
+        
+        # a collection of the flags of the countries that player possesses
         self.labeldict=dict()
+
+        # a list of all countries the player currently controls
         self.list_of_possessed_countries=[]
+
+        # a list of all countries with gold, which the player currently controls
         self.list_of_possessed_countries_gold=[]
+        
+        # a dictionary needed to translate between 
+        # the name of the player and the corresponding class        
         allPlayers[self.name]=self
+
+        # the number of rerolls the player has left
         self.rerolls_left=reroll_number
 
 class Category:
     def __init__(self,name:str,isActive:bool,treatMissingDataAsBad:bool,difficulty:int,explanation:str="",cluster:str="",is_end_only:bool=False):
         pass
+        
+        # the name of the category
         self.name=name
+        
+        # whether a category is active, i.e. whether the player 
+        # can "guess" before taking a move in order to get a freee turn
         self.isActive=isActive
+
+        # In order to prevent that the same category comes to often, 
+        # a counter which tracks how often a category has already been chosen 
         self.numberOfChosenAlready=0
+        
+        # whether the category is a "treat missing data as a loss" - category
         self.treatMissingDataAsBad=treatMissingDataAsBad
+        
+        # the difficulty on the category on a scale of 1 (easiest) to 5 (hardest)
         self.difficulty=difficulty
+
+        # if provided, an explanation, which gives some details on the category (what it exactly means, the source etc.)
         self.explanation=explanation
+
+        # whether a category is only used as a target attribute 
+        # for the end of game and can not appear in the normal flow of the game
+        # (usually because it is too easy)
         self.is_end_only=is_end_only
+        
+        # append the global list of all categories with this instance.
         all_categories.append(self)
+        
+
+        # if there is a real cluster
         if not cluster=="":
+            # append the name of cluster in the namelist. 
+            # One can specify the probabily of choosing this cluster by appending it multiple times.
             if not cluster in all_categories_names_and_clusters:
                 # here one can tune the probability of choosing the specific cluster
                 # set it as 5/number of attribute
                 for i in range(5):
                     all_categories_names_and_clusters.append(cluster)
+            
+            
             try:
-                dictionary_for_choosing_properties[cluster].append(self)
+                # map clustername to the list of categories it refers to 
+                dictionary_attribute_name_to_attribute[cluster].append(self)
+                
+                # map categoryname to single item list of corresponding class
+                dictionary_attribute_name_to_attribute[self.name]=[self]
+
             except KeyError:
-                dictionary_for_choosing_properties[cluster]=[self]
+                # map clustername to the list of categories it refers to 
+                dictionary_attribute_name_to_attribute[cluster]=[self]
+
+
+                # map categoryname to single item list of corresponding class
+                dictionary_attribute_name_to_attribute[self.name]=[self]
+
         else:
+            # add category name to list of category names
             all_categories_names_and_clusters.append(self.name)
-            dictionary_for_choosing_properties[self.name]=[self]
+
+            # map categoryname to single item list of corresponding class             
+            dictionary_attribute_name_to_attribute[self.name]=[self]
 
 
 def coloring(xcoordinate,ycoordinate,color,image):
@@ -380,7 +443,7 @@ class MainWindow():
         
         self.rerolls=3
         self.numberoftargets=2
-        self.pred_attribute=pred_attribute
+        self.pred_attribute_name=pred_attribute
         self.winningcondition=winningcondition
         self.flagframedict=dict()
         self.numberofrounds=numberofrounds
@@ -398,7 +461,7 @@ class MainWindow():
         self.activeplayercounter=0
         self.active_player=self.listofplayers[self.activeplayercounter]
         self.numberofplayers=len(self.listofplayers)
-        self.endattribute=""
+        self.endattribute=None
         self.wormholemode=wormholemode
         self.wormholed_countries=list()
         self.numberofwormholes=numberofwormholes
@@ -502,6 +565,7 @@ class MainWindow():
             self.showingcountrylabel["text"]=self.active_player.name + "\n Please choose a starting country"
         
         #roll starting countries for the players
+        #TODO take care of ending attribute
         if self.startingcountries=="random":
             self.choosingindex=len(self.listofplayers)
             self.setupgame()
@@ -516,7 +580,7 @@ class MainWindow():
                             j=1
                     if self.winningcondition=="attribute":
                         try:
-                            all_countries[rng].dictofattributes[self.endattribute][0]
+                            all_countries[rng].dictofattributes[self.endattribute.name][0]
                         except:
                             j=1
                 if j==0:
@@ -720,11 +784,11 @@ class MainWindow():
         self.currentattributename_with_cluster=random.choice(all_categories_names_and_clusters)
 
         # if a cluster is chosen choose a random attribute from that cluster
-        if len(dictionary_for_choosing_properties[self.currentattributename_with_cluster])>1:
-            return random.choice(dictionary_for_choosing_properties[self.currentattributename_with_cluster])
+        if len(dictionary_attribute_name_to_attribute[self.currentattributename_with_cluster])>1:
+            return random.choice(dictionary_attribute_name_to_attribute[self.currentattributename_with_cluster])
         # if it is not a cluster, just return the attribute
         else: 
-            return dictionary_for_choosing_properties[self.currentattributename_with_cluster][0]
+            return dictionary_attribute_name_to_attribute[self.currentattributename_with_cluster][0]
         
 
 
@@ -1341,11 +1405,11 @@ class MainWindow():
             #sorting
             def bla(x):
                 try:
-                    return x.dictofattributes[self.endattribute][0]
+                    return x.dictofattributes[self.endattribute.name][0]
                 except: 
                     return -9999999.0
             for i in range (len(a)):
-                if "higher is better" in self.endattribute:
+                if "higher is better" in self.endattribute.name:
                     a[i].list_of_possessed_countries=sorted(a[i].list_of_possessed_countries,key=lambda x: bla(x),reverse=True)
                 else:
                     a[i].list_of_possessed_countries=sorted(a[i].list_of_possessed_countries,key=lambda x: bla(x))
@@ -1371,7 +1435,7 @@ class MainWindow():
                     self.newlabel=tk.Label(self.doubleframe,image=flag)
                     country=a[i].list_of_possessed_countries[j]
                     if self.reversed_end_attribute==1:
-                        country.dictofattributes[self.endattribute][1]=country.dictofattributes[self.endattribute][2]-country.dictofattributes[self.endattribute][1]
+                        country.dictofattributes[self.endattribute.name][1]=country.dictofattributes[self.endattribute.name][2]-country.dictofattributes[self.endattribute.name][1]
 
 
                     countrylabel=tk.Label(self.doubleframe,text=country.name,font="Helvetica 20")
@@ -1380,12 +1444,12 @@ class MainWindow():
                     countrylabel.grid(row=2)
                     if self.endattribute.isActive:
                         try:
-                            label_of_thing=tk.Label(self.name_value_rank_frame,text=str(country.dictofattributes[self.endattribute][3]),font="Helvetica 20")
+                            label_of_thing=tk.Label(self.name_value_rank_frame,text=str(country.dictofattributes[self.endattribute.name][3]),font="Helvetica 20")
                         except:
                             label_of_thing=tk.Label(self.name_value_rank_frame,text="--",font="Helvetica 20")
                         try:
                             width=200                            
-                            urlA="pictures/attribute_pictures/" + self.endattribute.replace(".csv","") + "/"+ country.dictofattributes[self.endattribute][3] + ".jpg"
+                            urlA="pictures/attribute_pictures/" + self.endattribute.name.replace(".csv","") + "/"+ country.dictofattributes[self.endattribute.name][3] + ".jpg"
                             try:
                                 imgA=Image.open(urlA)
                             except FileNotFoundError:
@@ -1399,16 +1463,16 @@ class MainWindow():
                         except:
                             traceback.print_exc()
                         label_of_thing.grid(row=0)
-                        label_of_value=tk.Label(self.name_value_rank_frame,text=format((country.dictofattributes[self.endattribute][0]),","),font="Helvetica 20")
+                        label_of_value=tk.Label(self.name_value_rank_frame,text=format((country.dictofattributes[self.endattribute.name][0]),","),font="Helvetica 20")
                         label_of_value.grid(row=1)
-                        label_of_worldrank=tk.Label(self.name_value_rank_frame,text="worldrank:" + str(country.dictofattributes[self.endattribute][1]),font="Helvetica 20")
+                        label_of_worldrank=tk.Label(self.name_value_rank_frame,text="worldrank:" + str(country.dictofattributes[self.endattribute.name][1]),font="Helvetica 20")
                         label_of_worldrank.grid(row=2)
                         self.doubleframe.grid_rowconfigure(4,weight=1)
                         self.name_value_rank_frame.grid(row=4,sticky="s")
                     else:
-                        label_of_value=tk.Label(self.doubleframe,text=format((country.dictofattributes[self.endattribute][0]),","),font="Helvetica 20")
+                        label_of_value=tk.Label(self.doubleframe,text=format((country.dictofattributes[self.endattribute.name][0]),","),font="Helvetica 20")
                         label_of_value.grid(row=5,sticky="s")
-                        label_of_worldrank=tk.Label(self.doubleframe,text="worldrank:" + str(country.dictofattributes[self.endattribute][1]),font="Helvetica 20")
+                        label_of_worldrank=tk.Label(self.doubleframe,text="worldrank:" + str(country.dictofattributes[self.endattribute.name][1]),font="Helvetica 20")
                         label_of_worldrank.grid(row=6,sticky="s")
 
 
@@ -1515,10 +1579,10 @@ class MainWindow():
             self.claimcountry(Target,all_countries[i])
             self.goldlist.append(all_countries[i])
             
-    def getstartingattribute(self):
-        if self.pred_attribute!="Random":
-            print(self.pred_attribute)
-            attribute= self.pred_attribute
+    def getstartingattribute(self) -> Category:
+        if self.pred_attribute_name!="Random":
+            print(self.pred_attribute_name)
+            attribute= dictionary_attribute_name_to_attribute[self.pred_attribute_name][0]
             
         else:
             numberofnodata=999999
@@ -1560,10 +1624,10 @@ class MainWindow():
             if country==Unknown_country:
                 continue
             try:
-                country.dictofattributes[self.endattribute][0]
+                country.dictofattributes[self.endattribute.name][0]
             except:
                 print(country.name)
-                # traceback.print_exc()
+                traceback.print_exc()
                 self.claimcountry(No_Data_Body,country)
 
     
@@ -1664,20 +1728,20 @@ class MainWindow():
         mcountrylist=list()
         dlist=list()
         if self.reversed_end_attribute==0:
-            if "higher is better" in self.endattribute:
+            if "higher is better" in self.endattribute.name:
                 self.higherorlower="higher"
             else:
                 self.higherorlower="lower"
         else:
-            if "higher is better" in self.endattribute:
+            if "higher is better" in self.endattribute.name:
                 self.higherorlower="lower"
             else:
                 self.higherorlower="higher"
 
         for country in all_countries:
             try:
-                if (country.dictofattributes[self.endattribute][0])!=float(-1):
-                    propertylist.append((country.dictofattributes[self.endattribute][0]))            
+                if (country.dictofattributes[self.endattribute.name][0])!=float(-1):
+                    propertylist.append((country.dictofattributes[self.endattribute.name][0]))            
                     mcountrylist.append(country)
                 else: 
                     dlist.append(country)
@@ -1689,7 +1753,7 @@ class MainWindow():
             if country in dlist:
                 returnlist.append(30.0)
             else:
-                returnlist.append(helphelp(country.dictofattributes[self.endattribute][0],propertylist))
+                returnlist.append(helphelp(country.dictofattributes[self.endattribute.name][0],propertylist))
         returnlist=[float(item)/float(5) for item in returnlist]
         return returnlist        
 
@@ -1956,7 +2020,7 @@ class IntroWindow :
         pred_choose_var.set("Random")
         self.displayed_list=[c.name for c in all_categories]
         self.displayed_list.sort()
-        self.displayed_list=["Random"] + self.displayed_list
+        self.displayed_list=["Surprise Me!"] + self.displayed_list
         self.displayed_list=[m.rstrip(".csv") for m in self.displayed_list]
         self.current_var=tk.StringVar()
         self.choose_pred_attribute=ttk.Combobox(self.winconditionframe,values=self.displayed_list,width=100,state="readonly",textvariable=self.current_var)
