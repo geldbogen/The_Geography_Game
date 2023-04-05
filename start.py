@@ -171,7 +171,7 @@ class Category:
         # can "guess" before taking a move in order to get a freee turn
         self.isActive=isActive
 
-        # In order to prevent that the same category comes to often, 
+        # In order to prevent that the same category is chosen too often, 
         # a counter which tracks how often a category has already been chosen 
         self.numberOfChosenAlready=0
         
