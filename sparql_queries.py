@@ -5,6 +5,7 @@ import pandas as pd
 import requests
 import traceback
 import wikipedia
+import datetime
 # import datenbereinigung as db
 # import sparql_cleaner as sc
 import os
@@ -298,6 +299,8 @@ def read_errorlists(itemname):
 
 
 def fetchitems(itemname,errorlist_index=False,errorlist_timeout=False):
+    if errorlist_index or errorlist_timeout:
+        read_errorlists(itemname)
     global sparqllist
     if errorlist_index:
         sparqllist=sparqllist_indexerror
@@ -316,326 +319,31 @@ def fetchitems(itemname,errorlist_index=False,errorlist_timeout=False):
         counter=0
         try:
             url = 'https://query.wikidata.org/sparql'
-            query = '''
-                        SELECT DISTINCT ?pageid ?novelist ?novelistLabel ?countryLabel ?sitelinks WHERE {
-    
-            SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
-            hint:Query hint:optimizer "None".
-            
-            VALUES ?country {'''+item+'''}
-            
-            
-            {?novelist wdt:P17 ?country;
-                        wikibase:sitelinks ?sitelinks
-            filter(?sitelinks>0)} 
-            UNION
-            {?novelist wdt:P276 [wdt:P17 ?country];
-                        wikibase:site ?sitelinks.
-            filter(?sitelinks>0)}
-                    
-            wd:Q8514 ^wdt:P279*/^wdt:P31 ?novelist
-            
-            }
-            ORDER BY DESC(?sitelinks)
-            
-            '''
-            query2='''SELECT DISTINCT ?pageid ?novelist ?novelistLabel ?countryLabel ?sitelinks WHERE {
-    
-            SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
-            hint:Query hint:optimizer "None".
-            
-            VALUES ?country {'''+item+'''}
-            
-            wd:Q4830453 ^wdt:P279*/^wdt:P31 ?novelist.
-            
-            ?novelist wdt:P17 ?country;
-                      wikibase:sitelinks ?sitelinks.
-            MINUS {?novelist wdt:P31 wd:Q46970}
-            MINUS {?novelist wdt:P31 wd:Q6579042}
-  
-            
-            }
-            ORDER BY DESC(?sitelinks)
-            LIMIT 50
-            '''
-            query2='''
+            query='''
             SELECT DISTINCT ?pageid ?novelist ?novelistLabel ?countryLabel ?sitelinks WHERE {
     
             SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
-            hint:Query hint:optimizer "None".
+            
             
             VALUES ?country {'''+item+'''}
-            
-            wd:Q40050 ^wdt:P279*/^wdt:P31* ?novelist.
-            ?novelist wdt:P495 ?country;
-                      wikibase:sitelinks ?sitelinks
-            }
-            ORDER BY DESC(?sitelinks)
-            LIMIT 50
-            '''
-            query2='''
-            SELECT DISTINCT ?pageid ?novelist ?novelistLabel ?countryLabel ?sitelinks WHERE {
-    
-            SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
-            hint:Query hint:optimizer "None".
-            
-            VALUES ?country {'''+ item + '''}
             
             
             {?novelist wdt:P27 ?country;
                         wikibase:sitelinks ?sitelinks
-            filter(?sitelinks>0)} 
+            filter(?sitelinks>30)} 
             UNION
             {?novelist wdt:P19 [wdt:P17 ?country];
                         wikibase:sitelinks ?sitelinks.
-            filter(?sitelinks>0)}
+            filter(?sitelinks>30)}
                     
-            ?novelist wdt:P569 ?date.
-            filter(YEAR(?date)>=2000)
+            ?novelist wdt:P21 wd:Q6581072.  
+            ?novelist wdt:P106/wdt:P279* wd:Q2066131.
             
             }
             ORDER BY DESC(?sitelinks)
             LIMIT 50
             '''
-            query2='''  
-            SELECT DISTINCT ?novelist ?novelistLabel ?countryLabel ?sitelinks WHERE {
-            SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". } 
-            VALUES ?country {'''+item+'''}
-            wd:Q33506 ^wdt:P279*/^wdt:P31 ?novelist.
-            ?novelist wdt:P17 ?country;
-                        wikibase:sitelinks ?sitelinks.
-            filter(?sitelinks>0)
             
-            
-            }
-            ORDER BY DESC(?sitelinks)
-            LIMIT 10
-            '''
-            
-            
-            query2='''
-            SELECT ?pageid ?novelist ?novelistLabel (COUNT(?person) AS ?sitelinks) ?countryLabel WHERE {
-            SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
-            VALUES ?country {''' + item + '''}
-            {?person wdt:P27 ?country.}
-            UNION
-            {?person wdt:P19 [ wdt:P17 ?country]}
-            ?person wdt:P569 ?dateofbirth.
-            ?person wikibase:sitelinks ?real_sitelinks.
-            
-            filter(?real_sitelinks >0)
-            filter(YEAR(?dateofbirth)>1900)
-            }
-            GROUP BY ?countryLabel ?pageid ?novelist ?novelistLabel
-            '''
-            query2='''
-            SELECT DISTINCT ?novelist ?novelistLabel ?countryLabel ?sitelinks WHERE { 
-            SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
-            hint:Query hint:optimizer "None".
-                        VALUES ?country {'''+item+ '''}
-                        ?novelist wdt:P17 ?country.
-                        ?novelist wikibase:sitelinks ?sitelinks.    
-                        filter(?sitelinks>70)
-                        
-                        
-                        wd:Q811979 ^wdt:P279*/^wdt:P31 ?novelist
-                        
-            MINUS {?novelist wdt:P31 wd:Q1248784}
-            MINUS {?novelist wdt:P31 wd:Q644371}
-            }
-            ORDER BY DESC(?sitelinks)
-            
-            
-            '''
-    	    
-            query2='''
-            SELECT DISTINCT ?pageid ?novelist ?novelistLabel ?countryLabel ?sitelinks WHERE {
-    
-            SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
-            hint:Query hint:optimizer "None".
-            
-            VALUES ?country {'''+item+ '''}
-            
-            ?novelist wdt:P159 [wdt:P17 ?country].
-            ?novelist wdt:P17 ?country;
-             wikibase:sitelinks ?sitelinks
-            filter(?sitelinks>0) 
-            
-                    
-            wd:Q46970 ^wdt:P279*/^wdt:P31 ?novelist
-            
-            }
-            ORDER BY DESC(?sitelinks)
-            LIMIT 200
-            
-            '''
-
-            query2='''
-            SELECT DISTINCT ?pageid ?novelist ?novelistLabel ?countryLabel ?sitelinks WHERE {
-    
-            SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
-            hint:Query hint:optimizer "None".
-            
-            VALUES ?country {'''+item+ '''}
-            
-            ?novelist wdt:P159 [wdt:P17 ?country].
-            ?novelist wdt:P17 ?country;
-             wikibase:sitelinks ?sitelinks
-            filter(?sitelinks>50) 
-            
-                    
-            wd:Q6881511 ^wdt:P279*/^wdt:P31 ?novelist
-            MINUS {
-            ?novelist wdt:P31 wd:Q46970
-            }
-            MINUS {
-            ?novelist wdt:P31 wd:Q66344
-            }
-            
-            }
-            ORDER BY DESC(?sitelinks)
-            LIMIT 200'''
-
-            query2='''
-            SELECT DISTINCT ?pageid ?novelist ?novelistLabel ?countryLabel ?sitelinks WHERE {
-    
-            SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
-            hint:Query hint:optimizer "None".
-            
-            VALUES ?country {'''+item+ '''}
-            
-            
-            ?novelist wdt:P17 ?country;
-             wdt:P1082 ?sitelinks
-            filter(?sitelinks>200000)  
-            
-                    
-            wd:Q515 ^wdt:P279*/^wdt:P31 ?novelist
-            
-            }
-            ORDER BY DESC(?sitelinks)
-            LIMIT 10
-            '''
-            query2='''
-            SELECT DISTINCT ?novelist ?novelistLabel ?sitelinks ?countryLabel WHERE {
-            hint:Query hint:optimizer "None".
-            VALUES ?country {'''+item+ '''}
-            ?novelist wdt:P17 ?country.
-            ?novelist wikibase:sitelinks ?sitelinks.
-            filter(?sitelinks>20)
-            wd:Q35145263 ^wdt:P279*/^wdt:P31 ?novelist.
-            ?novelist rdfs:label ?novelistLabel.
-            filter(LANG(?novelistLabel)="en")
-            ?country rdfs:label ?countryLabel.
-            filter(LANG(?countryLabel)="en")
-            }
-            ORDER BY DESC(?sitelinks)
-            '''
-
-
-            query2='''
-            SELECT ?countryLabel (COUNT(distinct *) as ?sumcompany) ?novelist ?novelistLabel  ?population (10000*xsd:float(?sumcompany)/xsd:float(?population) AS ?sitelinks) WHERE {
-            SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
-            VALUES ?country {'''+item+ '''}
-            ?company wdt:P19 ?novelist.
-            ?novelist wdt:P17 ?country.
-            wd:Q515 ^wdt:P279*/^wdt:P31 ?novelist.
-            ?novelist wdt:P1082 ?population.
-            filter(?population>100000)
-            
-            }
-            GROUP BY ?novelistLabel ?sitelinks ?population ?countryLabel ?novelist
-            ORDER BY DESC(?sitelinks)
-            '''
-
-
-
-            query2='''
-            SELECT DISTINCT ?novelist ?novelistLabel ?sitelinks ?country ?countryLabel ?pointtime ?duration WHERE
-            {
-            hint:Query hint:optimizer "None".
-            VALUES ?country {'''+ item + '''
-            }
-            {?novelist wdt:P276 [ wdt:P17 ?country]}
-            UNION 
-            {?novelist wdt:P17 ?country}
-            UNION
-            {?novelist wdt:P276 ?country}
-            
-            ?novelist wikibase:sitelinks ?sitelinks.
-            filter(?sitelinks>0)
-            
-            {?novelist wdt:P585 ?pointtime
-            OPTIONAL {?novelist wdt:P580 ?s_time.
-            ?novelist wdt:P582 ?e_time.
-            BIND(?e_time - ?s_time AS ?duration)}
-            }
-            UNION
-            {?novelist wdt:P580 ?s_time.
-            ?novelist wdt:P582 ?e_time.
-            BIND(?e_time - ?s_time AS ?duration)
-            }
-            
-            MINUS {?novelist wdt:P31/wdt:P279* wd:Q27020041}
-            MINUS {?novelist wdt:P31 wd:Q82414}
-            MINUS {?novelist wdt:P31 wd:Q159821}
-            filter(YEAR(?pointtime)<2001 && YEAR(?pointtime)>1949 || (YEAR(?s_time)<2001 && YEAR(?s_time)>1949))
-            filter(?duration<3 || !BOUND(?duration))
-            SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
-            }
-            ORDER BY DESC(?sitelinks)
-            LIMIT 100
-            
-            
-            
-            '''
-
-            # query='''
-            # SELECT DISTINCT ?pageid ?novelist ?novelistLabel ?countryLabel ?sitelinks ?dateofbirth WHERE {
-    
-            # SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
-            # hint:Query hint:optimizer "None".
-
-            # VALUES ?country {'''+ item + '''}
-
-
-            # {?novelist wdt:P27 ?country.
-            #             ?novelist wdt:P569 ?dateofbirth.
-            # BIND(YEAR(?dateofbirth) AS ?sitelinks)
-            #             filter(?sitelinks<1800)} 
-            # UNION
-            # {?novelist wdt:P19 [wdt:P17 ?country].
-            #             ?novelist wdt:P569 ?dateofbirth.
-            # BIND(YEAR(?dateofbirth) AS ?sitelinks)
-            # filter(?sitelinks<2000)}
-
-            
-
-            # }
-            # ORDER BY ASC(?dateofbirth)
-            # LIMIT 20
-            # '''
-
-            #city with at most x inhabitants
-            query2='''
-            
-            SELECT DISTINCT ?pageid ?novelist ?novelistLabel ?countryLabel ?sitelinks ?dateofbirth WHERE {
-            SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
-            VALUES ?country {'''+ item +'''}
-            
-            ?novelist wdt:P17 ?country.
-            ?novelist wikibase:sitelinks ?sitelinks.
-            filter(?sitelinks>0)
-            wd:Q702492 ^wdt:P279*/^wdt:P31 ?novelist.
-            ?novelist wdt:P1082 ?population.
-            filter(?population<1000000)
-            
-            
-            }
-            ORDER BY DESC(?sitelinks)
-            LIMIT 100
-            
-            '''
             headers= {"User-Agent":"geogame-image-fetcher/1.0 (juliusniemeyer1995@gmail.com) python requests"}
             r = requests.get(url, params = {'format': 'json', 'query': query},headers=headers)
             data = r.json()
@@ -686,22 +394,35 @@ def fetchitems(itemname,errorlist_index=False,errorlist_timeout=False):
     print(df)
     df.to_csv("rawdata_with_fetcher/"+ itemname +".csv",index=False)
 
-
-    try:
-        os.remove("rawdata_with_fetcher/errorlist_indexerror_"+itemname+".txt")
-    except FileNotFoundError:
-        pass
-    with open("rawdata_with_fetcher/errorlist_indexerror_"+ itemname+".txt","w") as f:
-        for item in indexerrorlist:
-            f.write(item +"\n")
-
-    try:
-        os.remove("rawdata_with_fetcher/errorlist_prob_timeout_"+itemname+".txt")
-    except FileNotFoundError:
-        pass
-    with open("rawdata_with_fetcher/errorlist_prob_timeout_"+itemname+".txt","w") as f:
-        for item in errorlist:
-            f.write(item +"\n")
+    if errorlist_index:
+        with open("rawdata_with_fetcher/errorlist_indexerror_"+ itemname+".txt","a+") as f:
+            f.write("\n\n\n UPDATE as of " +str(datetime.datetime.now()) + "\n\n\n")
+            if len(indexerrorlist)==0:
+                f.write("FINISH!")
+            for item in indexerrorlist:
+                f.write(item +"\n")
+    if errorlist_timeout:
+        with open("rawdata_with_fetcher/errorlist_prob_timeout_"+itemname+".txt","a+") as f:
+            f.write("\n\n\n UPDATE as of" +str(datetime.datetime.now()) + "\n\n\n")
+            if len(errorlist)==0:
+                f.write("FINISH!")
+            for item in errorlist:
+                f.write(item +"\n")
+    if (not errorlist_index) and (not errorlist_timeout):
+        try:
+            os.remove("rawdata_with_fetcher/errorlist_indexerror_"+itemname+".txt")
+        except FileNotFoundError:
+            pass
+        with open("rawdata_with_fetcher/errorlist_indexerror_"+ itemname+".txt","w") as f:
+            for item in indexerrorlist:
+                f.write(item +"\n")
+        try:
+            os.remove("rawdata_with_fetcher/errorlist_prob_timeout_"+itemname+".txt")
+        except FileNotFoundError:
+            pass
+        with open("rawdata_with_fetcher/errorlist_prob_timeout_"+itemname+".txt","w") as f:
+            for item in errorlist:
+                f.write(item +"\n")
 
     print("the indexerrorlist now contains the following:")
     print(indexerrorlist)
@@ -710,6 +431,7 @@ def fetchitems(itemname,errorlist_index=False,errorlist_timeout=False):
     print("the keyword was the following:")
     print(itemname)
 
-# read_errorlists("most_famous_person_after_2000") 
-fetchitems("most_famous_desert")
+
+
+fetchitems("most_famous_woman_athlete",errorlist_timeout=True)
 

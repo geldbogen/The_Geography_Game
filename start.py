@@ -2642,7 +2642,9 @@ Mauritius.neighboringcountries.append("Australia")
 Unknown_country=Country(xcoordinate=[0],ycoordinate=[0],name="Unknown Country",)
 
 
+# DEPRECATED
 
+# bettersetupdata("Number of wiki-languages of most famous UNESCO-World Heritage Site of that country (higher is better).csv",additional_information=True)
 # bettersetupdata("City with most sons or daughter having a wiki-page by 1,000 inhabitans (of that city) (higher is better).csv",additional_information=True,additional_information_column=[2,3,4])
 # bettersetupdata("Account with the most social media followers of that country (higher is better).csv",additional_information=True,additional_information_column=[2,3,4])
 # bettersetupdata("Billionaires per million people (higher is better).csv",treatmissingdataasbad=True,dif=2)
@@ -2651,11 +2653,6 @@ Unknown_country=Country(xcoordinate=[0],ycoordinate=[0],name="Unknown Country",)
 # bettersetupdata("Number of subscribers of most-subscribed youtube-channel from that country (higher is better).csv",treatmissingdataasbad=True,dif=3,additional_information=True)
 # bettersetupdata("Number of wiki-languages of most famous journalist of that country (higher is better).csv",additional_information=True,additional_information_column=[2,3,4])
 # bettersetupdata("Health expenditure per capita in Int$ (lower is better).csv",ascending=True,dif=3)
-
-
-
-
-
 
 bettersetupdata("Percentage of railway being electrified (higher is better).csv",treatmissingdataasbad=True,dif=3) 
 
@@ -2783,12 +2780,9 @@ bettersetupdata("Percentage of population being hindu (higher is better).csv",di
 bettersetupdata("Percentage of population being muslim (higher is better).csv",dif=2)
 bettersetupdata("Chinese population (by 1000 population) (higher is better).csv",dif=3)
 bettersetupdata("Number of urban areas with more than 1 mio. citizens (higher is better).csv",dif=1)
-
 bettersetupdata("Side of traffic (left hand side beats right hand side) (higher is better).csv",dif=1)
-
 bettersetupdata("Number of visits by an US-President (since formation of the country) (higher is better).csv",dif=2,treatmissingdataasbad=True)
 bettersetupdata("Home ownership rate (higher is better).csv",dif=2)
-
 bettersetupdata("Number of wiki-languages of most famous person from that country (higher is better).csv",dif=1,additional_information=True,additional_information_column=[2,3,4])
 bettersetupdata("Number of wiki-languages of most famous architect of that country (higher is better).csv",dif=2,additional_information=True,additional_information_column=[2,3,4])
 bettersetupdata("Number of urban areas with more than 1 mio. citizens (higher is better).csv",dif=1)
@@ -2836,7 +2830,6 @@ bettersetupdata("Person of that country with the most social media follower (hig
 bettersetupdata("Percentage of marriages getting divorced in percent (lower is better).csv",ascending=True)
 bettersetupdata("Percentage of GDP spent on education (higher is better).csv")
 bettersetupdata("Number of wiki-languages of the capital (higher is better).csv",additional_information=True,additional_information_column=[2,3,4])
-bettersetupdata("Number of wiki-languages of most famous UNESCO-World Heritage Site of that country (higher is better).csv",additional_information=True)
 bettersetupdata("Annual cannabis prevalence in percent (lower is better).csv",ascending=True)
 bettersetupdata("Drug deaths per 100,000 population (lower is better).csv",ascending=True)
 bettersetupdata("Highest mountain of that country (higher is better).csv",additional_information=True,additional_information_column=[2,3,4])
