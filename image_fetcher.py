@@ -3,13 +3,13 @@ import urllib
 import requests
 import os
 import traceback
-os.chdir("C:\\Users\juliu\Google Drive\Infoprojekte\geogame")
+os.chdir("C:\\Users\juliu\Google Drive\Infoprojekte\The_Geography_Game")
 bing_key="30b59034981d4e8292aed74ebcd97383"
 bing_url="https://api.bing.microsoft.com/v7.0/images/search"
 
 headers = {"Ocp-Apim-Subscription-Key" : bing_key}
 
-def fetch_images(link):
+def fetch_images(link,search_term:str=""):
     
     df=pd.read_csv(link)
     list_of_historical=df["2"].tolist()
@@ -22,9 +22,11 @@ def fetch_images(link):
     except FileExistsError:
         pass
     for index,person in enumerate(list_of_historical):
-        # index=list_of_historical.index(person)
         country=list_of_countries[index]
-        person2=person + ""
+        if search_term=="":
+            person2=person
+        else:
+            person2=person + " (" +search_term + ")" 
         try:
             params  = {"q": person2,"count":"10",}
             response=requests.get(bing_url,params=params,headers=headers)
@@ -60,5 +62,4 @@ def fetch_images(link):
                 f.write(country + "\n")
     
 
-fetch_images("data/number of wiki-languages of most famous person from that country born after 2000 (higher is better).csv")
-
+fetch_images("data/Number of wiki-languages of most famous battle which took place in that country (higher is better).csv")

@@ -14,7 +14,8 @@ filename=os.path.realpath(__file__).replace("\\","/")
 wikipedia.set_user_agent("geogame-image-fetcher/1.0 (juliusniemeyer1995@gmail.com) python requests")
 
 sparqllist=[\
-"wd:Q889"\
+"wd:Q756617"\
+,"wd:Q889"\
 ,"wd:Q222"\
 ,"wd:Q262"\
 ,"wd:Q228"\
@@ -330,14 +331,14 @@ def fetchitems(itemname,errorlist_index=False,errorlist_timeout=False):
             
             {?novelist wdt:P27 ?country;
                         wikibase:sitelinks ?sitelinks
-            filter(?sitelinks>30)} 
+            filter(?sitelinks>60)} 
             UNION
             {?novelist wdt:P19 [wdt:P17 ?country];
                         wikibase:sitelinks ?sitelinks.
-            filter(?sitelinks>30)}
+            filter(?sitelinks>60)}
                     
             ?novelist wdt:P21 wd:Q6581072.  
-            ?novelist wdt:P106/wdt:P279* wd:Q2066131.
+            ?novelist wdt:P106/wdt:P279* wd:Q36180.
             
             }
             ORDER BY DESC(?sitelinks)
@@ -433,5 +434,5 @@ def fetchitems(itemname,errorlist_index=False,errorlist_timeout=False):
 
 
 
-fetchitems("most_famous_woman_athlete",errorlist_timeout=True)
+fetchitems("most_famous_woman_writer",errorlist_timeout=True)
 
