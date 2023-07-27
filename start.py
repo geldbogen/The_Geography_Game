@@ -25,6 +25,7 @@ import sv_ttk
 #local files
 import alternative_names
 import additional_explanations
+import categoryname_to_displayed_name
 
 
 filename=os.path.realpath(__file__).replace("\\","/")
@@ -81,9 +82,13 @@ countries_for_language_en=p.values.tolist()
 
 
 
+category_to_displayed_name_dict=categoryname_to_displayed_name.category_to_displayed_name_dict
 
 
 countries_alternative_names=alternative_names.countries_alternative_names
+
+
+
 
 reverse_countries_alternative_names=dict()
 for item in countries_alternative_names.keys():
@@ -394,13 +399,13 @@ def bettersetupdata(name,column=1,namecolumn=0,ascending=False,treatmissingdataa
     data=pd.read_csv("data/" + name,index_col=False)
     setupdata(data,column,namecolumn,name,ascending=ascending,treatmissingdataasbad=treatmissingdataasbad,applyfrac=applyfrac,additional_information=additional_information,additional_information_column=additional_information_column)
     
-    #get additional explanations, if it is provided
+    # get additional explanations, if it is provided
     try:
         explanation=additional_explanations.additional_explanations[name]
     except KeyError:
         explanation=""
     
-    #create Category with information provided
+    # create Category with information provided
     Category(name,isActive=additional_information,treatMissingDataAsBad=treatmissingdataasbad,difficulty=dif,explanation=explanation,is_end_only=is_end_only)
 
 
@@ -429,11 +434,33 @@ def getcountrybyposition(xcoordinate,ycoordinate):
     return result
 
 
-def Countriesareconnected(countrya,countryb):
+def Countriesareconnected(countrya:Country,countryb:Country) -> bool:
     if countrya.name in countryb.neighboringcountries or countryb.name in countrya.neighboringcountries:
         return True
     else:
         return False
+
+
+
+def replace_A_and_B_in_category_name(tk_label:tk.Label,category:Category, first_country:Country = None, second_country:Country = None) -> str:
+    
+    displaystring = category_to_displayed_name_dict[category.name.rstrip(".csv")]
+
+    if (second_country == None):
+        displaystring = displaystring.replace("CountryB", " (...) ")
+    else:
+        displaystring = displaystring.replace("CountryB", second_country.name)
+
+    if (first_country == None):
+        displaystring = displaystring.replace("CountryA", " (...) ")
+    else:
+        displaystring = displaystring.replace("CountryA", first_country.name)
+
+    tk_label.configure(text=displaystring)
+
+    return tk_label
+
+
 
 Mr_Nobody=Player(color="white",name="Nobody")
 No_Data_Body=Player(color=realgrey,name="Nobody")
@@ -455,12 +482,12 @@ class MainWindow():
         main=tk.Tk()
         sv_ttk.set_theme("dark")  # Set light theme
 
-        self.listofplayers=listofplayers
-        print(self.listofplayers)
+        self.list_of_players=listofplayers
+        print(self.list_of_players)
         print(len(listofplayers))
         self.activeplayercounter=0
-        self.active_player=self.listofplayers[self.activeplayercounter]
-        self.numberofplayers=len(self.listofplayers)
+        self.active_player=self.list_of_players[self.activeplayercounter]
+        self.numberofplayers=len(self.list_of_players)
         self.endattribute=None
         self.wormholemode=wormholemode
         self.wormholed_countries=list()
@@ -504,7 +531,7 @@ class MainWindow():
         self.c.config(yscrollcommand=my_scrollbar1.set,xscrollcommand=my_scrollbar2.set)
         self.c.config(scrollregion = self.c.bbox("all"))
 
-        for player in self.listofplayers:
+        for player in self.list_of_players:
             self.flagframedict[player.name]=tk.Frame(self.frame2)
             self.flagframedict[player.name].current_flagdict=dict()
         
@@ -530,14 +557,14 @@ class MainWindow():
         self.reroll_button=tk.Button(self.frame5,text="rerolls left:\n " +str(self.active_player.rerolls_left) ,font="Helvetica 25",anchor="sw",command=lambda: self.reroll(player=self.active_player))
         self.reroll_button.pack(side="left",fill="y")
 
-        self.showingcountrylabel=tk.Label(self.frame5,text="It is the turn of " +self.active_player.name +"\n You have not chosen any country yet",font="Helvetica 25")
-        self.showingcountrylabel.pack(side="bottom",expand=True,fill="both")
+        self.showing_country_label=tk.Label(self.frame5,text="It is the turn of " +self.active_player.name +"\n You have not chosen any country yet",font="Helvetica 25")
+        self.showing_country_label.pack(side="bottom",expand=True,fill="both")
 
-        self.turncounterlabel=tk.Label(self.frame4,text=str(self.turncounter),font="Helvetica 50")
-        self.turncounterlabel.pack(side="right")
+        self.turn_counter_label=tk.Label(self.frame4,text=str(self.turncounter),font="Helvetica 50")
+        self.turn_counter_label.pack(side="right")
         
-        self.showingcurrentattributee=tk.Label(self.frame4,text="Welcome!",font="Helvetica 25")
-        self.showingcurrentattributee.pack(anchor="nw",expand=True,fill="both")
+        self.showing_current_attribute_text_label=tk.Label(self.frame4,text="Welcome!",font="Helvetica 25")
+        self.showing_current_attribute_text_label.pack(anchor="nw",expand=True,fill="both")
 
         self.frame4.pack(side="top",fill="x")
         self.frame5.pack(side="bottom",fill="x")
@@ -547,31 +574,31 @@ class MainWindow():
 
 
 
-        self.buttonsure=tk.Button(self.buttonframe,text="Attack!",font="Helvetica 20")
-        self.buttonnotsure=tk.Button(self.buttonframe,text="No go back",font="Helvetica 20")
-        self.buttonsure.pack(side="left")
-        self.buttonnotsure.pack(side="right")
-        self.buttonclaim=tk.Button(self.buttonframe2,text="Yes Please!",font="Helvetica 20")
+        self.button_sure=tk.Button(self.buttonframe,text="Attack!",font="Helvetica 20")
+        self.button_not_sure=tk.Button(self.buttonframe,text="No go back",font="Helvetica 20")
+        self.button_sure.pack(side="left")
+        self.button_not_sure.pack(side="right")
+        self.button_claim=tk.Button(self.buttonframe2,text="Yes Please!",font="Helvetica 20")
         
         self.d=""
-        self.randompeoplestart=random.sample(range(0,len(self.listofplayers)),len(self.listofplayers))
+        self.randompeoplestart=random.sample(range(0,len(self.list_of_players)),len(self.list_of_players))
 
 
         #usher choosing countries procedure if that mode was chosen
         if self.startingcountries=="choose":
             self.choosingindex=0
-            self.active_player=self.listofplayers[self.randompeoplestart[self.choosingindex]]
-            self.showingcurrentattributee["text"]="Choose a starting country of your choice"
-            self.showingcountrylabel["text"]=self.active_player.name + "\n Please choose a starting country"
+            self.active_player=self.list_of_players[self.randompeoplestart[self.choosingindex]]
+            self.showing_current_attribute_text_label["text"]="Choose a starting country of your choice"
+            self.showing_country_label["text"]=self.active_player.name + "\n Please choose a starting country"
         
         #roll starting countries for the players
         #TODO take care of ending attribute
         if self.startingcountries=="random":
-            self.choosingindex=len(self.listofplayers)
+            self.choosingindex=len(self.list_of_players)
             self.setupgame()
             while True:
                 j=0
-                self.randomstart=random.sample(range(0,len(all_countries)),len(self.listofplayers))
+                self.randomstart=random.sample(range(0,len(all_countries)),len(self.list_of_players))
                 for rng in self.randomstart:
                     if len(all_countries[rng].neighboringcountries)<3:
                         j=1
@@ -585,13 +612,13 @@ class MainWindow():
                             j=1
                 if j==0:
                     break
-            for i in range (len(self.listofplayers)):
-                self.claimcountry(self.listofplayers[i],all_countries[self.randomstart[i]])
+            for i in range (len(self.list_of_players)):
+                self.claimcountry(self.list_of_players[i],all_countries[self.randomstart[i]])
                 print(all_countries[self.randomstart[i]].name)
 
         #roll first attribute
         self.getgoodattribute(self.active_player)
-        self.showingcurrentattributee["text"]="The current attribute is: \n" + self.currentattribute.name
+        replace_A_and_B_in_category_name(self.showing_current_attribute_text_label,self.currentattribute)
         
         main.mainloop()
 
@@ -603,38 +630,42 @@ class MainWindow():
         
         if self.d=="disabled":
             return None
-        if self.choosingindex<len(self.listofplayers):
+        if self.choosingindex<len(self.list_of_players):
             clickedcountry=getcountrybyposition(self.c.canvasx(event.x),self.c.canvasy(event.y))
-            self.showingcountrylabel["text"]=self.active_player.name + " do you want to start with \n" + clickedcountry.name + " ?"
-            self.buttonclaim["command"]=lambda: self.claimstartingcountry(self.active_player,clickedcountry)
-            self.buttonclaim.pack(side="bottom")
+            self.showing_country_label["text"]=self.active_player.name + " do you want to start with \n" + clickedcountry.name + " ?"
+            self.button_claim["command"]=lambda: self.claimstartingcountry(self.active_player,clickedcountry)
+            self.button_claim.pack(side="bottom")
             self.buttonframe2.pack(side="bottom")
             return None
         clickedcountry=getcountrybyposition(self.c.canvasx(event.x),self.c.canvasy(event.y))
         if self.chosencountrya==None:
-            self.showingcountrylabel["text"]="It is the turn of " + self.active_player.name + "\n You have chosen " + clickedcountry.name + " currently controlled by " + clickedcountry.owner
+            self.showing_country_label["text"]="It is the turn of " + self.active_player.name + "\n You have chosen " + clickedcountry.name + " currently controlled by " + clickedcountry.owner
             if clickedcountry.owner==self.active_player.name:
                 self.chosencountrya=clickedcountry
-                self.showingcountrylabel["text"]=self.showingcountrylabel["text"] + "\n You can attack with this country"
+                replace_A_and_B_in_category_name(self.showing_current_attribute_text_label,self.currentattribute,self.chosencountrya)
+
+                self.showing_country_label["text"]=self.showing_country_label["text"] + "\n You can attack with this country"
         else:
             if self.peacemode==1 and clickedcountry.owner!="Nobody" and callplayerbyname(clickedcountry.owner)!=self.active_player:
                 self.chosencountrya=None
-                self.showingcountrylabel["text"]="You can not attack anoter player's countries in peace mode! \n Choose another country!"
+                self.showing_country_label["text"]="You can not attack anoter player's countries in peace mode! \n Choose another country!"
                 # time.sleep(5)
                 # self.showingcountrylabel["text"]=""
                 return None
             if Countriesareconnected(clickedcountry,self.chosencountrya):
                 if self.active_player!=callplayerbyname(clickedcountry.owner):
-                    self.showingcountrylabel["text"]="You want to attack  " + clickedcountry.name + " currently controlled by " + clickedcountry.owner +" with " + self.chosencountrya.name + " are you sure?"
-                    self.buttonsure["command"]= lambda: self.attack(self.chosencountrya,clickedcountry)
-                    self.buttonnotsure["command"]=self.fuckgoback
+                    replace_A_and_B_in_category_name(self.showing_current_attribute_text_label,self.currentattribute,self.chosencountrya,clickedcountry)
+
+                    self.showing_country_label["text"]="Does the above sentence looks correct to you?"
+                    self.button_sure["command"]= lambda: self.attack(self.chosencountrya,clickedcountry)
+                    self.button_not_sure["command"]=self.fuckgoback
                     self.buttonframe.pack(side="bottom")
                     self.d="disabled"
                 else:
-                    self.showingcountrylabel["text"]="You already own this country"
+                    self.showing_country_label["text"]="You already own this country"
             else:
                 self.chosencountrya=None
-                self.showingcountrylabel["text"]="These countries do not share a common land border.\n Please choose another pair!"
+                self.showing_country_label["text"]="These countries do not share a common land border.\n Please choose another pair!"
 
     def find_distance(self,countrya:Country,countryb:Country):
         mydict=dict()
@@ -661,18 +692,18 @@ class MainWindow():
         
         self.buttonframe.pack_forget()
         self.d=""
-        self.showingcountrylabel["text"]=""
+        self.showing_country_label["text"]=""
         self.chosencountrya=None
         result=self.attackwithattribute(self.currentattribute.name,countrya,countryb)
         if result=="no data":
             self.popupwinorloose(countrya,countryb,self.currentattribute,wl="no data")
             self.getgoodattribute(self.active_player)
-            self.showingcurrentattributee["text"]="The current attribute is: \n" + self.currentattribute.name
+            replace_A_and_B_in_category_name(self.showing_current_attribute_text_label,self.currentattribute)
             return None
         if result=="draw!":
             self.popupwinorloose(countrya,countryb,self.currentattribute,wl="draw!")
             self.getgoodattribute(self.active_player)
-            self.showingcurrentattributee["text"]="The current attribute is: \n" + self.currentattribute.name
+            replace_A_and_B_in_category_name(self.showing_current_attribute_text_label,self.currentattribute)
             return None
         if result=="hard defeat!":
             self.claimcountry(self.active_player,countryb)
@@ -698,21 +729,21 @@ class MainWindow():
             if self.checkifgameshouldend():
                 return None
             self.activeplayercounter=self.activeplayercounter+1
-        self.index=self.activeplayercounter%len(self.listofplayers)
+        self.index=self.activeplayercounter%len(self.list_of_players)
         
         if not sameplayeragain:
             if self.index==0:
                 self.turncounter+=1
 
         #update the interface
-        self.turncounterlabel["text"]=str(self.turncounter)
+        self.turn_counter_label["text"]=str(self.turncounter)
         self.flagframedict[self.active_player.name].pack_forget()
-        self.active_player=self.listofplayers[self.index]
-        self.showingcountrylabel["text"]="It is the turn of " +self.active_player.name +"\n You have not chosen any country yet"
+        self.active_player=self.list_of_players[self.index]
+        self.showing_country_label["text"]="It is the turn of " +self.active_player.name +"\n You have not chosen any country yet"
         
         #roll a new attribute
         self.getgoodattribute(self.active_player)
-        self.showingcurrentattributee["text"]="The current attribute is: \n" + self.currentattribute.name.replace(".csv","")
+        replace_A_and_B_in_category_name(self.showing_current_attribute_text_label,self.currentattribute)
         self.flagframedict[self.active_player.name].pack(side="top")
         if self.wormholemode=="every round changing wormholes":
             if self.index==0:
@@ -735,8 +766,9 @@ class MainWindow():
         if player.rerolls_left==0:
             return None
         player.rerolls_left-=1
+        
         self.getgoodattribute(self.active_player)
-        self.showingcurrentattributee["text"]="The current attribute is: \n" + self.currentattribute.name.replace(".csv","")
+        replace_A_and_B_in_category_name(self.showing_current_attribute_text_label,self.currentattribute)
         self.reroll_button["text"]="rerolls left:\n " +str(self.active_player.rerolls_left)
 
 
@@ -797,7 +829,7 @@ class MainWindow():
         # self.buttonnotsure.pack_forget()
         self.buttonframe.pack_forget()
         self.chosencountrya=None
-        self.showingcountrylabel["text"]=""
+        self.showing_country_label["text"]=""
         self.d=""
     def attackwithattribute(self,attributename,countrya,countryb):
         try:
@@ -820,25 +852,25 @@ class MainWindow():
         def changethingswhencountryclicked(country):
             clickedcountry=country
             if self.chosencountrya==None:
-                self.showingcountrylabel["text"]="It is the turn of " + self.active_player.name + "\n You have chosen " + clickedcountry.name + " currently controlled by " + clickedcountry.owner
+                self.showing_country_label["text"]="It is the turn of " + self.active_player.name + "\n You have chosen " + clickedcountry.name + " currently controlled by " + clickedcountry.owner
                 if clickedcountry.owner==self.active_player.name:
                     self.chosencountrya=clickedcountry
-                    self.showingcountrylabel["text"]=self.showingcountrylabel["text"] + "\n You can attack with this country"
+                    self.showing_country_label["text"]=self.showing_country_label["text"] + "\n You can attack with this country"
             else:
                 if Countriesareconnected(clickedcountry,self.chosencountrya):
                     if self.active_player!=callplayerbyname(clickedcountry.owner):
-                        self.showingcountrylabel["text"]="You want to attack  " + clickedcountry.name + " currently controlled by " + clickedcountry.owner +" with " + self.chosencountrya.name + " are you sure?"
-                        self.buttonsure["command"]= lambda: self.attack(self.chosencountrya,clickedcountry)
-                        self.buttonnotsure["command"]=self.fuckgoback
+                        self.showing_country_label["text"]="You want to attack  " + clickedcountry.name + " currently controlled by " + clickedcountry.owner +" with " + self.chosencountrya.name + " are you sure?"
+                        self.button_sure["command"]= lambda: self.attack(self.chosencountrya,clickedcountry)
+                        self.button_not_sure["command"]=self.fuckgoback
                         self.buttonframe.pack(side="bottom")
                         self.d="disabled"
                     else:
-                        self.showingcountrylabel["text"]="You already own this country"
+                        self.showing_country_label["text"]="You already own this country"
                 else:
                     self.chosencountrya=None
-                    self.showingcountrylabel["text"]="Those countries do not share a common land border. Please choose another pair"
+                    self.showing_country_label["text"]="Those countries do not share a common land border. Please choose another pair"
                     time.wait(5)
-                    self.showingcountrylabel["text"]=""
+                    self.showing_country_label["text"]=""
                 
 
 
@@ -889,15 +921,15 @@ class MainWindow():
         self.buttonframe2.pack_forget()
         self.claimcountry(player,country)
         self.choosingindex=self.choosingindex+1
-        if self.choosingindex==len(self.listofplayers):
-            self.active_player=self.listofplayers[self.index]
-            self.showingcountrylabel["text"]="It is the turn of " +self.active_player.name +"\n You have not chosen any country yet"
-            self.showingcurrentattributee["text"]="The current attribute is: \n" + self.currentattribute.name.replace(".csv","")
+        if self.choosingindex==len(self.list_of_players):
+            self.active_player=self.list_of_players[self.index]
+            self.showing_country_label["text"]="It is the turn of " +self.active_player.name +"\n You have not chosen any country yet"
+            replace_A_and_B_in_category_name(self.showing_current_attribute_text_label,self.currentattribute)
             self.setupgame()
         else:
-            self.active_player=self.listofplayers[self.randompeoplestart[self.choosingindex]]
-            self.showingcurrentattributee["text"]="Choose a starting country of your choice"
-            self.showingcountrylabel["text"]=self.active_player.name + " Please choose a starting country"
+            self.active_player=self.list_of_players[self.randompeoplestart[self.choosingindex]]
+            self.showing_current_attribute_text_label["text"]="Choose a starting country of your choice"
+            self.showing_country_label["text"]=self.active_player.name + " Please choose a starting country"
 
     def callback(self,url):
         webbrowser.open_new(url)
@@ -1373,7 +1405,7 @@ class MainWindow():
 
 
         if self.winningcondition=="get gold":
-                a=sorted(self.listofplayers,key=lambda x: self.score(x.list_of_possessed_countries),reverse=True)
+                a=sorted(self.list_of_players,key=lambda x: self.score(x.list_of_possessed_countries),reverse=True)
                 self.shitdict=dict()
                 for i in range (len(a)):
                     self.shitdict[i]=dict()
@@ -1395,12 +1427,12 @@ class MainWindow():
                     flagframe.grid(row=1,column=0)
                     newframe.grid(row=i,column=0)
                 self.d="disabled"
-                self.showingcountrylabel["text"]="Congratulations, " + a[0].name
-                self.showingcurrentattributee["text"]="Congratulations, " + a[0].name 
+                self.showing_country_label["text"]="Congratulations, " + a[0].name
+                self.showing_current_attribute_text_label["text"]="Congratulations, " + a[0].name 
                 return None
         
         if self.winningcondition=="attribute":
-            a=sorted(self.listofplayers,key=lambda x: sum(self.score(x.list_of_possessed_countries)),reverse=True)
+            a=sorted(self.list_of_players,key=lambda x: sum(self.score(x.list_of_possessed_countries)),reverse=True)
             self.shitdict=dict()
             #sorting
             def bla(x):
@@ -1482,11 +1514,11 @@ class MainWindow():
                 flagframe.grid(row=1,column=0)
                 newframe.grid(row=i,column=0)
             self.d="disabled"
-            self.showingcountrylabel["text"]="Congratulations, " + a[0].name
-            self.showingcurrentattributee["text"]="Congratulations, " + a[0].name 
+            self.showing_country_label["text"]="Congratulations, " + a[0].name
+            self.showing_current_attribute_text_label["text"]="Congratulations, " + a[0].name 
         
         if self.winningcondition=="number of countries":
-            a=sorted(self.listofplayers,key=lambda x: float((len(x.list_of_possessed_countries)) +random.random()),reverse=True)
+            a=sorted(self.list_of_players,key=lambda x: float((len(x.list_of_possessed_countries)) +random.random()),reverse=True)
             self.shitdict=dict()
             for i in range (len(a)):
                 self.shitdict[i]=dict()
@@ -1508,17 +1540,17 @@ class MainWindow():
                 flagframe.grid(row=1,column=0)
                 newframe.grid(row=i,column=0)
             self.d="disabled"
-            self.showingcountrylabel["text"]="Congratulations, " + a[0].name
-            self.showingcurrentattributee["text"]="Congratulations, " + a[0].name 
+            self.showing_country_label["text"]="Congratulations, " + a[0].name
+            self.showing_current_attribute_text_label["text"]="Congratulations, " + a[0].name 
         if cause=="twocountriesclaimed":
             text=""
             winner=self.targetcountry1.owner
             messagebox.showinfo(self.root,message="Congratulations " + winner + " you claimed both countries and therefore you are the winner")
             self.d="disabled"
-            self.showingcountrylabel["text"]="Congratulations, " + winner
-            self.showingcurrentattributee["text"]="Congratulations, " + winner
+            self.showing_country_label["text"]="Congratulations, " + winner
+            self.showing_current_attribute_text_label["text"]="Congratulations, " + winner
         if self.winningcondition=="secret targets":
-            a=sorted(self.listofplayers,key=lambda x: float((len(set(x.list_of_possessed_countries).intersection(set(self.dict_of_targets[x])))) +random.random()),reverse=True)
+            a=sorted(self.list_of_players,key=lambda x: float((len(set(x.list_of_possessed_countries).intersection(set(self.dict_of_targets[x])))) +random.random()),reverse=True)
             self.shitdict=dict()
             for i in range (len(a)):
                 self.shitdict[i]=dict()
@@ -1541,20 +1573,20 @@ class MainWindow():
                 flagframe.grid(row=1,column=0)
                 newframe.grid(row=i,column=0)
             self.d="disabled"
-            self.showingcountrylabel["text"]="Congratulations, " + a[0].name
-            self.showingcurrentattributee["text"]="Congratulations, " + a[0].name
+            self.showing_country_label["text"]="Congratulations, " + a[0].name
+            self.showing_current_attribute_text_label["text"]="Congratulations, " + a[0].name
         if self.winningcondition=="secret attribute":
             text=""
             self.d="disabled"
-            self.showingcountrylabel["text"]="Congratulations, " + winner.name
-            self.showingcurrentattributee["text"]="Congratulations, " + winner.name
+            self.showing_country_label["text"]="Congratulations, " + winner.name
+            self.showing_current_attribute_text_label["text"]="Congratulations, " + winner.name
             showing_winner_label=tk.Label(win,text="Congratulations, " + winner.name + "\nbecause " + gotcha_country.name + " is worldrank\n" + str(self.dict_of_targets[winner].index(gotcha_country)+1) + "\nin\n" + self.dict_of_target_attribute_name[winner] + "\nyou win the game!!!",font="Helvetivca 30")
             showing_winner_label.grid(row=0,column=0)
 
         
     def setupclaim2countries(self):
         Target=Player(realgrey,"Nobody")
-        if self.choosingindex==len(self.listofplayers):
+        if self.choosingindex==len(self.list_of_players):
             self.targetcountry1=all_countries[random.randrange(1,len(all_countries))]
             self.targetcountry2=all_countries[random.randrange(1,len(all_countries))]
             if self.targetcountry1.name ==self.targetcountry2.name:
@@ -1569,7 +1601,7 @@ class MainWindow():
                 if all_countries[i].owner!="Nobody" or all_countries[i].name=="Unknown Country":
                     get_good_ids(numberofgold)
             return None
-        for player in self.listofplayers:
+        for player in self.list_of_players:
             player.gold=0
         Target=Player(gold,"Nobody")
         self.numberofgold=len(all_countries)//20
@@ -1674,7 +1706,7 @@ class MainWindow():
                 return None
             show_targets(self.no_targets_yetlist[0])
         self.dict_of_targets=dict()
-        self.no_targets_yetlist=self.listofplayers.copy()
+        self.no_targets_yetlist=self.list_of_players.copy()
         show_targets(self.active_player)
 
 
@@ -1711,7 +1743,7 @@ class MainWindow():
        
         self.dict_of_target_attribute_name=dict()
         self.dict_of_targets=dict()
-        self.no_targets_yetlist=self.listofplayers.copy()
+        self.no_targets_yetlist=self.list_of_players.copy()
         show_targets(self.active_player)
 
 
@@ -1759,7 +1791,7 @@ class MainWindow():
 
 
     def checkifgameshouldend(self):
-        if self.activeplayercounter==len(self.listofplayers)*self.numberofrounds-1:
+        if self.activeplayercounter==len(self.list_of_players)*self.numberofrounds-1:
             self.endscreen()
             return True
         if self.winningcondition=="claim 2 countries":
@@ -2654,360 +2686,360 @@ Unknown_country=Country(xcoordinate=[0],ycoordinate=[0],name="Unknown Country",)
 # bettersetupdata("Number of wiki-languages of most famous journalist of that country (higher is better).csv",additional_information=True,additional_information_column=[2,3,4])
 # bettersetupdata("Health expenditure per capita in Int$ (lower is better).csv",ascending=True,dif=3)
 
-bettersetupdata("Percentage of railway being electrified (higher is better).csv",treatmissingdataasbad=True,dif=3) 
+# bettersetupdata("Percentage of railway being electrified (higher is better).csv",treatmissingdataasbad=True,dif=3) 
 
-bettersetupdata("Length of rail per country size (in km) (higher is better).csv",1,0,ascending=False,treatmissingdataasbad=True,applyfrac=True,dif=3)
+# bettersetupdata("Length of rail per country size (in km) (higher is better).csv",1,0,ascending=False,treatmissingdataasbad=True,applyfrac=True,dif=3)
 
-bettersetupdata("Vehicles per 1000 population (higher is better).csv",treatmissingdataasbad=True,dif=2) #was unter vehicle
+# bettersetupdata("Vehicles per 1000 population (higher is better).csv",treatmissingdataasbad=True,dif=2) #was unter vehicle
 
-bettersetupdata("Number of Nobel Laureates (by 10,000,000 population) (higher is better).csv",treatmissingdataasbad=True,dif=3)
+# bettersetupdata("Number of Nobel Laureates (by 10,000,000 population) (higher is better).csv",treatmissingdataasbad=True,dif=3)
 
-bettersetupdata("Number of police officers per 100,000 people (higher is better).csv",dif=3)
+# bettersetupdata("Number of police officers per 100,000 people (higher is better).csv",dif=3)
 
-bettersetupdata("Number of births per woman (higher is better).csv",treatmissingdataasbad=True,dif=2)
+# bettersetupdata("Number of births per woman (higher is better).csv",treatmissingdataasbad=True,dif=2)
 
-bettersetupdata("Milk consumption per capita (in kg per year) (higher is better).csv",treatmissingdataasbad=True,dif=4)
+# bettersetupdata("Milk consumption per capita (in kg per year) (higher is better).csv",treatmissingdataasbad=True,dif=4)
 
-bettersetupdata("Homicides per 100,000 population (lower is better).csv",ascending=True,dif=3)
+# bettersetupdata("Homicides per 100,000 population (lower is better).csv",ascending=True,dif=3)
 
-bettersetupdata("Population of the capital (higher is better).csv",treatmissingdataasbad=True,dif=2,additional_information=True,additional_information_column=[2,3,4])
+# bettersetupdata("Population of the capital (higher is better).csv",treatmissingdataasbad=True,dif=2,additional_information=True,additional_information_column=[2,3,4])
 
-bettersetupdata("Percentage of population living in the capital (higher is better).csv",treatmissingdataasbad=True,dif=2)
+# bettersetupdata("Percentage of population living in the capital (higher is better).csv",treatmissingdataasbad=True,dif=2)
 
-bettersetupdata("Forest area in 1000 hectars (by 100 km^2) (higher is better).csv",treatmissingdataasbad=True,dif=1)
-bettersetupdata("Strength of passport (in countries enterable without need of visa) (higher is better).csv",treatmissingdataasbad=True,dif=2,additional_information=True,additional_information_column=[2,3,4]) #explain
-bettersetupdata("Yearly average temperature in (in Celsius) (higher is better).csv",treatmissingdataasbad=True,dif=2)
-bettersetupdata("Annual precipiation (in mm) (higher is better).csv",treatmissingdataasbad=True,dif=2)
-bettersetupdata("Number of different established languages and dialects (higher is better).csv",treatmissingdataasbad=True,dif=3) #was ist eine Sprache
-bettersetupdata("First use of current flag (older is better).csv",ascending=True,dif=4)
-bettersetupdata("Gender Gap Index (more equal is better).csv",dif=2) #was ist das genau
-bettersetupdata("Prison occupacy (lower is better).csv",ascending=True,dif=4)
-bettersetupdata("Percentage of prisoners being female (higher is better).csv",treatmissingdataasbad=True,dif=5)
-bettersetupdata("Number of prisoners per 100,000 population (lower is better).csv",ascending=True,dif=3)
+# bettersetupdata("Forest area in 1000 hectars (by 100 km^2) (higher is better).csv",treatmissingdataasbad=True,dif=1)
+# bettersetupdata("Strength of passport (in countries enterable without need of visa) (higher is better).csv",treatmissingdataasbad=True,dif=2,additional_information=True,additional_information_column=[2,3,4]) #explain
+# bettersetupdata("Yearly average temperature in (in Celsius) (higher is better).csv",treatmissingdataasbad=True,dif=2)
+# bettersetupdata("Annual precipiation (in mm) (higher is better).csv",treatmissingdataasbad=True,dif=2)
+# bettersetupdata("Number of different established languages and dialects (higher is better).csv",treatmissingdataasbad=True,dif=3) #was ist eine Sprache
+# bettersetupdata("First use of current flag (older is better).csv",ascending=True,dif=4)
+# bettersetupdata("Gender Gap Index (more equal is better).csv",dif=2) #was ist das genau
+# bettersetupdata("Prison occupacy (lower is better).csv",ascending=True,dif=4)
+# bettersetupdata("Percentage of prisoners being female (higher is better).csv",treatmissingdataasbad=True,dif=5)
+# bettersetupdata("Number of prisoners per 100,000 population (lower is better).csv",ascending=True,dif=3)
 bettersetupdata("Press Freedom Index (more free is better).csv",ascending=True,dif=2)
 
-bettersetupdata("Percentage of alcohol being consumed is wine (higher is better).csv",treatmissingdataasbad=True,dif=3) #genauer 
-bettersetupdata("Percentage of alcohol being consumed is beer (higher is better).csv",treatmissingdataasbad=True,dif=3) #genauer
-bettersetupdata("Alcohol consumption per person per year (lower is better) (in l).csv",ascending=True,dif=2) #liter und lower is better umdrehen
-bettersetupdata("Fishing in tons (by 1000 population) (higher is better).csv",treatmissingdataasbad=True,dif=2)
-bettersetupdata("Garlic production in tons  (by 10,000 population) (higher is better).csv",treatmissingdataasbad=True,dif=4,cluster="productioncluster")
-bettersetupdata("Soybean production in tons (by 10,000 population) (higher is better).csv",treatmissingdataasbad=True,dif=4,cluster="productioncluster")
-bettersetupdata("Tomato production in tons (by 100 population) (higher is better).csv",treatmissingdataasbad=True,dif=3,cluster="productioncluster")
-bettersetupdata("Pineapple production in tons (by 1000 population) (higher is better).csv",treatmissingdataasbad=True,dif=3,cluster="productioncluster")
-bettersetupdata("Plum production in tons (by 1000 population) (higher is better).csv",treatmissingdataasbad=True,dif=4,cluster="productioncluster")
-bettersetupdata("Grape production in tons (by 100 population) (higher is better).csv",treatmissingdataasbad=True,dif=4,cluster="productioncluster")
-bettersetupdata("Eggplant production in tons (by 1000 population) (higher is better).csv",treatmissingdataasbad=True,dif=4,cluster="productioncluster")
-bettersetupdata("Cherry production in tons (by 1000 population) (higher is better).csv",treatmissingdataasbad=True,dif=4,cluster="productioncluster")
-bettersetupdata("Wine production in tons (by 100 population) (higher is better).csv",treatmissingdataasbad=True,dif=4,cluster="productioncluster")
-bettersetupdata("Coffee production in tons (by 1000 population) (higher is better).csv",treatmissingdataasbad=True,dif=3,cluster="productioncluster")
-bettersetupdata("Cucumber production in tons (by 1000 population) (higher is better).csv",dif=4,cluster="productioncluster")
-bettersetupdata("Coconut prodcution in tons  (by 1000 population) (higher is better).csv",treatmissingdataasbad=True,dif=4,cluster="productioncluster")
-bettersetupdata("Apricot production in tons (by 1000 population) (higher is better).csv",treatmissingdataasbad=True,dif=4,cluster="productioncluster")
-bettersetupdata("Barley production in tons (by 100 population) (higher is better).csv",treatmissingdataasbad=True,dif=4,cluster="productioncluster")
-bettersetupdata("Potato production in tons (by 100 population) (higher is better).csv",treatmissingdataasbad=True,dif=4,cluster="productioncluster")
-bettersetupdata("Apple production in tons (by 100 population) (higher is better).csv",treatmissingdataasbad=True,dif=3,cluster="productioncluster")
-bettersetupdata("Fishing in tons (by 1000 population) (higher is better).csv",treatmissingdataasbad=True,dif=4,cluster="productioncluster")
-bettersetupdata("Industrial production growth rate 2017 in percent (higher is better).csv",dif=4) #erklären
-bettersetupdata("Minimum wage PPP-adjusted in Int$ (higher is better).csv",treatmissingdataasbad=True,dif=2) #was ist PPP
-bettersetupdata("Meat consumption in kg per year and person (lower is better).csv",dif=2,ascending=True)
+# bettersetupdata("Percentage of alcohol being consumed is wine (higher is better).csv",treatmissingdataasbad=True,dif=3) #genauer 
+# bettersetupdata("Percentage of alcohol being consumed is beer (higher is better).csv",treatmissingdataasbad=True,dif=3) #genauer
+# bettersetupdata("Alcohol consumption per person per year (lower is better) (in l).csv",ascending=True,dif=2) #liter und lower is better umdrehen
+# bettersetupdata("Fishing in tons (by 1000 population) (higher is better).csv",treatmissingdataasbad=True,dif=2)
+# bettersetupdata("Garlic production in tons  (by 10,000 population) (higher is better).csv",treatmissingdataasbad=True,dif=4,cluster="productioncluster")
+# bettersetupdata("Soybean production in tons (by 10,000 population) (higher is better).csv",treatmissingdataasbad=True,dif=4,cluster="productioncluster")
+# bettersetupdata("Tomato production in tons (by 100 population) (higher is better).csv",treatmissingdataasbad=True,dif=3,cluster="productioncluster")
+# bettersetupdata("Pineapple production in tons (by 1000 population) (higher is better).csv",treatmissingdataasbad=True,dif=3,cluster="productioncluster")
+# bettersetupdata("Plum production in tons (by 1000 population) (higher is better).csv",treatmissingdataasbad=True,dif=4,cluster="productioncluster")
+# bettersetupdata("Grape production in tons (by 100 population) (higher is better).csv",treatmissingdataasbad=True,dif=4,cluster="productioncluster")
+# bettersetupdata("Eggplant production in tons (by 1000 population) (higher is better).csv",treatmissingdataasbad=True,dif=4,cluster="productioncluster")
+# bettersetupdata("Cherry production in tons (by 1000 population) (higher is better).csv",treatmissingdataasbad=True,dif=4,cluster="productioncluster")
+# bettersetupdata("Wine production in tons (by 100 population) (higher is better).csv",treatmissingdataasbad=True,dif=4,cluster="productioncluster")
+# bettersetupdata("Coffee production in tons (by 1000 population) (higher is better).csv",treatmissingdataasbad=True,dif=3,cluster="productioncluster")
+# bettersetupdata("Cucumber production in tons (by 1000 population) (higher is better).csv",dif=4,cluster="productioncluster")
+# bettersetupdata("Coconut prodcution in tons  (by 1000 population) (higher is better).csv",treatmissingdataasbad=True,dif=4,cluster="productioncluster")
+# bettersetupdata("Apricot production in tons (by 1000 population) (higher is better).csv",treatmissingdataasbad=True,dif=4,cluster="productioncluster")
+# bettersetupdata("Barley production in tons (by 100 population) (higher is better).csv",treatmissingdataasbad=True,dif=4,cluster="productioncluster")
+# bettersetupdata("Potato production in tons (by 100 population) (higher is better).csv",treatmissingdataasbad=True,dif=4,cluster="productioncluster")
+# bettersetupdata("Apple production in tons (by 100 population) (higher is better).csv",treatmissingdataasbad=True,dif=3,cluster="productioncluster")
+# bettersetupdata("Fishing in tons (by 1000 population) (higher is better).csv",treatmissingdataasbad=True,dif=4,cluster="productioncluster")
+# bettersetupdata("Industrial production growth rate 2017 in percent (higher is better).csv",dif=4) #erklären
+# bettersetupdata("Minimum wage PPP-adjusted in Int$ (higher is better).csv",treatmissingdataasbad=True,dif=2) #was ist PPP
+# bettersetupdata("Meat consumption in kg per year and person (lower is better).csv",dif=2,ascending=True)
 
-bettersetupdata("Irrigated area (by 100 km^2 country size) (higher is better).csv",treatmissingdataasbad=True,dif=3,cluster="productioncluster")
-bettersetupdata("Number of different breeding bird species (higher is better).csv",dif=4,cluster="number of animalcluster")
-bettersetupdata("Number of different mammal species (higher is better).csv",dif=4,cluster="number of animalcluster")
-bettersetupdata("Taxi price per 1km in US$ (lower is better).csv",ascending=True,dif=3,cluster="pricecluster")
-bettersetupdata("Average price for public transport in US$ (one-way-ticket) (lower is better).csv",ascending=True,dif=3,cluster="pricecluster")
-bettersetupdata("Average price for public transport in US$ (monthly pass) (lower is better).csv",ascending=True,dif=3,cluster="pricecluster")
-bettersetupdata("Percentage of people feeling safe walking alone (during the day) (higher is better).csv",dif=2)
-bettersetupdata("Percentage of people feeling safe walking alone (at night) (higher is better).csv",dif=2)
+# bettersetupdata("Irrigated area (by 100 km^2 country size) (higher is better).csv",treatmissingdataasbad=True,dif=3,cluster="productioncluster")
+# bettersetupdata("Number of different breeding bird species (higher is better).csv",dif=4,cluster="number of animalcluster")
+# bettersetupdata("Number of different mammal species (higher is better).csv",dif=4,cluster="number of animalcluster")
+# bettersetupdata("Taxi price per 1km in US$ (lower is better).csv",ascending=True,dif=3,cluster="pricecluster")
+# bettersetupdata("Average price for public transport in US$ (one-way-ticket) (lower is better).csv",ascending=True,dif=3,cluster="pricecluster")
+# bettersetupdata("Average price for public transport in US$ (monthly pass) (lower is better).csv",ascending=True,dif=3,cluster="pricecluster")
+# bettersetupdata("Percentage of people feeling safe walking alone (during the day) (higher is better).csv",dif=2)
+# bettersetupdata("Percentage of people feeling safe walking alone (at night) (higher is better).csv",dif=2)
 
-bettersetupdata("Price of 1l of milk in US$ (lower is better).csv",ascending=True,dif=4,cluster="pricecluster")
-bettersetupdata("Price of 1kg of rice in US$ (lower is better).csv",ascending=True,dif=4,cluster="pricecluster")
-bettersetupdata("Price of a dozen eggs in US$ (lower is better).csv",ascending=True,dif=4,cluster="pricecluster")
-bettersetupdata("Price of a kg of apples in US$ (lower is better).csv",ascending=True,dif=4,cluster="pricecluster")
-bettersetupdata("Price of a skinless, boneless chicken breast in US$ (lower is better).csv",ascending=True,dif=4,cluster="pricecluster")
-bettersetupdata("Price of 1.5l water bottle in supermarket in US$ (lower is better).csv",ascending=True,dif=4,cluster="pricecluster")
-bettersetupdata("Price of 0.5l local beer in supermarket in US$ (lower is better).csv",ascending=True,dif=4,cluster="pricecluster")
-bettersetupdata("Price of one head of lettuce in supermarket in US$ (lower is better).csv",ascending=True,dif=4,cluster="pricecluster")
-bettersetupdata("Price of 1kg of tomatoes in US$ (lower is better).csv",ascending=True,dif=4,cluster="pricecluster")
-bettersetupdata("Price of 1kg of potatoes in US$ (lower is better).csv",ascending=True,dif=4,cluster="pricecluster")
+# bettersetupdata("Price of 1l of milk in US$ (lower is better).csv",ascending=True,dif=4,cluster="pricecluster")
+# bettersetupdata("Price of 1kg of rice in US$ (lower is better).csv",ascending=True,dif=4,cluster="pricecluster")
+# bettersetupdata("Price of a dozen eggs in US$ (lower is better).csv",ascending=True,dif=4,cluster="pricecluster")
+# bettersetupdata("Price of a kg of apples in US$ (lower is better).csv",ascending=True,dif=4,cluster="pricecluster")
+# bettersetupdata("Price of a skinless, boneless chicken breast in US$ (lower is better).csv",ascending=True,dif=4,cluster="pricecluster")
+# bettersetupdata("Price of 1.5l water bottle in supermarket in US$ (lower is better).csv",ascending=True,dif=4,cluster="pricecluster")
+# bettersetupdata("Price of 0.5l local beer in supermarket in US$ (lower is better).csv",ascending=True,dif=4,cluster="pricecluster")
+# bettersetupdata("Price of one head of lettuce in supermarket in US$ (lower is better).csv",ascending=True,dif=4,cluster="pricecluster")
+# bettersetupdata("Price of 1kg of tomatoes in US$ (lower is better).csv",ascending=True,dif=4,cluster="pricecluster")
+# bettersetupdata("Price of 1kg of potatoes in US$ (lower is better).csv",ascending=True,dif=4,cluster="pricecluster")
 
-bettersetupdata("Price of newest nike shoes in US$ (lower is better).csv",ascending=True,dif=3,cluster="pricecluster")
-bettersetupdata("Price of one pair of Levi 501s or equivalent in US$ (lower is better).csv",ascending=True,dif=3,cluster="pricecluster")
-bettersetupdata("Price for garbage, water, heating, electricity for 85 sqm apartment in US$ (lower is better).csv",ascending=True,dif=3,cluster="pricecluster")
-bettersetupdata("Price of a regular cappuchino in a restaurant in US$ (lower is better).csv",ascending=True,dif=3,cluster="pricecluster")
-bettersetupdata("Price of a mcdonalds menu in US$ (lower is better).csv",ascending=True,dif=3,cluster="pricecluster")
-bettersetupdata("Price for a 3 course meal for 2 in a normal restaurant in US$ (lower is better).csv",ascending=True,dif=3,cluster="pricecluster")
-bettersetupdata("Price of 0.5 l normal beer in a restaurant in US$ (lower is better).csv",ascending=True,dif=3,cluster="pricecluster")
-bettersetupdata("Price of a bottled water in a restaurant in US$ (lower is better).csv",ascending=True,dif=3,cluster="pricecluster")
-bettersetupdata("Price of a new Volkswagen Golf 1.4 in US$ (lower is better).csv",ascending=True,dif=4,cluster="pricecluster")
-bettersetupdata("Monthly price of broadband internet 6Mpbs, uncapped data in US$ (lower is better).csv",ascending=True,dif=4,cluster="pricecluster")
-bettersetupdata("Price of local 1kg cheese in US$ (lower is better).csv",ascending=True,dif=4,cluster="pricecluster")
-bettersetupdata("Price of one pack of Marlboro in US$ (lower is better).csv",ascending=True,dif=4,cluster="pricecluster")
+# bettersetupdata("Price of newest nike shoes in US$ (lower is better).csv",ascending=True,dif=3,cluster="pricecluster")
+# bettersetupdata("Price of one pair of Levi 501s or equivalent in US$ (lower is better).csv",ascending=True,dif=3,cluster="pricecluster")
+# bettersetupdata("Price for garbage, water, heating, electricity for 85 sqm apartment in US$ (lower is better).csv",ascending=True,dif=3,cluster="pricecluster")
+# bettersetupdata("Price of a regular cappuchino in a restaurant in US$ (lower is better).csv",ascending=True,dif=3,cluster="pricecluster")
+# bettersetupdata("Price of a mcdonalds menu in US$ (lower is better).csv",ascending=True,dif=3,cluster="pricecluster")
+# bettersetupdata("Price for a 3 course meal for 2 in a normal restaurant in US$ (lower is better).csv",ascending=True,dif=3,cluster="pricecluster")
+# bettersetupdata("Price of 0.5 l normal beer in a restaurant in US$ (lower is better).csv",ascending=True,dif=3,cluster="pricecluster")
+# bettersetupdata("Price of a bottled water in a restaurant in US$ (lower is better).csv",ascending=True,dif=3,cluster="pricecluster")
+# bettersetupdata("Price of a new Volkswagen Golf 1.4 in US$ (lower is better).csv",ascending=True,dif=4,cluster="pricecluster")
+# bettersetupdata("Monthly price of broadband internet 6Mpbs, uncapped data in US$ (lower is better).csv",ascending=True,dif=4,cluster="pricecluster")
+# bettersetupdata("Price of local 1kg cheese in US$ (lower is better).csv",ascending=True,dif=4,cluster="pricecluster")
+# bettersetupdata("Price of one pack of Marlboro in US$ (lower is better).csv",ascending=True,dif=4,cluster="pricecluster")
 
-bettersetupdata("Obesity rate (lower is better).csv",ascending=True,dif=2)
-bettersetupdata("Unemployment rate (lower is better).csv",ascending=True,dif=3)
-bettersetupdata("Chess grandmasters per capita (higher is better).csv",treatmissingdataasbad=True,dif=4)
-bettersetupdata("Number of guns per 100 inhabitants (lower is better).csv",ascending=True,dif=4)
-bettersetupdata("Roller coasters per million inhabitants (higher is better).csv",dif=4)
-bettersetupdata("Cinema ticket price in US$ (lower is better).csv",ascending=True,dif=3,cluster="pricecluster")
-bettersetupdata("Believes crime increasing in 2010-2014 (lower is better).csv",ascending=True,dif=4)
-bettersetupdata("Rapes per 100,000 population (lower is better).csv",ascending=True,dif=4)
-bettersetupdata("Gasoline prices in US$ (lower is better).csv",ascending=True,dif=2)
-bettersetupdata("Percentage of land being protected (higher is better).csv",dif=4)
-bettersetupdata("Unpaid diplomatic parking fines in NYC (lower is better).csv",ascending=True,dif=4)
-bettersetupdata("Minimum number of paid annual leave (higher is better).csv",dif=2)
-bettersetupdata("Number of paid annual public holidays (higher is better).csv",dif=2)
-bettersetupdata("Percentage of people using the internet (higher is better).csv",treatmissingdataasbad=True,dif=2)
+# bettersetupdata("Obesity rate (lower is better).csv",ascending=True,dif=2)
+# bettersetupdata("Unemployment rate (lower is better).csv",ascending=True,dif=3)
+# bettersetupdata("Chess grandmasters per capita (higher is better).csv",treatmissingdataasbad=True,dif=4)
+# bettersetupdata("Number of guns per 100 inhabitants (lower is better).csv",ascending=True,dif=4)
+# bettersetupdata("Roller coasters per million inhabitants (higher is better).csv",dif=4)
+# bettersetupdata("Cinema ticket price in US$ (lower is better).csv",ascending=True,dif=3,cluster="pricecluster")
+# bettersetupdata("Believes crime increasing in 2010-2014 (lower is better).csv",ascending=True,dif=4)
+# bettersetupdata("Rapes per 100,000 population (lower is better).csv",ascending=True,dif=4)
+# bettersetupdata("Gasoline prices in US$ (lower is better).csv",ascending=True,dif=2)
+# bettersetupdata("Percentage of land being protected (higher is better).csv",dif=4)
+# bettersetupdata("Unpaid diplomatic parking fines in NYC (lower is better).csv",ascending=True,dif=4)
+# bettersetupdata("Minimum number of paid annual leave (higher is better).csv",dif=2)
+# bettersetupdata("Number of paid annual public holidays (higher is better).csv",dif=2)
+# bettersetupdata("Percentage of people using the internet (higher is better).csv",treatmissingdataasbad=True,dif=2)
 
-bettersetupdata("Perception of corruption score (less corrupt is higher) (higher is better).csv",dif=2) #Erklären woher das kommt
-bettersetupdata("Generosity score (higher is better).csv",dif=2) #Erklären woher das kommt
-bettersetupdata("Freedom to make life choices score (higher is better).csv",dif=2) #Erklären woher das kommt
-bettersetupdata("Healthy life expectancy score (higher is better).csv",dif=2) #Erklären woher das kommt
-bettersetupdata("Social support score (higher is better).csv",dif=2) #Erklären woher das kommt
-bettersetupdata("World Happiness Index (higher is better).csv",dif=1)
-bettersetupdata("Number of mcdonalds restaurants (by 1,000,000 population) (higher is better).csv",treatmissingdataasbad=True,dif=2)
-bettersetupdata("Suicides per 100,000 population (lower is better).csv",ascending=True,dif=2)
-bettersetupdata("Percentage of people who are proficient in english (higher is better).csv",dif=1)
-bettersetupdata("Size of largest island in km2 (higher is better).csv",treatmissingdataasbad=True,dif=1)
-bettersetupdata("Number of UNESCO World Heritage Sites (higher is better).csv",treatmissingdataasbad=True,dif=2)
-bettersetupdata("CO2 emission in tons per capita (lower is better).csv",ascending=True,dif=1)
-bettersetupdata("Agreement to the statement religion is important (higher is better).csv",ascending=False,dif=2)
-bettersetupdata("Percentage of people being atheist (higher is better).csv",dif=1)
-bettersetupdata("Net migration rate per 1000 population (higher is better).csv",dif=2)
-bettersetupdata("Number of soldiers per 1000 population (higher is better).csv",dif=3)
-bettersetupdata("Percentage of population being christian (higher is better).csv",dif=2)
-bettersetupdata("Percentage of population being hindu (higher is better).csv",dif=1)
-bettersetupdata("Percentage of population being muslim (higher is better).csv",dif=2)
-bettersetupdata("Chinese population (by 1000 population) (higher is better).csv",dif=3)
-bettersetupdata("Number of urban areas with more than 1 mio. citizens (higher is better).csv",dif=1)
-bettersetupdata("Side of traffic (left hand side beats right hand side) (higher is better).csv",dif=1)
-bettersetupdata("Number of visits by an US-President (since formation of the country) (higher is better).csv",dif=2,treatmissingdataasbad=True)
-bettersetupdata("Home ownership rate (higher is better).csv",dif=2)
-bettersetupdata("Number of wiki-languages of most famous person from that country (higher is better).csv",dif=1,additional_information=True,additional_information_column=[2,3,4])
-bettersetupdata("Number of wiki-languages of most famous architect of that country (higher is better).csv",dif=2,additional_information=True,additional_information_column=[2,3,4])
-bettersetupdata("Number of urban areas with more than 1 mio. citizens (higher is better).csv",dif=1)
-bettersetupdata("Number of twitter followers of head of state resp. head of government (higher is better).csv",dif=1,additional_information=True,additional_information_column=[2,3,4])
-bettersetupdata("Number of models from that country with a wiki-page (by 1,000,000 population) (higher is better).csv",dif=2)
-bettersetupdata("Number of first level administrative regions (i.e. states in the US or prefectures in Japan) (higher is better).csv",dif=4)
-bettersetupdata("Number of airports (higher is better).csv",treatmissingdataasbad=True,dif=2)
-bettersetupdata("Number of airports (by 1,000,000 population) (higher is better).csv",treatmissingdataasbad=True,dif=3)
-bettersetupdata("Number of wiki-languages of head of state resp. head of government (higher is better).csv",dif=2,additional_information=True,treatmissingdataasbad=True,additional_information_column=[2,3,4])
-bettersetupdata("Number of wiki-languages of most famous band from that country (higher is better).csv",dif=3,additional_information=True,treatmissingdataasbad=True,additional_information_column=[2,3,4])
-bettersetupdata("Number of wiki-languages of most famous food from that country (higher is better).csv",treatmissingdataasbad=True,dif=1,additional_information=True,additional_information_column=[2,3,4])
-bettersetupdata("Number of wiki-languages of most famous actor from that country (higher is better).csv",dif=2,treatmissingdataasbad=True,additional_information=True,additional_information_column=[2,7,8])
-bettersetupdata("Number of wiki-languages of most famous singer of that country (higher is better).csv",additional_information=True,additional_information_column=[2,7,8])
-bettersetupdata("Number of wiki-languages of most famous person from that country, who is still alive (higher is better).csv",dif=2,treatmissingdataasbad=True,additional_information=True,additional_information_column=[2,3,4])
-bettersetupdata("Number of wiki-languages of most famous touristic sight of that country (higher is better).csv",treatmissingdataasbad=True,dif=1,additional_information=True,additional_information_column=[2,3,4])
-bettersetupdata("Number of wiki-languages of most famous woman from that country (higher is better).csv",treatmissingdataasbad=True,dif=3,additional_information=True,additional_information_column=[2,3,4])
-bettersetupdata("Facebook accounts (by 10 population) (higher is better).csv",treatmissingdataasbad=True,dif=2)
-bettersetupdata("Prostitutes per 10,000 inhabitants (lower is better).csv",dif=3,ascending=True)
-bettersetupdata("Air cleanliness in percent (higher is better).csv",dif=3)
-bettersetupdata("Year of last executed death penalty (lower is better).csv",dif=3,ascending=True)
-bettersetupdata("Global peace index (more peaceful is better) (lower is better).csv",dif=2,ascending=True)
-bettersetupdata("Number of volcanos in that country (higher is better).csv",dif=2)
-bettersetupdata("Percentage of parliament member being female (higher is better).csv",dif=2)
-bettersetupdata("First year in which (some) women were granted (restricted) suffrage (lower is better) .csv",dif=2,ascending=True)
-bettersetupdata("Pupil-teacher ratio (lower is better).csv",dif=2,ascending=True)
-bettersetupdata("Number of wiki-languages of most famous city with at most 5000 citizens (higher is better).csv",additional_information=True,additional_information_column=[2,3,4])
-bettersetupdata("Number of wiki-languages of most famous city with at most 20,000 citizens (higher is better).csv",additional_information=True,additional_information_column=[2,3,4])
-bettersetupdata("Number of wiki-languages of most famous city with at most 100,000 citizens (higher is better).csv",additional_information=True,additional_information_column=[2,3,4])
-bettersetupdata("Number of wiki-languages of most famous historical person (at least 50 years dead) (higher is better).csv",additional_information=True,additional_information_column=[2,3,4])
-bettersetupdata("Number of wiki-languages of most famous historical person (at least 100 years dead) (higher is better).csv",additional_information=True,additional_information_column=[2,3,4])
-bettersetupdata("Number of wiki-languages of most famous historical person (at least 200 years dead) (higher is better).csv",additional_information=True,additional_information_column=[2,3,4])
-bettersetupdata("Number of wiki-languages of most famous historical person (at least 500 years dead) (higher is better).csv",additional_information=True,additional_information_column=[2,3,4])
-bettersetupdata("Literacy rate (higher is better).csv")
-bettersetupdata("Number of wiki-languages of most famous one-day historic event at least 90 years ago (higher is better).csv",additional_information=True,additional_information_column=[2,3,4])
-bettersetupdata("Highest building of that country in meter (higher is better).csv",additional_information=True,additional_information_column=[2,3,4],dif=3)
-bettersetupdata("Number of wiki-languages of most famous scientist of that country (higher is better).csv",additional_information=True,additional_information_column=[2,3,4],treatmissingdataasbad=True)
-bettersetupdata("Minimum number of paid annual vacation (higher is better).csv")
-bettersetupdata("Number of wiki-languages of most famous writer of that country (higher is better).csv",additional_information=True,additional_information_column=[2,3,4])
-bettersetupdata("Median age (lower is better).csv",ascending=True)
-bettersetupdata("Number of wiki-languages of most famous one-day historic event in the 21st century (higher is better).csv",additional_information=True,additional_information_column=[2,3,4])
-bettersetupdata("Number of wiki-languages of most famous one-day historic event at least 200 years ago (higher is better).csv",additional_information=True,additional_information_column=[2,3,4])
-bettersetupdata("Number of wiki-languages of most famous one-day historic event (higher is better).csv",additional_information=True,additional_information_column=[2,3,4])
-bettersetupdata("Size of the lower house (or equivalent) of that country (higher is better).csv")
-bettersetupdata("Person of that country with the most social media follower (higher is better).csv",additional_information=True,additional_information_column=[2,3,4])
-bettersetupdata("Percentage of marriages getting divorced in percent (lower is better).csv",ascending=True)
-bettersetupdata("Percentage of GDP spent on education (higher is better).csv")
-bettersetupdata("Number of wiki-languages of the capital (higher is better).csv",additional_information=True,additional_information_column=[2,3,4])
-bettersetupdata("Annual cannabis prevalence in percent (lower is better).csv",ascending=True)
-bettersetupdata("Drug deaths per 100,000 population (lower is better).csv",ascending=True)
-bettersetupdata("Highest mountain of that country (higher is better).csv",additional_information=True,additional_information_column=[2,3,4])
-bettersetupdata("Number of physicians by 10,000 population (higher is better).csv")
-bettersetupdata("Average elevation (higher is better).csv")
-bettersetupdata("Number of cigarettes smoked per year per person (lower is better).csv",ascending=True)
-bettersetupdata("Oil production in barrel per day (higher is better).csv")
-bettersetupdata("Oil production in barrel per year (by 1000 population) (higher is better).csv",treatmissingdataasbad=True)
-bettersetupdata("Natural disaster risk in percent (lower is better).csv",ascending=True)
-bettersetupdata("Electrical power consumption per capita per year (in watts) (lower is better).csv",ascending=True)
-bettersetupdata("Number of wiki-languages of most famous soccer player (higher is better).csv",additional_information=True,additional_information_column=[2,3,4])
-bettersetupdata("Corporate tax in percent (lower is better).csv",ascending=True)
-bettersetupdata("Highest possible individual income tax in percent (lower is better).csv",ascending=True)
-bettersetupdata("VAT resp. GST in percent (lower is better).csv",ascending=True)
-bettersetupdata("Democracy index (higher is better).csv")
-bettersetupdata("Infant mortality (deaths in the first 5 years by 1000 births) (lower is better).csv",ascending=True)
-bettersetupdata("Number of wiki-languages of most famous fashion person of that country (higher is better).csv",additional_information=True,treatmissingdataasbad=True,additional_information_column=[2,3,4])
-bettersetupdata("Population growth rate in 2021 in percent (higher is better).csv")
-bettersetupdata("GDP per capita in PPP (higher is better).csv")
-bettersetupdata("Fragile state index (more stable is better) (lower is better).csv",ascending=True)
-bettersetupdata("Homeless population by 10,000 population (lower is better).csv",ascending=True)
-bettersetupdata("GDP growth in 2020 (higher is better).csv")
-bettersetupdata("Population density (in citizens per km^2) (higher is better).csv")
-bettersetupdata("Number of wiki-languages of most famous geographical feature of that country (higher is better).csv",additional_information=True,additional_information_column=[2,3,4])
-bettersetupdata("Number of wiki-languages of most famous one-day event between 1950 and 2000 (higher is better).csv",additional_information=True,additional_information_column=[2,3,4])
-bettersetupdata("Number of wiki-languages of most famous city with at most 500,000 citizens (higher is better).csv",additional_information=True,additional_information_column=[2,3,4])
-bettersetupdata("Number of wiki-languages of most famous city with at most 1,000,000 citizens (higher is better).csv",additional_information=True,additional_information_column=[2,3,4])
-bettersetupdata("Number of wiki-languages of most famous (real) building of that country (higher is better).csv",additional_information=True,additional_information_column=[2,3,4],)
-bettersetupdata("Number of wiki-languages of most famous architectural structure of that country (higher is better).csv",additional_information=True,additional_information_column=[2,3,4])
-bettersetupdata("Percentage of urban population (higher is better).csv")
-bettersetupdata("Gini wealth index (more equal is better) (lower is better).csv",ascending=True)
-bettersetupdata("Gini income index (more equal is better) (lower is better).csv",ascending=True)
-bettersetupdata("Religious diversity score (higher is better).csv")
-bettersetupdata("Ethnic diversity score (higher is better).csv")
-bettersetupdata("Male- to female income ratio (more equal is better) (lower is better).csv",ascending=True)
-bettersetupdata("Number of international tourists arriving per year (higher is better).csv")
-bettersetupdata("Percentage of people working in the agricultural sector (higher is better).csv")
-bettersetupdata("Percentage of people working in the agricultural sector (lower is better).csv",ascending=True)
-bettersetupdata("Import and exports as percentage of gdp (higher is better).csv")
-bettersetupdata("Import and exports as percentage of gdp (lower is better).csv",ascending=True)
-bettersetupdata("Percentage of GDP being remittances of international migrants (higher is better).csv")
-bettersetupdata("Percentage of people trusting their national government (higher is better).csv")  
-bettersetupdata("Percentage of people being satsified with environment policy of government (higher is better).csv")
-bettersetupdata("Percentage of people having confidence in the judical system (higher is better).csv")
-bettersetupdata("Percentage of people having volunteered at least once (higher is better).csv") 
-bettersetupdata("Percentage of people saying that the local labour market is good (higher is better).csv")
-bettersetupdata("Percentage of people being satisfied with their health care quality (higher is better).csv")
-bettersetupdata("Percentage of people being satisfied with their standard of living (higher is better).csv")
-bettersetupdata("Percentage of people being satisfied with their education quality (higher is better).csv")
-bettersetupdata("Number of speakers of most spoken official language of that country (higher is better).csv",additional_information=True,additional_information_column=[2])
-bettersetupdata("Number of wiki-languages of most famous painter of that country (higher is better).csv",additional_information=True,additional_information_column=[2,3,4])
-bettersetupdata("Population of the most populated city of that country (higher is better).csv",additional_information=True,additional_information_column=[2,3,4])    
-bettersetupdata("Population of the second most populated city of that country (higher is better).csv",additional_information=True,additional_information_column=[2,3,4])    
-bettersetupdata("Population of the third most populated city of that country (higher is better).csv",additional_information=True,additional_information_column=[2,3,4])    
-bettersetupdata("Sum of the three most populated cities of that country (higher is better).csv")
-bettersetupdata("Number of wiki-languages of most famous city of that country (higher is better).csv",additional_information=True,additional_information_column=[2,3,4])
-bettersetupdata("Number of wiki-languages of second most famous city of that country (higher is better).csv",additional_information=True,additional_information_column=[2,3,4])
-bettersetupdata("Number of wiki-languages of third most famous city of that country (higher is better).csv",additional_information=True,additional_information_column=[2,3,4])
-bettersetupdata("Sum of wiki-languages of the three most famous cities of that country (higher is better).csv")
-bettersetupdata("Number of wiki-languages of most famous company which is neither an airline nor a national bank (higher is better).csv",additional_information=True,additional_information_column=[2,3,4])
-bettersetupdata("Number of mentions of that countrys name in the NYT from 2000 to 2016 (higher is better).csv")
-bettersetupdata("Number of wiki-languages of most famous airline of that country (higher is better).csv",additional_information=True,additional_information_column=[2,3,4])
-bettersetupdata("Gay friendly travel index (higher is better).csv")
-bettersetupdata("Number of covid deaths per capita (lower is better).csv")
-bettersetupdata("Number of wiki-languages of most famous newspaper of that country (higher is better).csv",additional_information=True,additional_information_column=[2,7,8])
-bettersetupdata("Number of wiki-languages of most famous street - avenue - boulevard of that country (higher is better).csv",additional_information=True,additional_information_column=[2,7,8])
-bettersetupdata("Number of wiki-languages of most famous road - highway - motor circuit of that country (higher is better).csv",additional_information=True,additional_information_column=[2,7,8])
-bettersetupdata("Number of wiki-languages of most famous bridge of that country (higher is better).csv",additional_information=True,additional_information_column=[2,7,8])
-bettersetupdata("Number of wiki-languages of most famous place of worship (church,mosque,temple etc.) of that country (higher is better).csv",additional_information=True,additional_information_column=[2,7,8])
-bettersetupdata("Number of wiki-languages of most famous (real) museum of that country (higher is better).csv",additional_information=True,additional_information_column=[2,7,8])
-bettersetupdata("Number of chambers of the government (two chambers beat one chamber) (higher is better).csv")
-bettersetupdata("Drinking water quality score (higher is better).csv")
-bettersetupdata("Number of wiki-languages of most famous athlete of that country which is not a soccer player (higher is better).csv",additional_information=True,additional_information_column=[2,7,8])
-bettersetupdata("Number of wiki-languages of most famous criminal of that country (higher is better).csv",additional_information=True,additional_information_column=[2,7,8])
-bettersetupdata("Number of wiki-languages of most famous health scientist of that country (higher is better).csv",additional_information=True,additional_information_column=[2,7,8])
-bettersetupdata("Number of wiki-languages of most famous movie director of that country (higher is better).csv",additional_information=True,additional_information_column=[2,7,8])
-bettersetupdata("Number of wiki-languages of most famous person from that country born after 2000 (higher is better).csv",additional_information=True,additional_information_column=[2,7,8])
-bettersetupdata("Number of wiki-languages of most famous social scientist humanities scholar of that country (higher is better).csv",additional_information=True,additional_information_column=[2,7,8])
-bettersetupdata("Number of wiki-languages of most famous cleric of that country (higher is better).csv",additional_information=True,treatmissingdataasbad=True,additional_information_column=[2,3,4])
-bettersetupdata("Median wealth in US$ (nominal) (higher is better).csv",additional_information=False)
-bettersetupdata("Index of Economic Freedom (higher is better).csv")
-bettersetupdata("Ease of doing business index (easier is better).csv",ascending=True)
-bettersetupdata("Economic Complexity Index (more complex is better).csv")
-bettersetupdata("Percentage of GDP spent on R&D (higher is better).csv")
-bettersetupdata("Number of scientific and technical journal articles in English from that country (by 1,000,000 population) (higher is better).csv")
-bettersetupdata("Percentage of population being female (higher is better).csv")
-bettersetupdata("Percentage of population being female (lower is better).csv")
-bettersetupdata("Projected population in 2100 (higher is better).csv")
-bettersetupdata("Projected population growth until 2100 in percent (higher is better).csv")
-bettersetupdata("Estimated population growth 1950-2020 (higher is better).csv")
-bettersetupdata("Estimated population in 1950 (higher is better).csv")
-bettersetupdata("Annual HIV deaths (by 100,000 population) (lower is better).csv",ascending=True,cluster="death_by_cause_cluster")
-bettersetupdata("Annual Malaria deaths (by 10,000 population) (lower is better).csv",ascending=True,cluster="death_by_cause_cluster")
-bettersetupdata("Annual alcohol deaths (by 1,000,000 population) (lower is better).csv",ascending=True,cluster="death_by_cause_cluster")
-bettersetupdata("Annual deaths by traffic related causes (by 10,000 population).csv",ascending=True,cluster="death_by_cause_cluster")
-bettersetupdata("Annual Hepatitis deaths (by 1,000,000 population) (lower is better).csv",ascending=True,cluster="death_by_cause_cluster")
-bettersetupdata("Annual deaths by fire and heat (by 100,000 population) (lower is better).csv",ascending=True,cluster="death_by_cause_cluster")
-bettersetupdata("Annual deaths by digestive diseases (by 10,000 population) (lower is better).csv",ascending=True,cluster="death_by_cause_cluster")
-bettersetupdata("Annual deaths by Cirrhosis and other chronic liver diseases (by 10,000 population) (lower is better).csv",ascending=True,cluster="death_by_cause_cluster")
-bettersetupdata("Annual deaths by malnutrition (by 100,000 population) (lower is better).csv",ascending=True,cluster="death_by_cause_cluster")
-bettersetupdata("Annual deaths by poisonings (by 1,000,000 population) (lower is better).csv",ascending=True,cluster="death_by_cause_cluster")
-bettersetupdata("Annual deaths by chronic kidney diseases (by 10,000 population) (lower is better).csv",ascending=True,cluster="death_by_cause_cluster")
-bettersetupdata("Annual deaths by Diabetes Mellitus (by 10,000 population) (lower is better).csv",ascending=True,cluster="death_by_cause_cluster")
-bettersetupdata("Annual deaths by conflict and terrorism (by 10,000,000 population) (lower is better).csv",ascending=True,cluster="death_by_cause_cluster")
-bettersetupdata("Annual deaths by neoplasms (by 1000 population) (lower is better) (lower is better).csv",ascending=True,cluster="death_by_cause_cluster")
-bettersetupdata("Annual deaths by exposure to environmental cold or heat (by 1,000,000 population) (lower is better).csv",ascending=True,cluster="death_by_cause_cluster")
-bettersetupdata("Annual deaths by exposure to force of nature (by 10,000,000 population) (lower is better).csv",ascending=True,cluster="death_by_cause_cluster")
-bettersetupdata("Annual deaths by neonatal disorders (by 10,000 population) (lower is better).csv",ascending=True,cluster="death_by_cause_cluster")
-bettersetupdata("Annual deaths by lower respiratory infections (by 10000 population) (lower is better).csv",ascending=True,cluster="death_by_cause_cluster")
-bettersetupdata("Annual deaths by cardiovascular diseases (by 1000 population) (lower is better).csv",ascending=True,cluster="death_by_cause_cluster")
-bettersetupdata("Annual deaths by Tuberculosis (by 100,000 population) (lower is better).csv",ascending=True,cluster="death_by_cause_cluster")
-bettersetupdata("Annual deaths by maternal disorders (by 100,000 population) (lower is better).csv",ascending=True,cluster="death_by_cause_cluster")
-bettersetupdata("Annual deaths by drowning (by 100,000 population) (lower is better).csv",ascending=True,cluster="death_by_cause_cluster")
-bettersetupdata("Annual deaths by nutritional deficiencies (by 100,000 population).csv",ascending=True,cluster="death_by_cause_cluster")
-bettersetupdata("Annual deaths by Parkinson's disease (by 100,000 population) (lower is better).csv",ascending=True,cluster="death_by_cause_cluster")
-bettersetupdata("Annual deaths by Alzheimer's disease and other dementias (by 10,000 population).csv",ascending=True,cluster="death_by_cause_cluster")
-bettersetupdata("Annual deaths by Meningitis (by 1,000,000 population) (lower is better).csv",ascending=True,cluster="death_by_cause_cluster")
-bettersetupdata("Percentage of US-american citizens having a positive opinion about that country (higher is better).csv")
-bettersetupdata("Percentage of US-american citizens having heard of that country (higher is better).csv")
-bettersetupdata("Natural gas production (in million m^3 per year) (by 10,000 population) (higher is better).csv",treatmissingdataasbad=True)
-bettersetupdata("Books published in that country per year (by 10,000 population) (higher is better).csv")
+# bettersetupdata("Perception of corruption score (less corrupt is higher) (higher is better).csv",dif=2) #Erklären woher das kommt
+# bettersetupdata("Generosity score (higher is better).csv",dif=2) #Erklären woher das kommt
+# bettersetupdata("Freedom to make life choices score (higher is better).csv",dif=2) #Erklären woher das kommt
+# bettersetupdata("Healthy life expectancy score (higher is better).csv",dif=2) #Erklären woher das kommt
+# bettersetupdata("Social support score (higher is better).csv",dif=2) #Erklären woher das kommt
+# bettersetupdata("World Happiness Index (higher is better).csv",dif=1)
+# bettersetupdata("Number of mcdonalds restaurants (by 1,000,000 population) (higher is better).csv",treatmissingdataasbad=True,dif=2)
+# bettersetupdata("Suicides per 100,000 population (lower is better).csv",ascending=True,dif=2)
+# bettersetupdata("Percentage of people who are proficient in english (higher is better).csv",dif=1)
+# bettersetupdata("Size of largest island in km2 (higher is better).csv",treatmissingdataasbad=True,dif=1)
+# bettersetupdata("Number of UNESCO World Heritage Sites (higher is better).csv",treatmissingdataasbad=True,dif=2)
+# bettersetupdata("CO2 emission in tons per capita (lower is better).csv",ascending=True,dif=1)
+# bettersetupdata("Agreement to the statement religion is important (higher is better).csv",ascending=False,dif=2)
+# bettersetupdata("Percentage of people being atheist (higher is better).csv",dif=1)
+# bettersetupdata("Net migration rate per 1000 population (higher is better).csv",dif=2)
+# bettersetupdata("Number of soldiers per 1000 population (higher is better).csv",dif=3)
+# bettersetupdata("Percentage of population being christian (higher is better).csv",dif=2)
+# bettersetupdata("Percentage of population being hindu (higher is better).csv",dif=1)
+# bettersetupdata("Percentage of population being muslim (higher is better).csv",dif=2)
+# bettersetupdata("Chinese population (by 1000 population) (higher is better).csv",dif=3)
+# bettersetupdata("Number of urban areas with more than 1 mio. citizens (higher is better).csv",dif=1)
+# bettersetupdata("Side of traffic (left hand side beats right hand side) (higher is better).csv",dif=1)
+# bettersetupdata("Number of visits by an US-President (since formation of the country) (higher is better).csv",dif=2,treatmissingdataasbad=True)
+# bettersetupdata("Home ownership rate (higher is better).csv",dif=2)
+# bettersetupdata("Number of wiki-languages of most famous person from that country (higher is better).csv",dif=1,additional_information=True,additional_information_column=[2,3,4])
+# bettersetupdata("Number of wiki-languages of most famous architect of that country (higher is better).csv",dif=2,additional_information=True,additional_information_column=[2,3,4])
+# bettersetupdata("Number of urban areas with more than 1 mio. citizens (higher is better).csv",dif=1)
+# bettersetupdata("Number of twitter followers of head of state resp. head of government (higher is better).csv",dif=1,additional_information=True,additional_information_column=[2,3,4])
+# bettersetupdata("Number of models from that country with a wiki-page (by 1,000,000 population) (higher is better).csv",dif=2)
+# bettersetupdata("Number of first level administrative regions (i.e. states in the US or prefectures in Japan) (higher is better).csv",dif=4)
+# bettersetupdata("Number of airports (higher is better).csv",treatmissingdataasbad=True,dif=2)
+# bettersetupdata("Number of airports (by 1,000,000 population) (higher is better).csv",treatmissingdataasbad=True,dif=3)
+# bettersetupdata("Number of wiki-languages of head of state resp. head of government (higher is better).csv",dif=2,additional_information=True,treatmissingdataasbad=True,additional_information_column=[2,3,4])
+# bettersetupdata("Number of wiki-languages of most famous band from that country (higher is better).csv",dif=3,additional_information=True,treatmissingdataasbad=True,additional_information_column=[2,3,4])
+# bettersetupdata("Number of wiki-languages of most famous food from that country (higher is better).csv",treatmissingdataasbad=True,dif=1,additional_information=True,additional_information_column=[2,3,4])
+# bettersetupdata("Number of wiki-languages of most famous actor from that country (higher is better).csv",dif=2,treatmissingdataasbad=True,additional_information=True,additional_information_column=[2,7,8])
+# bettersetupdata("Number of wiki-languages of most famous singer of that country (higher is better).csv",additional_information=True,additional_information_column=[2,7,8])
+# bettersetupdata("Number of wiki-languages of most famous person from that country, who is still alive (higher is better).csv",dif=2,treatmissingdataasbad=True,additional_information=True,additional_information_column=[2,3,4])
+# bettersetupdata("Number of wiki-languages of most famous touristic sight of that country (higher is better).csv",treatmissingdataasbad=True,dif=1,additional_information=True,additional_information_column=[2,3,4])
+# bettersetupdata("Number of wiki-languages of most famous woman from that country (higher is better).csv",treatmissingdataasbad=True,dif=3,additional_information=True,additional_information_column=[2,3,4])
+# bettersetupdata("Facebook accounts (by 10 population) (higher is better).csv",treatmissingdataasbad=True,dif=2)
+# bettersetupdata("Prostitutes per 10,000 inhabitants (lower is better).csv",dif=3,ascending=True)
+# bettersetupdata("Air cleanliness in percent (higher is better).csv",dif=3)
+# bettersetupdata("Year of last executed death penalty (lower is better).csv",dif=3,ascending=True)
+# bettersetupdata("Global peace index (more peaceful is better) (lower is better).csv",dif=2,ascending=True)
+# bettersetupdata("Number of volcanos in that country (higher is better).csv",dif=2)
+# bettersetupdata("Percentage of parliament member being female (higher is better).csv",dif=2)
+# bettersetupdata("First year in which (some) women were granted (restricted) suffrage (lower is better) .csv",dif=2,ascending=True)
+# bettersetupdata("Pupil-teacher ratio (lower is better).csv",dif=2,ascending=True)
+# bettersetupdata("Number of wiki-languages of most famous city with at most 5000 citizens (higher is better).csv",additional_information=True,additional_information_column=[2,3,4])
+# bettersetupdata("Number of wiki-languages of most famous city with at most 20,000 citizens (higher is better).csv",additional_information=True,additional_information_column=[2,3,4])
+# bettersetupdata("Number of wiki-languages of most famous city with at most 100,000 citizens (higher is better).csv",additional_information=True,additional_information_column=[2,3,4])
+# bettersetupdata("Number of wiki-languages of most famous historical person (at least 50 years dead) (higher is better).csv",additional_information=True,additional_information_column=[2,3,4])
+# bettersetupdata("Number of wiki-languages of most famous historical person (at least 100 years dead) (higher is better).csv",additional_information=True,additional_information_column=[2,3,4])
+# bettersetupdata("Number of wiki-languages of most famous historical person (at least 200 years dead) (higher is better).csv",additional_information=True,additional_information_column=[2,3,4])
+# bettersetupdata("Number of wiki-languages of most famous historical person (at least 500 years dead) (higher is better).csv",additional_information=True,additional_information_column=[2,3,4])
+# bettersetupdata("Literacy rate (higher is better).csv")
+# bettersetupdata("Number of wiki-languages of most famous one-day historic event at least 90 years ago (higher is better).csv",additional_information=True,additional_information_column=[2,3,4])
+# bettersetupdata("Highest building of that country in meter (higher is better).csv",additional_information=True,additional_information_column=[2,3,4],dif=3)
+# bettersetupdata("Number of wiki-languages of most famous scientist of that country (higher is better).csv",additional_information=True,additional_information_column=[2,3,4],treatmissingdataasbad=True)
+# bettersetupdata("Minimum number of paid annual vacation (higher is better).csv")
+# bettersetupdata("Number of wiki-languages of most famous writer of that country (higher is better).csv",additional_information=True,additional_information_column=[2,3,4])
+# bettersetupdata("Median age (lower is better).csv",ascending=True)
+# bettersetupdata("Number of wiki-languages of most famous one-day historic event in the 21st century (higher is better).csv",additional_information=True,additional_information_column=[2,3,4])
+# bettersetupdata("Number of wiki-languages of most famous one-day historic event at least 200 years ago (higher is better).csv",additional_information=True,additional_information_column=[2,3,4])
+# bettersetupdata("Number of wiki-languages of most famous one-day historic event (higher is better).csv",additional_information=True,additional_information_column=[2,3,4])
+# bettersetupdata("Size of the lower house (or equivalent) of that country (higher is better).csv")
+# bettersetupdata("Person of that country with the most social media follower (higher is better).csv",additional_information=True,additional_information_column=[2,3,4])
+# bettersetupdata("Percentage of marriages getting divorced in percent (lower is better).csv",ascending=True)
+# bettersetupdata("Percentage of GDP spent on education (higher is better).csv")
+# bettersetupdata("Number of wiki-languages of the capital (higher is better).csv",additional_information=True,additional_information_column=[2,3,4])
+# bettersetupdata("Annual cannabis prevalence in percent (lower is better).csv",ascending=True)
+# bettersetupdata("Drug deaths per 100,000 population (lower is better).csv",ascending=True)
+# bettersetupdata("Highest mountain of that country (higher is better).csv",additional_information=True,additional_information_column=[2,3,4])
+# bettersetupdata("Number of physicians by 10,000 population (higher is better).csv")
+# bettersetupdata("Average elevation (higher is better).csv")
+# bettersetupdata("Number of cigarettes smoked per year per person (lower is better).csv",ascending=True)
+# bettersetupdata("Oil production in barrel per day (higher is better).csv")
+# bettersetupdata("Oil production in barrel per year (by 1000 population) (higher is better).csv",treatmissingdataasbad=True)
+# bettersetupdata("Natural disaster risk in percent (lower is better).csv",ascending=True)
+# bettersetupdata("Electrical power consumption per capita per year (in watts) (lower is better).csv",ascending=True)
+# bettersetupdata("Number of wiki-languages of most famous soccer player (higher is better).csv",additional_information=True,additional_information_column=[2,3,4])
+# bettersetupdata("Corporate tax in percent (lower is better).csv",ascending=True)
+# bettersetupdata("Highest possible individual income tax in percent (lower is better).csv",ascending=True)
+# bettersetupdata("VAT resp. GST in percent (lower is better).csv",ascending=True)
+# bettersetupdata("Democracy index (higher is better).csv")
+# bettersetupdata("Infant mortality (deaths in the first 5 years by 1000 births) (lower is better).csv",ascending=True)
+# bettersetupdata("Number of wiki-languages of most famous fashion person of that country (higher is better).csv",additional_information=True,treatmissingdataasbad=True,additional_information_column=[2,3,4])
+# bettersetupdata("Population growth rate in 2021 in percent (higher is better).csv")
+# bettersetupdata("GDP per capita in PPP (higher is better).csv")
+# bettersetupdata("Fragile state index (more stable is better) (lower is better).csv",ascending=True)
+# bettersetupdata("Homeless population by 10,000 population (lower is better).csv",ascending=True)
+# bettersetupdata("GDP growth in 2020 (higher is better).csv")
+# bettersetupdata("Population density (in citizens per km^2) (higher is better).csv")
+# bettersetupdata("Number of wiki-languages of most famous geographical feature of that country (higher is better).csv",additional_information=True,additional_information_column=[2,3,4])
+# bettersetupdata("Number of wiki-languages of most famous one-day event between 1950 and 2000 (higher is better).csv",additional_information=True,additional_information_column=[2,3,4])
+# bettersetupdata("Number of wiki-languages of most famous city with at most 500,000 citizens (higher is better).csv",additional_information=True,additional_information_column=[2,3,4])
+# bettersetupdata("Number of wiki-languages of most famous city with at most 1,000,000 citizens (higher is better).csv",additional_information=True,additional_information_column=[2,3,4])
+# bettersetupdata("Number of wiki-languages of most famous (real) building of that country (higher is better).csv",additional_information=True,additional_information_column=[2,3,4],)
+# bettersetupdata("Number of wiki-languages of most famous architectural structure of that country (higher is better).csv",additional_information=True,additional_information_column=[2,3,4])
+# bettersetupdata("Percentage of urban population (higher is better).csv")
+# bettersetupdata("Gini wealth index (more equal is better) (lower is better).csv",ascending=True)
+# bettersetupdata("Gini income index (more equal is better) (lower is better).csv",ascending=True)
+# bettersetupdata("Religious diversity score (higher is better).csv")
+# bettersetupdata("Ethnic diversity score (higher is better).csv")
+# bettersetupdata("Male- to female income ratio (more equal is better) (lower is better).csv",ascending=True)
+# bettersetupdata("Number of international tourists arriving per year (higher is better).csv")
+# bettersetupdata("Percentage of people working in the agricultural sector (higher is better).csv")
+# bettersetupdata("Percentage of people working in the agricultural sector (lower is better).csv",ascending=True)
+# bettersetupdata("Import and exports as percentage of gdp (higher is better).csv")
+# bettersetupdata("Import and exports as percentage of gdp (lower is better).csv",ascending=True)
+# bettersetupdata("Percentage of GDP being remittances of international migrants (higher is better).csv")
+# bettersetupdata("Percentage of people trusting their national government (higher is better).csv")  
+# bettersetupdata("Percentage of people being satsified with environment policy of government (higher is better).csv")
+# bettersetupdata("Percentage of people having confidence in the judical system (higher is better).csv")
+# bettersetupdata("Percentage of people having volunteered at least once (higher is better).csv") 
+# bettersetupdata("Percentage of people saying that the local labour market is good (higher is better).csv")
+# bettersetupdata("Percentage of people being satisfied with their health care quality (higher is better).csv")
+# bettersetupdata("Percentage of people being satisfied with their standard of living (higher is better).csv")
+# bettersetupdata("Percentage of people being satisfied with their education quality (higher is better).csv")
+# bettersetupdata("Number of speakers of most spoken official language of that country (higher is better).csv",additional_information=True,additional_information_column=[2])
+# bettersetupdata("Number of wiki-languages of most famous painter of that country (higher is better).csv",additional_information=True,additional_information_column=[2,3,4])
+# bettersetupdata("Population of the most populated city of that country (higher is better).csv",additional_information=True,additional_information_column=[2,3,4])    
+# bettersetupdata("Population of the second most populated city of that country (higher is better).csv",additional_information=True,additional_information_column=[2,3,4])    
+# bettersetupdata("Population of the third most populated city of that country (higher is better).csv",additional_information=True,additional_information_column=[2,3,4])    
+# bettersetupdata("Sum of the three most populated cities of that country (higher is better).csv")
+# bettersetupdata("Number of wiki-languages of most famous city of that country (higher is better).csv",additional_information=True,additional_information_column=[2,3,4])
+# bettersetupdata("Number of wiki-languages of second most famous city of that country (higher is better).csv",additional_information=True,additional_information_column=[2,3,4])
+# bettersetupdata("Number of wiki-languages of third most famous city of that country (higher is better).csv",additional_information=True,additional_information_column=[2,3,4])
+# bettersetupdata("Sum of wiki-languages of the three most famous cities of that country (higher is better).csv")
+# bettersetupdata("Number of wiki-languages of most famous company which is neither an airline nor a national bank (higher is better).csv",additional_information=True,additional_information_column=[2,3,4])
+# bettersetupdata("Number of mentions of that countrys name in the NYT from 2000 to 2016 (higher is better).csv")
+# bettersetupdata("Number of wiki-languages of most famous airline of that country (higher is better).csv",additional_information=True,additional_information_column=[2,3,4])
+# bettersetupdata("Gay friendly travel index (higher is better).csv")
+# bettersetupdata("Number of covid deaths per capita (lower is better).csv")
+# bettersetupdata("Number of wiki-languages of most famous newspaper of that country (higher is better).csv",additional_information=True,additional_information_column=[2,7,8])
+# bettersetupdata("Number of wiki-languages of most famous street - avenue - boulevard of that country (higher is better).csv",additional_information=True,additional_information_column=[2,7,8])
+# bettersetupdata("Number of wiki-languages of most famous road - highway - motor circuit of that country (higher is better).csv",additional_information=True,additional_information_column=[2,7,8])
+# bettersetupdata("Number of wiki-languages of most famous bridge of that country (higher is better).csv",additional_information=True,additional_information_column=[2,7,8])
+# bettersetupdata("Number of wiki-languages of most famous place of worship (church,mosque,temple etc.) of that country (higher is better).csv",additional_information=True,additional_information_column=[2,7,8])
+# bettersetupdata("Number of wiki-languages of most famous (real) museum of that country (higher is better).csv",additional_information=True,additional_information_column=[2,7,8])
+# bettersetupdata("Number of chambers of the government (two chambers beat one chamber) (higher is better).csv")
+# bettersetupdata("Drinking water quality score (higher is better).csv")
+# bettersetupdata("Number of wiki-languages of most famous athlete of that country which is not a soccer player (higher is better).csv",additional_information=True,additional_information_column=[2,7,8])
+# bettersetupdata("Number of wiki-languages of most famous criminal of that country (higher is better).csv",additional_information=True,additional_information_column=[2,7,8])
+# bettersetupdata("Number of wiki-languages of most famous health scientist of that country (higher is better).csv",additional_information=True,additional_information_column=[2,7,8])
+# bettersetupdata("Number of wiki-languages of most famous movie director of that country (higher is better).csv",additional_information=True,additional_information_column=[2,7,8])
+# bettersetupdata("Number of wiki-languages of most famous person from that country born after 2000 (higher is better).csv",additional_information=True,additional_information_column=[2,7,8])
+# bettersetupdata("Number of wiki-languages of most famous social scientist humanities scholar of that country (higher is better).csv",additional_information=True,additional_information_column=[2,7,8])
+# bettersetupdata("Number of wiki-languages of most famous cleric of that country (higher is better).csv",additional_information=True,treatmissingdataasbad=True,additional_information_column=[2,3,4])
+# bettersetupdata("Median wealth in US$ (nominal) (higher is better).csv",additional_information=False)
+# bettersetupdata("Index of Economic Freedom (higher is better).csv")
+# bettersetupdata("Ease of doing business index (easier is better).csv",ascending=True)
+# bettersetupdata("Economic Complexity Index (more complex is better).csv")
+# bettersetupdata("Percentage of GDP spent on R&D (higher is better).csv")
+# bettersetupdata("Number of scientific and technical journal articles in English from that country (by 1,000,000 population) (higher is better).csv")
+# bettersetupdata("Percentage of population being female (higher is better).csv")
+# bettersetupdata("Percentage of population being female (lower is better).csv")
+# bettersetupdata("Projected population in 2100 (higher is better).csv")
+# bettersetupdata("Projected population growth until 2100 in percent (higher is better).csv")
+# bettersetupdata("Estimated population growth 1950-2020 (higher is better).csv")
+# bettersetupdata("Estimated population in 1950 (higher is better).csv")
+# bettersetupdata("Annual HIV deaths (by 100,000 population) (lower is better).csv",ascending=True,cluster="death_by_cause_cluster")
+# bettersetupdata("Annual Malaria deaths (by 10,000 population) (lower is better).csv",ascending=True,cluster="death_by_cause_cluster")
+# bettersetupdata("Annual alcohol deaths (by 1,000,000 population) (lower is better).csv",ascending=True,cluster="death_by_cause_cluster")
+# bettersetupdata("Annual deaths by traffic related causes (by 10,000 population).csv",ascending=True,cluster="death_by_cause_cluster")
+# bettersetupdata("Annual Hepatitis deaths (by 1,000,000 population) (lower is better).csv",ascending=True,cluster="death_by_cause_cluster")
+# bettersetupdata("Annual deaths by fire and heat (by 100,000 population) (lower is better).csv",ascending=True,cluster="death_by_cause_cluster")
+# bettersetupdata("Annual deaths by digestive diseases (by 10,000 population) (lower is better).csv",ascending=True,cluster="death_by_cause_cluster")
+# bettersetupdata("Annual deaths by Cirrhosis and other chronic liver diseases (by 10,000 population) (lower is better).csv",ascending=True,cluster="death_by_cause_cluster")
+# bettersetupdata("Annual deaths by malnutrition (by 100,000 population) (lower is better).csv",ascending=True,cluster="death_by_cause_cluster")
+# bettersetupdata("Annual deaths by poisonings (by 1,000,000 population) (lower is better).csv",ascending=True,cluster="death_by_cause_cluster")
+# bettersetupdata("Annual deaths by chronic kidney diseases (by 10,000 population) (lower is better).csv",ascending=True,cluster="death_by_cause_cluster")
+# bettersetupdata("Annual deaths by Diabetes Mellitus (by 10,000 population) (lower is better).csv",ascending=True,cluster="death_by_cause_cluster")
+# bettersetupdata("Annual deaths by conflict and terrorism (by 10,000,000 population) (lower is better).csv",ascending=True,cluster="death_by_cause_cluster")
+# bettersetupdata("Annual deaths by neoplasms (by 1000 population) (lower is better) (lower is better).csv",ascending=True,cluster="death_by_cause_cluster")
+# bettersetupdata("Annual deaths by exposure to environmental cold or heat (by 1,000,000 population) (lower is better).csv",ascending=True,cluster="death_by_cause_cluster")
+# bettersetupdata("Annual deaths by exposure to force of nature (by 10,000,000 population) (lower is better).csv",ascending=True,cluster="death_by_cause_cluster")
+# bettersetupdata("Annual deaths by neonatal disorders (by 10,000 population) (lower is better).csv",ascending=True,cluster="death_by_cause_cluster")
+# bettersetupdata("Annual deaths by lower respiratory infections (by 10000 population) (lower is better).csv",ascending=True,cluster="death_by_cause_cluster")
+# bettersetupdata("Annual deaths by cardiovascular diseases (by 1000 population) (lower is better).csv",ascending=True,cluster="death_by_cause_cluster")
+# bettersetupdata("Annual deaths by Tuberculosis (by 100,000 population) (lower is better).csv",ascending=True,cluster="death_by_cause_cluster")
+# bettersetupdata("Annual deaths by maternal disorders (by 100,000 population) (lower is better).csv",ascending=True,cluster="death_by_cause_cluster")
+# bettersetupdata("Annual deaths by drowning (by 100,000 population) (lower is better).csv",ascending=True,cluster="death_by_cause_cluster")
+# bettersetupdata("Annual deaths by nutritional deficiencies (by 100,000 population).csv",ascending=True,cluster="death_by_cause_cluster")
+# bettersetupdata("Annual deaths by Parkinson's disease (by 100,000 population) (lower is better).csv",ascending=True,cluster="death_by_cause_cluster")
+# bettersetupdata("Annual deaths by Alzheimer's disease and other dementias (by 10,000 population).csv",ascending=True,cluster="death_by_cause_cluster")
+# bettersetupdata("Annual deaths by Meningitis (by 1,000,000 population) (lower is better).csv",ascending=True,cluster="death_by_cause_cluster")
+# bettersetupdata("Percentage of US-american citizens having a positive opinion about that country (higher is better).csv")
+# bettersetupdata("Percentage of US-american citizens having heard of that country (higher is better).csv")
+# bettersetupdata("Natural gas production (in million m^3 per year) (by 10,000 population) (higher is better).csv",treatmissingdataasbad=True)
+# bettersetupdata("Books published in that country per year (by 10,000 population) (higher is better).csv")
 bettersetupdata("Annual cocaine prevalence (lower is better).csv",ascending=True)
-bettersetupdata("Annual opioid prevalence (lower is better).csv",ascending=True)
-bettersetupdata("Foreign currency reserves of that country (incl. gold and special drawing rights) (by 10,000 population) (higher is better).csv")
-bettersetupdata("Global Terrorism Index (less incidents are better) (lower is better).csv",ascending=True)
-bettersetupdata("Youth unemployment in 2021 (lower is better).csv",ascending=True)
+# bettersetupdata("Annual opioid prevalence (lower is better).csv",ascending=True)
+# bettersetupdata("Foreign currency reserves of that country (incl. gold and special drawing rights) (by 10,000 population) (higher is better).csv")
+# bettersetupdata("Global Terrorism Index (less incidents are better) (lower is better).csv",ascending=True)
+# bettersetupdata("Youth unemployment in 2021 (lower is better).csv",ascending=True)
 bettersetupdata("Year of first KFC opening in that country (lower is better).csv",ascending=True)
-bettersetupdata("Year of first Burger King opening in that country (lower is better).csv",ascending=True)
-bettersetupdata("Inflation rate in 2021 (lower is better).csv",ascending=True)
-bettersetupdata("Average import duty in % (lower is better).csv",ascending=True)
-bettersetupdata("Average inflation rate 2017-2021 (lower is better).csv",ascending=True)
-bettersetupdata("S&P credit rating (better rating is better) (lower is better).csv",ascending=True,additional_information=True,additional_information_column=[2])
-bettersetupdata("Amount of currencies one US$ can buy (higher is better).csv",additional_information=True,additional_information_column=[2,3,4])
-bettersetupdata("Export to import ratio (higher is better).csv")
-bettersetupdata("Number of characters of official name of that country (higher is better).csv",additional_information=True)
-bettersetupdata("Refugee population (by 100,000 population) (higher is better).csv")
-bettersetupdata("Number of emigrants from that country (by 1,000 population) (higher is better).csv")
-bettersetupdata("Percentage of population being immigrants (higher is better).csv")
-bettersetupdata("Female labor force participation rate (higher is better).csv")
-bettersetupdata("Male labor force participation rate (higher is better).csv")
-bettersetupdata("Labor force participation rate (higher is better).csv")
-bettersetupdata("Fertilizer use (lower is better).csv",ascending=True)
-bettersetupdata("Shadow economy (lower is better).csv",ascending=True)
-bettersetupdata("Road Quality Index (higher is better).csv",ascending=True)
-bettersetupdata("Percentage of total stock market capitalization to GDP (higher is better).csv",)
-bettersetupdata("Percentage of people being fully vaccinated against Covid (higher is better).csv",)
-bettersetupdata("Maternal deaths by 100,000 births (lower is better).csv",ascending=True)
-bettersetupdata("Neonatal deaths by 1000 births (lower is better).csv",ascending=True)
-bettersetupdata("Percentage of people having a credit card (higher is better).csv",)
-bettersetupdata("Share of clean energy (higher is better).csv",)
-bettersetupdata("Number of different taxes (lower is better).csv",ascending=True)
-bettersetupdata("Government debt as percentage of GDP (lower is better).csv",ascending=True)
-bettersetupdata("Income from natural resources as percent of GDP (lower is better).csv",ascending=True)
-bettersetupdata("Number of tanks (by 10,000,000 population) (higher is better).csv",treatmissingdataasbad=True)
-bettersetupdata("Number of military ships (by 100,000,000 population) (higher is better).csv",treatmissingdataasbad=True)
-bettersetupdata("Number of military aricrafts (by 10,000,000 population) (higher is better).csv",treatmissingdataasbad=True)
-bettersetupdata("National Holiday (earlier in the year is better).csv",ascending=True,additional_information=True,additional_information_column=[2,3,4])
-bettersetupdata("Number of wiki-languages of most famous desert of that country (higher is better).csv",dif=2,treatmissingdataasbad=True,additional_information=True,additional_information_column=[2,7,8])
-bettersetupdata("Number of wiki-languages of most famous airport of that country (higher is better).csv",dif=2,treatmissingdataasbad=True,additional_information=True,additional_information_column=[2,7,8])
-bettersetupdata("Number of wiki-languages of most famous national park - garden - zoo in that country (higher is better).csv",dif=2,treatmissingdataasbad=True,additional_information=True,additional_information_column=[2,7,8])
-bettersetupdata("Number of wiki-languages of most famous historical woman (at least 50 years dead) of that country (higher is better).csv",dif=2,treatmissingdataasbad=True,additional_information=True,additional_information_column=[2,7,8])
-bettersetupdata("Number of wiki-languages of most famous historical woman (at least 100 years dead) of that country (higher is better).csv",dif=2,treatmissingdataasbad=True,additional_information=True,additional_information_column=[2,7,8])
-bettersetupdata("Number of wiki-languages of most famous historical woman (at least 200 years dead) of that country (higher is better).csv",dif=2,treatmissingdataasbad=True,additional_information=True,additional_information_column=[2,7,8])
-bettersetupdata("Number of wiki-languages of most famous historical woman (at least 500 years dead) of that country (higher is better).csv",dif=2,treatmissingdataasbad=True,additional_information=True,additional_information_column=[2,7,8])
-bettersetupdata("Number of wiki-languages of most famous historical woman (at least 500 years dead) of that country (higher is better).csv",dif=2,treatmissingdataasbad=True,additional_information=True,additional_information_column=[2,7,8])
-bettersetupdata("Number of wiki-languages of most famous historical woman (at least 500 years dead) of that country (higher is better).csv",dif=2,treatmissingdataasbad=True,additional_information=True,additional_information_column=[2,7,8])
-bettersetupdata("Number of wiki-languages of most famous historical woman (at least 500 years dead) of that country (higher is better).csv",dif=2,treatmissingdataasbad=True,additional_information=True,additional_information_column=[2,7,8])
-bettersetupdata("Number of wiki-languages of most famous female scientist of that country (higher is better).csv",dif=2,treatmissingdataasbad=True,additional_information=True,additional_information_column=[2,7,8])
-bettersetupdata("Number of wiki-languages of most famous female athlete of that country (higher is better).csv",dif=2,treatmissingdataasbad=True,additional_information=True,additional_information_column=[2,7,8])
-bettersetupdata("Number of wiki-languages of most famous female actor of that country (higher is better).csv",dif=2,treatmissingdataasbad=True,additional_information=True,additional_information_column=[2,7,8])
-bettersetupdata("Number of wiki-languages of most famous battle which took place in that country (higher is better).csv",dif=2,treatmissingdataasbad=True,additional_information=True,additional_information_column=[2,7,8])
-bettersetupdata("Number of wiki-langauges of most famous woman being born after 2000 (higher is better).csv",dif=2,treatmissingdataasbad=True,additional_information=True,additional_information_column=[2,7,8])
-bettersetupdata("Number of wiki-languages of most famous female singer of that country (higher is better).csv",dif=2,treatmissingdataasbad=True,additional_information=True,additional_information_column=[2,7,8])
-bettersetupdata("Number of mobile phone lines (by 100 population) (higher is better).csv")
-bettersetupdata("Country size (higher is better).csv",is_end_only=True)
-bettersetupdata("Population (higher is better).csv",is_end_only=True)
-bettersetupdata("Latitude of northernmost point of that country (northern is better) (higher is better).csv",is_end_only=True)
-bettersetupdata("Latitude of southernmost point of that country (southern is better) (lower is better).csv",is_end_only=True)
+# bettersetupdata("Year of first Burger King opening in that country (lower is better).csv",ascending=True)
+# bettersetupdata("Inflation rate in 2021 (lower is better).csv",ascending=True)
+# bettersetupdata("Average import duty in % (lower is better).csv",ascending=True)
+# bettersetupdata("Average inflation rate 2017-2021 (lower is better).csv",ascending=True)
+# bettersetupdata("S&P credit rating (better rating is better) (lower is better).csv",ascending=True,additional_information=True,additional_information_column=[2])
+# bettersetupdata("Amount of currencies one US$ can buy (higher is better).csv",additional_information=True,additional_information_column=[2,3,4])
+# bettersetupdata("Export to import ratio (higher is better).csv")
+# bettersetupdata("Number of characters of official name of that country (higher is better).csv",additional_information=True)
+# bettersetupdata("Refugee population (by 100,000 population) (higher is better).csv")
+# bettersetupdata("Number of emigrants from that country (by 1,000 population) (higher is better).csv")
+# bettersetupdata("Percentage of population being immigrants (higher is better).csv")
+# bettersetupdata("Female labor force participation rate (higher is better).csv")
+# bettersetupdata("Male labor force participation rate (higher is better).csv")
+# bettersetupdata("Labor force participation rate (higher is better).csv")
+# bettersetupdata("Fertilizer use (lower is better).csv",ascending=True)
+# bettersetupdata("Shadow economy (lower is better).csv",ascending=True)
+# bettersetupdata("Road Quality Index (higher is better).csv",ascending=True)
+# bettersetupdata("Percentage of total stock market capitalization to GDP (higher is better).csv",)
+# bettersetupdata("Percentage of people being fully vaccinated against Covid (higher is better).csv",)
+# bettersetupdata("Maternal deaths by 100,000 births (lower is better).csv",ascending=True)
+# bettersetupdata("Neonatal deaths by 1000 births (lower is better).csv",ascending=True)
+# bettersetupdata("Percentage of people having a credit card (higher is better).csv",)
+# bettersetupdata("Share of clean energy (higher is better).csv",)
+# bettersetupdata("Number of different taxes (lower is better).csv",ascending=True)
+# bettersetupdata("Government debt as percentage of GDP (lower is better).csv",ascending=True)
+# bettersetupdata("Income from natural resources as percent of GDP (lower is better).csv",ascending=True)
+# bettersetupdata("Number of tanks (by 10,000,000 population) (higher is better).csv",treatmissingdataasbad=True)
+# bettersetupdata("Number of military ships (by 100,000,000 population) (higher is better).csv",treatmissingdataasbad=True)
+# bettersetupdata("Number of military aricrafts (by 10,000,000 population) (higher is better).csv",treatmissingdataasbad=True)
+# bettersetupdata("National Holiday (earlier in the year is better).csv",ascending=True,additional_information=True,additional_information_column=[2,3,4])
+# bettersetupdata("Number of wiki-languages of most famous desert of that country (higher is better).csv",dif=2,treatmissingdataasbad=True,additional_information=True,additional_information_column=[2,7,8])
+# bettersetupdata("Number of wiki-languages of most famous airport of that country (higher is better).csv",dif=2,treatmissingdataasbad=True,additional_information=True,additional_information_column=[2,7,8])
+# bettersetupdata("Number of wiki-languages of most famous national park - garden - zoo in that country (higher is better).csv",dif=2,treatmissingdataasbad=True,additional_information=True,additional_information_column=[2,7,8])
+# bettersetupdata("Number of wiki-languages of most famous historical woman (at least 50 years dead) of that country (higher is better).csv",dif=2,treatmissingdataasbad=True,additional_information=True,additional_information_column=[2,7,8])
+# bettersetupdata("Number of wiki-languages of most famous historical woman (at least 100 years dead) of that country (higher is better).csv",dif=2,treatmissingdataasbad=True,additional_information=True,additional_information_column=[2,7,8])
+# bettersetupdata("Number of wiki-languages of most famous historical woman (at least 200 years dead) of that country (higher is better).csv",dif=2,treatmissingdataasbad=True,additional_information=True,additional_information_column=[2,7,8])
+# bettersetupdata("Number of wiki-languages of most famous historical woman (at least 500 years dead) of that country (higher is better).csv",dif=2,treatmissingdataasbad=True,additional_information=True,additional_information_column=[2,7,8])
+# bettersetupdata("Number of wiki-languages of most famous historical woman (at least 500 years dead) of that country (higher is better).csv",dif=2,treatmissingdataasbad=True,additional_information=True,additional_information_column=[2,7,8])
+# bettersetupdata("Number of wiki-languages of most famous historical woman (at least 500 years dead) of that country (higher is better).csv",dif=2,treatmissingdataasbad=True,additional_information=True,additional_information_column=[2,7,8])
+# bettersetupdata("Number of wiki-languages of most famous historical woman (at least 500 years dead) of that country (higher is better).csv",dif=2,treatmissingdataasbad=True,additional_information=True,additional_information_column=[2,7,8])
+# bettersetupdata("Number of wiki-languages of most famous female scientist of that country (higher is better).csv",dif=2,treatmissingdataasbad=True,additional_information=True,additional_information_column=[2,7,8])
+# bettersetupdata("Number of wiki-languages of most famous female athlete of that country (higher is better).csv",dif=2,treatmissingdataasbad=True,additional_information=True,additional_information_column=[2,7,8])
+# bettersetupdata("Number of wiki-languages of most famous female actor of that country (higher is better).csv",dif=2,treatmissingdataasbad=True,additional_information=True,additional_information_column=[2,7,8])
+# bettersetupdata("Number of wiki-languages of most famous battle which took place in that country (higher is better).csv",dif=2,treatmissingdataasbad=True,additional_information=True,additional_information_column=[2,7,8])
+# bettersetupdata("Number of wiki-langauges of most famous woman being born after 2000 (higher is better).csv",dif=2,treatmissingdataasbad=True,additional_information=True,additional_information_column=[2,7,8])
+# bettersetupdata("Number of wiki-languages of most famous female singer of that country (higher is better).csv",dif=2,treatmissingdataasbad=True,additional_information=True,additional_information_column=[2,7,8])
+# bettersetupdata("Number of mobile phone lines (by 100 population) (higher is better).csv")
+# bettersetupdata("Country size (higher is better).csv",is_end_only=True)
+# bettersetupdata("Population (higher is better).csv",is_end_only=True)
+# bettersetupdata("Latitude of northernmost point of that country (northern is better) (higher is better).csv",is_end_only=True)
+# bettersetupdata("Latitude of southernmost point of that country (southern is better) (lower is better).csv",is_end_only=True)
 
 save_properties()
 # print(clusterdict.keys())
