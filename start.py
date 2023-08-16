@@ -2646,6 +2646,7 @@ Madagascar.neighboringcountries.append("Australia")
 Madagascar.neighboringcountries.append("Mozambique")
 Madagascar.neighboringcountries.append("Comoros")
 Madagascar.neighboringcountries.append("Mauritius")
+Mozambique.neighboringcountries.append("Comoros")
 
 South_Africa.neighboringcountries.append("Australia")
 Namibia.neighboringcountries.append("Argentina")
