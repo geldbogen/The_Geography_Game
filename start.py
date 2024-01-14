@@ -36,12 +36,12 @@ pd.options.display.max_rows = None
 pd.options.display.max_columns = None
 
 im=Image.open("map/new_worldmap.png").convert("RGB")
-im=im.resize((3500,1737), Image.ANTIALIAS)
+im=im.resize((3500,1737), Image.LANCZOS)
 pngim=Image.open("map/new_worldmap.png").convert("RGB")
-pngim=pngim.resize((3500,1737), Image.ANTIALIAS)
+pngim=pngim.resize((3500,1737), Image.LANCZOS)
 
 greenimage=Image.open("new_greenimage.png").convert("RGB")
-greenimage=greenimage.resize((3500,1737), Image.ANTIALIAS)
+greenimage=greenimage.resize((3500,1737), Image.LANCZOS)
 
 resize_ratio=[3500/14063,1737/6981]
 
@@ -49,7 +49,7 @@ greenimage2=greenimage.load()
 
 # for item in countries_for_language("en"):
 #     print(item)
-with open("data/important/whichcountrydict_new  ","rb") as f:
+with open("data/important/whichcountrydict_new","rb") as f:
     greencountrydict=pickle.load(f)
 
 # for key in greencountrydict.keys():
@@ -303,7 +303,7 @@ class Country:
         flagimage=(Image.open(countryurl))
         w=float(flagimage.width)
         h=float(flagimage.height)
-        return ImageTk.PhotoImage(flagimage.resize((int(height*w/h),int(height)),Image.ANTIALIAS))
+        return ImageTk.PhotoImage(flagimage.resize((int(height*w/h),int(height)),Image.LANCZOS))
     def loadpixels(self):
         global all_countries
         global countrynamelist
@@ -387,7 +387,8 @@ def setupdata(data,column,namecolumn,nameofattribute,ascending,treatmissingdataa
                     myseries={"0":countryclass.name,"1":float(0)}
                 else:
                     myseries={"0":countryclass.name,"1":float(9999999999)}
-                data=data.append(myseries,ignore_index=True)
+                myseries = pd.DataFrame(myseries)
+                data = pd.concat([data,myseries],ignore_index=True)
     rankinglist=list(range(len(data.index)))
     data["ranking"]=rankinglist
     data.apply(lambda x: append_dataframe(x,nameofattribute=nameofattribute,numberofranked=len(rankinglist)),axis=1)
@@ -1287,7 +1288,7 @@ class MainWindow():
                     imgA=Image.open("pictures/no_image_available.png")
                 w=float(imgA.width)
                 h=float(imgA.height)
-                imgA=ImageTk.PhotoImage(imgA.resize((int(height*w/h),int(height)),Image.ANTIALIAS))
+                imgA=ImageTk.PhotoImage(imgA.resize((int(height*w/h),int(height)),Image.LANCZOS))
                 frame12.imgA=imgA
                 panelA=tk.Label(frame12,image=imgA)
                 panelA.grid(row=2,column=0)
@@ -1304,7 +1305,7 @@ class MainWindow():
                     imgB=Image.open("pictures/no_image_available.png")
                 w=float(imgB.width)
                 h=float(imgB.height)
-                imgB=ImageTk.PhotoImage(imgB.resize((int(height*w/h),int(height)),Image.ANTIALIAS))
+                imgB=ImageTk.PhotoImage(imgB.resize((int(height*w/h),int(height)),Image.LANCZOS))
                 frame12.imgB=imgB
                 
                 
@@ -1520,7 +1521,7 @@ class MainWindow():
                                 imgA=Image.open("pictures/no_image_available.png")
                             w=float(imgA.width)
                             h=float(imgA.height)
-                            imgA=ImageTk.PhotoImage(imgA.resize((int(width),int(width*h/w)),Image.ANTIALIAS))
+                            imgA=ImageTk.PhotoImage(imgA.resize((int(width),int(width*h/w)),Image.LANCZOS))
                             panelA=tk.Label(self.doubleframe,image=imgA)
                             panelA.imgA=imgA
                             panelA.grid(row=3)
