@@ -3,5 +3,8 @@
     "gopls": {
     "build.allowImplicitNetworkAccess": false
     },
-    "cSpell.enabled": false
+    "cSpell.enabled": false,
+    "[go]": {
+        "editor.formatOnSave": false
+    }
 }
