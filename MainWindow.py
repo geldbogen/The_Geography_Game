@@ -10,7 +10,7 @@ import webbrowser
 
 from Country import Country, Unknown_country, Germany, France
 from Category import Category
-from Player import Player
+from Player import Player, No_Data_Body
 from Image import greencountrydict, greenImage
 from globalDefinitions import all_categories, all_countries, all_categories_names_and_clusters, dictionary_attribute_name_to_attribute, gold, realgrey
 from helpFunctions import Countriesareconnected, getcountrybyposition, replace_A_and_B_in_category_name, callcountrybyname, callplayerbyname
@@ -1417,7 +1417,7 @@ class MainWindow():
         if cause == "twocountriesclaimed":
             text = ""
             winner = self.targetcountry1.owner
-            messagebox.showinfo(
+            tk.messagebox.showinfo(
                 self.root,
                 message="Congratulations " + winner +
                 " you claimed both countries and therefore you are the winner")
@@ -1540,13 +1540,13 @@ class MainWindow():
             if random.random() < 0.5:
 
                 text = "The target attribute is " + attribute
-                v = messagebox.showinfo(self.main, message=text)
+                v = tk.messagebox.showinfo(self.main, message=text)
                 self.reversed_end_attribute = 0
 
             else:
                 self.reversed_end_attribute = 1
                 text = "The target attribute is " + attribute + "\n REVERSED!!!"
-                v = messagebox.showinfo(self.main, message=text)
+                v = tk.messagebox.showinfo(self.main, message=text)
         return attribute
 
     def setuppredattribute(self):

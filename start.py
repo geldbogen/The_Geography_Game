@@ -4,35 +4,9 @@ import pandas as pd
 from PIL import Image, ImageDraw, ImageTk
 import pickle
 
-#local files
-import alternative_names
-import additional_explanations
-import categoryname_to_displayed_name
-
 from setupData import bettersetupdata
 from helpFunctions import save_properties
 from IntroWindow import IntroWindow
-
-
-
-# filename = os.path.realpath(__file__).replace("\\","/")
-# filename=filename.rstrip("/Backup/start.py")
-# print(filename)
-# os.chdir(filename)
-# pd.options.display.max_rows = None
-# pd.options.display.max_columns = None
-
-
-# for item in countries_for_language("en"):
-#     print(item)
-
-# for key in greencountrydict.keys():
-#     greencountrydict[key]=greencountrydict[key].replace("Argentinia","Argentina")
-  
-# with open("data/important/whichcountrydict","wb") as f:
-#     pickle.dump(greencountrydict,f)
-# quit()
-
 
 bettersetupdata("Forest area in 1000 hectars (by 100 km^2) (higher is better).csv",treatmissingdataasbad=True,dif=1)
 bettersetupdata("Strength of passport (in countries enterable without need of visa) (higher is better).csv",treatmissingdataasbad=True,dif=2,additional_information=True,additional_information_column=[2,3,4]) #explain

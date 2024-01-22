@@ -1,3 +1,5 @@
+from globalDefinitions import allPlayers
+
 class Player:
     def __init__(self,color,name,reroll_number=3):
         # name of the player

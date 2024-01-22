@@ -1,4 +1,11 @@
+import pandas as pd
 
+import additional_explanations
+
+from Category import Category
+from Country import preAllCountries
+from helpFunctions import callcountrybyname
+from globalDefinitions import reverse_countries_alternative_names
 
 
 def setupdata(data,column,namecolumn,nameofattribute,ascending,treatmissingdataasbad=False,applyfrac=False,additional_information=False,additional_information_column=2):
@@ -11,7 +18,7 @@ def setupdata(data,column,namecolumn,nameofattribute,ascending,treatmissingdataa
             return None  
         except AttributeError:
             return None  
-        if not callcountrybyname(countryname) in preallCountries:
+        if not callcountrybyname(countryname) in preAllCountries:
             return None
         value = series.iloc[1]
         if additional_information:
@@ -47,7 +54,7 @@ def setupdata(data,column,namecolumn,nameofattribute,ascending,treatmissingdataa
             pass        
     data.iloc[:,0]=dList
     if treatmissingdataasbad:
-        for countryclass in preallCountries:
+        for countryclass in preAllCountries:
             if countryclass.name not in dList:
                 if not ascending:
                     dataDict['0'].append(countryclass.name)
