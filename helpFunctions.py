@@ -52,7 +52,7 @@ def getcountrybyposition(xcoordinate, ycoordinate):
 
 
 def Countriesareconnected(countrya: Country, countryb: Country) -> bool:
-    if countrya.name in countryb.neighboringcountries or countryb.name in countrya.neighboringcountries:
+    if countrya.name in countryb.neighboring_countries or countryb.name in countrya.neighboring_countries:
         return True
     else:
         return False

@@ -4,7 +4,7 @@ import pickle
 import alternative_names
 import categoryname_to_displayed_name
 
-resizeRatio = [3500 / 14063, 1737 / 6981]
+resize_ratio = [3500 / 14063, 1737 / 6981]
 
 oceanblue = (44, 130, 201)
 yellow = (255, 255, 0)
@@ -17,7 +17,7 @@ white = (255, 255, 255)
 realgrey = (105, 105, 105)
 gold = (255, 215, 0)
 
-countrynamelist = []
+country_name_list = []
 flagframedict = dict()
 preAllCountries = []
 clusterdict = dict()
@@ -34,7 +34,7 @@ whichcountrydict = dict()
 p = pd.read_csv("data/important/countrylist.csv",
                 index_col=False,
                 keep_default_na=False)
-countriesForLanguageEn = p.values.tolist()
+countries_for_language_en = p.values.tolist()
 
 neighboring_countries = pd.read_csv("data/Really New Country Borders.csv")
 neighboring_countries.columns = range(len(neighboring_countries.columns))
@@ -56,11 +56,11 @@ for mlist in countries_alternative_names.values():
             for item in mlist:
                 reverse_countries_alternative_names[item.lower()] = key
 
-for item in countriesForLanguageEn:
+for item in countries_for_language_en:
     reverse_countries_alternative_names[item[1].lower()] = item[1]
 
 with open("backenddata/propertydict_new", "rb") as handle:
-    mypropertydict = pickle.load(handle)
+    my_property_dict = pickle.load(handle)
 
 # a dictionary which takes a string and if it is a clustername
 # returns the list of categories associated to it. If it is just a normal

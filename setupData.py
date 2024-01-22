@@ -83,7 +83,7 @@ def setupdata(data,
                axis=1)
 
 
-def bettersetupdata(name,
+def better_setup_data(name,
                     column=1,
                     namecolumn=0,
                     ascending=False,

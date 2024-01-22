@@ -727,10 +727,10 @@ class MainWindow():
             self.c.itemconfig(line, state=tk.HIDDEN)
 
         def create_good_line(country1: Country, country2: Country):
-            ml = self.c.create_line(country1.wormholecoordinates[0],
-                                    country1.wormholecoordinates[1],
-                                    country2.wormholecoordinates[0],
-                                    country2.wormholecoordinates[1],
+            ml = self.c.create_line(country1.wormhole_coordinates[0],
+                                    country1.wormhole_coordinates[1],
+                                    country2.wormhole_coordinates[0],
+                                    country2.wormhole_coordinates[1],
                                     width=5,
                                     fill="black",
                                     dash=[5, 2],
@@ -739,19 +739,19 @@ class MainWindow():
             color = self.colorarray[random.randrange(0, len(self.colorarray))]
             self.colorarray.remove(color)
             startpoint = self.c.create_rectangle(
-                country1.wormholecoordinates[0] + 15,
-                country1.wormholecoordinates[1] + 15,
-                country1.wormholecoordinates[0] - 15,
-                country1.wormholecoordinates[1] - 15,
+                country1.wormhole_coordinates[0] + 15,
+                country1.wormhole_coordinates[1] + 15,
+                country1.wormhole_coordinates[0] - 15,
+                country1.wormhole_coordinates[1] - 15,
                 fill="gray",
                 stipple="@my_stripple.xbm",
                 outline=color,
                 width=5)
             endpoint = self.c.create_rectangle(
-                country2.wormholecoordinates[0] + 15,
-                country2.wormholecoordinates[1] + 15,
-                country2.wormholecoordinates[0] - 15,
-                country2.wormholecoordinates[1] - 15,
+                country2.wormhole_coordinates[0] + 15,
+                country2.wormhole_coordinates[1] + 15,
+                country2.wormhole_coordinates[0] - 15,
+                country2.wormhole_coordinates[1] - 15,
                 fill="gray",
                 stipple="@my_stripple.xbm",
                 outline=color,
@@ -772,8 +772,8 @@ class MainWindow():
         country2 = France
         if player != None:
             while (
-                    country2.name in country1.neighboringcountries
-                    or country1.name in country2.neighboringcountries
+                    country2.name in country1.neighboring_countries
+                    or country1.name in country2.neighboring_countries
                     or country1.continent == country2.continent
                     or country2 in player.list_of_possessed_countries
                     or country1 == Unknown_country
@@ -784,7 +784,7 @@ class MainWindow():
                     1, len(player.list_of_possessed_countries))]
                 country2 = all_countries[random.randrange(
                     1, len(all_countries))]
-            country1.neighboringcountries.append(country2.name)
+            country1.neighboring_countries.append(country2.name)
             self.wormholed_countries.append([country1, country2])
             create_good_line(country1, country2)
             print(self.linelist)
@@ -792,14 +792,14 @@ class MainWindow():
 
         for i in range(numberofwormholes):
 
-            while (country2.name in country1.neighboringcountries
-                   or country1.name in country2.neighboringcountries
+            while (country2.name in country1.neighboring_countries
+                   or country1.name in country2.neighboring_countries
                    or country1.continent == country2.continent):
                 country1 = all_countries[random.randrange(
                     1, len(all_countries))]
                 country2 = all_countries[random.randrange(
                     1, len(all_countries))]
-            country1.neighboringcountries.append(country2.name)
+            country1.neighboring_countries.append(country2.name)
             self.wormholed_countries.append([country1, country2])
             create_good_line(country1, country2)
             print(self.linelist)
@@ -1593,10 +1593,10 @@ class MainWindow():
             self.myimage = [0] * numberoftargets
             self.created_circles = list()
             for index, country in enumerate(targetlist):
-                item = self.c.create_oval(country.wormholecoordinates[0] + 20,
-                                          country.wormholecoordinates[1] + 20,
-                                          country.wormholecoordinates[0] - 20,
-                                          country.wormholecoordinates[1] - 20,
+                item = self.c.create_oval(country.wormhole_coordinates[0] + 20,
+                                          country.wormhole_coordinates[1] + 20,
+                                          country.wormhole_coordinates[0] - 20,
+                                          country.wormhole_coordinates[1] - 20,
                                           width=3,
                                           outline="red")
                 self.created_circles.append(item)
@@ -1604,7 +1604,7 @@ class MainWindow():
                                            text=country.name,
                                            font="Helvetica 25")
                 newcountrylabel.grid(row=1, column=index)
-                self.myimage[index] = country.getresizedflag(400)
+                self.myimage[index] = country.get_resized_flag(400)
                 newlabel = tk.Label(self.target_countries_frame,
                                     image=self.myimage[index],
                                     pady=40)

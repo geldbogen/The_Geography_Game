@@ -4,7 +4,7 @@ from tkinter import colorchooser, ttk
 
 from Player import Player
 from Country import Unknown_country
-from globalDefinitions import all_categories, countrynamelist, neighboring_countries, allPlayers, mypropertydict
+from globalDefinitions import all_categories, country_name_list, neighboring_countries, allPlayers, my_property_dict
 from MainWindow import MainWindow
 
 
@@ -16,10 +16,10 @@ class IntroWindow:
 
         self.i = 0
         self.root = tk.Tk()
-        self.startcountry = tk.StringVar()
-        self.winningcondition = tk.StringVar()
-        self.wormholeoption = tk.StringVar()
-        self.listofplayers = list()
+        self.start_country = tk.StringVar()
+        self.winning_condition = tk.StringVar()
+        self.wormhole_option = tk.StringVar()
+        self.list_of_players = list()
         pred_choose_var = tk.StringVar(self.root)
         pred_choose_var.set("Random")
         self.current_var = tk.StringVar()
@@ -69,17 +69,17 @@ class IntroWindow:
 
         self.startcountryoptions1 = tk.Radiobutton(self.root,
                                                    text="Random",
-                                                   variable=self.startcountry,
+                                                   variable=self.start_country,
                                                    value="random")
         self.startcountryoptions1.grid(row=2, column=1)
 
         self.startcountryoptions2 = tk.Radiobutton(self.root,
                                                    text="Choose",
-                                                   variable=self.startcountry,
+                                                   variable=self.start_country,
                                                    value="choose")
         self.startcountryoptions2.grid(row=3, column=1)
 
-        self.startcountry.set("random")
+        self.start_country.set("random")
 
         self.winconditionframe = tk.Frame(self.root)
 
@@ -90,28 +90,28 @@ class IntroWindow:
         self.winningconditionoption1 = tk.Radiobutton(
             self.winconditionframe,
             text="Number of countries",
-            variable=self.winningcondition,
+            variable=self.winning_condition,
             value="number of countries")
         self.winningconditionoption1.grid(row=1, column=0, sticky="w", padx=60)
 
         self.winningconditionoption2 = tk.Radiobutton(
             self.winconditionframe,
             text="Hold 2 countries to win",
-            variable=self.winningcondition,
+            variable=self.winning_condition,
             value="claim 2 countries")
         self.winningconditionoption2.grid(row=2, column=0, sticky="w", padx=60)
 
         self.winningconditionoption3 = tk.Radiobutton(
             self.winconditionframe,
             text="Claim at first the golden countries",
-            variable=self.winningcondition,
+            variable=self.winning_condition,
             value="get gold")
         self.winningconditionoption3.grid(row=3, column=0, sticky="w", padx=60)
 
         self.winningconditionoption4 = tk.Radiobutton(
             self.winconditionframe,
             text="Claim countries according to a predeterminded attribute",
-            variable=self.winningcondition,
+            variable=self.winning_condition,
             value="attribute",
             command=self.show_option_for_pred_attribute)
         self.winningconditionoption4.grid(row=4, column=0, sticky="w", padx=60)
@@ -119,18 +119,18 @@ class IntroWindow:
         self.winningconditionoption5 = tk.Radiobutton(
             self.winconditionframe,
             text="Secret targets",
-            variable=self.winningcondition,
+            variable=self.winning_condition,
             value="secret targets")
         self.winningconditionoption5.grid(row=7, column=0, sticky="w", padx=60)
 
         self.winningconditionoption6 = tk.Radiobutton(
             self.winconditionframe,
             text="Secret attribute",
-            variable=self.winningcondition,
+            variable=self.winning_condition,
             value="secret attribute")
         self.winningconditionoption6.grid(row=8, column=0, sticky="w", padx=60)
 
-        self.winningcondition.set("number of countries")
+        self.winning_condition.set("number of countries")
 
         self.winconditionframe.grid(row=4, column=1, padx=60)
 
@@ -204,24 +204,24 @@ class IntroWindow:
                                               text="Wormhole options")
         self.no_wormholes = tk.Radiobutton(self.wormhole_optionsframe,
                                            text="No wormholes at all",
-                                           variable=self.wormholeoption,
+                                           variable=self.wormhole_option,
                                            value="no wormholes at all")
         self.fixed_wormholes = tk.Radiobutton(self.wormhole_optionsframe,
                                               text="Fixed starting wormholes",
-                                              variable=self.wormholeoption,
+                                              variable=self.wormhole_option,
                                               value="fixed starting wormholes")
         self.every_round_changing_wormholes = tk.Radiobutton(
             self.wormhole_optionsframe,
             text="Every round changing wormholes",
-            variable=self.wormholeoption,
+            variable=self.wormhole_option,
             value="every round changing wormholes")
         self.from_your_side_changing_wormholes = tk.Radiobutton(
             self.wormhole_optionsframe,
-            variable=self.wormholeoption,
+            variable=self.wormhole_option,
             text="Every round changing wormholes from your countries",
             value="every round changing wormholes from your countries")
 
-        self.wormholeoption.set("no wormholes at all")
+        self.wormhole_option.set("no wormholes at all")
 
         self.wormhole_optionslabel.grid(row=0, column=0)
         self.no_wormholes.grid(row=1, column=0, sticky="w")
@@ -251,7 +251,7 @@ class IntroWindow:
         playercolor = colorchooser.askcolor(title="choose your color")
         name = self.nameentry.get()
         self.nameentry.delete(0, "end")
-        self.listofplayers.append(Player(color=playercolor[0], name=name))
+        self.list_of_players.append(Player(color=playercolor[0], name=name))
         self.currentplayerslistbox.insert(self.i, name)
         self.i = self.i + 1
 
@@ -325,7 +325,7 @@ class IntroWindow:
 
         for country in all_countries:
             name = country.name
-            countrynamelist.append(name)
+            country_name_list.append(name)
 
         for acountry in all_countries:
             try:
@@ -343,11 +343,11 @@ class IntroWindow:
 
         for country in all_countries:
             try:
-                country.dictofattributes = mypropertydict[country.name]
+                country.dictofattributes = my_property_dict[country.name]
             except:
                 pass
 
-        if len(self.listofplayers) == 0:
+        if len(self.list_of_players) == 0:
             return None
 
         for player in allPlayers.values():
@@ -359,20 +359,20 @@ class IntroWindow:
         self.root.destroy()
         if self.numberofrounds == "":
             MainWindow(bild=im,
-                       listofplayers=self.listofplayers,
-                       startingcountries=self.startcountry.get(),
-                       winningcondition=self.winningcondition.get(),
+                       listofplayers=self.list_of_players,
+                       startingcountries=self.start_country.get(),
+                       winningcondition=self.winning_condition.get(),
                        pred_attribute=self.current_var.get() + ".csv",
-                       wormholemode=self.wormholeoption.get(),
+                       wormholemode=self.wormhole_option.get(),
                        peacemode=self.peacemode_var.get(),
                        reversed_end_attribute=self.reverse_yes_or_novar.get())
         else:
             MainWindow(bild=im,
-                       listofplayers=self.listofplayers,
-                       startingcountries=self.startcountry.get(),
+                       listofplayers=self.list_of_players,
+                       startingcountries=self.start_country.get(),
                        numberofrounds=int(self.numberofrounds),
-                       winningcondition=self.winningcondition.get(),
+                       winningcondition=self.winning_condition.get(),
                        pred_attribute=self.current_var.get() + ".csv",
-                       wormholemode=self.wormholeoption.get(),
+                       wormholemode=self.wormhole_option.get(),
                        peacemode=self.peacemode_var.get(),
                        reversed_end_attribute=self.reverse_yes_or_novar.get())
