@@ -1,57 +1,67 @@
 from PIL import ImageDraw
 import pickle
+import tkinter as tk
+
+from globalDefinitions import mrNobody, allPlayers, category_to_displayed_name_dict, category_to_displayed_extra_information_category
+from Image import greenImage2, greencountrydict
+from Country import Country, Unknown_country
+from Category import Category
 
 
-def coloring(xcoordinate,ycoordinate,color,image):
-    xyn= (xcoordinate, ycoordinate)
-    ImageDraw.floodfill(image=image,xy=xyn,value=color,thresh=200)
+def coloring(xcoordinate, ycoordinate, color, image):
+    xyn = (xcoordinate, ycoordinate)
+    ImageDraw.floodfill(image=image, xy=xyn, value=color, thresh=200)
 
 
 def save_properties():
     global preallCountries
-    propertydict=dict()
+    propertydict = dict()
     for country in preallCountries:
-        propertydict[country.name]=country.dictofattributes
-    with open("backenddata/propertydict_new","wb") as f:
-        pickle.dump(propertydict,f)
+        propertydict[country.name] = country.dictofattributes
+    with open("backenddata/propertydict_new", "wb") as f:
+        pickle.dump(propertydict, f)
     print("\n\n\n !properties saved! \n\n\n")
 
 
 def callcountrybyname(name):
     for country in preallCountries:
-        if country.name==name:
+        if country.name == name:
             return country
+
 
 def callplayerbyname(name):
     for playername in allPlayers.keys():
-        if playername==name:
+        if playername == name:
             return allPlayers[playername]
-    return Mr_Nobody
+    return mrNobody
 
-def getcountrybyposition(xcoordinate,ycoordinate):
+
+def getcountrybyposition(xcoordinate, ycoordinate):
     # if bild.getpixel((xcoordinate,ycoordinate))==oceanblue:
     #     return Unknown_country
-    x=xcoordinate
-    y=ycoordinate
+    x = xcoordinate
+    y = ycoordinate
 
-    color=greenimage2[x,y]
+    color = greenImage2[x, y]
     try:
-        result= callcountrybyname(greencountrydict[color]) 
+        result = callcountrybyname(greencountrydict[color])
     except KeyError:
-        result=Unknown_country 
+        result = Unknown_country
     return result
 
 
-def Countriesareconnected(countrya:Country,countryb:Country) -> bool:
+def Countriesareconnected(countrya: Country, countryb: Country) -> bool:
     if countrya.name in countryb.neighboringcountries or countryb.name in countrya.neighboringcountries:
         return True
     else:
         return False
 
 
+def replace_A_and_B_in_category_name(tk_label: tk.Label,
+                                     category: Category,
+                                     first_country: Country = None,
+                                     second_country: Country = None) -> str:
 
-def replace_A_and_B_in_category_name(tk_label:tk.Label,category:Category, first_country:Country = None, second_country:Country = None) -> str:
-    
     categoryname = category.name.rstrip(".csv")
     try:
         displaystring = category_to_displayed_name_dict[categoryname]
@@ -59,7 +69,6 @@ def replace_A_and_B_in_category_name(tk_label:tk.Label,category:Category, first_
             displaystring = categoryname + " (TODO)"
     except KeyError:
         displaystring = categoryname + " (ERROR)"
-
 
     if (second_country == None):
         displaystring = displaystring.replace("CountryB", " (...) ")
@@ -74,9 +83,11 @@ def replace_A_and_B_in_category_name(tk_label:tk.Label,category:Category, first_
     extra_information_displayed = ""
 
     try:
-        if (category_to_displayed_extra_information_category[categoryname] == "person"):
+        if (category_to_displayed_extra_information_category[categoryname] ==
+                "person"):
             extra_information_displayed = "\n (citizenship or birthplace in the current territory of the country)"
-        if (category_to_displayed_extra_information_category[categoryname] == "historical event"):
+        if (category_to_displayed_extra_information_category[categoryname] ==
+                "historical event"):
             extra_information_displayed = "\n (took place in the current territory of the country)"
     except KeyError:
         pass
