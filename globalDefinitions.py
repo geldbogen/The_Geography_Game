@@ -1,9 +1,7 @@
-from Player import Player
 import pandas as pd
 import pickle
 
 import alternative_names
-import additional_explanations
 import categoryname_to_displayed_name
 
 resizeRatio = [3500 / 14063, 1737 / 6981]
@@ -29,9 +27,6 @@ allPlayers = dict()
 all_countries = []
 all_categories = []
 all_categories_names_and_clusters = []
-
-mrNobody = Player(color="white", name="Nobody")
-No_Data_Body = Player(color=realgrey, name="Nobody")
 
 mycounter = 0
 whichcountrydict = dict()

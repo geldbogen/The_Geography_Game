@@ -1,4 +1,4 @@
-from globalDefinitions import allPlayers
+from globalDefinitions import allPlayers, realgrey
 
 class Player:
     def __init__(self,color,name,reroll_number=3):
@@ -23,3 +23,6 @@ class Player:
 
         # the number of rerolls the player has left
         self.rerolls_left=reroll_number
+
+mrNobody = Player(color="white", name="Nobody")
+No_Data_Body = Player(color=realgrey, name="Nobody")
