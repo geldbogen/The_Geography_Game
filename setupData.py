@@ -116,8 +116,8 @@ def better_setup_data(name,
 
     # create Category with information provided
     Category(name,
-             isActive=additional_information,
-             treatMissingDataAsBad=treatmissingdataasbad,
+             is_active=additional_information,
+             treat_missing_data_as_bad=treatmissingdataasbad,
              difficulty=dif,
              explanation=explanation,
              is_end_only=is_end_only)

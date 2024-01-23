@@ -5,8 +5,8 @@ class Category:
 
     def __init__(self,
                  name: str,
-                 isActive: bool,
-                 treatMissingDataAsBad: bool,
+                 is_active: bool,
+                 treat_missing_data_as_bad: bool,
                  difficulty: int,
                  explanation: str = "",
                  cluster: str = "",
@@ -17,15 +17,15 @@ class Category:
         self.name = name
 
         # whether a category is active, i.e. whether the player
-        # can "guess" before taking a move in order to get a freee turn
-        self.isActive = isActive
+        # can "guess" before taking a move in order to get a free turn
+        self.is_active = is_active
 
         # In order to prevent that the same category is chosen too often,
         # a counter which tracks how often a category has already been chosen
-        self.numberOfChosenAlready = 0
+        self.number_of_chosen_already = 0
 
         # whether the category is a "treat missing data as a loss" - category
-        self.treatMissingDataAsBad = treatMissingDataAsBad
+        self.treat_missing_data_as_bad = treat_missing_data_as_bad
 
         # the difficulty on the category on a scale of 1 (easiest) to 5 (hardest)
         self.difficulty = difficulty

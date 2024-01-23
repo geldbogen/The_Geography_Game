@@ -359,19 +359,19 @@ class IntroWindow:
         self.root.destroy()
         if self.numberofrounds == "":
             MainWindow(bild=im,
-                       listofplayers=self.list_of_players,
-                       startingcountries=self.start_country.get(),
-                       winningcondition=self.winning_condition.get(),
+                       list_of_players=self.list_of_players,
+                       starting_countries=self.start_country.get(),
+                       winning_condition=self.winning_condition.get(),
                        pred_attribute=self.current_var.get() + ".csv",
                        wormholemode=self.wormhole_option.get(),
                        peacemode=self.peacemode_var.get(),
                        reversed_end_attribute=self.reverse_yes_or_novar.get())
         else:
             MainWindow(bild=im,
-                       listofplayers=self.list_of_players,
-                       startingcountries=self.start_country.get(),
-                       numberofrounds=int(self.numberofrounds),
-                       winningcondition=self.winning_condition.get(),
+                       list_of_players=self.list_of_players,
+                       starting_countries=self.start_country.get(),
+                       number_of_rounds=int(self.numberofrounds),
+                       winning_condition=self.winning_condition.get(),
                        pred_attribute=self.current_var.get() + ".csv",
                        wormholemode=self.wormhole_option.get(),
                        peacemode=self.peacemode_var.get(),

@@ -37,7 +37,7 @@ def callplayerbyname(name):
     return mrNobody
 
 
-def getcountrybyposition(xcoordinate, ycoordinate):
+def get_country_by_position(xcoordinate, ycoordinate):
     # if bild.getpixel((xcoordinate,ycoordinate))==oceanblue:
     #     return Unknown_country
     x = xcoordinate
