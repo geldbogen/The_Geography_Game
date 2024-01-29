@@ -3,118 +3,100 @@ import pandas as pd
 import additional_explanations
 
 from Category import Category
-from Country import pre_all_countries
+from Country import all_countries_available
 from helpFunctions import call_country_by_name
 from globalDefinitions import reverse_countries_alternative_names
+from LocalAttribute import LocalAttribute
 
 
-
-def normalize_country_name(countryname:str) -> str:
-
-
-
-def setupdata(data,
-              column,
-              namecolumn,
-              nameofattribute,
-              ascending,
-              treat_missing_data_as_bad=False,
-              applyfrac=False,
-              additional_information=False,
-              additional_information_column_list=[2]):
-
-    def append_dataframe(series, nameofattribute, numberofranked):
-        additional_informations = []
-
-        try:
-            countryname = reverse_countries_alternative_names[
-                series.iloc[0].lower()]
-        except KeyError:
-            return None
-        if not call_country_by_name(countryname) in pre_all_countries:
-            return None
-            
-        value = series.iloc[1]
-
-        if additional_information:
-            additional_informations = list()
-            for item in additional_information_column_list:
-                additional_informations.append(series.iloc[item])  # error
-        mylist = list()
-        mylist.append(value)
-        mylist.append((series.loc["ranking"] + 1))
-        mylist.append(numberofranked + 1)
-        mylist += additional_informations
-        call_country_by_name(
-            countryname).dict_of_attributes[nameofattribute] = mylist
-        pass
-
-    if not treat_missing_data_as_bad:
-        data = data[data["1"] != float(-1)]
-    else:
-        if not ascending:
-            data["1"] = data["1"].apply(lambda x: float(0)
-                                        if x == float(-1) else x)
-        else:
-            data["1"] = data["1"].apply(lambda x: float(9999999999)
-                                        if x == float(-1) else x)
-                                        
-    data.sort_values(by=str(column), ascending=ascending, inplace=True)
-
-    data = data.reset_index(drop=True)
-
-    dList = data.iloc[:, 0].tolist()
-
-    dataDict = {'0': [], '1': []}
-    for index, item in enumerate(dList):
-        dList[index] = reverse_countries_alternative_names[item]
-
-    data.iloc[:, 0] = dList
-    # if treat_missing_data_as_bad:
-    #     for countryclass in pre_all_countries:
-    #         if countryclass.name not in dList:
-    #             if not ascending:
-    #                 dataDict['0'].append(countryclass.name)
-    #                 dataDict['1'].append(float(0))
-    #             else:
-    #                 dataDict['0'].append(countryclass.name)
-    #                 dataDict['1'].append(float(9999999999))
-
-    data = pd.DataFrame(dataDict)
-
-    ranking_list = list(range(len(data.index)))
-
-    data["ranking"] = ranking_list
-
-    data.apply(lambda x: append_dataframe(
-        x, nameofattribute=nameofattribute, numberofranked=len(ranking_list)),
-               axis=1)
+def normalize_country_name(countryname: str) -> str:
+    try:
+        return reverse_countries_alternative_names[countryname]
+    except KeyError:
+        return countryname
 
 
-def better_setup_data(name,
-                    column=1,
-                    namecolumn=0,
-                    ascending=False,
-                    treatmissingdataasbad=False,
-                    applyfrac=False,
-                    dif=0,
-                    additional_information=False,
-                    additional_information_column=[2],
-                    cluster=None,
-                    is_end_only: bool = False):
+def extract_data_from_series(series: pd.DataFrame, nameofattribute,
+                             numberofranked, additional_information,
+                             additional_information_column_list):
 
+    countryname = series.iloc[0]
+
+    # if the country is not in the game, we don't need to proceed
+    if not call_country_by_name(countryname) in all_countries_available:
+        return None
+
+    # the value of the attribute
+    value = series.iloc[1]
+
+    my_local_attribute = LocalAttribute()
+
+    my_local_attribute.value = float(value)
+
+    my_local_attribute.rank = series.loc["ranking"] + 1
+
+    my_local_attribute.how_many_ranked = numberofranked
+
+    # extract the additional information
+    if additional_information:
+
+        for index, column_index in enumerate(
+                additional_information_column_list):
+            value = series.iloc[column_index]
+
+            if index == 0:
+                my_local_attribute.additional_information_name = value
+
+            if index == 1:
+                my_local_attribute.additional_information = value
+
+            if index == 2:
+                my_local_attribute.wikipedia_link = value
+
+    call_country_by_name(
+        countryname).dict_of_attributes[nameofattribute] = my_local_attribute
+
+
+def setup_data(name,
+               column=1,
+               namecolumn=0,
+               ascending=False,
+               treat_missing_data_as_bad=False,
+               apply_frac=False,
+               dif=0,
+               additional_information=False,
+               additional_information_column_list=[2],
+               cluster=None,
+               is_end_only: bool = False):
+
+    # just for convenience
     if "lower is better" in name:
         ascending = True
+
+    # load the data
     data = pd.read_csv("data/" + name, index_col=None)
-    setupdata(data,
-              column,
-              namecolumn,
-              name,
-              ascending=ascending,
-              treat_missing_data_as_bad=treatmissingdataasbad,
-              applyfrac=applyfrac,
-              additional_information=additional_information,
-              additional_information_column_list=additional_information_column)
+
+    # normalize the country names
+    data.iloc[:, namecolumn] = data.iloc[:, namecolumn].apply(
+        lambda x: normalize_country_name(x))
+
+    # get the relative ranking of each country in the countrylist
+    # TODO rank only the countries, which are in the game
+    data.sort_values(by=data.columns[column],
+                     ascending=ascending,
+                     inplace=True)
+    data = data.reset_index(drop=True)
+    ranking_list = list(range(len(data.index)))
+    data["ranking"] = ranking_list
+
+    # get the data from the rows
+    data.apply(lambda x: extract_data_from_series(
+        x,
+        nameofattribute=name,
+        numberofranked=len(ranking_list),
+        additional_information=additional_information,
+        additional_information_column_list=additional_information_column_list),
+               axis=1)
 
     # get additional explanations, if it is provided
     try:
@@ -125,7 +107,7 @@ def better_setup_data(name,
     # create Category with information provided
     Category(name,
              is_active=additional_information,
-             treat_missing_data_as_bad=treatmissingdataasbad,
+             treat_missing_data_as_bad=treat_missing_data_as_bad,
              difficulty=dif,
              explanation=explanation,
              is_end_only=is_end_only)

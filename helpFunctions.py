@@ -2,7 +2,7 @@ from PIL import ImageDraw
 import pickle
 import tkinter as tk
 
-from globalDefinitions import allPlayers, category_to_displayed_name_dict, category_to_displayed_extra_information_category, pre_all_countries
+from globalDefinitions import allPlayers, category_to_displayed_name_dict, category_to_displayed_extra_information_category, all_countries_available
 from Player import mrNobody
 from Image import greenImage2, greencountrydict
 from Country import Country, Unknown_country
@@ -25,7 +25,7 @@ def save_properties():
 
 
 def call_country_by_name(name):
-    for country in pre_all_countries:
+    for country in all_countries_available:
         if country.name == name:
             return country
 

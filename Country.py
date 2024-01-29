@@ -1,25 +1,43 @@
 from PIL import ImageDraw, Image, ImageTk
 import numpy as np
 
-from globalDefinitions import resize_ratio, pre_all_countries, countries_for_language_en, all_countries, country_name_list
+from globalDefinitions import resize_ratio, all_countries_available, countries_for_language_en, all_countries, country_name_list
 from Image import pngImage
+from LocalAttribute import LocalAttribute
 
 
 class Country:
 
     def __init__(self, xcoordinate, ycoordinate, name, continent=None):
+
         self.coordinate_list = []
+
         for i in range(len(xcoordinate)):
             self.coordinate_list.append((xcoordinate[i], ycoordinate[i]))
-        self.xcoordinate = xcoordinate
         self.neighboring_countries = []
+
+        
+        self.xcoordinate = xcoordinate
         self.ycoordinate = ycoordinate
-        self.dict_of_attributes = dict()
+
+        # a dict of attributes with key the dictionary name and value a dict 
+        # TODO change it, so that it is a property of categories, not of countries
+        self.dict_of_attributes = dict[str, LocalAttribute]
+
+        # the name of the country
         self.name = name
+
+        # the current owner of the country
         self.owner = "Nobody"
+
+        # the continent the country belongs to
         self.continent = continent
-        pre_all_countries.append(self)
+
+        all_countries_available.append(self)
+
         self.save_location = "data/npdata/" + self.name + "-nparray.npy"
+
+        # the screen coordinate, where the wormhole is going to if it goes to the country
         self.wormhole_coordinates = [
             resize_ratio[0] * xcoordinate[0], resize_ratio[1] * ycoordinate[0]
         ]

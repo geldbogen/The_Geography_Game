@@ -19,7 +19,7 @@ gold = (255, 215, 0)
 
 country_name_list = []
 flagframedict = dict()
-pre_all_countries = []
+all_countries_available = []
 clusterdict = dict()
 clusternamelist = []
 allPlayers = dict()
@@ -58,6 +58,10 @@ for mlist in countries_alternative_names.values():
 
 for item in countries_for_language_en:
     reverse_countries_alternative_names[item[1].lower()] = item[1]
+
+for item in countries_for_language_en:
+    reverse_countries_alternative_names[item[1]] = item[1]
+
 
 with open("backenddata/propertydict_new", "rb") as handle:
     my_property_dict = pickle.load(handle)
