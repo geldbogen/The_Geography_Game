@@ -4,16 +4,10 @@ import additional_explanations
 
 from Category import Category
 from Country import all_countries_available
-from helpFunctions import call_country_by_name
-from globalDefinitions import reverse_countries_alternative_names
+from HelpFunctions import call_country_by_name, normalize_country_name
+from GlobalDefinitions import reverse_countries_alternative_names
 from LocalAttribute import LocalAttribute
 
-
-def normalize_country_name(countryname: str) -> str:
-    try:
-        return reverse_countries_alternative_names[countryname]
-    except KeyError:
-        return countryname
 
 
 def extract_data_from_series(series: pd.DataFrame, nameofattribute,

@@ -1,7 +1,7 @@
 from PIL import ImageDraw, Image, ImageTk
 import numpy as np
 
-from globalDefinitions import resize_ratio, all_countries_available, countries_for_language_en, all_countries, country_name_list
+from GlobalDefinitions import resize_ratio, all_countries_available, countries_for_language_en, all_countries, country_name_list
 from Image import pngImage
 from LocalAttribute import LocalAttribute
 

@@ -12,8 +12,8 @@ from Country import Country, Unknown_country, Germany, France
 from Category import Category
 from Player import Player, No_Data_Body
 from Image import greencountrydict, greenImage
-from globalDefinitions import all_categories, all_countries, all_categories_names_and_clusters, dictionary_attribute_name_to_attribute, gold, realgrey
-from helpFunctions import Countriesareconnected, get_country_by_position, replace_A_and_B_in_category_name, call_country_by_name, call_player_by_name
+from GlobalDefinitions import all_categories, all_countries, all_categories_names_and_clusters, dictionary_attribute_name_to_attribute, gold, realgrey
+from HelpFunctions import Countriesareconnected, get_country_by_position, replace_A_and_B_in_category_name, call_country_by_name, call_player_by_name
 
 
 class MainWindow():

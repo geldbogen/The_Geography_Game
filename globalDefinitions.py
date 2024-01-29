@@ -22,7 +22,7 @@ flagframedict = dict()
 all_countries_available = []
 clusterdict = dict()
 clusternamelist = []
-allPlayers = dict()
+all_players = dict()
 
 all_countries = []
 all_categories = []

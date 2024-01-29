@@ -2,7 +2,7 @@ from PIL import ImageDraw
 import pickle
 import tkinter as tk
 
-from globalDefinitions import allPlayers, category_to_displayed_name_dict, category_to_displayed_extra_information_category, all_countries_available
+from GlobalDefinitions import all_players, category_to_displayed_name_dict, category_to_displayed_extra_information_category, all_countries_available, reverse_countries_alternative_names
 from Player import mrNobody
 from Image import greenImage2, greencountrydict
 from Country import Country, Unknown_country
@@ -31,9 +31,9 @@ def call_country_by_name(name):
 
 
 def call_player_by_name(name):
-    for playername in allPlayers.keys():
+    for playername in all_players.keys():
         if playername == name:
-            return allPlayers[playername]
+            return all_players[playername]
     return mrNobody
 
 
@@ -108,3 +108,9 @@ def replace_A_and_B_in_category_name(tk_label: tk.Label,
     tk_label.configure(text=displaystring)
 
     return tk_label
+
+def normalize_country_name(countryname: str) -> str:
+    try:
+        return reverse_countries_alternative_names[countryname]
+    except KeyError:
+        return countryname

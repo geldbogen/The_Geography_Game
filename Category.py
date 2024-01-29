@@ -1,4 +1,4 @@
-from globalDefinitions import all_categories, all_categories_names_and_clusters, dictionary_attribute_name_to_attribute
+from GlobalDefinitions import all_categories, all_categories_names_and_clusters, dictionary_attribute_name_to_attribute
 
 
 class Category:

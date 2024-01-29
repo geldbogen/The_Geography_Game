@@ -5,7 +5,7 @@ from PIL import Image, ImageDraw, ImageTk
 import pickle
 
 from SetupData import setup_data
-from helpFunctions import save_properties
+from HelpFunctions import save_properties
 from IntroWindow import IntroWindow
 
 setup_data("Strength of passport (in countries enterable without need of visa) (higher is better).csv",treatmissingdataasbad=True,dif=2,additional_information=True,additional_information_column=[2,3,4]) #explain
