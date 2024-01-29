@@ -21,7 +21,7 @@ class MainWindow():
 
     def __init__(self,
                  bild,
-                 list_of_players,
+                 list_of_players : list[Player],
                  wormholemode,
                  starting_countries="random",
                  number_of_rounds=99999999999,
@@ -1298,7 +1298,7 @@ class MainWindow():
                     flag = a[i].list_of_possessed_countries[
                         j].get_resized_flag(100)
 
-                    countryscorelabel = tk.Label(self.doubleframe,
+                    country_score_label = tk.Label(self.doubleframe,
                                                  text=scorelist[j],
                                                  font="Helvetica 30")
                     self.newlabel = tk.Label(self.doubleframe, image=flag)
@@ -1313,7 +1313,7 @@ class MainWindow():
                                             text=country.name,
                                             font="Helvetica 20")
                     self.newlabel.grid(row=0)
-                    countryscorelabel.grid(row=1)
+                    country_score_label.grid(row=1)
                     countrylabel.grid(row=2)
                     if self.end_attribute.is_active:
                         try:

@@ -349,7 +349,7 @@ if __name__ == '__main__':
 
 # propertydict=dict()
 # for country in allCountries:
-#     propertydict[country.name]=country.dictofattributes
+#     propertydict[country.name]=country.dict_of_attributes
 
 # with open("backenddata/attributedict","wb") as f:
 #     pickle.dump(propertydict,f)

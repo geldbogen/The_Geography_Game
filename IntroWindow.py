@@ -340,7 +340,7 @@ class IntroWindow:
 
         for country in all_countries:
             try:
-                country.dictofattributes = my_property_dict[country.name]
+                country.dict_of_attributes = my_property_dict[country.name]
             except:
                 pass
 

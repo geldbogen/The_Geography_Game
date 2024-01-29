@@ -27,5 +27,5 @@ class Player:
         self.rerolls_left = reroll_number
 
 
-mrNobody = Player(color="white", name="Nobody")
+mr_nobody = Player(color="white", name="Nobody")
 No_Data_Body = Player(color=realgrey, name="Nobody")

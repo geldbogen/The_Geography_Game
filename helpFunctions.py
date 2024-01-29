@@ -3,7 +3,7 @@ import pickle
 import tkinter as tk
 
 from GlobalDefinitions import all_players, category_to_displayed_name_dict, category_to_displayed_extra_information_category, all_countries_available, reverse_countries_alternative_names
-from Player import mrNobody
+from Player import mr_nobody
 from Image import greenImage2, greencountrydict
 from Country import Country, Unknown_country
 from Category import Category
@@ -34,7 +34,7 @@ def call_player_by_name(name):
     for playername in all_players.keys():
         if playername == name:
             return all_players[playername]
-    return mrNobody
+    return mr_nobody
 
 
 def get_country_by_position(xcoordinate, ycoordinate):
