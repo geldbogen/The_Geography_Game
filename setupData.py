@@ -109,3 +109,9 @@ def setup_data(name,
              difficulty=dif,
              explanation=explanation,
              is_end_only=is_end_only)
+    
+    for country in all_countries_available:
+        try:
+            country.dict_of_attributes[name]
+        except KeyError:
+            country.dict_of_attributes[name] = LocalAttribute()

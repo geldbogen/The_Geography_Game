@@ -334,7 +334,7 @@ class IntroWindow:
                     if bcountry == Unknown_country:
                         continue
                     if bcountry.name in data.iat[0, 5]:
-                        bcountry.neighboringcountries.append(acountry.name)
+                        bcountry.neighboring_countries.append(acountry.name)
             except:
                 continue
 

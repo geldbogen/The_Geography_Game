@@ -8,6 +8,7 @@ import time
 import wikipedia
 import webbrowser
 
+from LocalAttribute import LocalAttribute
 from Country import Country, Unknown_country, Germany, France
 from Category import Category
 from Player import Player, No_Data_Body
@@ -195,7 +196,7 @@ class MainWindow():
                     if self.winning_condition == "attribute":
                         try:
                             all_countries[rng].dict_of_attributes[
-                                self.end_attribute.name][0]
+                                self.end_attribute.name].value
                         except:
                             j = 1
                 if j == 0:
@@ -558,7 +559,7 @@ class MainWindow():
                                column=len(player.list_of_possessed_countries) +
                                1)
                 new_label.bind("<Button-1>",
-                               lambda x: self.popupcountrystats(country))
+                               lambda x: self.popup_country_stats(country))
                 player.labeldict[country] = new_label
                 frame.current_flagdict[country] = myimage
 
@@ -601,7 +602,7 @@ class MainWindow():
     def callback(self, url):
         webbrowser.open_new(url)
 
-    def popupcountrystats(self, country: Country):
+    def popup_country_stats(self, country: Country):
 
         def _on_mousewheel(event):
             canvas21.yview_scroll(int(-1 * (float(event.delta) / 120)),
@@ -643,28 +644,28 @@ class MainWindow():
                                font="Helvetica 15")
             mylabel.grid(row=index + 2, column=0, pady=10)
             mylabel2 = tk.Label(frame22,
-                                text=country.dict_of_attributes[item][0],
+                                text=country.dict_of_attributes[item].value,
                                 font="Helvetica 15")
             try:
                 mylabel3 = tk.Label(frame22,
-                                    text=country.dict_of_attributes[item][3],
+                                    text=country.dict_of_attributes[item].additional_information_name,
                                     font="Helvetica 15")
             except IndexError:
                 mylabel3 = tk.Label(frame22, text="--", font="Helvetica 15")
             mylabel2.grid(row=index + 2, column=1, pady=10)
             mylabel3.grid(row=index + 2, column=2, pady=10)
             mylabel4 = tk.Label(frame22,
-                                text=str(country.dict_of_attributes[item][1]) +
-                                "/" + str(country.dict_of_attributes[item][2]),
+                                text=str(country.dict_of_attributes[item].rank) +
+                                "/" + str(country.dict_of_attributes[item].how_many_ranked),
                                 font="Helvetica 15")
             mylabel4.grid(row=index + 2, column=3, pady=10)
-        ddlist = [[propertyname, value[1] / value[2]]
+        ddlist = [[propertyname, value.rank / value.how_many_ranked]
                   for propertyname, value in country.dict_of_attributes.items()]
         ddlist.sort(key=lambda x: x[1])
         print(ddlist)
         goodlist = ddlist[:5]
         ddlist = [[pname, value] for [pname, value] in ddlist
-                  if country.dict_of_attributes[pname][0] not in
+                  if country.dict_of_attributes[pname].value not in
                   [-1, -1.0, -9999.0, -9999]]
         badlist = ddlist[-5:]
         badlist.reverse()
@@ -683,19 +684,19 @@ class MainWindow():
                                font="Helvetica 15")
             mylabel.grid(row=len(mylist) + index + 4, column=0, pady=10)
             mylabel2 = tk.Label(frame22,
-                                text=country.dict_of_attributes[item][0],
+                                text=country.dict_of_attributes[item].value,
                                 font="Helvetica 15")
             try:
                 mylabel3 = tk.Label(frame22,
-                                    text=country.dict_of_attributes[item][3],
+                                    text=country.dict_of_attributes[item].additional_information_name,
                                     font="Helvetica 15")
             except IndexError:
                 mylabel3 = tk.Label(frame22, text="--", font="Helvetica 15")
             mylabel2.grid(row=index + 4 + len(mylist), column=1, pady=10)
             mylabel3.grid(row=index + 4 + len(mylist), column=2, pady=10)
             mylabel4 = tk.Label(frame22,
-                                text=str(country.dict_of_attributes[item][1]) +
-                                "/" + str(country.dict_of_attributes[item][2]),
+                                text=str(country.dict_of_attributes[item].rank) +
+                                "/" + str(country.dict_of_attributes[item].how_many_ranked),
                                 font="Helvetica 15")
             mylabel4.grid(row=index + 4 + len(mylist), column=3, pady=10)
 
@@ -707,19 +708,19 @@ class MainWindow():
                                font="Helvetica 15")
             mylabel.grid(row=len(mylist) + index + 10, column=0, pady=10)
             mylabel2 = tk.Label(frame22,
-                                text=country.dict_of_attributes[item][0],
+                                text=country.dict_of_attributes[item].value,
                                 font="Helvetica 15")
             try:
                 mylabel3 = tk.Label(frame22,
-                                    text=country.dict_of_attributes[item][3],
+                                    text=country.dict_of_attributes[item].additional_information_name,
                                     font="Helvetica 15")
             except IndexError:
                 mylabel3 = tk.Label(frame22, text="--", font="Helvetica 15")
             mylabel2.grid(row=index + 10 + len(mylist), column=1, pady=10)
             mylabel3.grid(row=index + 10 + len(mylist), column=2, pady=10)
             mylabel4 = tk.Label(frame22,
-                                text=str(country.dict_of_attributes[item][1]) +
-                                "/" + str(country.dict_of_attributes[item][2]),
+                                text=str(country.dict_of_attributes[item].rank) +
+                                "/" + str(country.dict_of_attributes[item].how_many_ranked),
                                 font="Helvetica 15")
             mylabel4.grid(row=index + 10 + len(mylist), column=3, pady=10)
 
@@ -1021,7 +1022,7 @@ class MainWindow():
 
                 urlA = "pictures/attribute_pictures/" + property.name.replace(
                     ".csv", "") + "/" + country_a.dict_of_attributes[
-                        property.name][3] + ".jpg"
+                        property.name].additional_information_name + ".jpg"
                 try:
                     imgA = Image.open(urlA)
                 except FileNotFoundError:
@@ -1036,7 +1037,7 @@ class MainWindow():
                 panelA.grid(row=2, column=0)
                 panelA_extra = tk.Label(
                     frame12,
-                    text=country_a.dict_of_attributes[property.name][3],
+                    text=country_a.dict_of_attributes[property.name].additional_information_name,
                     font="Helvetica 20",
                     wraplength=500)
                 panelA_extra.grid(row=3, column=0)
@@ -1046,7 +1047,7 @@ class MainWindow():
 
                 urlB = "pictures/attribute_pictures/" + property.name.replace(
                     ".csv", "") + "/" + country_b.dict_of_attributes[
-                        property.name][3] + ".jpg"
+                        property.name].additional_information_name + ".jpg"
                 try:
                     imgB = Image.open(urlB)
                 except FileNotFoundError:
@@ -1064,7 +1065,7 @@ class MainWindow():
 
                 panelB_extra = tk.Label(
                     frame12,
-                    text=country_b.dict_of_attributes[property.name][3],
+                    text=country_b.dict_of_attributes[property.name].additional_information_name,
                     font="Helvetica 20",
                     wraplength=500)
 
@@ -1073,10 +1074,10 @@ class MainWindow():
                 traceback.print_exc()
             try:
                 if country_a.dict_of_attributes[
-                        property.name][3] != country_a.name:
+                        property.name].additional_information_name != country_a.name:
                     if wikiurl_A == "":
                         self.search_string = country_a.dict_of_attributes[
-                            property.name][3]
+                            property.name].additional_information_name
                         self.search_string = wikipedia.search(
                             self.search_string)[0]
                         print(self.search_string)
@@ -1110,10 +1111,10 @@ class MainWindow():
                 traceback.print_exc()
             try:
                 if country_b.dict_of_attributes[
-                        property.name][3] != country_b.name:
+                        property.name].additional_information_name != country_b.name:
                     if wikiurl_B == "":
                         self.search_string = country_b.dict_of_attributes[
-                            property.name][3]
+                            property.name].additional_information_name
                         self.search_string = wikipedia.search(
                             self.search_string)[0]
                         print(self.search_string)
@@ -1149,24 +1150,22 @@ class MainWindow():
                 traceback.print_exc()
 
         try:
-            countrya_top5 = country_a.dict_of_attributes[property.name][1] < 6
+            countrya_top5 = country_a.dict_of_attributes[property.name].rank < 6
         except:
             countrya_top5 = False
 
         try:
-            countryb_top5 = country_b.dict_of_attributes[property.name][1] < 6
+            countryb_top5 = country_b.dict_of_attributes[property.name].rank < 6
         except:
             countryb_top5 = False
 
         try:
-            countrya_worst5 = country_a.dict_of_attributes[property.name][
-                2] - country_a.dict_of_attributes[property.name][1] < 6
+            countrya_worst5 = country_a.dict_of_attributes[property.name].how_many_ranked - country_a.dict_of_attributes[property.name].rank < 6
         except:
             countrya_worst5 = False
 
         try:
-            countryb_worst5 = country_b.dict_of_attributes[property.name][
-                2] - country_b.dict_of_attributes[property.name][1] < 6
+            countryb_worst5 = country_b.dict_of_attributes[property.name].how_many_ranked - country_b.dict_of_attributes[property.name].rank < 6
         except:
             countryb_worst5 = False
 
@@ -1184,8 +1183,8 @@ class MainWindow():
 
     def endscreen(self,
                   cause="numberofrounds",
-                  winner=None,
-                  gotcha_country=None):
+                  winner : Player = None,
+                  gotcha_country : Country = None):
 
         def _on_mousewheel(event):
             canvas21.yview_scroll(int(-1 * (float(event.delta) / 120)),
@@ -1263,7 +1262,7 @@ class MainWindow():
             #sorting
             def bla(x):
                 try:
-                    return x.dict_of_attributes[self.end_attribute.name][0]
+                    return x.dict_of_attributes[self.end_attribute.name].value
                 except:
                     return -9999999.0
 
@@ -1305,11 +1304,10 @@ class MainWindow():
                     self.newlabel = tk.Label(self.doubleframe, image=flag)
                     country = a[i].list_of_possessed_countries[j]
                     if self.reversed_end_attribute == 1:
-                        country.dict_of_attributes[self.end_attribute.name][
-                            1] = country.dict_of_attributes[
+                        country.dict_of_attributes[self.end_attribute.name].rank = country.dict_of_attributes[
                                 self.end_attribute.
-                                name][2] - country.dict_of_attributes[
-                                    self.end_attribute.name][1]
+                                name].how_many_ranked - country.dict_of_attributes[
+                                    self.end_attribute.name].rank
 
                     countrylabel = tk.Label(self.doubleframe,
                                             text=country.name,
@@ -1322,7 +1320,7 @@ class MainWindow():
                             label_of_thing = tk.Label(
                                 self.name_value_rank_frame,
                                 text=str(country.dict_of_attributes[
-                                    self.end_attribute.name][3]),
+                                    self.end_attribute.name].additional_information_name),
                                 font="Helvetica 20")
                         except:
                             label_of_thing = tk.Label(
@@ -1333,7 +1331,7 @@ class MainWindow():
                             width = 200
                             urlA = "pictures/attribute_pictures/" + self.end_attribute.name.replace(
                                 ".csv", "") + "/" + country.dict_of_attributes[
-                                    self.end_attribute.name][3] + ".jpg"
+                                    self.end_attribute.name].additional_information_name + ".jpg"
                             try:
                                 imgA = Image.open(urlA)
                             except FileNotFoundError:
@@ -1353,13 +1351,13 @@ class MainWindow():
                         label_of_value = tk.Label(
                             self.name_value_rank_frame,
                             text=format((country.dict_of_attributes[
-                                self.end_attribute.name][0]), ","),
+                                self.end_attribute.name].value), ","),
                             font="Helvetica 20")
                         label_of_value.grid(row=1)
                         label_of_worldrank = tk.Label(
                             self.name_value_rank_frame,
                             text="worldrank:" + str(country.dict_of_attributes[
-                                self.end_attribute.name][1]),
+                                self.end_attribute.name].rank),
                             font="Helvetica 20")
                         label_of_worldrank.grid(row=2)
                         self.doubleframe.grid_rowconfigure(4, weight=1)
@@ -1368,13 +1366,13 @@ class MainWindow():
                         label_of_value = tk.Label(
                             self.doubleframe,
                             text=format((country.dict_of_attributes[
-                                self.end_attribute.name][0]), ","),
+                                self.end_attribute.name].value), ","),
                             font="Helvetica 20")
                         label_of_value.grid(row=5, sticky="s")
                         label_of_worldrank = tk.Label(
                             self.doubleframe,
                             text="worldrank:" + str(country.dict_of_attributes[
-                                self.end_attribute.name][1]),
+                                self.end_attribute.name].rank),
                             font="Helvetica 20")
                         label_of_worldrank.grid(row=6, sticky="s")
 
@@ -1536,11 +1534,12 @@ class MainWindow():
                 attribute = self.get_random_attribute_with_cluster()
                 numberofnodata = 0
                 for country in all_countries:
+                    # TODO
                     try:
-                        if isinstance(country.dict_of_attributes[attribute],
-                                      list):
+                        if isinstance(country.dict_of_attributes[attribute], LocalAttribute
+                                      ):
                             try:
-                                i = country.dict_of_attributes[attribute][1]
+                                i = country.dict_of_attributes[attribute].rank
                             except IndexError:
                                 numberofnodata = numberofnodata + 1
                         else:
@@ -1569,7 +1568,7 @@ class MainWindow():
             if country == Unknown_country:
                 continue
             try:
-                country.dict_of_attributes[self.end_attribute.name][0]
+                country.dict_of_attributes[self.end_attribute.name].value
             except:
                 print(country.name)
                 traceback.print_exc()
@@ -1648,11 +1647,11 @@ class MainWindow():
             returnlist = list()
             for country in all_countries:
                 try:
-                    if country.dict_of_attributes[attribute][1] <= n:
+                    if country.dict_of_attributes[attribute].rank <= n:
                         returnlist.append(country)
                 except KeyError:
                     continue
-            returnlist.sort(key=lambda x: x.dict_of_attributes[attribute][1])
+            returnlist.sort(key=lambda x: x.dict_of_attributes[attribute].rank)
             return returnlist
 
         def open_next_frame():
@@ -1712,10 +1711,10 @@ class MainWindow():
 
         for country in all_countries:
             try:
-                if (country.dict_of_attributes[self.end_attribute.name][0]
+                if (country.dict_of_attributes[self.end_attribute.name].value
                     ) != float(-1):
                     propertylist.append(
-                        (country.dict_of_attributes[self.end_attribute.name][0]))
+                        (country.dict_of_attributes[self.end_attribute.name].value))
                     mcountrylist.append(country)
                 else:
                     dlist.append(country)
@@ -1729,7 +1728,7 @@ class MainWindow():
             else:
                 returnlist.append(
                     helphelp(
-                        country.dict_of_attributes[self.end_attribute.name][0],
+                        country.dict_of_attributes[self.end_attribute.name].value,
                         propertylist))
         returnlist = [float(item) / float(5) for item in returnlist]
         return returnlist
