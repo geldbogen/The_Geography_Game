@@ -22,7 +22,7 @@ class Country:
 
         # a dict of attributes with key the dictionary name and value a dict 
         # TODO change it, so that it is a property of categories, not of countries
-        self.dict_of_attributes = dict[str, LocalAttribute]
+        self.dict_of_attributes : dict[str, LocalAttribute]  = dict()
 
         # the name of the country
         self.name = name

@@ -25,7 +25,11 @@ def extract_data_from_series(series: pd.DataFrame, nameofattribute,
 
     my_local_attribute = LocalAttribute()
 
-    my_local_attribute.value = float(value)
+    try:
+        my_local_attribute.value = float(value)
+    except ValueError:
+        print(nameofattribute)
+        print(value)
 
     my_local_attribute.rank = series.loc["ranking"] + 1
 

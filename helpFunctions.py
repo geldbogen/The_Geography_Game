@@ -17,8 +17,8 @@ def coloring(xcoordinate, ycoordinate, color, image):
 def save_properties():
     global preallCountries
     propertydict = dict()
-    for country in preallCountries:
-        propertydict[country.name] = country.dictofattributes
+    for country in all_countries_available:
+        propertydict[country.name] = country.dict_of_attributes
     with open("backenddata/propertydict_new", "wb") as f:
         pickle.dump(propertydict, f)
     print("\n\n\n !properties saved! \n\n\n")

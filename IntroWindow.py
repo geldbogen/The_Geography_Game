@@ -4,13 +4,12 @@ from tkinter import colorchooser, ttk
 
 from Player import Player
 from Country import Unknown_country
-from globalDefinitions import all_categories, country_name_list, neighboring_countries, allPlayers, my_property_dict
+from GlobalDefinitions import all_categories, country_name_list, neighboring_countries, all_players, my_property_dict,all_countries_available, all_countries
 from MainWindow import MainWindow
-
+from Image import im
 
 class IntroWindow:
 
-    global im
 
     def __init__(self):
 
@@ -299,8 +298,6 @@ class IntroWindow:
         self.roll_button.grid(row=5, column=1, sticky="w")
 
     def gogo(self):
-        global all_countries
-        global preallCountries
         self.activecontinents = list()
         if self.africavar.get() == 1:
             self.activecontinents.append("Africa")
@@ -317,7 +314,7 @@ class IntroWindow:
         if self.oceaniavar.get() == 1:
             self.activecontinents.append("Oceania")
 
-        for country in preallCountries:
+        for country in all_countries_available:
             if country.continent in self.activecontinents:
                 all_countries.append(country)
         all_countries.append(Unknown_country)
@@ -350,7 +347,7 @@ class IntroWindow:
         if len(self.list_of_players) == 0:
             return None
 
-        for player in allPlayers.values():
+        for player in all_players.values():
             try:
                 player.rerolls_left = int(self.numberofroundsentry.get()) // 3
             except ValueError:
