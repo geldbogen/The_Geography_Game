@@ -1,7 +1,7 @@
 from PIL import ImageDraw, Image, ImageTk
 import numpy as np
 
-from globalDefinitions import resize_ratio, preAllCountries, countries_for_language_en, all_countries, country_name_list
+from globalDefinitions import resize_ratio, pre_all_countries, countries_for_language_en, all_countries, country_name_list
 from Image import pngImage
 
 
@@ -18,7 +18,7 @@ class Country:
         self.name = name
         self.owner = "Nobody"
         self.continent = continent
-        preAllCountries.append(self)
+        pre_all_countries.append(self)
         self.save_location = "data/npdata/" + self.name + "-nparray.npy"
         self.wormhole_coordinates = [
             resize_ratio[0] * xcoordinate[0], resize_ratio[1] * ycoordinate[0]

@@ -1,7 +1,10 @@
 import pandas as pd
-p=pd.read_csv("data/important/countrylist.csv",index_col=False,keep_default_na=False)
-countries_for_language_en=p.values.tolist()
-countries_for_language_en=[item[1] for item in countries_for_language_en]
+
+p = pd.read_csv("data/important/countrylist.csv",
+                index_col=False,
+                keep_default_na=False)
+countries_for_language_en = p.values.tolist()
+countries_for_language_en = [item[1] for item in countries_for_language_en]
 
 countries_alternative_names={\
     "United Arab Emirates":["Arab Emirates","UAE","UA Emirates"],\
@@ -50,23 +53,22 @@ countries_alternative_names={\
     "Bolivia":["Bolivia (Plurinational State of)"],\
     "Guinea-Bissau":["Guinea Bissau"],\
     "Bosnia and Herzegovina":["Bosnia And Herzegovina"],\
-    
+
     }
-reverse_countries_alternative_names=dict()
+reverse_countries_alternative_names = dict()
 for item in countries_alternative_names.keys():
-    countries_alternative_names[item].append(item)    
-not_reverse_countries_alternative_names=countries_alternative_names.copy()
+    countries_alternative_names[item].append(item)
+not_reverse_countries_alternative_names = countries_alternative_names.copy()
 for country in countries_for_language_en:
     try:
         not_reverse_countries_alternative_names[country].append(country)
     except KeyError:
-        not_reverse_countries_alternative_names[country]=[country]
+        not_reverse_countries_alternative_names[country] = [country]
 for mlist in countries_alternative_names.values():
     for key in countries_alternative_names.keys():
-        if countries_alternative_names[key]==mlist:
+        if countries_alternative_names[key] == mlist:
             for item in mlist:
-                reverse_countries_alternative_names[item]=key
+                reverse_countries_alternative_names[item] = key
 
 # for item in countries_for_language_en:
 #     reverse_countries_alternative_names[item]=item
-

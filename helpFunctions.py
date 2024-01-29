@@ -2,7 +2,7 @@ from PIL import ImageDraw
 import pickle
 import tkinter as tk
 
-from globalDefinitions import allPlayers, category_to_displayed_name_dict, category_to_displayed_extra_information_category, preAllCountries
+from globalDefinitions import allPlayers, category_to_displayed_name_dict, category_to_displayed_extra_information_category, pre_all_countries
 from Player import mrNobody
 from Image import greenImage2, greencountrydict
 from Country import Country, Unknown_country
@@ -24,13 +24,13 @@ def save_properties():
     print("\n\n\n !properties saved! \n\n\n")
 
 
-def callcountrybyname(name):
-    for country in preAllCountries:
+def call_country_by_name(name):
+    for country in pre_all_countries:
         if country.name == name:
             return country
 
 
-def callplayerbyname(name):
+def call_player_by_name(name):
     for playername in allPlayers.keys():
         if playername == name:
             return allPlayers[playername]
@@ -45,7 +45,7 @@ def get_country_by_position(xcoordinate, ycoordinate):
 
     color = greenImage2[x, y]
     try:
-        result = callcountrybyname(greencountrydict[color])
+        result = call_country_by_name(greencountrydict[color])
     except KeyError:
         result = Unknown_country
     return result

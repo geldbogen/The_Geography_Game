@@ -19,7 +19,7 @@ gold = (255, 215, 0)
 
 country_name_list = []
 flagframedict = dict()
-preAllCountries = []
+pre_all_countries = []
 clusterdict = dict()
 clusternamelist = []
 allPlayers = dict()

@@ -8,8 +8,8 @@ from SetupData import better_setup_data
 from helpFunctions import save_properties
 from IntroWindow import IntroWindow
 
-better_setup_data("Forest area in 1000 hectars (by 100 km^2) (higher is better).csv",treatmissingdataasbad=True,dif=1)
 better_setup_data("Strength of passport (in countries enterable without need of visa) (higher is better).csv",treatmissingdataasbad=True,dif=2,additional_information=True,additional_information_column=[2,3,4]) #explain
+better_setup_data("Forest area in 1000 hectars (by 100 km^2) (higher is better).csv",treatmissingdataasbad=True,dif=1)
 better_setup_data("Yearly average temperature in (in Celsius) (higher is better).csv",treatmissingdataasbad=True,dif=2)
 better_setup_data("Annual precipiation (in mm) (higher is better).csv",treatmissingdataasbad=True,dif=2)
 better_setup_data("Number of different established languages and dialects (higher is better).csv",treatmissingdataasbad=True,dif=3) #was ist eine Sprache

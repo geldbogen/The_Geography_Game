@@ -3,9 +3,14 @@ import pandas as pd
 import additional_explanations
 
 from Category import Category
-from Country import preAllCountries
-from helpFunctions import callcountrybyname
+from Country import pre_all_countries
+from helpFunctions import call_country_by_name
 from globalDefinitions import reverse_countries_alternative_names
+
+
+
+def normalize_country_name(countryname:str) -> str:
+
 
 
 def setupdata(data,
@@ -13,37 +18,38 @@ def setupdata(data,
               namecolumn,
               nameofattribute,
               ascending,
-              treatmissingdataasbad=False,
+              treat_missing_data_as_bad=False,
               applyfrac=False,
               additional_information=False,
-              additional_information_column=2):
+              additional_information_column_list=[2]):
 
     def append_dataframe(series, nameofattribute, numberofranked):
         additional_informations = []
+
         try:
             countryname = reverse_countries_alternative_names[
                 series.iloc[0].lower()]
         except KeyError:
             return None
-        except AttributeError:
+        if not call_country_by_name(countryname) in pre_all_countries:
             return None
-        if not callcountrybyname(countryname) in preAllCountries:
-            return None
+            
         value = series.iloc[1]
+
         if additional_information:
             additional_informations = list()
-            for item in additional_information_column:
+            for item in additional_information_column_list:
                 additional_informations.append(series.iloc[item])  # error
         mylist = list()
         mylist.append(value)
         mylist.append((series.loc["ranking"] + 1))
         mylist.append(numberofranked + 1)
         mylist += additional_informations
-        callcountrybyname(
-            countryname).dictofattributes[nameofattribute] = mylist
+        call_country_by_name(
+            countryname).dict_of_attributes[nameofattribute] = mylist
         pass
 
-    if not treatmissingdataasbad:
+    if not treat_missing_data_as_bad:
         data = data[data["1"] != float(-1)]
     else:
         if not ascending:
@@ -52,34 +58,36 @@ def setupdata(data,
         else:
             data["1"] = data["1"].apply(lambda x: float(9999999999)
                                         if x == float(-1) else x)
+                                        
     data.sort_values(by=str(column), ascending=ascending, inplace=True)
+
     data = data.reset_index(drop=True)
+
     dList = data.iloc[:, 0].tolist()
 
     dataDict = {'0': [], '1': []}
     for index, item in enumerate(dList):
-        try:
-            dList[index] = reverse_countries_alternative_names[item]
-        except KeyError:
-            pass
+        dList[index] = reverse_countries_alternative_names[item]
+
     data.iloc[:, 0] = dList
-    if treatmissingdataasbad:
-        for countryclass in preAllCountries:
-            if countryclass.name not in dList:
-                if not ascending:
-                    dataDict['0'].append(countryclass.name)
-                    dataDict['1'].append(float(0))
-                else:
-                    dataDict['0'].append(countryclass.name)
-                    dataDict['1'].append(float(9999999999))
+    # if treat_missing_data_as_bad:
+    #     for countryclass in pre_all_countries:
+    #         if countryclass.name not in dList:
+    #             if not ascending:
+    #                 dataDict['0'].append(countryclass.name)
+    #                 dataDict['1'].append(float(0))
+    #             else:
+    #                 dataDict['0'].append(countryclass.name)
+    #                 dataDict['1'].append(float(9999999999))
 
     data = pd.DataFrame(dataDict)
 
-    rankinglist = list(range(len(data.index)))
+    ranking_list = list(range(len(data.index)))
 
-    data["ranking"] = rankinglist
+    data["ranking"] = ranking_list
+
     data.apply(lambda x: append_dataframe(
-        x, nameofattribute=nameofattribute, numberofranked=len(rankinglist)),
+        x, nameofattribute=nameofattribute, numberofranked=len(ranking_list)),
                axis=1)
 
 
@@ -103,10 +111,10 @@ def better_setup_data(name,
               namecolumn,
               name,
               ascending=ascending,
-              treatmissingdataasbad=treatmissingdataasbad,
+              treat_missing_data_as_bad=treatmissingdataasbad,
               applyfrac=applyfrac,
               additional_information=additional_information,
-              additional_information_column=additional_information_column)
+              additional_information_column_list=additional_information_column)
 
     # get additional explanations, if it is provided
     try:
