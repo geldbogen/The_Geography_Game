@@ -4,7 +4,7 @@
 
 import pandas as pd
 
-df = pd.read_csv("categoryname_to_displayed_sentences.csv")
+df = pd.read_csv("data/important/categoryname_to_displayed_sentences.csv")
 df = df.fillna("")
 category_to_displayed_name_dict = df.set_index("original categorynames")["how categorynames should look"].to_dict()
 category_to_displayed_guess_hint = df.set_index("original categorynames")["guessing extra"].to_dict()
