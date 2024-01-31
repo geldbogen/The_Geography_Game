@@ -3,6 +3,7 @@ import wikipedia
 import pandas as pd
 import os
 import collections
+import pytest
 # path=os.path.realpath(__file__)
 # path=path.replace("\\","/")
 # os.chdir("C:\\Users\juliu\Google Drive\Infoprojekte\geogame")
@@ -172,41 +173,48 @@ from PIL import Image, ImageTk
 # series=mydata.iloc[1]
 # print(series.index)
 
-def largestMultipleOfThree(digits) -> str:
-    mydict={1:[],2:[]}
-    answer=collections.Counter()
-    for item in digits:
-        if item%3==0:
-            answer[item]+=1
-        else:
-            mydict[item%3].append(item)
-    mydict[1].sort(reverse=True)
-    mydict[2].sort(reverse=True)
-    l1=len(mydict[1])
-    d1=l1%3
-    g1=-d1
-    for item in mydict[1][:g1]:
-        answer[item]+=1
-    l2=len(mydict[2])
-    d2=l2%3
-    for item in mydict[2][:-d2]:
-        answer[item]+=1
-    mydict[1]=mydict[1][-d1:]
-    mydict[2]=mydict[2][-d2:]
-    if len(mydict[1])==0 or len(mydict[2])==0:
-        pass
-    else:
-        if len(mydict[1])==len(mydict[2]):
-            for item in mydict[1] + mydict[2]:
-                answer[item]+=1
-        else:
-            answer[mydict[1][0]]+=1
-            answer[mydict[2][0]]+=1
-    anstring=""
-    for i in range(9,-1,-1):
-        d=str(i)*answer[i]
-        anstring+=d
-    if set(list(anstring))=={"0"}:
-        return "0"
-    return anstring
-print(largestMultipleOfThree([1,1,1]))
+# def largestMultipleOfThree(digits) -> str:
+#     mydict={1:[],2:[]}
+#     answer=collections.Counter()
+#     for item in digits:
+#         if item%3==0:
+#             answer[item]+=1
+#         else:
+#             mydict[item%3].append(item)
+#     mydict[1].sort(reverse=True)
+#     mydict[2].sort(reverse=True)
+#     l1=len(mydict[1])
+#     d1=l1%3
+#     g1=-d1
+#     for item in mydict[1][:g1]:
+#         answer[item]+=1
+#     l2=len(mydict[2])
+#     d2=l2%3
+#     for item in mydict[2][:-d2]:
+#         answer[item]+=1
+#     mydict[1]=mydict[1][-d1:]
+#     mydict[2]=mydict[2][-d2:]
+#     if len(mydict[1])==0 or len(mydict[2])==0:
+#         pass
+#     else:
+#         if len(mydict[1])==len(mydict[2]):
+#             for item in mydict[1] + mydict[2]:
+#                 answer[item]+=1
+#         else:
+#             answer[mydict[1][0]]+=1
+#             answer[mydict[2][0]]+=1
+#     anstring=""
+#     for i in range(9,-1,-1):
+#         d=str(i)*answer[i]
+#         anstring+=d
+#     if set(list(anstring))=={"0"}:
+#         return "0"
+#     return anstring
+# print(largestMultipleOfThree([1,1,1]))
+
+
+def incr(x):
+    return x + 1
+
+def test_incr():
+    assert incr(4) == 5

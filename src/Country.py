@@ -25,10 +25,10 @@ class Country:
         self.dict_of_attributes : dict[str, LocalAttribute]  = dict()
 
         # the name of the country
-        self.name = name
+        self.name : str = name
 
         # the current owner of the country
-        self.owner = "Nobody"
+        self.owner : str = "Nobody"
 
         # the continent the country belongs to
         self.continent = continent

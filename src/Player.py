@@ -1,9 +1,10 @@
 from GlobalDefinitions import all_players, realgrey
 from Country import Country
 
+
 class Player:
 
-    def __init__(self, color, name, reroll_number=3):
+    def __init__(self, color: str, name: str, reroll_number: int = 3):
         # name of the player
         self.name = name
 
@@ -14,10 +15,10 @@ class Player:
         self.labeldict = dict()
 
         # a list of all countries the player currently controls
-        self.list_of_possessed_countries : list[Country] = []
+        self.list_of_possessed_countries: list[Country] = []
 
         # a list of all countries with gold, which the player currently controls
-        self.list_of_possessed_countries_gold : list[Country] = []
+        self.list_of_possessed_countries_gold: list[Country] = []
 
         # a dictionary needed to translate between
         # the name of the player and the corresponding class
