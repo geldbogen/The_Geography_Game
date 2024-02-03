@@ -14,7 +14,9 @@ class Country:
 
         for i in range(len(xcoordinate)):
             self.coordinate_list.append((xcoordinate[i], ycoordinate[i]))
-        self.neighboring_countries = []
+
+        # a list of country names which have a common (land) border with that country    
+        self.neighboring_countries : list[str] = []
 
         
         self.xcoordinate = xcoordinate
@@ -27,11 +29,11 @@ class Country:
         # the name of the country
         self.name : str = name
 
-        # the current owner of the country
+        # the name of the current owner of the country
         self.owner : str = "Nobody"
 
-        # the continent the country belongs to
-        self.continent = continent
+        # the name of the continent, which the country belongs to
+        self.continent : str = continent
 
         all_countries_available.append(self)
 

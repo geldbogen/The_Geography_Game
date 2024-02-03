@@ -27,4 +27,4 @@ def test_countries_are_neighbors():
     # assert 0
     setup_the_game(continent_list=['Africa'], list_of_players= [player1, player2])
     print(Niger.neighboring_countries)
-    assert (Chad in Niger.neighboring_countries) == True
+    assert ('Chad' in Niger.neighboring_countries) == True

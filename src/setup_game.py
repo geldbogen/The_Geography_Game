@@ -30,7 +30,7 @@ def setup_the_game(continent_list: list[str] = [],
     for country in all_countries_in_game:
         country_name_list.append(country.name)
 
-    #TODO this is quite ugly
+    # TODO: this is quite ugly
     for country_1 in all_countries_in_game:
         if country_1 == Unknown_country:
             continue
@@ -39,8 +39,9 @@ def setup_the_game(continent_list: list[str] = [],
         for country_2 in all_countries_in_game:
             if country_2 == Unknown_country:
                 continue
-            if country_2.name in str(data.iat[0, 5]):
-                country_2.neighboring_countries.append(country_1.name)
+            if not data.empty:
+                if country_2.name in str(data.iat[0, 5]):
+                    country_2.neighboring_countries.append(country_1.name)
 
     # assigns the countries all the local attributes
     for country in all_countries_in_game:
