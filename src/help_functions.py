@@ -2,11 +2,11 @@ from PIL import ImageDraw
 import pickle
 import tkinter as tk
 
-from GlobalDefinitions import all_players, category_to_displayed_name_dict, category_to_displayed_extra_information_category, all_countries_available, reverse_countries_alternative_names
-from Player import mr_nobody
-from Image import greenImage2, greencountrydict
-from Country import Country, Unknown_country
-from Category import Category
+from global_definitions import all_players, category_to_displayed_name_dict, category_to_displayed_extra_information_category, all_countries_available, reverse_countries_alternative_names
+from player import mr_nobody
+from image import greenImage2, greencountrydict
+from country import Country, Unknown_country
+from category import Category
 
 
 def coloring(xcoordinate, ycoordinate, color, image):

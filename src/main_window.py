@@ -8,13 +8,13 @@ import time
 import wikipedia
 import webbrowser
 
-from LocalAttribute import LocalAttribute
-from Country import Country, Unknown_country, Germany, France
-from Category import Category
-from Player import Player, No_Data_Body
-from Image import greencountrydict, greenImage
-from GlobalDefinitions import all_categories, all_countries_in_game, all_categories_names_and_clusters, dictionary_attribute_name_to_attribute, gold, realgrey
-from HelpFunctions import Countriesareconnected, get_country_by_position, replace_A_and_B_in_category_name, call_country_by_name, call_player_by_name
+from local_attribute import LocalAttribute
+from country import Country, Unknown_country, Germany, France
+from category import Category
+from player import Player, No_Data_Body
+from image import greencountrydict, greenImage
+from global_definitions import all_categories, all_countries_in_game, all_categories_names_and_clusters, dictionary_attribute_name_to_attribute, gold, realgrey
+from help_functions import Countriesareconnected, get_country_by_position, replace_A_and_B_in_category_name, call_country_by_name, call_player_by_name
 
 
 class MainWindow():

@@ -2,11 +2,11 @@ import tkinter as tk
 import random
 from tkinter import colorchooser, ttk
 
-from Player import Player
-from Country import Unknown_country
-from GlobalDefinitions import all_categories, country_name_list, neighboring_countries, all_players, my_property_dict,all_countries_available, all_countries_in_game
-from MainWindow import MainWindow
-from Image import im
+from player import Player
+from country import Unknown_country
+from global_definitions import all_categories, country_name_list, neighboring_countries, all_players, my_property_dict,all_countries_available, all_countries_in_game
+from main_window import MainWindow
+from image import im
 
 class IntroWindow:
 

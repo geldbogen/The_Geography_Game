@@ -1,9 +1,9 @@
 import pytest
 
-from Player import Player
+from player import Player
 
-from Country import Niger, Chad
-from IntroWindow import IntroWindow
+from country import Niger, Chad
+from intro_window import IntroWindow
 
 @pytest.fixture
 def my_intro_window():

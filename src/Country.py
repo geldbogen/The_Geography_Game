@@ -1,9 +1,9 @@
 from PIL import ImageDraw, Image, ImageTk
 import numpy as np
 
-from GlobalDefinitions import resize_ratio, all_countries_available, countries_for_language_en, all_countries_in_game, country_name_list
-from Image import pngImage
-from LocalAttribute import LocalAttribute
+from global_definitions import resize_ratio, all_countries_available, countries_for_language_en, all_countries_in_game, country_name_list
+from image import pngImage
+from local_attribute import LocalAttribute
 
 
 class Country:

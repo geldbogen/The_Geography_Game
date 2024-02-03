@@ -2,11 +2,11 @@ import pandas as pd
 
 import additional_explanations
 
-from Category import Category
-from Country import all_countries_available
-from HelpFunctions import call_country_by_name, normalize_country_name
-from GlobalDefinitions import reverse_countries_alternative_names
-from LocalAttribute import LocalAttribute
+from category import Category
+from country import all_countries_available
+from help_functions import call_country_by_name, normalize_country_name
+from global_definitions import reverse_countries_alternative_names
+from local_attribute import LocalAttribute
 
 
 

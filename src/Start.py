@@ -1,6 +1,6 @@
-from SetupData import setup_data
-from HelpFunctions import save_properties
-from IntroWindow import IntroWindow
+from setup_data import setup_data
+from help_functions import save_properties
+from intro_window import IntroWindow
 
 setup_data("Strength of passport (in countries enterable without need of visa) (higher is better).csv",treat_missing_data_as_bad=True,dif=2,additional_information=True,additional_information_column_list=[2,3,4]) #explain
 setup_data("Forest area in 1000 hectars (by 100 km^2) (higher is better).csv",treat_missing_data_as_bad=True,dif=1)

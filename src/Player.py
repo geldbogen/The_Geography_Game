@@ -1,5 +1,5 @@
-from GlobalDefinitions import all_players, realgrey
-from Country import Country
+from global_definitions import all_players, realgrey
+from country import Country
 
 
 class Player:
