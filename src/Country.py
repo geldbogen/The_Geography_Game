@@ -1,7 +1,7 @@
 from PIL import ImageDraw, Image, ImageTk
 import numpy as np
 
-from GlobalDefinitions import resize_ratio, all_countries_available, countries_for_language_en, all_countries, country_name_list
+from GlobalDefinitions import resize_ratio, all_countries_available, countries_for_language_en, all_countries_in_game, country_name_list
 from Image import pngImage
 from LocalAttribute import LocalAttribute
 
@@ -98,11 +98,11 @@ class Country:
                              Image.LANCZOS))
 
     def load_pixels(self):
-        global all_countries
+        global all_countries_in_game
         global country_name_list
         if self.name == "Unknown Country":
             self.set_of_pixels = set()
-            all_countries.append(self)
+            all_countries_in_game.append(self)
             country_name_list.append(self.name)
             return None
         try:
@@ -113,7 +113,7 @@ class Country:
         except Exception as e:
             print(str(e))
             self.set_pixels(pngImage)
-        all_countries.append(self)
+        all_countries_in_game.append(self)
         country_name_list.append(self.name)
 
 

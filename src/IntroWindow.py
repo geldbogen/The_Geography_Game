@@ -4,7 +4,7 @@ from tkinter import colorchooser, ttk
 
 from Player import Player
 from Country import Unknown_country
-from GlobalDefinitions import all_categories, country_name_list, neighboring_countries, all_players, my_property_dict,all_countries_available, all_countries
+from GlobalDefinitions import all_categories, country_name_list, neighboring_countries, all_players, my_property_dict,all_countries_available, all_countries_in_game
 from MainWindow import MainWindow
 from Image import im
 
@@ -316,21 +316,21 @@ class IntroWindow:
 
         for country in all_countries_available:
             if country.continent in self.activecontinents:
-                all_countries.append(country)
-        all_countries.append(Unknown_country)
+                all_countries_in_game.append(country)
+        all_countries_in_game.append(Unknown_country)
         self.numberofrounds = self.numberofroundsentry.get()
 
-        for country in all_countries:
+        for country in all_countries_in_game:
             name = country.name
             country_name_list.append(name)
 
-        for acountry in all_countries:
+        for acountry in all_countries_in_game:
             try:
                 if acountry == Unknown_country:
                     continue
                 data = neighboring_countries[neighboring_countries[0] ==
                                              acountry.name]
-                for bcountry in all_countries:
+                for bcountry in all_countries_in_game:
                     if bcountry == Unknown_country:
                         continue
                     if bcountry.name in data.iat[0, 5]:
@@ -338,7 +338,7 @@ class IntroWindow:
             except:
                 continue
 
-        for country in all_countries:
+        for country in all_countries_in_game:
             try:
                 country.dict_of_attributes = my_property_dict[country.name]
             except:

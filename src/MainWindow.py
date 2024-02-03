@@ -13,7 +13,7 @@ from Country import Country, Unknown_country, Germany, France
 from Category import Category
 from Player import Player, No_Data_Body
 from Image import greencountrydict, greenImage
-from GlobalDefinitions import all_categories, all_countries, all_categories_names_and_clusters, dictionary_attribute_name_to_attribute, gold, realgrey
+from GlobalDefinitions import all_categories, all_countries_in_game, all_categories_names_and_clusters, dictionary_attribute_name_to_attribute, gold, realgrey
 from HelpFunctions import Countriesareconnected, get_country_by_position, replace_A_and_B_in_category_name, call_country_by_name, call_player_by_name
 
 
@@ -184,18 +184,18 @@ class MainWindow():
             self.setupgame()
             while True:
                 j = 0
-                self.randomstart = random.sample(range(0, len(all_countries)),
+                self.randomstart = random.sample(range(0, len(all_countries_in_game)),
                                                  len(self.list_of_players))
                 for rng in self.randomstart:
-                    if len(all_countries[rng].neighboring_countries) < 3:
+                    if len(all_countries_in_game[rng].neighboring_countries) < 3:
                         j = 1
                     for rng2 in self.randomstart:
-                        if Countriesareconnected(all_countries[rng2],
-                                                 all_countries[rng]):
+                        if Countriesareconnected(all_countries_in_game[rng2],
+                                                 all_countries_in_game[rng]):
                             j = 1
                     if self.winning_condition == "attribute":
                         try:
-                            all_countries[rng].dict_of_attributes[
+                            all_countries_in_game[rng].dict_of_attributes[
                                 self.end_attribute.name].value
                         except:
                             j = 1
@@ -203,8 +203,8 @@ class MainWindow():
                     break
             for i in range(len(self.list_of_players)):
                 self.claim_country(self.list_of_players[i],
-                                   all_countries[self.randomstart[i]])
-                print(all_countries[self.randomstart[i]].name)
+                                   all_countries_in_game[self.randomstart[i]])
+                print(all_countries_in_game[self.randomstart[i]].name)
 
         #roll first attribute
         self.get_good_attribute(self.active_player)
@@ -283,7 +283,7 @@ class MainWindow():
         myset = set(country_a.name)
         q = [[country_a.name, 0]]
         print(q)
-        for country in all_countries:
+        for country in all_countries_in_game:
             mydict[country.name] = country.neighboring_countries
         while country_b.name not in myset:
             temp = q[0]
@@ -793,8 +793,8 @@ class MainWindow():
                  (country1.owner != "Nobody" and country2.owner != "Nobody"))):
                 country1 = player.list_of_possessed_countries[random.randrange(
                     1, len(player.list_of_possessed_countries))]
-                country2 = all_countries[random.randrange(
-                    1, len(all_countries))]
+                country2 = all_countries_in_game[random.randrange(
+                    1, len(all_countries_in_game))]
             country1.neighboring_countries.append(country2.name)
             self.wormholed_countries.append([country1, country2])
             create_good_line(country1, country2)
@@ -806,10 +806,10 @@ class MainWindow():
             while (country2.name in country1.neighboring_countries
                    or country1.name in country2.neighboring_countries
                    or country1.continent == country2.continent):
-                country1 = all_countries[random.randrange(
-                    1, len(all_countries))]
-                country2 = all_countries[random.randrange(
-                    1, len(all_countries))]
+                country1 = all_countries_in_game[random.randrange(
+                    1, len(all_countries_in_game))]
+                country2 = all_countries_in_game[random.randrange(
+                    1, len(all_countries_in_game))]
             country1.neighboring_countries.append(country2.name)
             self.wormholed_countries.append([country1, country2])
             create_good_line(country1, country2)
@@ -1490,13 +1490,13 @@ class MainWindow():
     def setupclaim2countries(self):
         Target = Player(realgrey, "Nobody")
         if self.choosing_index == len(self.list_of_players):
-            self.targetcountry1 = all_countries[random.randrange(
-                1, len(all_countries))]
-            self.targetcountry2 = all_countries[random.randrange(
-                1, len(all_countries))]
+            self.targetcountry1 = all_countries_in_game[random.randrange(
+                1, len(all_countries_in_game))]
+            self.targetcountry2 = all_countries_in_game[random.randrange(
+                1, len(all_countries_in_game))]
             if self.targetcountry1.name == self.targetcountry2.name:
-                self.targetcountry2 = all_countries[random.randrange(
-                    1, len(all_countries))]
+                self.targetcountry2 = all_countries_in_game[random.randrange(
+                    1, len(all_countries_in_game))]
             self.claim_country(Target, self.targetcountry1)
             print(self.targetcountry1.name)
             self.claim_country(Target, self.targetcountry2)
@@ -1504,10 +1504,10 @@ class MainWindow():
     def setupgold(self):
 
         def get_good_ids(numberofgold):
-            self.goldids = random.sample(range(len(all_countries)),
+            self.goldids = random.sample(range(len(all_countries_in_game)),
                                          numberofgold)
             for i in self.goldids:
-                if all_countries[i].owner != "Nobody" or all_countries[
+                if all_countries_in_game[i].owner != "Nobody" or all_countries_in_game[
                         i].name == "Unknown Country":
                     get_good_ids(numberofgold)
             return None
@@ -1515,12 +1515,12 @@ class MainWindow():
         for player in self.list_of_players:
             player.gold = 0
         Target = Player(gold, "Nobody")
-        self.numberofgold = len(all_countries) // 20
+        self.numberofgold = len(all_countries_in_game) // 20
         print(self.numberofgold)
         get_good_ids(self.numberofgold)
         for i in self.goldids:
-            self.claim_country(Target, all_countries[i])
-            self.goldlist.append(all_countries[i])
+            self.claim_country(Target, all_countries_in_game[i])
+            self.goldlist.append(all_countries_in_game[i])
 
     def getstartingattribute(self) -> Category:
         if self.pred_attribute_name != "Random":
@@ -1533,7 +1533,7 @@ class MainWindow():
             while numberofnodata > 5:
                 attribute = self.get_random_attribute_with_cluster()
                 numberofnodata = 0
-                for country in all_countries:
+                for country in all_countries_in_game:
                     # TODO
                     try:
                         if isinstance(country.dict_of_attributes[attribute], LocalAttribute
@@ -1564,7 +1564,7 @@ class MainWindow():
             self.grey_no_data()
 
     def grey_no_data(self):
-        for country in all_countries:
+        for country in all_countries_in_game:
             if country == Unknown_country:
                 continue
             try:
@@ -1584,7 +1584,7 @@ class MainWindow():
             return True
 
         def roll_random_country(oldcountry):
-            return all_countries[random.randrange(1, len(all_countries))]
+            return all_countries_in_game[random.randrange(1, len(all_countries_in_game))]
 
         def show_targets(player: Player):
             self.no_targets_yetlist.remove(player)
@@ -1645,7 +1645,7 @@ class MainWindow():
 
         def find_top_n_countries(n, attribute):
             returnlist = list()
-            for country in all_countries:
+            for country in all_countries_in_game:
                 try:
                     if country.dict_of_attributes[attribute].rank <= n:
                         returnlist.append(country)
@@ -1709,7 +1709,7 @@ class MainWindow():
             else:
                 self.higherorlower = "higher"
 
-        for country in all_countries:
+        for country in all_countries_in_game:
             try:
                 if (country.dict_of_attributes[self.end_attribute.name].value
                     ) != float(-1):

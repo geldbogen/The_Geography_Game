@@ -24,7 +24,7 @@ clusterdict = dict()
 clusternamelist = []
 all_players = dict()
 
-all_countries = []
+all_countries_in_game = []
 all_categories = []
 all_categories_names_and_clusters = []
 
