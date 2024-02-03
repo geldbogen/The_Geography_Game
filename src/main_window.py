@@ -22,8 +22,8 @@ class MainWindow():
     def __init__(self,
                  bild,
                  list_of_players : list[Player],
-                 wormholemode,
-                 starting_countries="random",
+                 wormhole_mode,
+                 starting_countries_preferences="random",
                  number_of_rounds=99999999999,
                  winning_condition="number of countries",
                  number_of_wormholes=3,
@@ -40,7 +40,7 @@ class MainWindow():
         self.index = 0
         self.goldlist = list()
         self.choosing_index = -1
-        self.starting_countries = starting_countries
+        self.starting_countries = starting_countries_preferences
         self.reversed_end_attribute = reversed_end_attribute
         main = tk.Tk()
         sv_ttk.set_theme("dark")  # Set light theme
@@ -52,7 +52,7 @@ class MainWindow():
         self.active_player = self.list_of_players[self.active_player_counter]
         self.number_of_players = len(self.list_of_players)
         self.end_attribute = None
-        self.wormhole_mode = wormholemode
+        self.wormhole_mode = wormhole_mode
         self.wormholed_countries = list()
         self.number_of_wormholes = number_of_wormholes
         print(self.winning_condition)

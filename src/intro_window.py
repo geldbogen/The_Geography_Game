@@ -4,12 +4,13 @@ from tkinter import colorchooser, ttk
 
 from player import Player
 from country import Unknown_country
-from global_definitions import all_categories, country_name_list, neighboring_countries, all_players, my_property_dict,all_countries_available, all_countries_in_game
+from global_definitions import all_categories
 from main_window import MainWindow
 from image import im
+from setup_game import setup_the_game
+
 
 class IntroWindow:
-
 
     def __init__(self):
 
@@ -21,13 +22,13 @@ class IntroWindow:
         self.list_of_players = list()
         pred_choose_var = tk.StringVar(self.root)
         pred_choose_var.set("Random")
-        self.current_var = tk.StringVar()
-        self.current_var.set("Random")
+        self.end_attribute_var = tk.StringVar()
+        self.end_attribute_var.set("Random")
 
         self.showinglabel = tk.Label(
             self.root,
             text=
-            "Welcome to the Geo-Game,\n please choose your names and colors")
+            "Welcome to the Geography Game,\n please choose your names and colors")
         self.showinglabel.grid(row=0, column=0)
 
         #middle side
@@ -39,7 +40,7 @@ class IntroWindow:
                                       command=self.choose_color)
         choosecolorbutton.grid(row=2, column=0)
 
-        gogobutton = tk.Button(self.root, text="Let's go", command=self.gogo)
+        gogobutton = tk.Button(self.root, text="Let's go", command=self.go)
         gogobutton.grid(row=9, column=0)
 
         self.currentplayerslistbox = tk.Listbox(self.root, height=4)
@@ -239,8 +240,8 @@ class IntroWindow:
         self.peacemode_check.grid(row=5, column=3)
 
         #variable for setting whether the final attribute will be reversed, if we play the random attribute mode
-        self.reverse_yes_or_novar = tk.IntVar()
-        self.reverse_yes_or_novar.set(0)
+        self.reverse_yes_or_no_var = tk.IntVar()
+        self.reverse_yes_or_no_var.set(0)
 
         self.root.mainloop()
 
@@ -262,9 +263,9 @@ class IntroWindow:
             self.choose_pred_attribute.current(rng)
             if random.random() <= 0.5:
                 self.reverse_yes_or_no.select()
-                self.reverse_yes_or_novar.set(1)
+                self.reverse_yes_or_no_var.set(1)
             else:
-                self.reverse_yes_or_novar.set(0)
+                self.reverse_yes_or_no_var.set(0)
                 self.reverse_yes_or_no.deselect()
 
         pred_choose_var = tk.StringVar(self.winconditionframe)
@@ -273,13 +274,13 @@ class IntroWindow:
         self.displayed_list.sort()
         self.displayed_list = ["Surprise Me!"] + self.displayed_list
         self.displayed_list = [m.rstrip(".csv") for m in self.displayed_list]
-        self.current_var = tk.StringVar()
+        self.end_attribute_var = tk.StringVar()
         self.choose_pred_attribute = ttk.Combobox(
             self.winconditionframe,
             values=self.displayed_list,
             width=100,
             state="readonly",
-            textvariable=self.current_var)
+            textvariable=self.end_attribute_var)
         self.choose_pred_attribute.current(0)
         self.choose_pred_attribute.grid(
             row=5,
@@ -289,7 +290,7 @@ class IntroWindow:
         self.reverse_yes_or_no = tk.Checkbutton(
             self.winconditionframe,
             text="Reverse?",
-            variable=self.reverse_yes_or_novar)
+            variable=self.reverse_yes_or_no_var)
         self.reverse_yes_or_no.grid(row=6, column=0, padx=60)
 
         self.roll_button = tk.Button(self.winconditionframe,
@@ -297,79 +298,40 @@ class IntroWindow:
                                      command=roll_attribute)
         self.roll_button.grid(row=5, column=1, sticky="w")
 
-    def gogo(self):
-        self.activecontinents = list()
+    def go(self):
+
+        self.active_continent_list = []
         if self.africavar.get() == 1:
-            self.activecontinents.append("Africa")
+            self.active_continent_list.append("Africa")
         if self.asiavar.get() == 1:
-            self.activecontinents.append("Asia")
+            self.active_continent_list.append("Asia")
         if self.europevar.get() == 1:
-            self.activecontinents.append("Europe")
+            self.active_continent_list.append("Europe")
         if self.north_americavar.get() == 1:
-            self.activecontinents.append("North America")
+            self.active_continent_list.append("North America")
         if self.middle_americavar.get() == 1:
-            self.activecontinents.append("Middle America")
+            self.active_continent_list.append("Middle America")
         if self.south_americavar.get() == 1:
-            self.activecontinents.append("South America")
+            self.active_continent_list.append("South America")
         if self.oceaniavar.get() == 1:
-            self.activecontinents.append("Oceania")
+            self.active_continent_list.append("Oceania")
 
-        for country in all_countries_available:
-            if country.continent in self.activecontinents:
-                all_countries_in_game.append(country)
-        all_countries_in_game.append(Unknown_country)
-        self.numberofrounds = self.numberofroundsentry.get()
+        self.number_of_rounds = self.numberofroundsentry.get()
 
-        for country in all_countries_in_game:
-            name = country.name
-            country_name_list.append(name)
-
-        for acountry in all_countries_in_game:
-            try:
-                if acountry == Unknown_country:
-                    continue
-                data = neighboring_countries[neighboring_countries[0] ==
-                                             acountry.name]
-                for bcountry in all_countries_in_game:
-                    if bcountry == Unknown_country:
-                        continue
-                    if bcountry.name in data.iat[0, 5]:
-                        bcountry.neighboring_countries.append(acountry.name)
-            except:
-                continue
-
-        for country in all_countries_in_game:
-            try:
-                country.dict_of_attributes = my_property_dict[country.name]
-            except:
-                pass
-
-        if len(self.list_of_players) == 0:
-            return None
-
-        for player in all_players.values():
-            try:
-                player.rerolls_left = int(self.numberofroundsentry.get()) // 3
-            except ValueError:
-                player.rerolls_left = 3
+        if not self.number_of_rounds:
+            self.number_of_rounds == -1
 
         self.root.destroy()
-        if self.numberofrounds == "":
-            MainWindow(bild=im,
+
+        setup_the_game(continent_list=self.active_continent_list,
                        list_of_players=self.list_of_players,
-                       starting_countries=self.start_country.get(),
+                       number_of_rounds=self.number_of_rounds,
+                       number_of_rerolls=self.number_of_rounds // 3,
+                       starting_countries_preferences=self.start_country.get(),
                        winning_condition=self.winning_condition.get(),
-                       pred_attribute=self.current_var.get() + ".csv",
-                       wormholemode=self.wormhole_option.get(),
+                       end_attribute_path=self.end_attribute_var.get() +
+                       ".csv",
                        peacemode=self.peacemode_var.get(),
-                       reversed_end_attribute=self.reverse_yes_or_novar.get())
-        else:
-            MainWindow(bild=im,
-                       list_of_players=self.list_of_players,
-                       starting_countries=self.start_country.get(),
-                       number_of_rounds=int(self.numberofrounds),
-                       winning_condition=self.winning_condition.get(),
-                       pred_attribute=self.current_var.get() + ".csv",
-                       wormholemode=self.wormhole_option.get(),
-                       peacemode=self.peacemode_var.get(),
-                       reversed_end_attribute=self.reverse_yes_or_novar.get())
+                       wormhole_mode=self.wormhole_option.get(),
+                       reversed_end_attribute=self.reverse_yes_or_no_var.get(),
+                       start_the_game=True)

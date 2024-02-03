@@ -337,7 +337,7 @@ setup_data("Population (higher is better).csv",is_end_only=True)
 setup_data("Latitude of northernmost point of that country (northern is better) (higher is better).csv",is_end_only=True)
 setup_data("Latitude of southernmost point of that country (southern is better) (lower is better).csv",is_end_only=True)
 
-# save_properties()
+save_properties()
 # print(clusterdict.keys())
 
 
