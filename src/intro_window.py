@@ -3,10 +3,7 @@ import random
 from tkinter import colorchooser, ttk
 
 from player import Player
-from country import Unknown_country
 from global_definitions import all_categories
-from main_window import MainWindow
-from image import im
 from setup_game import setup_the_game
 
 

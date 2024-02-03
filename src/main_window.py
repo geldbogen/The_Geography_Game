@@ -13,8 +13,8 @@ from country import Country, Unknown_country, Germany, France
 from category import Category
 from player import Player, No_Data_Body, mr_nobody
 from image import greencountrydict, greenImage
-from global_definitions import all_categories, all_countries_in_game, all_categories_names_and_clusters, dictionary_attribute_name_to_attribute, gold, realgrey
-from help_functions import Countriesareconnected, get_country_by_position, replace_A_and_B_in_category_name, call_country_by_name, call_player_by_name
+from global_definitions import all_categories, all_countries_in_game, dictionary_attribute_name_to_attribute, gold, realgrey
+from help_functions import Countriesareconnected, get_country_by_position, replace_A_and_B_in_category_name, call_player_by_name
 
 
 class MainWindow():
@@ -42,7 +42,7 @@ class MainWindow():
         self.choosing_index = -1
         self.starting_countries = starting_countries_preferences
         self.reversed_end_attribute = reversed_end_attribute
-        main = tk.Tk()
+        self.main = tk.Tk()
         sv_ttk.set_theme("dark")  # Set light theme
 
         self.list_of_players = list_of_players
@@ -61,12 +61,10 @@ class MainWindow():
 
         self.current_attribute = all_categories[0]
 
-        self.main = main
-
         self.chosen_country_a = None
         self.turn_counter = 0
 
-        self.frame1 = tk.Frame(main, width=300, height=300)
+        self.frame1 = tk.Frame(self.main, width=300, height=300)
         self.frame1.pack(side="bottom", fill="both", expand=True)
 
         #frame1=frame2+areyousurebuttons
@@ -212,7 +210,8 @@ class MainWindow():
         replace_A_and_B_in_category_name(
             self.showing_current_attribute_text_label, self.current_attribute)
 
-        main.mainloop()
+    def start(self):
+            self.main.mainloop()
 
     def update_image(self, new_image):
         new_image = ImageTk.PhotoImage(new_image)

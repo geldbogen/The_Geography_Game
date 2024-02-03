@@ -66,7 +66,7 @@ def setup_the_game(continent_list: list[str] = [],
     #    reversed_end_attribute=self.reverse_yes_or_novar.get())
 
     if start_the_game:
-        MainWindow(bild=im,
+        my_main_window = MainWindow(bild=im,
                     list_of_players=list_of_players,
                     starting_countries_preferences=starting_countries_preferences,
                     number_of_rounds=number_of_rounds,
@@ -75,3 +75,6 @@ def setup_the_game(continent_list: list[str] = [],
                     wormhole_mode=wormhole_mode,
                     peacemode=peacemode,
                     reversed_end_attribute=reversed_end_attribute)
+        my_main_window.start()
+        
+

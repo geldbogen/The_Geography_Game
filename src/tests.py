@@ -3,7 +3,6 @@ import pytest
 from player import Player
 
 from country import Niger, Chad
-from intro_window import IntroWindow
 from setup_game import setup_the_game
 from global_definitions import red, yellow
 
