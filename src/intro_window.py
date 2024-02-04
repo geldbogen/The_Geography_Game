@@ -238,7 +238,7 @@ class IntroWindow:
                                               variable=self.peacemode_var)
         self.peacemode_check.grid(row=5, column=3)
 
-        #variable for setting whether the final attribute will be reversed, if we play the random attribute mode
+        # variable for setting whether the final attribute will be reversed, if we play the random attribute mode
         self.reverse_yes_or_novar = tk.IntVar()
         self.reverse_yes_or_novar.set(0)
 

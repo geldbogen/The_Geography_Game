@@ -4,7 +4,7 @@ import tkinter as tk
 
 from global_definitions import all_players, category_to_displayed_name_dict, category_to_displayed_extra_information_category, all_countries_available, reverse_countries_alternative_names
 from player import mr_nobody
-from image import greenImage2, greencountrydict
+from image import green_image_2, greencountrydict
 from country import Country, Unknown_country
 from category import Category
 
@@ -43,7 +43,7 @@ def get_country_by_position(xcoordinate, ycoordinate):
     x = xcoordinate
     y = ycoordinate
 
-    color = greenImage2[x, y]
+    color = green_image_2[x, y]
     try:
         result = call_country_by_name(greencountrydict[color])
     except KeyError:

@@ -3,15 +3,15 @@ import pickle
 
 im = Image.open("map/new_worldmap.png").convert("RGB")
 im = im.resize((3500, 1737), Image.LANCZOS)
-pngImage = Image.open("map/new_worldmap.png").convert("RGB")
-pngImage = pngImage.resize((3500, 1737), Image.LANCZOS)
+png_image = Image.open("map/new_worldmap.png").convert("RGB")
+png_image = png_image.resize((3500, 1737), Image.LANCZOS)
 
-greenImage = Image.open("map/new_greenimage.png").convert("RGB")
-greenImage = greenImage.resize((3500, 1737), Image.LANCZOS)
+green_image = Image.open("map/new_greenimage.png").convert("RGB")
+green_image = green_image.resize((3500, 1737), Image.LANCZOS)
 
-greenImage2 = greenImage.load()
+green_image_2 = green_image.load()
 
-finalimage = pngImage
+finalimage = png_image
 
 with open("data/important/whichcountrydict_new","rb") as f:
     greencountrydict=pickle.load(f)

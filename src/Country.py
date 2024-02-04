@@ -2,7 +2,7 @@ from PIL import ImageDraw, Image, ImageTk
 import numpy as np
 
 from global_definitions import resize_ratio, all_countries_available, countries_for_language_en, all_countries_in_game, country_name_list
-from image import pngImage
+from image import png_image
 from local_attribute import LocalAttribute
 
 
@@ -112,7 +112,7 @@ class Country:
             self.set_of_pixels = set(zip(marray[0], marray[1]))
         except Exception as e:
             print(str(e))
-            self.set_pixels(pngImage)
+            self.set_pixels(png_image)
         all_countries_in_game.append(self)
         country_name_list.append(self.name)
 

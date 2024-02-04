@@ -12,7 +12,7 @@ from local_attribute import LocalAttribute
 from country import Country, Unknown_country, Germany, France
 from category import Category
 from player import Player, No_Data_Body
-from image import greencountrydict, greenImage
+from image import greencountrydict, green_image
 from global_definitions import all_categories, all_countries_in_game, all_categories_names_and_clusters, dictionary_attribute_name_to_attribute, gold, realgrey
 from help_functions import Countriesareconnected, get_country_by_position, replace_A_and_B_in_category_name, call_country_by_name, call_player_by_name
 
@@ -543,7 +543,7 @@ class MainWindow():
 
         inv_map = {v: k for k, v in greencountrydict.items()}
         color = inv_map[country.name]
-        np_image = np.array(greenImage)
+        np_image = np.array(green_image)
         green = np.array(color, dtype=np.uint8)
         greens = list(zip(*np.where(np.all((np_image == green), axis=-1))))
 
