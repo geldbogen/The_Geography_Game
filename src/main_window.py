@@ -11,10 +11,10 @@ import webbrowser
 from local_attribute import LocalAttribute
 from country import Country, Unknown_country, Germany, France
 from category import Category
-from player import Player, No_Data_Body
-from image import greencountrydict, green_image
-from global_definitions import all_categories, all_countries_in_game, all_categories_names_and_clusters, dictionary_attribute_name_to_attribute, gold, realgrey
-from help_functions import Countriesareconnected, get_country_by_position, replace_A_and_B_in_category_name, call_country_by_name, call_player_by_name
+from player import Player, No_Data_Body, mr_nobody
+from image import greencountrydict, greenImage
+from global_definitions import all_categories, all_countries_in_game, dictionary_attribute_name_to_attribute, gold, realgrey
+from help_functions import Countriesareconnected, get_country_by_position, replace_A_and_B_in_category_name, call_player_by_name
 
 
 class MainWindow():
@@ -22,8 +22,8 @@ class MainWindow():
     def __init__(self,
                  bild,
                  list_of_players : list[Player],
-                 wormholemode,
-                 starting_countries="random",
+                 wormhole_mode,
+                 starting_countries_preferences="random",
                  number_of_rounds=99999999999,
                  winning_condition="number of countries",
                  number_of_wormholes=3,
@@ -40,9 +40,9 @@ class MainWindow():
         self.index = 0
         self.goldlist = list()
         self.choosing_index = -1
-        self.starting_countries = starting_countries
+        self.starting_countries = starting_countries_preferences
         self.reversed_end_attribute = reversed_end_attribute
-        main = tk.Tk()
+        self.main = tk.Tk()
         sv_ttk.set_theme("dark")  # Set light theme
 
         self.list_of_players = list_of_players
@@ -52,7 +52,7 @@ class MainWindow():
         self.active_player = self.list_of_players[self.active_player_counter]
         self.number_of_players = len(self.list_of_players)
         self.end_attribute = None
-        self.wormhole_mode = wormholemode
+        self.wormhole_mode = wormhole_mode
         self.wormholed_countries = list()
         self.number_of_wormholes = number_of_wormholes
         print(self.winning_condition)
@@ -61,12 +61,10 @@ class MainWindow():
 
         self.current_attribute = all_categories[0]
 
-        self.main = main
-
         self.chosen_country_a = None
         self.turn_counter = 0
 
-        self.frame1 = tk.Frame(main, width=300, height=300)
+        self.frame1 = tk.Frame(self.main, width=300, height=300)
         self.frame1.pack(side="bottom", fill="both", expand=True)
 
         #frame1=frame2+areyousurebuttons
@@ -123,7 +121,8 @@ class MainWindow():
             text="rerolls left:\n " + str(self.active_player.rerolls_left),
             font="Helvetica 25",
             anchor="sw",
-            command=lambda: self.reroll(player=self.active_player))
+            command=lambda: self.active_player.reroll(to_update_category_label=self.showing_current_attribute_text_label,to_update_reroll_button_label=self.reroll_button['text']))
+            
         self.reroll_button.pack(side="left", fill="y")
 
         self.showing_country_label = tk.Label(
@@ -207,11 +206,12 @@ class MainWindow():
                 print(all_countries_in_game[self.randomstart[i]].name)
 
         #roll first attribute
-        self.get_good_attribute(self.active_player)
+        self.current_attribute = self.get_good_attribute(self.active_player)
         replace_A_and_B_in_category_name(
             self.showing_current_attribute_text_label, self.current_attribute)
 
-        main.mainloop()
+    def start(self):
+            self.main.mainloop()
 
     def update_image(self, new_image):
         new_image = ImageTk.PhotoImage(new_image)
@@ -305,14 +305,14 @@ class MainWindow():
         self.d = ""
         self.showing_country_label["text"] = ""
         self.chosen_country_a = None
-        result = self.attack_with_attribute(self.current_attribute.name,
+        result = self.active_player.attack_with_attribute(self.current_attribute.name,
                                             country_a, country_b)
         if result == "no data":
             self.popup_win_or_loose(country_a,
                                     country_b,
                                     self.current_attribute,
                                     wl="no data")
-            self.get_good_attribute(self.active_player)
+            self.current_attribute = self.active_player.get_good_attribute()
             replace_A_and_B_in_category_name(
                 self.showing_current_attribute_text_label,
                 self.current_attribute)
@@ -322,7 +322,7 @@ class MainWindow():
                                     country_b,
                                     self.current_attribute,
                                     wl="draw!")
-            self.get_good_attribute(self.active_player)
+            self.current_attribute = self.active_player.get_good_attribute()
             replace_A_and_B_in_category_name(
                 self.showing_current_attribute_text_label,
                 self.current_attribute)
@@ -370,7 +370,7 @@ class MainWindow():
             "text"] = "It is the turn of " + self.active_player.name + "\n You have not chosen any country yet"
 
         #roll a new attribute
-        self.get_good_attribute(self.active_player)
+        self.current_attribute = self.active_player.get_good_attribute()
         replace_A_and_B_in_category_name(
             self.showing_current_attribute_text_label, self.current_attribute)
         self.flagframe_dict[self.active_player.name].pack(side="top")
@@ -391,81 +391,7 @@ class MainWindow():
                 self.activate_wormholes(1, player=self.active_player)
         self.reroll_button["text"] = "rerolls left:\n " + str(
             self.active_player.rerolls_left)
-
-    def reroll(self, player: Player):
-        if player.rerolls_left == 0:
-            return None
-        player.rerolls_left -= 1
-
-        self.get_good_attribute(self.active_player)
-        replace_A_and_B_in_category_name(
-            self.showing_current_attribute_text_label, self.current_attribute)
-        self.reroll_button["text"] = "rerolls left:\n " + str(
-            self.active_player.rerolls_left)
-
-    def get_good_attribute(self, player: Player, counter=0, i=0) -> None:
-        i = 0
-        counter = 0
-        at_least_one = False
-        self.current_attribute = self.get_random_attribute_with_cluster()
-
-        # if the attribute is end only it should not be a valid attribute
-        if self.current_attribute.is_end_only:
-            self.get_good_attribute(player)
-
-        for country in player.list_of_possessed_countries:
-            #TODO:make it better if just some continents are chosen
-            #simulate attacks in order to get an attribute, with which one can actually do something (to no frustrate players)
-            for neighboring_country_string in list(
-                    set(country.neighboring_countries)):
-                i += 1
-                if self.attack_with_attribute(
-                        self.current_attribute.name, country,
-                        call_country_by_name(
-                            neighboring_country_string)) == "no data":
-                    counter = counter + 1
-                    print(neighboring_country_string + " \n" + country.name)
-                if self.attack_with_attribute(
-                        self.current_attribute.name, country,
-                        call_country_by_name(neighboring_country_string)) in [
-                            "draw", "True"
-                        ]:
-                    if not call_country_by_name(
-                            neighboring_country_string
-                    ) in player.list_of_possessed_countries:
-                        at_least_one = True
-
-        print(float(counter) / float(i))
-        if float(counter) / float(i) > 0.25 or not at_least_one:
-            print(self.current_attribute.name)
-            print(
-                "doesn't work because of the missing above we get a new attribute!"
-            )
-            self.get_good_attribute(player)
-        else:
-            if self.current_attribute.number_of_chosen_already == 1:
-                self.current_attribute.number_of_chosen_already = 0
-                self.get_good_attribute(player)
-            else:
-                self.current_attribute.number_of_chosen_already += 1
-
-    def get_random_attribute_with_cluster(self) -> Category:
-
-        # get a random attribute name (including the name of a cluster)
-
-        self.current_attributename_with_cluster = random.choice(
-            all_categories_names_and_clusters)
-
-        # if a cluster is chosen choose a random attribute from that cluster
-        if len(dictionary_attribute_name_to_attribute[
-                self.current_attributename_with_cluster]) > 1:
-            return random.choice(dictionary_attribute_name_to_attribute[
-                self.current_attributename_with_cluster])
-        # if it is not a cluster, just return the attribute
-        else:
-            return dictionary_attribute_name_to_attribute[
-                self.current_attributename_with_cluster][0]
-
+    
     def fuckgoback(self):
         # self.buttonsure.pack_forget()
         # self.buttonnotsure.pack_forget()
@@ -473,35 +399,6 @@ class MainWindow():
         self.chosen_country_a = None
         self.showing_country_label["text"] = ""
         self.d = ""
-
-    def attack_with_attribute(self, attribute_name : str, country_a : Country, country_b : Country, treat_missing_data_as_bad = False):
-
-        local_attribute_a = country_a.dict_of_attributes[attribute_name]
-        local_attribute_b = country_b.dict_of_attributes[attribute_name]
-
-        # if local_attribute_a.rank
-
-        if local_attribute_a.rank == -1 or local_attribute_b.rank == -1:
-            if not treat_missing_data_as_bad:
-                return 'no data'
-            elif local_attribute_a.rank == local_attribute_b.rank:
-                return 'no data'
-            elif local_attribute_a.rank == -1:
-                return 'True'
-            else:
-                return 'False'
-
-        if local_attribute_a.value == local_attribute_b.value:
-            return 'draw!'
-        
-        if local_attribute_a.rank < local_attribute_b.rank:
-            if local_attribute_a.rank + 99 < local_attribute_b.rank:
-                return 'hard defeat!'
-            else:
-                return 'True'
-        
-        return 'False'
-
 
     def claim_country(self, player: Player, country: Country):
 
@@ -1531,7 +1428,7 @@ class MainWindow():
         else:
             numberofnodata = 999999
             while numberofnodata > 5:
-                attribute = self.get_random_attribute_with_cluster()
+                attribute = mr_nobody.get_random_attribute_with_cluster()
                 numberofnodata = 0
                 for country in all_countries_in_game:
                     # TODO
@@ -1663,7 +1560,7 @@ class MainWindow():
         def show_targets(player: Player):
             self.no_targets_yetlist.remove(player)
             self.target_countries_frame = tk.Toplevel()
-            self.target_attribute = self.get_random_attribute_with_cluster()
+            self.target_attribute = player.get_random_attribute_with_cluster()
             self.dict_of_target_attribute_name[player] = self.target_attribute
             welcomelabel = tk.Label(self.target_countries_frame,
                                     text="Welcome " + player.name +

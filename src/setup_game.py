@@ -1,84 +1,80 @@
-from global_definitions import (
-    all_countries_in_game, all_countries_available, country_name_list, neighboring_countries, my_property_dict)
+from global_definitions import (all_countries_available, all_countries_in_game,
+                                country_name_list, neighboring_countries,
+                                my_property_dict, all_players)
 from country import Unknown_country
-from player import all_players
 from main_window import MainWindow
+from player import Player
+
 from image import im
 
 
-def gogo(self):
-    self.activecontinents = list()
-    if self.africavar.get() == 1:
-        self.activecontinents.append("Africa")
-    if self.asiavar.get() == 1:
-        self.activecontinents.append("Asia")
-    if self.europevar.get() == 1:
-        self.activecontinents.append("Europe")
-    if self.north_americavar.get() == 1:
-        self.activecontinents.append("North America")
-    if self.middle_americavar.get() == 1:
-        self.activecontinents.append("Middle America")
-    if self.south_americavar.get() == 1:
-        self.activecontinents.append("South America")
-    if self.oceaniavar.get() == 1:
-        self.activecontinents.append("Oceania")
+def setup_the_game(continent_list: list[str] = [],
+         list_of_players: list[Player] = [],
+         number_of_rounds: int = -1,
+         number_of_rerolls: int = 0,
+         starting_countries_preferences : str = '',
+         winning_condition : str = '',
+         end_attribute_path : str = '',
+         peacemode : int = 0,
+         wormhole_mode : str = '',
+         reversed_end_attribute : int = 0,
+         start_the_game : bool = False
+         ):
 
     for country in all_countries_available:
-        if country.continent in self.activecontinents:
+        if country.continent in continent_list:
             all_countries_in_game.append(country)
+    
     all_countries_in_game.append(Unknown_country)
-    self.numberofrounds = self.numberofroundsentry.get()
 
     for country in all_countries_in_game:
-        name = country.name
-        country_name_list.append(name)
+        country_name_list.append(country.name)
 
-    for acountry in all_countries_in_game:
-        try:
-            if acountry == Unknown_country:
-                continue
-            data = neighboring_countries[neighboring_countries[0] ==
-                                         acountry.name]
-            for bcountry in all_countries_in_game:
-                if bcountry == Unknown_country:
-                    continue
-                if bcountry.name in data.iat[0, 5]:
-                    bcountry.neighboring_countries.append(acountry.name)
-        except:
+    # TODO: this is quite ugly
+    for country_1 in all_countries_in_game:
+        if country_1 == Unknown_country:
             continue
+        data = neighboring_countries[neighboring_countries[0] ==
+                                        country_1.name]
+        for country_2 in all_countries_in_game:
+            if country_2 == Unknown_country:
+                continue
+            if not data.empty:
+                if country_2.name in str(data.iat[0, 5]):
+                    country_2.neighboring_countries.append(country_1.name)
 
+    # assigns the countries all the local attributes
     for country in all_countries_in_game:
-        try:
-            country.dict_of_attributes = my_property_dict[country.name]
-        except:
-            pass
+        country.dict_of_attributes = my_property_dict[country.name]
 
-    if len(self.list_of_players) == 0:
+    if list_of_players == []:
         return None
 
     for player in all_players.values():
-        try:
-            player.rerolls_left = int(self.numberofroundsentry.get()) // 3
-        except ValueError:
-            player.rerolls_left = 3
+        player.rerolls_left = number_of_rerolls
 
-    self.root.destroy()
-    if self.numberofrounds == "":
-        MainWindow(bild=im,
-                   list_of_players=self.list_of_players,
-                   starting_countries=self.start_country.get(),
-                   winning_condition=self.winning_condition.get(),
-                   pred_attribute=self.current_var.get() + ".csv",
-                   wormholemode=self.wormhole_option.get(),
-                   peacemode=self.peacemode_var.get(),
-                   reversed_end_attribute=self.reverse_yes_or_novar.get())
-    else:
-        MainWindow(bild=im,
-                   list_of_players=self.list_of_players,
-                   starting_countries=self.start_country.get(),
-                   number_of_rounds=int(self.numberofrounds),
-                   winning_condition=self.winning_condition.get(),
-                   pred_attribute=self.current_var.get() + ".csv",
-                   wormholemode=self.wormhole_option.get(),
-                   peacemode=self.peacemode_var.get(),
-                   reversed_end_attribute=self.reverse_yes_or_novar.get())
+    # self.root.destroy()
+
+    # if number_of_rounds == -1:
+    #     MainWindow(bild=im,
+    #                list_of_players=self.list_of_players,
+    #                starting_countries=self.start_country.get(),
+    #                winning_condition=self.winning_condition.get(),
+    #                pred_attribute=self.current_var.get() + ".csv",
+    #                wormholemode=self.wormhole_option.get(),
+    #                peacemode=self.peacemode_var.get(),
+    #    reversed_end_attribute=self.reverse_yes_or_novar.get())
+
+    if start_the_game:
+        my_main_window = MainWindow(bild=im,
+                    list_of_players=list_of_players,
+                    starting_countries_preferences=starting_countries_preferences,
+                    number_of_rounds=number_of_rounds,
+                    winning_condition=winning_condition,
+                    pred_attribute=end_attribute_path,
+                    wormhole_mode=wormhole_mode,
+                    peacemode=peacemode,
+                    reversed_end_attribute=reversed_end_attribute)
+        my_main_window.start()
+        
+

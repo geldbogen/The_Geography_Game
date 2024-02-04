@@ -66,6 +66,7 @@ for item in countries_for_language_en:
 with open("backenddata/propertydict_new", "rb") as handle:
     my_property_dict = pickle.load(handle)
 
+
 # a dictionary which takes a string and if it is a clustername
 # returns the list of categories associated to it. If it is just a normal
 # categoryname it returns a list with only the asked category in it.

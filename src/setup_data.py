@@ -5,7 +5,6 @@ import additional_explanations
 from category import Category
 from country import all_countries_available
 from help_functions import call_country_by_name, normalize_country_name
-from global_definitions import reverse_countries_alternative_names
 from local_attribute import LocalAttribute
 
 
