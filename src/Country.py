@@ -4,7 +4,7 @@ import numpy as np
 from global_definitions import resize_ratio, all_countries_available, countries_for_language_en, all_countries_in_game, country_name_list
 from image import png_image
 from local_attribute import LocalAttribute
-
+from image import green_image_2, greencountrydict
 
 class Country:
 
@@ -117,6 +117,36 @@ class Country:
             self.set_pixels(png_image)
         all_countries_in_game.append(self)
         country_name_list.append(self.name)
+    
+    def is_connected_with(self, other_country) -> bool:
+        if self.name in other_country.neighboring_countries or other_country.name in self.neighboring_countries:
+            return True
+        else:
+            return False
+
+
+def call_country_by_name(name : str) -> Country:
+    for country in all_countries_available:
+        if country.name == name:
+            return country
+
+def get_country_by_position(xcoordinate, ycoordinate):
+    # if bild.getpixel((xcoordinate,ycoordinate))==oceanblue:
+    #     return Unknown_country
+    x = xcoordinate
+    y = ycoordinate
+
+    color = green_image_2[x, y]
+    try:
+        result = call_country_by_name(greencountrydict[color])
+    except KeyError:
+        result = Unknown_country
+    return result
+
+
+
+
+
 
 
 Unknown_country = Country(

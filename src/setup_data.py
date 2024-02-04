@@ -3,11 +3,9 @@ import pandas as pd
 import additional_explanations
 
 from category import Category
-from country import all_countries_available
-from help_functions import call_country_by_name, normalize_country_name
+from country import all_countries_available, call_country_by_name
+from help_functions import normalize_country_name
 from local_attribute import LocalAttribute
-
-
 
 def extract_data_from_series(series: pd.DataFrame, nameofattribute,
                              numberofranked, additional_information,

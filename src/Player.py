@@ -2,8 +2,7 @@ import random
 import tkinter as tk
 
 from global_definitions import all_players, realgrey, all_categories_names_and_clusters, dictionary_attribute_name_to_attribute
-from help_functions import call_country_by_name, replace_A_and_B_in_category_name
-from country import Country
+from country import Country, call_country_by_name
 from category import Category
 
 
@@ -40,8 +39,8 @@ class Player:
 
         self.current_attribute = self.get_good_attribute()
 
-        replace_A_and_B_in_category_name(to_update_category_label,
-                                         self.current_attribute)
+        self.current_attribute.replace_A_and_B_in_category_name(to_update_category_label,
+                                         )
         to_update_reroll_button_label.configure(
             text="rerolls left:\n " + str(self.active_player.rerolls_left))
 
@@ -72,7 +71,7 @@ class Player:
                 return 'hard defeat!'
             else:
                 return 'True'
-
+            
         return 'False'
 
     def get_random_attribute_with_cluster(self) -> Category:
@@ -140,6 +139,12 @@ class Player:
                 self.get_good_attribute()
             else:
                 self.current_attribute.number_of_chosen_already += 1
+
+def call_player_by_name(name : str) -> Player:
+    for playername in all_players.keys():
+        if playername == name:
+            return all_players[playername]
+    return mr_nobody
 
 
 mr_nobody = Player(color="white", name="Nobody")

@@ -1,4 +1,10 @@
-from global_definitions import all_categories, all_categories_names_and_clusters, dictionary_attribute_name_to_attribute
+import tkinter as tk
+
+from global_definitions import (
+    all_categories, all_categories_names_and_clusters,
+      dictionary_attribute_name_to_attribute, category_to_displayed_name_dict,
+      category_to_displayed_extra_information_category)
+from country import Country
 
 
 class Category:
@@ -71,3 +77,55 @@ class Category:
 
             # map categoryname to single item list of corresponding class
             dictionary_attribute_name_to_attribute[self.name] = [self]
+
+    def replace_A_and_B_in_category_name(self, tk_label: tk.Label,
+                                         first_country: Country = None,
+                                         second_country: Country = None) -> tk.Label:
+
+        categoryname = self.name.rstrip(".csv")
+        try:
+            displaystring = category_to_displayed_name_dict[categoryname]
+            if (displaystring in ["", "TODO"]):
+                displaystring = categoryname + " (TODO)"
+        except KeyError:
+            displaystring = categoryname + " (ERROR)"
+
+        if (second_country == None):
+            displaystring = displaystring.replace("CountryB", " (...) ")
+        else:
+            displaystring = displaystring.replace(
+                "CountryB", second_country.name)
+
+        if (first_country == None):
+            displaystring = displaystring.replace("CountryA", " (...) ")
+        else:
+            displaystring = displaystring.replace(
+                "CountryA", first_country.name)
+
+        extra_information_displayed = ""
+
+        try:
+            if (category_to_displayed_extra_information_category[categoryname] ==
+                    "person"):
+                extra_information_displayed = "\n (citizenship or birthplace in the current territory of the country)"
+            if (category_to_displayed_extra_information_category[categoryname] ==
+                    "historical event"):
+                extra_information_displayed = "\n (took place in the current territory of the country)"
+        except KeyError:
+            pass
+
+        displaystring += extra_information_displayed
+
+        # TODO: append guessing hint
+
+        # guessing_hint = ""
+        # try:
+        #     guessing_hint = " \n (guess the "+ +")"
+        # except KeyError:
+        #     pass
+
+        # displaystring+= guessing_hint
+
+        tk_label.configure(text=displaystring)
+
+        return tk_label
