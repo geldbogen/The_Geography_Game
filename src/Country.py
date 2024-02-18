@@ -1,3 +1,4 @@
+from __future__ import annotations
 from PIL import ImageDraw, Image, ImageTk
 import numpy as np
 
@@ -5,10 +6,12 @@ from global_definitions import resize_ratio, all_countries_available, countries_
 from image import png_image
 from local_attribute import LocalAttribute
 from image import green_image_2, greencountrydict
-from player import mr_nobody, call_player_by_name
+import player
 
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
+
+
     import category
 
 
@@ -141,11 +144,11 @@ class Country:
         number_of_draws = 0
         number_of_loose = 0
         for country_name in self.neighboring_countries:
-            if peacemode and call_player_by_name(call_country_by_name(country_name).owner_name) != mr_nobody:
+            if peacemode and player.call_player_by_name(call_country_by_name(country_name).owner_name) != player.mr_nobody:
                 continue
 
-            result = mr_nobody.check_if_attack_is_succesful(
-                category.name, self, call_country_by_name(country_name))
+            result = player.mr_nobody.check_if_attack_is_succesful(
+                category, self, call_country_by_name(country_name))
             match result:
                 case 'win':
                     number_of_wins += 1

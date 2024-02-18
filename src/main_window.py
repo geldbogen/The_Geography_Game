@@ -301,7 +301,7 @@ class MainWindow():
         self.d = ""
         self.showing_country_label["text"] = ""
         self.chosen_country_a = None
-        result = self.active_player.check_if_attack_is_succesful(self.current_attribute.name,
+        result = self.active_player.check_if_attack_is_succesful(self.current_attribute,
                                                           country_a, country_b)
         if result == "no data":
             self.popup_win_or_loose(country_a,
@@ -383,7 +383,7 @@ class MainWindow():
             except:
                 traceback.print_exc()
             if len(self.active_player.list_of_possessed_countries) >= 3:
-                print("wormholes werden aktiviert")
+                print("wormholes are getting activated")
                 self.activate_wormholes(1, player=self.active_player)
         self.reroll_button["text"] = "rerolls left:\n " + str(
             self.active_player.rerolls_left)

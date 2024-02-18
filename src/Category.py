@@ -4,7 +4,8 @@ from global_definitions import (
     all_categories, all_categories_names_and_clusters,
       dictionary_attribute_name_to_attribute, category_to_displayed_name_dict,
       category_to_displayed_extra_information_category)
-from country import Country
+
+import country
 
 
 class Category:
@@ -79,8 +80,8 @@ class Category:
             dictionary_attribute_name_to_attribute[self.name] = [self]
 
     def replace_A_and_B_in_category_name(self, tk_label: tk.Label,
-                                         first_country: Country = None,
-                                         second_country: Country = None) -> tk.Label:
+                                         first_country: country.Country = None,
+                                         second_country: country.Country = None) -> tk.Label:
 
         categoryname = self.name.rstrip(".csv")
         try:

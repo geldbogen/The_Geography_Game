@@ -1,10 +1,16 @@
+from __future__ import annotations
+
 import random
 import tkinter as tk
 
 from global_definitions import all_players, realgrey, all_categories_names_and_clusters, dictionary_attribute_name_to_attribute
 
-import category
-import country
+
+
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    from category import Category
+    import country
 
 
 class Player:
@@ -46,16 +52,16 @@ class Player:
             text="rerolls left:\n " + str(self.active_player.rerolls_left))
 
     def check_if_attack_is_succesful(self,
-                                     attribute_name: str,
+                                     category: Category,
                                      country_a: country.Country,
                                      country_b: country.Country,
-                                     treat_missing_data_as_bad=False) -> str:
+                                     ) -> str:
 
-        local_attribute_a = country_a.dict_of_attributes[attribute_name]
-        local_attribute_b = country_b.dict_of_attributes[attribute_name]
+        local_attribute_a = country_a.dict_of_attributes[category.name]
+        local_attribute_b = country_b.dict_of_attributes[category.name]
 
         if local_attribute_a.rank == -1 or local_attribute_b.rank == -1:
-            if not treat_missing_data_as_bad:
+            if not category.treat_missing_data_as_bad:
                 return 'no data'
             elif local_attribute_a.rank == local_attribute_b.rank:
                 return 'no data'
@@ -75,7 +81,7 @@ class Player:
 
         return 'loose'
 
-    def get_random_attribute_with_cluster(self) -> category.Category:
+    def get_random_attribute_with_cluster(self) -> Category:
 
         # get a random attribute name (including the name of a cluster)
 
@@ -92,7 +98,7 @@ class Player:
             return dictionary_attribute_name_to_attribute[
                 self.current_attributename_with_cluster][0]
 
-    def player_win_analysis(self, category: category.Category, peacemode: bool = False) -> dict[str, int]:
+    def player_win_analysis(self, category: Category, peacemode: bool = False) -> dict[str, int]:
         """
         returns a dictionary in the form {'win' : 10, 'no data' : 1, 'draw' : 2, 'loose': 2} 
         according to the outcome of the eventual attacks of a player
@@ -109,7 +115,7 @@ class Player:
 
         return returndict
 
-    def get_good_attribute(self, threshold: float = 0.25, at_least_one_win: bool = True, peacemode : bool = False) -> category.Category:
+    def get_good_attribute(self, threshold: float = 0.25, at_least_one_win: bool = True, peacemode : bool = False) -> Category:
 
         is_good_attribute = False
 

@@ -22,7 +22,7 @@ def setup_the_game(continent_list: list[str] = [],
          ):
 
     for country in all_countries_available:
-        if country.continent in continent_list:
+        if country.continent_name in continent_list:
             all_countries_in_game.append(country)
     
     all_countries_in_game.append(Unknown_country)

@@ -2,7 +2,7 @@ import pandas as pd
 
 import additional_explanations
 
-from category import Category
+import category
 from country import all_countries_available, call_country_by_name
 from help_functions import normalize_country_name
 from local_attribute import LocalAttribute
@@ -100,7 +100,7 @@ def setup_data(name,
         explanation = ""
 
     # create Category with information provided
-    Category(name,
+    category.Category(name,
              is_active=additional_information,
              treat_missing_data_as_bad=treat_missing_data_as_bad,
              difficulty=dif,
