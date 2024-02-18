@@ -328,7 +328,7 @@ class IntroWindow:
                        winning_condition=self.winning_condition.get(),
                        end_attribute_path=self.end_attribute_var.get() +
                        ".csv",
-                       peacemode=self.peacemode_var.get(),
+                       peacemode=self.peacemode_var.get() == 1,
                        wormhole_mode=self.wormhole_option.get(),
                        reversed_end_attribute=self.reverse_yes_or_no_var.get(),
                        start_the_game=True)

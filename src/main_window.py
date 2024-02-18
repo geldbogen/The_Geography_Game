@@ -26,7 +26,7 @@ class MainWindow():
                  winning_condition="number of countries",
                  number_of_wormholes=3,
                  pred_attribute="random",
-                 peacemode=0,
+                 peacemode : bool = False,
                  reversed_end_attribute=0):
 
         self.rerolls = 3
@@ -55,7 +55,7 @@ class MainWindow():
         self.number_of_wormholes = number_of_wormholes
         print(self.winning_condition)
 
-        self.peacemode = peacemode
+        self.peacemode : bool = peacemode
 
         self.current_attribute = all_categories[0]
 
@@ -204,7 +204,7 @@ class MainWindow():
                 print(all_countries_in_game[self.randomstart[i]].name)
 
         # roll first attribute
-        self.current_attribute = self.active_player.get_good_attribute()
+        self.current_attribute = self.active_player.get_good_attribute(peacemode=self.peacemode)
         self.current_attribute.replace_A_and_B_in_category_name(
             self.showing_current_attribute_text_label)
 
@@ -234,8 +234,8 @@ class MainWindow():
                                                   self.c.canvasy(event.y))
         if self.chosen_country_a == None:
             self.showing_country_label[
-                "text"] = "It is the turn of " + self.active_player.name + "\n You have chosen " + clicked_country.name + " currently controlled by " + clicked_country.owner
-            if clicked_country.owner == self.active_player.name:
+                "text"] = "It is the turn of " + self.active_player.name + "\n You have chosen " + clicked_country.name + " currently controlled by " + clicked_country.owner_name
+            if clicked_country.owner_name == self.active_player.name:
                 self.chosen_country_a = clicked_country
                 self.current_attribute.replace_A_and_B_in_category_name(
                     self.showing_current_attribute_text_label, self.chosen_country_a)
@@ -244,8 +244,8 @@ class MainWindow():
                     "text"] = self.showing_country_label[
                         "text"] + "\n You can attack with this country"
         else:
-            if self.peacemode == 1 and clicked_country.owner != "Nobody" and call_player_by_name(
-                    clicked_country.owner) != self.active_player:
+            if self.peacemode and clicked_country.owner_name != "Nobody" and call_player_by_name(
+                    clicked_country.owner_name) != self.active_player:
                 self.chosen_country_a = None
                 self.showing_country_label[
                     "text"] = "You can not attack anoter player's countries in peace mode! \n Choose another country!"
@@ -254,7 +254,7 @@ class MainWindow():
                 return None
             if clicked_country.is_connected_with(self.chosen_country_a):
                 if self.active_player != call_player_by_name(
-                        clicked_country.owner):
+                        clicked_country.owner_name):
                     self.current_attribute.replace_A_and_B_in_category_name(
                         self.showing_current_attribute_text_label, self.chosen_country_a,
                         clicked_country)
@@ -342,8 +342,8 @@ class MainWindow():
                                     country_b,
                                     self.current_attribute,
                                     wl="you loose!")
-            if country_b.owner != "Nobody":
-                self.claim_country(call_player_by_name(country_b.owner),
+            if country_b.owner_name != "Nobody":
+                self.claim_country(call_player_by_name(country_b.owner_name),
                                    country_a)
 
     def transition(self, same_player_again=False):
@@ -431,8 +431,8 @@ class MainWindow():
                     self.showing_country_label["text"] = ""
 
         player.list_of_possessed_countries.append(country)
-        old_owner = country.owner
-        country.owner = player.name
+        old_owner = country.owner_name
+        country.owner_name = player.name
 
         inv_map = {v: k for k, v in greencountrydict.items()}
         color = inv_map[country.name]
@@ -688,8 +688,8 @@ class MainWindow():
                     or country2 in player.list_of_possessed_countries
                     or country1 == Unknown_country
                     or country2 == Unknown_country or
-                (self.peacemode == 1 and
-                 (country1.owner != "Nobody" and country2.owner != "Nobody"))):
+                (self.peacemode and
+                 (country1.owner_name != "Nobody" and country2.owner_name != "Nobody"))):
                 country1 = player.list_of_possessed_countries[random.randrange(
                     1, len(player.list_of_possessed_countries))]
                 country2 = all_countries_in_game[random.randrange(

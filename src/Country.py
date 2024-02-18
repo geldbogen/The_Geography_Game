@@ -5,9 +5,11 @@ from global_definitions import resize_ratio, all_countries_available, countries_
 from image import png_image
 from local_attribute import LocalAttribute
 from image import green_image_2, greencountrydict
-from player import mr_nobody
+from player import mr_nobody, call_player_by_name
 
-import category
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    import category
 
 
 class Country:
@@ -33,7 +35,7 @@ class Country:
         self.name: str = name
 
         # the name of the current owner of the country
-        self.owner: str = "Nobody"
+        self.owner_name: str = "Nobody"
 
         # the name of the continent, which the country belongs to
         self.continent_name: str = continent
@@ -130,7 +132,7 @@ class Country:
         else:
             return False
 
-    def get_number_of_possible_wins(self, category: category.Category) -> dict[str,int]:
+    def win_analysis(self, category: category.Category, peacemode: bool = False) -> dict[str,int]:
         """
         returns a dictionary in the form {'win' : 10, 'no data' : 1, 'draw' : 2, 'loose': 2} 
         """
@@ -139,6 +141,9 @@ class Country:
         number_of_draws = 0
         number_of_loose = 0
         for country_name in self.neighboring_countries:
+            if peacemode and call_player_by_name(call_country_by_name(country_name).owner_name) != mr_nobody:
+                continue
+
             result = mr_nobody.check_if_attack_is_succesful(
                 category.name, self, call_country_by_name(country_name))
             match result:

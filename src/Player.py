@@ -2,8 +2,9 @@ import random
 import tkinter as tk
 
 from global_definitions import all_players, realgrey, all_categories_names_and_clusters, dictionary_attribute_name_to_attribute
-from country import Country, call_country_by_name
-from category import Category
+
+import category
+import country
 
 
 class Player:
@@ -19,10 +20,10 @@ class Player:
         self.labeldict = dict()
 
         # a list of all countries the player currently controls
-        self.list_of_possessed_countries: list[Country] = []
+        self.list_of_possessed_countries: list[country.Country] = []
 
         # a list of all countries with gold, which the player currently controls
-        self.list_of_possessed_countries_gold: list[Country] = []
+        self.list_of_possessed_countries_gold: list[country.Country] = []
 
         # a dictionary needed to translate between
         # the name of the player and the corresponding class
@@ -40,15 +41,15 @@ class Player:
         self.current_attribute = self.get_good_attribute()
 
         self.current_attribute.replace_A_and_B_in_category_name(to_update_category_label,
-                                         )
+                                                                )
         to_update_reroll_button_label.configure(
             text="rerolls left:\n " + str(self.active_player.rerolls_left))
 
     def check_if_attack_is_succesful(self,
-                              attribute_name: str,
-                              country_a: Country,
-                              country_b: Country,
-                              treat_missing_data_as_bad=False) -> str:
+                                     attribute_name: str,
+                                     country_a: country.Country,
+                                     country_b: country.Country,
+                                     treat_missing_data_as_bad=False) -> str:
 
         local_attribute_a = country_a.dict_of_attributes[attribute_name]
         local_attribute_b = country_b.dict_of_attributes[attribute_name]
@@ -71,10 +72,10 @@ class Player:
                 return 'hard defeat'
             else:
                 return 'win'
-            
+
         return 'loose'
 
-    def get_random_attribute_with_cluster(self) -> Category:
+    def get_random_attribute_with_cluster(self) -> category.Category:
 
         # get a random attribute name (including the name of a cluster)
 
@@ -91,64 +92,94 @@ class Player:
             return dictionary_attribute_name_to_attribute[
                 self.current_attributename_with_cluster][0]
 
+    def player_win_analysis(self, category: category.Category, peacemode: bool = False) -> dict[str, int]:
+        """
+        returns a dictionary in the form {'win' : 10, 'no data' : 1, 'draw' : 2, 'loose': 2} 
+        according to the outcome of the eventual attacks of a player
+        """
 
-    def get_probability_of_winning(self, category : Category) -> float:
-        pass
-
-
-
-
-    def get_good_attribute(self, counter: int = 0, i: int = 0) -> Category:
-        i = 0
-        counter = 0
-        at_least_one = False
-        self.current_attribute = self.get_random_attribute_with_cluster()
-
-        
-        # if the attribute is end only it should not be a valid attribute
-        if self.current_attribute.is_end_only:
-            self.get_good_attribute()
-
+        returndict = {'win': 0, 'no data': 0, 'draw': 0, 'loose': 0}
         for country in self.list_of_possessed_countries:
-            # TODO: make it better if just some continents are chosen
+            ansdict = country.win_analysis(category, peacemode=peacemode)
 
-            # simulate attacks in order to get an attribute, with which one can actually do something (to not frustrate players)
-            for neighboring_country_string in list(
-                    set(country.neighboring_countries)):
-                i += 1
+            returndict['win'] += ansdict['win']
+            returndict['no data'] += ansdict['no data']
+            returndict['draw'] += ansdict['draw']
+            returndict['loose'] += ansdict['loose']
 
-                if self.check_if_attack_is_succesful(
-                        self.current_attribute.name, country,
-                        call_country_by_name(
-                            neighboring_country_string)) == "no data":
-                    counter = counter + 1
-                    print(neighboring_country_string + " \n" + country.name)
+        return returndict
 
-                if self.check_if_attack_is_succesful(
-                        self.current_attribute.name, country,
-                        call_country_by_name(neighboring_country_string)) in [
-                            "draw", "win"
-                        ]:
-                    if not call_country_by_name(
-                            neighboring_country_string
-                    ) in self.list_of_possessed_countries:
-                        at_least_one = True
+    def get_good_attribute(self, threshold: float = 0.25, at_least_one_win: bool = True, peacemode : bool = False) -> category.Category:
 
-        print(float(counter) / float(i))
-        if float(counter) / float(i) > 0.25 or not at_least_one:
-            print(self.current_attribute.name)
-            print(
-                "doesn't work because of the missing above we get a new attribute!"
-            )
-            self.get_good_attribute()
-        else:
-            if self.current_attribute.number_of_chosen_already == 1:
-                self.current_attribute.number_of_chosen_already = 0
-                self.get_good_attribute()
-            else:
-                self.current_attribute.number_of_chosen_already += 1
+        is_good_attribute = False
 
-def call_player_by_name(name : str) -> Player:
+        while (not is_good_attribute):
+
+            current_attribute = self.get_random_attribute_with_cluster()
+            is_good_attribute = True
+            
+            attack_analysis_dict = self.player_win_analysis(current_attribute,peacemode=peacemode)
+
+            number_of_all_possible_attacks = sum(
+                [value for key, value in attack_analysis_dict.items()])
+            probability = float(
+                attack_analysis_dict['win'] + attack_analysis_dict['draw']) / float(number_of_all_possible_attacks)
+            threshold_condition = probability >= threshold
+
+            is_good_attribute = is_good_attribute and threshold_condition
+            is_good_attribute = is_good_attribute and not current_attribute.is_end_only
+
+            if at_least_one_win:
+                at_least_one_req = attack_analysis_dict['win'] >= 1
+                is_good_attribute = is_good_attribute and at_least_one_req
+
+        return current_attribute
+
+        # # if the attribute is end only it should not be a valid attribute
+        # if self.current_attribute.is_end_only:
+        #     self.get_good_attribute()
+
+        # for country in self.list_of_possessed_countries:
+        #     # TODO: make it better if just some continents are chosen
+
+        #     # simulate attacks in order to get an attribute, with which one can actually do something (to not frustrate players)
+        #     for neighboring_country_string in list(
+        #             set(country.neighboring_countries)):
+        #         i += 1
+
+        #         if self.check_if_attack_is_succesful(
+        #                 self.current_attribute.name, country,
+        #                 call_country_by_name(
+        #                     neighboring_country_string)) == "no data":
+        #             counter = counter + 1
+        #             print(neighboring_country_string + " \n" + country.name)
+
+        #         if self.check_if_attack_is_succesful(
+        #                 self.current_attribute.name, country,
+        #                 call_country_by_name(neighboring_country_string)) in [
+        #                     "draw", "win"
+        #         ]:
+        #             if not call_country_by_name(
+        #                     neighboring_country_string
+        #             ) in self.list_of_possessed_countries:
+        #                 at_least_one = True
+
+        # print(float(counter) / float(i))
+        # if float(counter) / float(i) > 0.25 or not at_least_one:
+        #     print(self.current_attribute.name)
+        #     print(
+        #         "doesn't work because of the missing above we get a new attribute!"
+        #     )
+        #     self.get_good_attribute()
+        # else:
+        #     if self.current_attribute.number_of_chosen_already == 1:
+        #         self.current_attribute.number_of_chosen_already = 0
+        #         self.get_good_attribute()
+        #     else:
+        #         self.current_attribute.number_of_chosen_already += 1
+
+
+def call_player_by_name(name: str) -> Player:
     for playername in all_players.keys():
         if playername == name:
             return all_players[playername]
