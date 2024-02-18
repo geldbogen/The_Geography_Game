@@ -15,6 +15,7 @@ from player import Player, call_player_by_name, No_Data_Body, mr_nobody
 from image import greencountrydict, green_image
 from global_definitions import all_categories, all_countries_in_game, dictionary_attribute_name_to_attribute, gold, realgrey
 
+
 class MainWindow():
 
     def __init__(self,
@@ -26,7 +27,7 @@ class MainWindow():
                  winning_condition="number of countries",
                  number_of_wormholes=3,
                  pred_attribute="random",
-                 peacemode : bool = False,
+                 peacemode: bool = False,
                  reversed_end_attribute=0):
 
         self.rerolls = 3
@@ -55,7 +56,7 @@ class MainWindow():
         self.number_of_wormholes = number_of_wormholes
         print(self.winning_condition)
 
-        self.peacemode : bool = peacemode
+        self.peacemode: bool = peacemode
 
         self.current_attribute = all_categories[0]
 
@@ -204,7 +205,8 @@ class MainWindow():
                 print(all_countries_in_game[self.randomstart[i]].name)
 
         # roll first attribute
-        self.current_attribute = self.active_player.get_good_attribute(peacemode=self.peacemode)
+        self.current_attribute = self.active_player.get_good_attribute(
+            peacemode=self.peacemode)
         self.current_attribute.replace_A_and_B_in_category_name(
             self.showing_current_attribute_text_label)
 
@@ -302,7 +304,7 @@ class MainWindow():
         self.showing_country_label["text"] = ""
         self.chosen_country_a = None
         result = self.active_player.check_if_attack_is_succesful(self.current_attribute,
-                                                          country_a, country_b)
+                                                                 country_a, country_b)
         if result == "no data":
             self.popup_win_or_loose(country_a,
                                     country_b,
@@ -827,8 +829,16 @@ class MainWindow():
         panel9_2 = tk.Label(frame12, image=img9)
 
         try:
+            displayed_world_rank_a = str(
+                country_a.dict_of_attributes[property.name].rank) if country_a.dict_of_attributes[property.name].rank != -1 else "--"
+            displayed_how_many_ranked_a = str(
+                country_a.dict_of_attributes[property.name].how_many_ranked) if country_a.dict_of_attributes[property.name].how_many_ranked != 1 else "--"
+
             l1 = tk.Label(frame12, text=country_a.name + "\n" + property.name.replace(".csv", "") + "\n" +
-                          format((country_a.dict_of_attributes[property.name].value), ",") + "\n" + "worldrank:"+str(country_a.dict_of_attributes[property.name].rank) + "\n (of " + str(country_a.dict_of_attributes[property.name].how_many_ranked) + " countries ranked)", font="Helvetica 25", wraplength=500)
+                          format((country_a.dict_of_attributes[property.name].value), ",") + "\n" +
+                          "worldrank:" +
+                          displayed_world_rank_a
+                          + "\n (of " + displayed_how_many_ranked_a + " countries ranked)", font="Helvetica 25", wraplength=500)
         except:
             l1 = tk.Label(frame12,
                           text=country_a.name + "\n" +
@@ -837,14 +847,19 @@ class MainWindow():
                           font="Helvetica 25")
 
         try:
+            displayed_world_rank_b = str(
+                country_b.dict_of_attributes[property.name].rank) if country_b.dict_of_attributes[property.name].rank != -1 else "--"
+            displayed_how_many_ranked_b = str(
+                country_b.dict_of_attributes[property.name].how_many_ranked) if country_b.dict_of_attributes[property.name].how_many_ranked != 1 else "--"
+
             l2 = tk.Label(
                 frame12,
                 text=country_b.name + "\n" + property.name.replace(".csv", "") +
                 "\n" + format(
                     (country_b.dict_of_attributes[property.name].value), ",") +
                 "\n" + "worldrank:" +
-                str(country_b.dict_of_attributes[property.name].rank) + "\n (of " +
-                str(country_b.dict_of_attributes[property.name].how_many_ranked) +
+                displayed_world_rank_b + "\n (of " +
+                displayed_how_many_ranked_b +
                 " countries ranked)",
                 font="Helvetica 25",
                 wraplength=500)
@@ -1613,7 +1628,7 @@ class MainWindow():
         for country in all_countries_in_game:
             try:
                 if (country.dict_of_attributes[self.end_attribute.name].value
-                    ) != float(-1):
+                        ) != float(-1):
                     propertylist.append(
                         (country.dict_of_attributes[self.end_attribute.name].value))
                     mcountrylist.append(country)

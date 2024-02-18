@@ -35,13 +35,19 @@ def test_countries_are_neighbors():
                    list_of_players=[player1, player2])
     print(Niger.neighboring_countries)
     assert Chad.is_connected_with(Niger) == True
+    assert Chad.is_connected_with(Germany) == False
 
-def test_attacks():
+def test_categories():
 
     player_a = Player(color=yellow, name='PlayerA')
     player_b = Player(color=yellow, name='PlayerB')
     setup_the_game(continent_list=['Africa'],
                    list_of_players=[player_a,player_b])
-    assert player_a.check_if_attack_is_succesful(dictionary_attribute_name_to_attribute['Price of 1kg of rice in US$ (lower is better).csv'][0],Mauritania,Libya) == 'no data'
-    
+    price_rice_category : category.Category = dictionary_attribute_name_to_attribute['Price of 1kg of rice in US$ (lower is better).csv'][0]
+
+    assert player_a.check_if_attack_is_succesful(price_rice_category,Mauritania,Libya) == 'no data'
+    assert price_rice_category.is_end_only == False
+    assert price_rice_category.is_active == False
+    assert price_rice_category.treat_missing_data_as_bad == False
+    assert price_rice_category.number_of_chosen_already == 0
     

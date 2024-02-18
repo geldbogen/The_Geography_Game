@@ -73,7 +73,7 @@ class Category:
                 dictionary_attribute_name_to_attribute[self.name] = [self]
 
         else:
-            # add category name to list of category names
+            # add category name to list of category namesi
             all_categories_names_and_clusters.append(self.name)
 
             # map categoryname to single item list of corresponding class
