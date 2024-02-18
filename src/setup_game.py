@@ -1,7 +1,7 @@
 from global_definitions import (all_countries_available, all_countries_in_game,
                                 country_name_list, neighboring_countries,
                                 my_property_dict, all_players)
-from country import Unknown_country
+from country import *
 from main_window import MainWindow
 from player import Player
 
@@ -25,6 +25,11 @@ def setup_the_game(continent_list: list[str] = [],
         if country.continent_name in continent_list:
             all_countries_in_game.append(country)
     
+            
+
+
+
+
     all_countries_in_game.append(Unknown_country)
 
     for country in all_countries_in_game:
@@ -43,6 +48,18 @@ def setup_the_game(continent_list: list[str] = [],
                 if country_2.name in str(data.iat[0, 5]):
                     country_2.neighboring_countries.append(country_1.name)
 
+    # remove self-connectedness
+    for country in all_countries_available:
+        if country in country.neighboring_countries:
+            country.neighboring_countries.remove(country)
+
+    for country1 in all_countries_available:
+        print(country1.name)
+        for country2 in all_countries_available:
+            if country1 == country2:
+                continue
+            if country1.name in country2.neighboring_countries and not country2.name in country1.neighboring_countries:
+                country1.neighboring_countries.append(country2.name)
     # assigns the countries all the local attributes
     for country in all_countries_in_game:
         country.dict_of_attributes = my_property_dict[country.name]

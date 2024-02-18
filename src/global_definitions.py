@@ -1,8 +1,15 @@
+from __future__ import annotations
+from typing import TYPE_CHECKING
+
 import pandas as pd
 import pickle
 
 import alternative_names
 import categoryname_to_displayed_name
+
+if TYPE_CHECKING:
+    from country import Country
+    from player import Player
 
 resize_ratio = [3500 / 14063, 1737 / 6981]
 
@@ -19,12 +26,12 @@ gold = (255, 215, 0)
 
 country_name_list = []
 flagframedict = dict()
-all_countries_available = []
+all_countries_available : list[Country] = []
 clusterdict = dict()
 clusternamelist = []
 all_players = dict()
 
-all_countries_in_game = []
+all_countries_in_game : list[Country] = []
 all_categories = []
 all_categories_names_and_clusters = []
 

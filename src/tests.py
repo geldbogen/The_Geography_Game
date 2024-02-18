@@ -31,11 +31,14 @@ def player2():
 
 def test_countries_are_neighbors():
     # assert 0
-    setup_the_game(continent_list=['Africa'],
+    setup_the_game(continent_list=['Europe','Asia'],
                    list_of_players=[player1, player2])
-    print(Niger.neighboring_countries)
-    assert Chad.is_connected_with(Niger) == True
-    assert Chad.is_connected_with(Germany) == False
+    for country1 in all_countries_available:
+        for country2 in all_countries_available:
+            assert (country1.name in country2.neighboring_countries) == (country2.name in country1.neighboring_countries) 
+    
+    for country in all_countries_available:
+        assert country.is_connected_with(country) == False
 
 def test_categories():
 
