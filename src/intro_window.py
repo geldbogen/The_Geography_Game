@@ -313,7 +313,7 @@ class IntroWindow:
         if self.oceaniavar.get() == 1:
             self.active_continent_list.append("Oceania")
 
-        self.number_of_rounds = self.numberofroundsentry.get()
+        self.number_of_rounds = int(self.numberofroundsentry.get())
 
         if not self.number_of_rounds:
             self.number_of_rounds == -1

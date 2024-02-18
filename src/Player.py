@@ -97,6 +97,7 @@ class Player:
         at_least_one = False
         self.current_attribute = self.get_random_attribute_with_cluster()
 
+        
         # if the attribute is end only it should not be a valid attribute
         if self.current_attribute.is_end_only:
             self.get_good_attribute()

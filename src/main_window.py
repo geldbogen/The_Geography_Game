@@ -204,7 +204,7 @@ class MainWindow():
                 print(all_countries_in_game[self.randomstart[i]].name)
 
         # roll first attribute
-        self.current_attribute = self.get_good_attribute(self.active_player)
+        self.current_attribute = self.active_player.get_good_attribute()
         self.current_attribute.replace_A_and_B_in_category_name(
             self.showing_current_attribute_text_label)
 
