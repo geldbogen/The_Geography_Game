@@ -53,18 +53,6 @@ def setup_the_game(continent_list: list[str] = [],
     for player in all_players.values():
         player.rerolls_left = number_of_rerolls
 
-    # self.root.destroy()
-
-    # if number_of_rounds == -1:
-    #     MainWindow(bild=im,
-    #                list_of_players=self.list_of_players,
-    #                starting_countries=self.start_country.get(),
-    #                winning_condition=self.winning_condition.get(),
-    #                pred_attribute=self.current_var.get() + ".csv",
-    #                wormholemode=self.wormhole_option.get(),
-    #                peacemode=self.peacemode_var.get(),
-    #    reversed_end_attribute=self.reverse_yes_or_novar.get())
-
     if start_the_game:
         my_main_window = MainWindow(bild=im,
                     list_of_players=list_of_players,
@@ -76,5 +64,3 @@ def setup_the_game(continent_list: list[str] = [],
                     peacemode=peacemode,
                     reversed_end_attribute=reversed_end_attribute)
         my_main_window.start()
-        
-

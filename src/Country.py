@@ -5,6 +5,10 @@ from global_definitions import resize_ratio, all_countries_available, countries_
 from image import png_image
 from local_attribute import LocalAttribute
 from image import green_image_2, greencountrydict
+from player import mr_nobody
+
+import category
+
 
 class Country:
 
@@ -15,25 +19,24 @@ class Country:
         for i in range(len(xcoordinate)):
             self.coordinate_list.append((xcoordinate[i], ycoordinate[i]))
 
-        # a list of country names which have a common (land) border with that country    
-        self.neighboring_countries : list[str] = []
+        # a list of country names which have a common (land) border with that country
+        self.neighboring_countries: list[str] = []
 
-        
         self.xcoordinate = xcoordinate
         self.ycoordinate = ycoordinate
 
-        # a dict of attributes with key the dictionary name and value a dict 
+        # a dict of attributes with key the dictionary name and value a dict
         # TODO change it, so that it is a property of categories, not of countries
-        self.dict_of_attributes : dict[str, LocalAttribute]  = dict()
+        self.dict_of_attributes: dict[str, LocalAttribute] = dict()
 
         # the name of the country
-        self.name : str = name
+        self.name: str = name
 
         # the name of the current owner of the country
-        self.owner : str = "Nobody"
+        self.owner: str = "Nobody"
 
         # the name of the continent, which the country belongs to
-        self.continent : str = continent
+        self.continent_name: str = continent
 
         all_countries_available.append(self)
 
@@ -97,7 +100,7 @@ class Country:
         h = float(flag_image.height)
         return ImageTk.PhotoImage(
             flag_image.resize((int(height * w / h), int(height)),
-                             Image.LANCZOS))
+                              Image.LANCZOS))
 
     def load_pixels(self):
         global all_countries_in_game
@@ -117,18 +120,48 @@ class Country:
             self.set_pixels(png_image)
         all_countries_in_game.append(self)
         country_name_list.append(self.name)
-    
+
     def is_connected_with(self, other_country) -> bool:
+        """ 
+        returns True if both countries share a common border (eventually with wormholes), False if not
+        """
         if self.name in other_country.neighboring_countries or other_country.name in self.neighboring_countries:
             return True
         else:
             return False
 
+    def get_number_of_possible_wins(self, category: category.Category) -> dict[str,int]:
+        """
+        returns a dictionary in the form {'win' : 10, 'no data' : 1, 'draw' : 2, 'loose': 2} 
+        """
+        number_of_wins = 0
+        number_of_no_data = 0
+        number_of_draws = 0
+        number_of_loose = 0
+        for country_name in self.neighboring_countries:
+            result = mr_nobody.check_if_attack_is_succesful(
+                category.name, self, call_country_by_name(country_name))
+            match result:
+                case 'win':
+                    number_of_wins += 1
+                case 'no data':
+                    number_of_no_data += 1
+                case 'draw':
+                    number_of_draws += 1
+                case 'loose':
+                    number_of_loose += 1
 
-def call_country_by_name(name : str) -> Country:
+        return {'win': number_of_wins, 
+                'no data': number_of_no_data, 
+                'draw': number_of_draws, 
+                'loose': number_of_loose}
+
+
+def call_country_by_name(name: str) -> Country:
     for country in all_countries_available:
         if country.name == name:
             return country
+
 
 def get_country_by_position(xcoordinate, ycoordinate):
     # if bild.getpixel((xcoordinate,ycoordinate))==oceanblue:
@@ -144,18 +177,13 @@ def get_country_by_position(xcoordinate, ycoordinate):
     return result
 
 
-
-
-
-
-
 Unknown_country = Country(
     xcoordinate=[0],
     ycoordinate=[0],
     name="Unknown Country",
 )
 
-#Micro
+# Micro
 Gambia = Country(xcoordinate=[5081],
                  ycoordinate=[3264],
                  name="Gambia",
@@ -458,12 +486,12 @@ Russia = Country(xcoordinate=[
     8608, 11104, 7479, 7560, 3033, 8394, 8472, 8651, 9856, 9995, 10036, 10173,
     11322, 7803
 ],
-                 ycoordinate=[
-                     995, 1496, 521, 401, 635, 214, 247, 280, 384, 394, 468,
-                     410, 559, 1464
-                 ],
-                 name="Russia",
-                 continent="Asia")
+    ycoordinate=[
+    995, 1496, 521, 401, 635, 214, 247, 280, 384, 394, 468,
+    410, 559, 1464
+],
+    name="Russia",
+    continent="Asia")
 Kazakhstan = Country(xcoordinate=[8270, 8035],
                      ycoordinate=[1551, 1708],
                      name="Kazakhstan",
@@ -553,7 +581,7 @@ Japan = Country(xcoordinate=[11332, 11323, 11297, 11199, 11108],
                 name="Japan",
                 continent="Asia")
 
-#North America
+# North America
 United_States = Country(
     xcoordinate=[2282, 823, 686, 382, 108, 186, 2862, 2420, 2727, 1121, 2906],
     ycoordinate=[
@@ -567,39 +595,39 @@ Canada = Country(xcoordinate=[
     3647, 3463, 3268, 3051, 3503, 3110, 2778, 3130, 3194, 3223, 3221, 2857,
     2474, 985, 975, 969, 1062, 1042, 1051, 1095, 1092
 ],
-                 ycoordinate=[
-                     1155, 1505, 1161, 1561, 1695, 573, 473, 824, 824, 923,
-                     945, 1353, 389, 512, 647, 338, 473, 474, 704, 1519, 1669,
-                     1685, 1666, 1648, 302, 234, 397, 373, 481, 289, 311, 407,
-                     353, 289, 317, 282, 386, 1313, 1350, 1365, 1229, 1169,
-                     1130, 1140, 1175
-                 ],
-                 name="Canada",
-                 continent="North America")
+    ycoordinate=[
+    1155, 1505, 1161, 1561, 1695, 573, 473, 824, 824, 923,
+    945, 1353, 389, 512, 647, 338, 473, 474, 704, 1519, 1669,
+    1685, 1666, 1648, 302, 234, 397, 373, 481, 289, 311, 407,
+    353, 289, 317, 282, 386, 1313, 1350, 1365, 1229, 1169,
+    1130, 1140, 1175
+],
+    name="Canada",
+    continent="North America")
 
-#Oceania
+# Oceania
 Philippines = Country(xcoordinate=[
     11068, 10868, 10885, 10947, 10973, 11051, 11051, 10790, 10827, 11034,
     11013, 10988
 ],
-                      ycoordinate=[
-                          3554, 3112, 3288, 3376, 3443, 3325, 3377, 3453, 3406,
-                          3438, 3408, 3317
-                      ],
-                      name="Philippines",
-                      continent="Oceania")
+    ycoordinate=[
+    3554, 3112, 3288, 3376, 3443, 3325, 3377, 3453, 3406,
+    3438, 3408, 3317
+],
+    name="Philippines",
+    continent="Oceania")
 Indonesia = Country(xcoordinate=[
     10117, 10598, 10486, 10869, 11634, 10265, 10351, 10575, 10561, 10701,
     10742, 10795, 10888, 10847, 11033, 11214, 11275, 11648, 11154, 11205, 9909,
     9962
 ],
-                    ycoordinate=[
-                        3987, 3952, 4287, 4013, 4110, 4012, 4057, 4260, 4306,
-                        4335, 4345, 4332, 4335, 4387, 4400, 3885, 4066, 4297,
-                        4086, 3847, 3864, 3981
-                    ],
-                    name="Indonesia",
-                    continent="Oceania")
+    ycoordinate=[
+    3987, 3952, 4287, 4013, 4110, 4012, 4057, 4260, 4306,
+    4335, 4345, 4332, 4335, 4387, 4400, 3885, 4066, 4297,
+    4086, 3847, 3864, 3981
+],
+    name="Indonesia",
+    continent="Oceania")
 Papua_New_Guinea = Country(xcoordinate=[11878, 12151, 12378, 12279, 12238],
                            ycoordinate=[4186, 4205, 4223, 4124, 4077],
                            name="Papua New Guinea",
@@ -613,7 +641,7 @@ New_Zealand = Country(xcoordinate=[12773, 12774, 12518, 12153],
                       name="New Zealand",
                       continent="Oceania")
 
-#Africa
+# Africa
 Morocco = Country(xcoordinate=[5487],
                   ycoordinate=[2361],
                   name="Morocco",
@@ -801,7 +829,7 @@ Equatorial_Guinea = Country(xcoordinate=[6161],
                             name="Equatorial Guinea",
                             continent="Africa")
 
-#Middle America
+# Middle America
 Mexico = Country(xcoordinate=[1500],
                  ycoordinate=[2857],
                  name="Mexico",
@@ -847,7 +875,7 @@ Panama = Country(xcoordinate=[2269],
                  name="Panama",
                  continent="Middle America")
 
-#South America
+# South America
 Colombia = Country(xcoordinate=[2571],
                    ycoordinate=[3654],
                    name="Colombia",
@@ -920,7 +948,7 @@ Uruguay = Country(xcoordinate=[3476],
 # finalimage.save("hahah_NEW.png")
 # print("done")
 
-#eventuell nur dann appenden wenn Kontinente ausgewählt wurden
+# eventuell nur dann appenden wenn Kontinente ausgewählt wurden
 Iceland.neighboring_countries.append("United Kingdom")
 Iceland.neighboring_countries.append("Norway")
 Iceland.neighboring_countries.append("Denmark")

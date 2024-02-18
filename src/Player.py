@@ -44,7 +44,7 @@ class Player:
         to_update_reroll_button_label.configure(
             text="rerolls left:\n " + str(self.active_player.rerolls_left))
 
-    def attack_with_attribute(self,
+    def check_if_attack_is_succesful(self,
                               attribute_name: str,
                               country_a: Country,
                               country_b: Country,
@@ -59,20 +59,20 @@ class Player:
             elif local_attribute_a.rank == local_attribute_b.rank:
                 return 'no data'
             elif local_attribute_a.rank == -1:
-                return 'True'
+                return 'win'
             else:
-                return 'False'
+                return 'loose'
 
         if local_attribute_a.value == local_attribute_b.value:
-            return 'draw!'
+            return 'draw'
 
         if local_attribute_a.rank < local_attribute_b.rank:
             if local_attribute_a.rank + 99 < local_attribute_b.rank:
-                return 'hard defeat!'
+                return 'hard defeat'
             else:
-                return 'True'
+                return 'win'
             
-        return 'False'
+        return 'loose'
 
     def get_random_attribute_with_cluster(self) -> Category:
 
@@ -91,6 +91,13 @@ class Player:
             return dictionary_attribute_name_to_attribute[
                 self.current_attributename_with_cluster][0]
 
+
+    def get_probability_of_winning(self, category : Category) -> float:
+        pass
+
+
+
+
     def get_good_attribute(self, counter: int = 0, i: int = 0) -> Category:
         i = 0
         counter = 0
@@ -103,24 +110,24 @@ class Player:
             self.get_good_attribute()
 
         for country in self.list_of_possessed_countries:
-            # TODO:make it better if just some continents are chosen
+            # TODO: make it better if just some continents are chosen
 
             # simulate attacks in order to get an attribute, with which one can actually do something (to not frustrate players)
             for neighboring_country_string in list(
                     set(country.neighboring_countries)):
                 i += 1
 
-                if self.attack_with_attribute(
+                if self.check_if_attack_is_succesful(
                         self.current_attribute.name, country,
                         call_country_by_name(
                             neighboring_country_string)) == "no data":
                     counter = counter + 1
                     print(neighboring_country_string + " \n" + country.name)
 
-                if self.attack_with_attribute(
+                if self.check_if_attack_is_succesful(
                         self.current_attribute.name, country,
                         call_country_by_name(neighboring_country_string)) in [
-                            "draw", "True"
+                            "draw", "win"
                         ]:
                     if not call_country_by_name(
                             neighboring_country_string

@@ -301,7 +301,7 @@ class MainWindow():
         self.d = ""
         self.showing_country_label["text"] = ""
         self.chosen_country_a = None
-        result = self.active_player.attack_with_attribute(self.current_attribute.name,
+        result = self.active_player.check_if_attack_is_succesful(self.current_attribute.name,
                                                           country_a, country_b)
         if result == "no data":
             self.popup_win_or_loose(country_a,
@@ -313,24 +313,24 @@ class MainWindow():
                 self.showing_current_attribute_text_label,
             )
             return None
-        if result == "draw!":
+        if result == "draw":
             self.popup_win_or_loose(country_a,
                                     country_b,
                                     self.current_attribute,
-                                    wl="draw!")
+                                    wl="draw")
             self.current_attribute = self.active_player.get_good_attribute()
             self.current_attribute.replace_A_and_B_in_category_name(
                 self.showing_current_attribute_text_label,
             )
             return None
-        if result == "hard defeat!":
+        if result == "hard defeat":
             self.claim_country(self.active_player, country_b)
             self.popup_win_or_loose(country_a,
                                     country_b,
                                     self.current_attribute,
-                                    wl="hard defeat!")
+                                    wl="hard defeat")
             return None
-        if result == "True":
+        if result == "win":
             self.claim_country(self.active_player, country_b)
             self.popup_win_or_loose(country_a,
                                     country_b,
@@ -684,7 +684,7 @@ class MainWindow():
             while (
                     country2.name in country1.neighboring_countries
                     or country1.name in country2.neighboring_countries
-                    or country1.continent == country2.continent
+                    or country1.continent_name == country2.continent_name
                     or country2 in player.list_of_possessed_countries
                     or country1 == Unknown_country
                     or country2 == Unknown_country or
@@ -704,7 +704,7 @@ class MainWindow():
 
             while (country2.name in country1.neighboring_countries
                    or country1.name in country2.neighboring_countries
-                   or country1.continent == country2.continent):
+                   or country1.continent_name == country2.continent_name):
                 country1 = all_countries_in_game[random.randrange(
                     1, len(all_countries_in_game))]
                 country2 = all_countries_in_game[random.randrange(
@@ -742,7 +742,7 @@ class MainWindow():
             win.destroy()
 
         def kill_button():
-            if wl == "no data" or wl == "draw!":
+            if wl == "no data" or wl == "draw":
                 self.transition(same_player_again=True)
             else:
                 self.transition(same_player_again=False)
@@ -886,12 +886,12 @@ class MainWindow():
             killbutton["width"] = 300
             killbutton["height"] = 300
 
-        if wl == "draw!":
+        if wl == "draw":
             killbutton["image"] = img7
             killbutton["width"] = 300
             killbutton["height"] = 300
 
-        if wl == "hard defeat!":
+        if wl == "hard defeat":
             killbutton["image"] = img10
             killbutton["width"] = 300
             killbutton["height"] = 300
