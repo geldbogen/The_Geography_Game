@@ -306,7 +306,7 @@ sd.setup_data("Percentage of total stock market capitalization to GDP (higher is
 sd.setup_data("Percentage of people being fully vaccinated against Covid (higher is better).csv",)
 sd.setup_data("Maternal deaths by 100,000 births (lower is better).csv",ascending=True)
 sd.setup_data("Neonatal deaths by 1000 births (lower is better).csv",ascending=True)
-sd.setup_data("Percentage of people having a credit card (higher is better).csv",)
+sd.setup_data("Percentage of people having a credit card (higher is better).csv",) 
 sd.setup_data("Share of clean energy (higher is better).csv",)
 sd.setup_data("Number of different taxes (lower is better).csv",ascending=True)
 sd.setup_data("Government debt as percentage of GDP (lower is better).csv",ascending=True)

@@ -18,7 +18,7 @@ class Category:
                  explanation: str = "",
                  cluster: str = "",
                  is_end_only: bool = False):
-        pass
+        
 
         # the name of the category
         self.name = name
