@@ -118,6 +118,7 @@ class Player:
 
         return returndict
 
+
     def get_good_attribute(self, threshold: float = 0.25, at_least_one_win: bool = True, peacemode : bool = False) -> Category:
 
         is_good_attribute = False

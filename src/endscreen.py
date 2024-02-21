@@ -6,10 +6,10 @@ import traceback
 import random
 
 from player import Player, call_player_by_name
+from country import Country, Unknown_country
 
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
-    from country import Country, Unknown_country
     from backend_game import BackendGame
     from category import Category
 

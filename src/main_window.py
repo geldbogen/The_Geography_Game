@@ -27,9 +27,8 @@ class MainWindow():
                  pred_attribute: str = "random",
                  peacemode: bool = False,
                  reversed_end_attribute: int = 0):
+        
         self.backend : BackendGame = BackendGame(list_of_players, wormhole_mode)
-
-
         self.rerolls : int = 3
 
         self.number_of_targets = 2
@@ -274,7 +273,7 @@ class MainWindow():
                         "text"] = "Does the above sentence looks correct to you?"
                     self.button_sure["command"] = lambda: self.attack(
                         self.chosen_country_a, clicked_country)
-                    self.button_not_sure["command"] = self.fuckgoback
+                    self.button_not_sure["command"] = self.go_back
                     self.buttonframe.pack(side="bottom")
                     self.d = "disabled"
                 else:
@@ -285,7 +284,7 @@ class MainWindow():
                 self.showing_country_label[
                     "text"] = "These countries do not share a common land border.\n Please choose another pair!"
 
-    def find_distance(self, country_a: Country, country_b: Country) -> int:
+    def find_distance(self, country_a: Country, country_b: Country) -> None:
         mydict = dict()
         myset = set(country_a.name)
         q = [[country_a.name, 0]]
@@ -363,9 +362,10 @@ class MainWindow():
     def transition(self, same_player_again: bool = False):
 
         if not same_player_again:
-            if self.check_if_game_should_end():
+            if self.backend.check_if_game_should_end():
                 return None
             self.active_player_counter = self.active_player_counter + 1
+        
         self.index = self.active_player_counter % len(self.backend.list_of_players)
 
         if not same_player_again:
@@ -402,7 +402,7 @@ class MainWindow():
         self.reroll_button["text"] = "rerolls left:\n " + str(
             self.active_player.rerolls_left)
 
-    def fuckgoback(self):
+    def go_back(self):
         # self.buttonsure.pack_forget()
         # self.buttonnotsure.pack_forget()
         self.buttonframe.pack_forget()
@@ -412,42 +412,12 @@ class MainWindow():
 
     def claim_country(self, player: Player, country: Country):
 
-        # def changethingswhencountryclicked(country):
-        #     clicked_country = country
-        #     if self.chosen_country_a == None:
-        #         self.showing_country_label[
-        #             "text"] = "It is the turn of " + self.active_player.name + "\n You have chosen " + clicked_country.name + " currently controlled by " + clicked_country.owner
-        #         if clicked_country.owner == self.active_player.name:
-        #             self.chosen_country_a = clicked_country
-        #             self.showing_country_label[
-        #                 "text"] = self.showing_country_label[
-        #                     "text"] + "\n You can attack with this country"
-        #     else:
-        #         if clicked_country.is_connected_with(
-        #                 self.chosen_country_a):
-        #             if self.active_player != call_player_by_name(
-        #                     clicked_country.owner):
-        #                 self.showing_country_label[
-        #                     "text"] = "You want to attack  " + clicked_country.name + " currently controlled by " + clicked_country.owner + " with " + self.chosen_country_a.name + " are you sure?"
-        #                 self.button_sure["command"] = lambda: self.attack(
-        #                     self.chosen_country_a, clicked_country)
-        #                 self.button_not_sure["command"] = self.fuckgoback
-        #                 self.buttonframe.pack(side="bottom")
-        #                 self.d = "disabled"
-        #             else:
-        #                 self.showing_country_label[
-        #                     "text"] = "You already own this country"
-        #         else:
-        #             self.chosen_country_a = None
-        #             self.showing_country_label[
-        #                 "text"] = "Those countries do not share a common land border. Please choose another pair"
-        #             time.wait(5)
-        #             self.showing_country_label["text"] = ""
+        # backend
+        old_player : Player = call_player_by_name(country.owner_name)
+        self.backend.claim_country_backend(old_player, player, country)
 
-        player.list_of_possessed_countries.append(country)
-        old_owner = country.owner_name
-        country.owner_name = player.name
 
+        # frontend
         inv_map = {v: k for k, v in greencountrydict.items()}
         color = inv_map[country.name]
         np_image = np.array(green_image)
@@ -457,6 +427,7 @@ class MainWindow():
         for tuplen in greens:
             self.bild.putpixel((tuplen[1], tuplen[0]), player.color)
 
+        # this is for the flagframe
         if player.name != "Nobody":
             if self.winning_condition != "get gold" or country in self.goldlist:
                 frame = self.flagframe_dict[player.name]
@@ -470,21 +441,9 @@ class MainWindow():
                 player.labeldict[country] = new_label
                 frame.current_flagdict[country] = myimage
 
-        if old_owner != "Nobody" and not self.winning_condition in [
-                "get gold"
-        ]:
-            call_player_by_name(old_owner).list_of_possessed_countries.remove(
-                country)
-            call_player_by_name(old_owner).labeldict[country].destroy()
-
         self.update_image(self.bild)
 
-        if self.winning_condition == "get gold":
-            if player.name != "Nobody":
-                if country in self.goldlist:
-                    player.gold = player.gold + 1
-                    self.goldlist.remove(country)
-                    player.list_of_possessed_countries_gold.append(country)
+        
 
     def claim_starting_country(self, player: Player, country: Country):
         self.buttonframe2.pack_forget()

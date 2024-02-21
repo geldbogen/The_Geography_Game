@@ -101,6 +101,24 @@ class BackendGame():
                 return True
         return False
 
+    def claim_country_backend(self, loose_player : Player, win_player: Player, country : Country):
+        win_player.list_of_possessed_countries.append(country)
+        country.owner_name = win_player.name
+        if loose_player.name != "Nobody" and not self.winning_condition in [
+                "get gold"
+        ]:
+            loose_player.list_of_possessed_countries.remove(
+                country)
+            loose_player.labeldict[country].destroy()
+        
+        if self.winning_condition == "get gold":
+            if win_player.name != "Nobody":
+                if country in self.goldlist:
+                    win_player.gold = win_player.gold + 1
+                    self.goldlist.remove(country)
+                    win_player.list_of_possessed_countries_gold.append(country)
+
+
     def score(self, countrylist : list[Country]) -> list[float]:
 
         def helphelp(number : float, list1 : list[float]) -> float:
