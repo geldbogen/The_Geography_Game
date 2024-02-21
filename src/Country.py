@@ -15,9 +15,9 @@ if TYPE_CHECKING:
 
 class Country:
 
-    def __init__(self, xcoordinate, ycoordinate, name, continent=None):
+    def __init__(self, xcoordinate : list[int], ycoordinate: list[int], name : str, continent: str ="None"):
 
-        self.coordinate_list = []
+        self.coordinate_list : list[tuple[int,int]]= []
 
         for i in range(len(xcoordinate)):
             self.coordinate_list.append((xcoordinate[i], ycoordinate[i]))
@@ -83,7 +83,7 @@ class Country:
             image2 = image
             seed = (coordinate[0], coordinate[1])
             ImageDraw.floodfill(image2, seed, (0, 255, 0), thresh=200)
-            npImage = np.array(image2)
+            npImage  = np.array(image2)
             print(npImage.shape)
             green = np.array([0, 255, 0], dtype=np.uint8)
             greens = list(zip(*np.where(np.all((npImage == green), axis=-1))))
@@ -95,7 +95,7 @@ class Country:
         with open(self.save_location, "wb") as f:
             np.save(f, save_array)
 
-    def get_resized_flag(self, height):
+    def get_resized_flag(self, height : int):
         country_url = "pictures/flag_pictures/w1280/" + self.get_two_country_code(
         ).lower() + ".png"
         flag_image = (Image.open(country_url))
@@ -124,7 +124,7 @@ class Country:
         all_countries_in_game.append(self)
         country_name_list.append(self.name)
 
-    def is_connected_with(self, other_country) -> bool:
+    def is_connected_with(self, other_country : Country) -> bool:
         """ 
         returns True if both countries share a common border (eventually with wormholes), False if not
         """
@@ -147,7 +147,7 @@ class Country:
 
             result = player.mr_nobody.check_if_attack_is_succesful(
                 category, self, call_country_by_name(country_name))
-            match result:
+            match result :
                 case 'win':
                     number_of_wins += 1
                 case 'no data':
@@ -156,6 +156,8 @@ class Country:
                     number_of_draws += 1
                 case 'loose':
                     number_of_loose += 1
+                case _:
+                    pass
 
         return {'win': number_of_wins, 
                 'no data': number_of_no_data, 
@@ -169,7 +171,7 @@ def call_country_by_name(name: str) -> Country:
             return country
 
 
-def get_country_by_position(xcoordinate, ycoordinate):
+def get_country_by_position(xcoordinate, ycoordinate) -> Country:
     # if bild.getpixel((xcoordinate,ycoordinate))==oceanblue:
     #     return Unknown_country
     x = xcoordinate

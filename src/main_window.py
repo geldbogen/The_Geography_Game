@@ -4,61 +4,69 @@ import sv_ttk
 import random
 import traceback
 import numpy as np
-import time
 import wikipedia
 import webbrowser
 
-from local_attribute import LocalAttribute
 from country import Country, get_country_by_position, Unknown_country, Germany, France
 from category import Category
 from player import Player, call_player_by_name, No_Data_Body, mr_nobody
 from image import greencountrydict, green_image
 from global_definitions import all_categories, all_countries_in_game, dictionary_attribute_name_to_attribute, gold, realgrey
-
+from backend_game import BackendGame
 
 class MainWindow():
 
     def __init__(self,
-                 bild,
+                 bild: Image.Image,
                  list_of_players: list[Player],
-                 wormhole_mode,
-                 starting_countries_preferences="random",
-                 number_of_rounds=99999999999,
-                 winning_condition="number of countries",
-                 number_of_wormholes=3,
-                 pred_attribute="random",
+                 wormhole_mode: str,
+                 starting_countries_preferences: str = "random",
+                 number_of_rounds: int = 99999999999,
+                 winning_condition: str = "number of countries",
+                 number_of_wormholes: int = 3,
+                 pred_attribute: str = "random",
                  peacemode: bool = False,
-                 reversed_end_attribute=0):
+                 reversed_end_attribute: int = 0):
+        self.backend : BackendGame = BackendGame(list_of_players, wormhole_mode)
 
-        self.rerolls = 3
+
+        self.rerolls : int = 3
+
         self.number_of_targets = 2
+
         self.pred_attribute_name = pred_attribute
+
         self.winning_condition = winning_condition
-        self.flagframe_dict = dict()
+
+        self.flagframe_dict: dict[str, tk.Frame] = dict()
         self.number_of_rounds = number_of_rounds
         self.index = 0
-        self.goldlist = list()
+        self.goldlist: list[Country] = list()
         self.choosing_index = -1
         self.starting_countries = starting_countries_preferences
         self.reversed_end_attribute = reversed_end_attribute
         self.main = tk.Tk()
         sv_ttk.set_theme("dark")  # Set light theme
 
-        self.list_of_players = list_of_players
-        print(self.list_of_players)
+        print(self.backend.list_of_players)
         print(len(list_of_players))
         self.active_player_counter = 0
-        self.active_player = self.list_of_players[self.active_player_counter]
-        self.number_of_players = len(self.list_of_players)
-        self.end_attribute = None
-        self.wormhole_mode = wormhole_mode
-        self.wormholed_countries = list()
+        self.active_player = self.backend.list_of_players[self.active_player_counter]
+        self.number_of_players = len(self.backend.list_of_players)
+
+        self.end_attribute: Category | None = None
+
+        self.wormhole_mode: str = wormhole_mode
+
+        self.wormholed_countries: list[list[Country]] = list()
+
         self.number_of_wormholes = number_of_wormholes
+
         print(self.winning_condition)
 
         self.peacemode: bool = peacemode
 
-        self.current_attribute = all_categories[0]
+        self.current_attribute: Category = all_categories[0]
 
         self.chosen_country_a = None
         self.turn_counter = 0
@@ -78,6 +86,7 @@ class MainWindow():
         self.c = tk.Canvas(self.frame3, bg="white", width=1000, height=600)
 
         ph = ImageTk.PhotoImage(image=bild, master=self.c)
+
         self.c.background = ph
         self.image_on_canvas = self.c.create_image(0,
                                                    0,
@@ -99,7 +108,7 @@ class MainWindow():
                       xscrollcommand=my_scrollbar2.set)
         self.c.config(scrollregion=self.c.bbox("all"))
 
-        for player in self.list_of_players:
+        for player in self.backend.list_of_players:
             self.flagframe_dict[player.name] = tk.Frame(self.frame2)
             self.flagframe_dict[player.name].current_flagdict = dict()
 
@@ -163,12 +172,12 @@ class MainWindow():
 
         self.d = ""
         self.random_people_start = random.sample(
-            range(0, len(self.list_of_players)), len(self.list_of_players))
+            range(0, len(self.backend.list_of_players)), len(self.backend.list_of_players))
 
         # usher choosing countries procedure if that mode was chosen
         if self.starting_countries == "choose":
             self.choosing_index = 0
-            self.active_player = self.list_of_players[self.random_people_start[
+            self.active_player = self.backend.list_of_players[self.random_people_start[
                 self.choosing_index]]
             self.showing_current_attribute_text_label[
                 "text"] = "Choose a starting country of your choice"
@@ -178,12 +187,12 @@ class MainWindow():
         # roll starting countries for the players
         # TODO take care of ending attribute
         if self.starting_countries == "random":
-            self.choosing_index = len(self.list_of_players)
+            self.choosing_index = len(self.backend.list_of_players)
             self.setupgame()
             while True:
                 j = 0
                 self.randomstart = random.sample(range(0, len(all_countries_in_game)),
-                                                 len(self.list_of_players))
+                                                 len(self.backend.list_of_players))
                 for rng in self.randomstart:
                     if len(all_countries_in_game[rng].neighboring_countries) < 3:
                         j = 1
@@ -199,8 +208,8 @@ class MainWindow():
                             j = 1
                 if j == 0:
                     break
-            for i in range(len(self.list_of_players)):
-                self.claim_country(self.list_of_players[i],
+            for i in range(len(self.backend.list_of_players)):
+                self.claim_country(self.backend.list_of_players[i],
                                    all_countries_in_game[self.randomstart[i]])
                 print(all_countries_in_game[self.randomstart[i]].name)
 
@@ -222,7 +231,7 @@ class MainWindow():
 
         if self.d == "disabled":
             return None
-        if self.choosing_index < len(self.list_of_players):
+        if self.choosing_index < len(self.backend.list_of_players):
             clicked_country = get_country_by_position(self.c.canvasx(event.x),
                                                       self.c.canvasy(event.y))
             self.showing_country_label[
@@ -276,7 +285,7 @@ class MainWindow():
                 self.showing_country_label[
                     "text"] = "These countries do not share a common land border.\n Please choose another pair!"
 
-    def find_distance(self, country_a: Country, country_b: Country):
+    def find_distance(self, country_a: Country, country_b: Country) -> int:
         mydict = dict()
         myset = set(country_a.name)
         q = [[country_a.name, 0]]
@@ -348,13 +357,13 @@ class MainWindow():
                 self.claim_country(call_player_by_name(country_b.owner_name),
                                    country_a)
 
-    def transition(self, same_player_again=False):
+    def transition(self, same_player_again: bool = False):
 
         if not same_player_again:
             if self.check_if_game_should_end():
                 return None
             self.active_player_counter = self.active_player_counter + 1
-        self.index = self.active_player_counter % len(self.list_of_players)
+        self.index = self.active_player_counter % len(self.backend.list_of_players)
 
         if not same_player_again:
             if self.index == 0:
@@ -363,7 +372,7 @@ class MainWindow():
         # update the interface
         self.turn_counter_label["text"] = str(self.turn_counter)
         self.flagframe_dict[self.active_player.name].pack_forget()
-        self.active_player = self.list_of_players[self.index]
+        self.active_player = self.backend.list_of_players[self.index]
         self.showing_country_label[
             "text"] = "It is the turn of " + self.active_player.name + "\n You have not chosen any country yet"
 
@@ -400,37 +409,37 @@ class MainWindow():
 
     def claim_country(self, player: Player, country: Country):
 
-        def changethingswhencountryclicked(country):
-            clicked_country = country
-            if self.chosen_country_a == None:
-                self.showing_country_label[
-                    "text"] = "It is the turn of " + self.active_player.name + "\n You have chosen " + clicked_country.name + " currently controlled by " + clicked_country.owner
-                if clicked_country.owner == self.active_player.name:
-                    self.chosen_country_a = clicked_country
-                    self.showing_country_label[
-                        "text"] = self.showing_country_label[
-                            "text"] + "\n You can attack with this country"
-            else:
-                if clicked_country.is_connected_with(
-                        self.chosen_country_a):
-                    if self.active_player != call_player_by_name(
-                            clicked_country.owner):
-                        self.showing_country_label[
-                            "text"] = "You want to attack  " + clicked_country.name + " currently controlled by " + clicked_country.owner + " with " + self.chosen_country_a.name + " are you sure?"
-                        self.button_sure["command"] = lambda: self.attack(
-                            self.chosen_country_a, clicked_country)
-                        self.button_not_sure["command"] = self.fuckgoback
-                        self.buttonframe.pack(side="bottom")
-                        self.d = "disabled"
-                    else:
-                        self.showing_country_label[
-                            "text"] = "You already own this country"
-                else:
-                    self.chosen_country_a = None
-                    self.showing_country_label[
-                        "text"] = "Those countries do not share a common land border. Please choose another pair"
-                    time.wait(5)
-                    self.showing_country_label["text"] = ""
+        # def changethingswhencountryclicked(country):
+        #     clicked_country = country
+        #     if self.chosen_country_a == None:
+        #         self.showing_country_label[
+        #             "text"] = "It is the turn of " + self.active_player.name + "\n You have chosen " + clicked_country.name + " currently controlled by " + clicked_country.owner
+        #         if clicked_country.owner == self.active_player.name:
+        #             self.chosen_country_a = clicked_country
+        #             self.showing_country_label[
+        #                 "text"] = self.showing_country_label[
+        #                     "text"] + "\n You can attack with this country"
+        #     else:
+        #         if clicked_country.is_connected_with(
+        #                 self.chosen_country_a):
+        #             if self.active_player != call_player_by_name(
+        #                     clicked_country.owner):
+        #                 self.showing_country_label[
+        #                     "text"] = "You want to attack  " + clicked_country.name + " currently controlled by " + clicked_country.owner + " with " + self.chosen_country_a.name + " are you sure?"
+        #                 self.button_sure["command"] = lambda: self.attack(
+        #                     self.chosen_country_a, clicked_country)
+        #                 self.button_not_sure["command"] = self.fuckgoback
+        #                 self.buttonframe.pack(side="bottom")
+        #                 self.d = "disabled"
+        #             else:
+        #                 self.showing_country_label[
+        #                     "text"] = "You already own this country"
+        #         else:
+        #             self.chosen_country_a = None
+        #             self.showing_country_label[
+        #                 "text"] = "Those countries do not share a common land border. Please choose another pair"
+        #             time.wait(5)
+        #             self.showing_country_label["text"] = ""
 
         player.list_of_possessed_countries.append(country)
         old_owner = country.owner_name
@@ -478,8 +487,8 @@ class MainWindow():
         self.buttonframe2.pack_forget()
         self.claim_country(player, country)
         self.choosing_index = self.choosing_index + 1
-        if self.choosing_index == len(self.list_of_players):
-            self.active_player = self.list_of_players[self.index]
+        if self.choosing_index == len(self.backend.list_of_players):
+            self.active_player = self.backend.list_of_players[self.index]
             self.showing_country_label[
                 "text"] = "It is the turn of " + self.active_player.name + "\n You have not chosen any country yet"
             self.current_attribute.replace_A_and_B_in_category_name(
@@ -487,7 +496,7 @@ class MainWindow():
             )
             self.setupgame()
         else:
-            self.active_player = self.list_of_players[self.random_people_start[
+            self.active_player = self.backend.list_of_players[self.random_people_start[
                 self.choosing_index]]
             self.showing_current_attribute_text_label[
                 "text"] = "Choose a starting country of your choice"
@@ -625,7 +634,7 @@ class MainWindow():
                                 font="Helvetica 15")
             mylabel4.grid(row=index + 10 + len(mylist), column=3, pady=10)
 
-    def activate_wormholes(self, numberofwormholes, player=None):
+    def activate_wormholes(self, numberofwormholes: int, player: Player | None = None) -> None:
         self.colorarray = [
             "cyan", "dark slate grey", "dark green", "dark violet",
             "dark goldenrod", "medium violet red", "brown2",
@@ -679,7 +688,7 @@ class MainWindow():
             self.c.tag_bind(endpoint, "<Leave>", lambda x: makeline_hidden(ml))
 
         self.linelist = list()
-        self.pointlist = list()
+        self.pointlist  = list()
         country1 = Germany
         country2 = France
         if player != None:
@@ -702,7 +711,7 @@ class MainWindow():
             print(self.linelist)
             return None
 
-        for i in range(numberofwormholes):
+        for _ in range(numberofwormholes):
 
             while (country2.name in country1.neighboring_countries
                    or country1.name in country2.neighboring_countries
@@ -1098,9 +1107,9 @@ class MainWindow():
             panel9_2.grid(row=6, column=2)
 
     def endscreen(self,
-                  cause="numberofrounds",
-                  winner: Player = None,
-                  gotcha_country: Country = None):
+                  cause: str = "numberofrounds",
+                  winner_name: Player | None = None,
+                  gotcha_country: Country | None = None):
 
         def _on_mousewheel(event):
             canvas21.yview_scroll(int(-1 * (float(event.delta) / 120)),
@@ -1134,7 +1143,7 @@ class MainWindow():
         canvas21.bind_all("<MouseWheel>", _on_mousewheel)
 
         if self.winning_condition == "get gold":
-            a = sorted(self.list_of_players,
+            a = sorted(self.backend.list_of_players,
                        key=lambda x: self.score(x.list_of_possessed_countries),
                        reverse=True)
             self.shitdict = dict()
@@ -1170,7 +1179,7 @@ class MainWindow():
 
         if self.winning_condition == "attribute":
             a = sorted(
-                self.list_of_players,
+                self.backend.list_of_players,
                 key=lambda x: sum(self.score(x.list_of_possessed_countries)),
                 reverse=True)
             self.shitdict = dict()
@@ -1305,7 +1314,7 @@ class MainWindow():
 
         if self.winning_condition == "number of countries":
             a = sorted(
-                self.list_of_players,
+                self.backend.list_of_players,
                 key=lambda x: float(
                     (len(x.list_of_possessed_countries)) + random.random()),
                 reverse=True)
@@ -1340,18 +1349,18 @@ class MainWindow():
                 "text"] = "Congratulations, " + a[0].name
         if cause == "twocountriesclaimed":
             text = ""
-            winner = self.targetcountry1.owner
+            winner_name: str = self.targetcountry1.owner_name
             tk.messagebox.showinfo(
                 self.root,
-                message="Congratulations " + winner +
+                message="Congratulations " + winner_name +
                 " you claimed both countries and therefore you are the winner")
             self.d = "disabled"
-            self.showing_country_label["text"] = "Congratulations, " + winner
+            self.showing_country_label["text"] = "Congratulations, " + winner_name
             self.showing_current_attribute_text_label[
-                "text"] = "Congratulations, " + winner
+                "text"] = "Congratulations, " + winner_name
         if self.winning_condition == "secret targets":
             a = sorted(
-                self.list_of_players,
+                self.backend.list_of_players,
                 key=lambda x: float((len(
                     set(x.list_of_possessed_countries).intersection(
                         set(self.dict_of_targets[x])))) + random.random()),
@@ -1390,22 +1399,22 @@ class MainWindow():
             text = ""
             self.d = "disabled"
             self.showing_country_label[
-                "text"] = "Congratulations, " + winner.name
+                "text"] = "Congratulations, " + winner_name.name
             self.showing_current_attribute_text_label[
-                "text"] = "Congratulations, " + winner.name
+                "text"] = "Congratulations, " + winner_name.name
             showing_winner_label = tk.Label(
                 win,
-                text="Congratulations, " + winner.name + "\nbecause " +
+                text="Congratulations, " + winner_name.name + "\nbecause " +
                 gotcha_country.name + " is worldrank\n" +
-                str(self.dict_of_targets[winner].index(gotcha_country) + 1) +
-                "\nin\n" + self.dict_of_target_attribute_name[winner] +
+                str(self.dict_of_targets[winner_name].index(gotcha_country) + 1) +
+                "\nin\n" + self.dict_of_target_attribute_name[winner_name] +
                 "\nyou win the game!!!",
                 font="Helvetivca 30")
             showing_winner_label.grid(row=0, column=0)
 
     def setupclaim2countries(self):
         Target = Player(realgrey, "Nobody")
-        if self.choosing_index == len(self.list_of_players):
+        if self.choosing_index == len(self.backend.list_of_players):
             self.targetcountry1 = all_countries_in_game[random.randrange(
                 1, len(all_countries_in_game))]
             self.targetcountry2 = all_countries_in_game[random.randrange(
@@ -1419,16 +1428,17 @@ class MainWindow():
 
     def setupgold(self):
 
-        def get_good_ids(numberofgold):
+        self.goldids : list[int] = []
+        def get_good_ids(numberofgold : int):
             self.goldids = random.sample(range(len(all_countries_in_game)),
                                          numberofgold)
             for i in self.goldids:
-                if all_countries_in_game[i].owner != "Nobody" or all_countries_in_game[
+                if all_countries_in_game[i].owner_name != "Nobody" or all_countries_in_game[
                         i].name == "Unknown Country":
                     get_good_ids(numberofgold)
             return None
 
-        for player in self.list_of_players:
+        for player in self.backend.list_of_players:
             player.gold = 0
         Target = Player(gold, "Nobody")
         self.numberofgold = len(all_countries_in_game) // 20
@@ -1438,7 +1448,10 @@ class MainWindow():
             self.claim_country(Target, all_countries_in_game[i])
             self.goldlist.append(all_countries_in_game[i])
 
-    def getstartingattribute(self) -> Category:
+    def setup_starting_attribute(self) -> Category:
+        
+        
+
         if self.pred_attribute_name != "Random":
             print(self.pred_attribute_name)
             attribute = dictionary_attribute_name_to_attribute[
@@ -1450,32 +1463,27 @@ class MainWindow():
                 attribute = mr_nobody.get_random_attribute_with_cluster()
                 numberofnodata = 0
                 for country in all_countries_in_game:
-                    # TODO
-                    try:
-                        if isinstance(country.dict_of_attributes[attribute], LocalAttribute
-                                      ):
-                            try:
-                                i = country.dict_of_attributes[attribute].rank
-                            except IndexError:
-                                numberofnodata = numberofnodata + 1
-                        else:
-                            numberofnodata = numberofnodata + 1
-                    except KeyError:
+
+                    if country.dict_of_attributes[attribute.name].rank == -1:
                         numberofnodata += 1
+
+        
+                
             if random.random() < 0.5:
 
-                text = "The target attribute is " + attribute
-                v = tk.messagebox.showinfo(self.main, message=text)
+                text: str = "The target attribute is " + attribute.name
+                tk.messagebox.showinfo(self.main, message=text)
                 self.reversed_end_attribute = 0
 
             else:
                 self.reversed_end_attribute = 1
-                text = "The target attribute is " + attribute + "\n REVERSED!!!"
-                v = tk.messagebox.showinfo(self.main, message=text)
+                text = "The target attribute is " + attribute.name + "\n REVERSED!!!"
+                tk.messagebox.showinfo(self.main, message=text)
+        
         return attribute
 
     def setuppredattribute(self):
-        self.end_attribute = self.getstartingattribute()
+        self.end_attribute = self.setup_starting_attribute()
         if True:
             self.grey_no_data()
 
@@ -1493,13 +1501,13 @@ class MainWindow():
     def setup_secret_target_countries(self, numberoftargets: int):
         self.really_unknown = Unknown_country
 
-        def checkcountrylist(list1):
+        def checkcountrylist(list1: list[Country]):
             for country in list1:
-                if country.owner != "Nobody" or country == self.really_unknown:
+                if country.owner_name != "Nobody" or country == self.really_unknown:
                     return False
             return True
 
-        def roll_random_country(oldcountry):
+        def roll_random_country(_):
             return all_countries_in_game[random.randrange(1, len(all_countries_in_game))]
 
         def show_targets(player: Player):
@@ -1553,22 +1561,14 @@ class MainWindow():
                 return None
             show_targets(self.no_targets_yetlist[0])
 
-        self.dict_of_targets = dict()
-        self.no_targets_yetlist = self.list_of_players.copy()
+        self.dict_of_targets : dict[Player,list[Country]]= dict()
+        self.no_targets_yetlist = self.backend.list_of_players.copy()
         show_targets(self.active_player)
 
-    def setup_secret_attribute(self, n):
-
-        def find_top_n_countries(n, attribute):
-            returnlist = list()
-            for country in all_countries_in_game:
-                try:
-                    if country.dict_of_attributes[attribute].rank <= n:
-                        returnlist.append(country)
-                except KeyError:
-                    continue
-            returnlist.sort(key=lambda x: x.dict_of_attributes[attribute].rank)
-            return returnlist
+    def setup_secret_attribute(self, n : int):
+        self.target_countries_frame : tk.Toplevel
+        self.got_targets_Button : tk.Button
+        self.target_attribute_name : str
 
         def open_next_frame():
             self.target_countries_frame.destroy()
@@ -1579,107 +1579,32 @@ class MainWindow():
         def show_targets(player: Player):
             self.no_targets_yetlist.remove(player)
             self.target_countries_frame = tk.Toplevel()
-            self.target_attribute = player.get_random_attribute_with_cluster()
-            self.dict_of_target_attribute_name[player] = self.target_attribute
+            self.target_attribute_name = player.get_random_attribute_with_cluster().name
+            self.dict_of_target_attribute_name[player] = self.target_attribute_name
             welcomelabel = tk.Label(self.target_countries_frame,
                                     text="Welcome " + player.name +
                                     "your attribute is the following: \n\n" +
-                                    self.target_attribute.rstrip(".csv") +
+                                    self.target_attribute_name.rstrip(".csv") +
                                     "\n\nclaim one of the top " + str(n) +
                                     " countries in order to win the game",
                                     font="Helvetica 25")
             welcomelabel.grid(row=0, column=0)
-            self.dict_of_targets[player] = find_top_n_countries(
-                n, self.target_attribute)
+            self.dict_of_targets[player] = self.backend.find_top_n_countries(
+                n, self.target_attribute_name)
             self.got_targets_Button = tk.Button(self.target_countries_frame,
                                                 text="got it",
                                                 command=open_next_frame,
                                                 font="Helvetica 25")
             self.got_targets_Button.grid(row=3, column=0)
 
-        self.dict_of_target_attribute_name = dict()
+        self.dict_of_target_attribute_name : dict[Player,str] = dict()
         self.dict_of_targets = dict()
-        self.no_targets_yetlist = self.list_of_players.copy()
+        self.no_targets_yetlist = self.backend.list_of_players.copy()
         show_targets(self.active_player)
 
-    def score(self, countrylist):
+    
 
-        def helphelp(number, list1):
-            if self.higherorlower == "higher":
-                return sum([item <= number for item in list1])
-            if self.higherorlower == "lower":
-                return sum([item >= number for item in list1])
-
-        higherorlower = ""
-        propertylist = list()
-        mcountrylist = list()
-        dlist = list()
-        if self.reversed_end_attribute == 0:
-            if "higher is better" in self.end_attribute.name:
-                self.higherorlower = "higher"
-            else:
-                self.higherorlower = "lower"
-        else:
-            if "higher is better" in self.end_attribute.name:
-                self.higherorlower = "lower"
-            else:
-                self.higherorlower = "higher"
-
-        for country in all_countries_in_game:
-            try:
-                if (country.dict_of_attributes[self.end_attribute.name].value
-                        ) != float(-1):
-                    propertylist.append(
-                        (country.dict_of_attributes[self.end_attribute.name].value))
-                    mcountrylist.append(country)
-                else:
-                    dlist.append(country)
-            except KeyError:
-                dlist.append(country)
-        print(propertylist)
-        returnlist = list()
-        for country in countrylist:
-            if country in dlist:
-                returnlist.append(30.0)
-            else:
-                returnlist.append(
-                    helphelp(
-                        country.dict_of_attributes[self.end_attribute.name].value,
-                        propertylist))
-        returnlist = [float(item) / float(5) for item in returnlist]
-        return returnlist
-
-    def check_if_game_should_end(self):
-        if self.active_player_counter == len(
-                self.list_of_players) * self.number_of_rounds - 1:
-            self.endscreen()
-            return True
-        if self.winning_condition == "claim 2 countries":
-            if self.targetcountry1.owner != "Nobody" and self.targetcountry1.owner == self.targetcountry2.owner:
-                self.endscreen(cause="twocountriesclaimed")
-                return True
-        if self.winning_condition == "get gold":
-            if len(self.goldlist) == 0:
-                self.endscreen(cause="all gold left")
-                return True
-        if self.winning_condition == "secret targets":
-            if set(self.dict_of_targets[self.active_player]).issubset(
-                    set(self.active_player.list_of_possessed_countries)):
-                self.endscreen(cause="co")
-                return True
-        if self.winning_condition == "secret attribute":
-            if len(
-                    set(self.dict_of_targets[self.active_player]).intersection(
-                        set(self.active_player.list_of_possessed_countries))
-            ) >= 1:
-                for country in self.active_player.list_of_possessed_countries:
-                    if country in self.dict_of_targets[self.active_player]:
-                        self.endscreen(cause="co",
-                                       winner=self.active_player,
-                                       gotcha_country=country)
-                        break
-                return True
-        return False
+    
 
     def setupgame(self):
 

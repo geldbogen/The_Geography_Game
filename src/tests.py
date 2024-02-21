@@ -1,12 +1,10 @@
 import pytest
 
-import start
-
 from player import Player
 
 from country import *
 from setup_game import setup_the_game
-from global_definitions import red, yellow
+from global_definitions import red, yellow, reverse_countries_alternative_names
 from category import dictionary_attribute_name_to_attribute
 
 # @pytest.fixture
@@ -53,4 +51,5 @@ def test_categories():
     assert price_rice_category.is_active == False
     assert price_rice_category.treat_missing_data_as_bad == False
     assert price_rice_category.number_of_chosen_already == 0
-    
+    # assert reverse_countries_alternative_names == 0
+    assert dictionary_attribute_name_to_attribute == 0

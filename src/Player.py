@@ -3,33 +3,33 @@ from __future__ import annotations
 import random
 import tkinter as tk
 
-from global_definitions import all_players, realgrey, all_categories_names_and_clusters, dictionary_attribute_name_to_attribute
+from global_definitions import all_players, realgrey, white, all_categories_names_and_clusters, dictionary_attribute_name_to_attribute
 
 
 
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from category import Category
-    import country
+    from country import Country
 
 
 class Player:
 
-    def __init__(self, color: str, name: str, reroll_number: int = 3):
+    def __init__(self, color: tuple[int,int,int], name: str, reroll_number: int = 3):
         # name of the player
         self.name = name
 
         # color of the player (on the map)
-        self.color = color
+        self.color : tuple[int,int,int] = color
 
         # a collection of the flags of the countries that player possesses
-        self.labeldict = dict()
+        self.labeldict : dict[Country,tk.Label]= dict()
 
         # a list of all countries the player currently controls
-        self.list_of_possessed_countries: list[country.Country] = []
+        self.list_of_possessed_countries: list[Country] = []
 
         # a list of all countries with gold, which the player currently controls
-        self.list_of_possessed_countries_gold: list[country.Country] = []
+        self.list_of_possessed_countries_gold: list[Country] = []
 
         # a dictionary needed to translate between
         # the name of the player and the corresponding class
@@ -38,8 +38,10 @@ class Player:
         # the number of rerolls the player has left
         self.rerolls_left = reroll_number
 
+        self.gold : int = 0
+
     def reroll(self, to_update_category_label: tk.Label,
-               to_update_reroll_button_label: tk.Label):
+               to_update_reroll_button_label: tk.Label,):
         if self.rerolls_left == 0:
             return None
         self.rerolls_left -= 1
@@ -49,12 +51,12 @@ class Player:
         self.current_attribute.replace_A_and_B_in_category_name(to_update_category_label,
                                                                 )
         to_update_reroll_button_label.configure(
-            text="rerolls left:\n " + str(self.active_player.rerolls_left))
+            text="rerolls left:\n " + str(self.rerolls_left))
 
     def check_if_attack_is_succesful(self,
                                      category: Category,
-                                     country_a: country.Country,
-                                     country_b: country.Country,
+                                     country_a: Country,
+                                     country_b: Country,
                                      ) -> str:
 
         local_attribute_a = country_a.dict_of_attributes[category.name]
@@ -85,7 +87,7 @@ class Player:
 
         # get a random attribute name (including the name of a cluster)
 
-        self.current_attributename_with_cluster = random.choice(
+        self.current_attributename_with_cluster : str = random.choice(
             all_categories_names_and_clusters)
 
         # if a cluster is chosen choose a random attribute from that cluster
@@ -97,7 +99,8 @@ class Player:
         else:
             return dictionary_attribute_name_to_attribute[
                 self.current_attributename_with_cluster][0]
-
+        
+        return Category()
     def player_win_analysis(self, category: Category, peacemode: bool = False) -> dict[str, int]:
         """
         returns a dictionary in the form {'win' : 10, 'no data' : 1, 'draw' : 2, 'loose': 2} 
@@ -127,7 +130,7 @@ class Player:
             attack_analysis_dict = self.player_win_analysis(current_attribute,peacemode=peacemode)
 
             number_of_all_possible_attacks = sum(
-                [value for key, value in attack_analysis_dict.items()])
+                [value for _, value in attack_analysis_dict.items()])
             probability = float(
                 attack_analysis_dict['win'] + attack_analysis_dict['draw']) / float(number_of_all_possible_attacks)
             threshold_condition = probability >= threshold
@@ -192,5 +195,5 @@ def call_player_by_name(name: str) -> Player:
     return mr_nobody
 
 
-mr_nobody = Player(color="white", name="Nobody")
+mr_nobody = Player(color = white, name="Nobody")
 No_Data_Body = Player(color=realgrey, name="Nobody")

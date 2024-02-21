@@ -10,6 +10,7 @@ import categoryname_to_displayed_name
 if TYPE_CHECKING:
     from country import Country
     from player import Player
+    from category import Category
 
 resize_ratio = [3500 / 14063, 1737 / 6981]
 
@@ -24,33 +25,34 @@ white = (255, 255, 255)
 realgrey = (105, 105, 105)
 gold = (255, 215, 0)
 
-country_name_list = []
-flagframedict = dict()
+country_name_list : list[str] = []
+# flagframedict = dict()
 all_countries_available : list[Country] = []
-clusterdict = dict()
+# clusterdict = dict()
 clusternamelist = []
-all_players = dict()
+all_players: dict[str,Player] = dict()
 
 all_countries_in_game : list[Country] = []
-all_categories = []
-all_categories_names_and_clusters = []
+all_categories : list[Category] = []
+all_categories_names_and_clusters : list[str] = []
 
 mycounter = 0
-whichcountrydict = dict()
+# whichcountrydict = dict()
 
 p = pd.read_csv("data/important/countrylist.csv",
                 index_col=False,
                 keep_default_na=False)
 countries_for_language_en = p.values.tolist()
 
-neighboring_countries = pd.read_csv("data/Really New Country Borders.csv")
-neighboring_countries.columns = range(len(neighboring_countries.columns))
+neighboring_countries : pd.DataFrame = pd.read_csv("data/Really New Country Borders.csv")
+neighboring_countries.columns = list(range(len(neighboring_countries.columns))
+)
+reverse_countries_alternative_names : dict[str,str] = dict()
 
-reverse_countries_alternative_names = dict()
 
-category_to_displayed_name_dict = categoryname_to_displayed_name.category_to_displayed_name_dict
-category_to_displayed_guess_hint = categoryname_to_displayed_name.category_to_displayed_guess_hint
-category_to_displayed_extra_information_category = categoryname_to_displayed_name.category_to_displayed_extra_information_category
+category_to_displayed_name_dict : dict[str,str] = categoryname_to_displayed_name.category_name_to_displayed_name_dict
+category_to_displayed_guess_hint : dict[str,str] = categoryname_to_displayed_name.category_name_to_displayed_guess_hint
+category_to_displayed_extra_information_category : dict[str,str] = categoryname_to_displayed_name.category_name_to_displayed_extra_information_category
 
 countries_alternative_names = alternative_names.countries_alternative_names
 
@@ -77,4 +79,4 @@ with open("backenddata/propertydict_new", "rb") as handle:
 # a dictionary which takes a string and if it is a clustername
 # returns the list of categories associated to it. If it is just a normal
 # categoryname it returns a list with only the asked category in it.
-dictionary_attribute_name_to_attribute = {}
+dictionary_attribute_name_to_attribute : dict[str,list[Category]] = {}

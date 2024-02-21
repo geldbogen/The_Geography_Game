@@ -2,13 +2,14 @@ import tkinter as tk
 
 from global_definitions import (
     all_categories, all_categories_names_and_clusters,
-      dictionary_attribute_name_to_attribute, category_to_displayed_name_dict,
-      category_to_displayed_extra_information_category)
+    dictionary_attribute_name_to_attribute, category_to_displayed_name_dict,
+    category_to_displayed_extra_information_category)
 
-import country
+from country import Country
 
 
 class Category:
+
 
     def __init__(self,
                  name: str,
@@ -18,7 +19,6 @@ class Category:
                  explanation: str = "",
                  cluster: str = "",
                  is_end_only: bool = False):
-        
 
         # the name of the category
         self.name = name
@@ -55,7 +55,7 @@ class Category:
             if not cluster in all_categories_names_and_clusters:
                 # here one can tune the probability of choosing the specific cluster
                 # set it as 5/number of attribute
-                for i in range(5):
+                for _ in range(5):
                     all_categories_names_and_clusters.append(cluster)
 
             try:
@@ -79,9 +79,14 @@ class Category:
             # map categoryname to single item list of corresponding class
             dictionary_attribute_name_to_attribute[self.name] = [self]
 
+    def get_number_of_missing_data(self, list_of_countries_in_game: list[Country]) -> int:
+        no_data_list = [country.dict_of_attributes[self.name].rank == 
+                        -1 for country in list_of_countries_in_game]
+        return sum(no_data_list)
+
     def replace_A_and_B_in_category_name(self, tk_label: tk.Label,
-                                         first_country: country.Country = None,
-                                         second_country: country.Country = None) -> tk.Label:
+                                         first_country: Country | None = None,
+                                         second_country: Country | None = None) -> tk.Label:
 
         categoryname = self.name.rstrip(".csv")
         try:
