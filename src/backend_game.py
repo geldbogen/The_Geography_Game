@@ -7,6 +7,8 @@ if TYPE_CHECKING:
     from category import Category
 
 from global_definitions import all_categories, all_countries_in_game
+from endscreen import endscreen
+
 class BackendGame():
 
     def __init__(self,
@@ -70,20 +72,20 @@ class BackendGame():
     def check_if_game_should_end(self):
         if self.active_player_counter == len(
                 self.list_of_players) * self.number_of_rounds - 1:
-            self.endscreen()
+            endscreen()
             return True
         if self.winning_condition == "claim 2 countries":
             if self.targetcountry1.owner != "Nobody" and self.targetcountry1.owner == self.targetcountry2.owner:
-                self.endscreen(cause="twocountriesclaimed")
+                endscreen(cause="twocountriesclaimed")
                 return True
         if self.winning_condition == "get gold":
             if len(self.goldlist) == 0:
-                self.endscreen(cause="all gold left")
+                endscreen(cause="all gold left")
                 return True
         if self.winning_condition == "secret targets":
             if set(self.dict_of_targets[self.active_player]).issubset(
                     set(self.active_player.list_of_possessed_countries)):
-                self.endscreen(cause="co")
+                endscreen(cause="co")
                 return True
         if self.winning_condition == "secret attribute":
             if len(
@@ -92,8 +94,8 @@ class BackendGame():
             ) >= 1:
                 for country in self.active_player.list_of_possessed_countries:
                     if country in self.dict_of_targets[self.active_player]:
-                        self.endscreen(cause="co",
-                                       winner=self.active_player,
+                        endscreen(cause="co",
+                                       winner_name=self.active_player,
                                        gotcha_country=country)
                         break
                 return True
