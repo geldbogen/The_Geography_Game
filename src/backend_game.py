@@ -67,6 +67,38 @@ class BackendGame():
         returnlist.sort(key=lambda x: x.dict_of_attributes[attribute_name].rank)
         return returnlist
 
+    def check_if_game_should_end(self):
+        if self.active_player_counter == len(
+                self.list_of_players) * self.number_of_rounds - 1:
+            self.endscreen()
+            return True
+        if self.winning_condition == "claim 2 countries":
+            if self.targetcountry1.owner != "Nobody" and self.targetcountry1.owner == self.targetcountry2.owner:
+                self.endscreen(cause="twocountriesclaimed")
+                return True
+        if self.winning_condition == "get gold":
+            if len(self.goldlist) == 0:
+                self.endscreen(cause="all gold left")
+                return True
+        if self.winning_condition == "secret targets":
+            if set(self.dict_of_targets[self.active_player]).issubset(
+                    set(self.active_player.list_of_possessed_countries)):
+                self.endscreen(cause="co")
+                return True
+        if self.winning_condition == "secret attribute":
+            if len(
+                    set(self.dict_of_targets[self.active_player]).intersection(
+                        set(self.active_player.list_of_possessed_countries))
+            ) >= 1:
+                for country in self.active_player.list_of_possessed_countries:
+                    if country in self.dict_of_targets[self.active_player]:
+                        self.endscreen(cause="co",
+                                       winner=self.active_player,
+                                       gotcha_country=country)
+                        break
+                return True
+        return False
+
     def score(self, countrylist : list[Country]) -> list[float]:
 
         def helphelp(number : float, list1 : list[float]) -> float:
