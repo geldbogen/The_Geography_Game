@@ -15,13 +15,13 @@ if TYPE_CHECKING:
 
 
 def endscreen(cause: str,
-              winner_name: str,
+              triggered_player_name: str,
               winning_condition: str,
               list_of_players: list[Player],
               attached_backend: BackendGame,
               end_attribute: Category,
               reversed_end_attribute: int,
-              gotcha_country: Country = Unknown_country,
+              winning_country: Country = Unknown_country,
               dict_of_targets: dict[Player, list[Country]] = dict(),
               dict_of_target_attribute_name : dict[Player,str] = dict()) -> str:
 
@@ -64,9 +64,9 @@ def endscreen(cause: str,
                                      key=lambda x: attached_backend.score(
                                          x.list_of_possessed_countries),
                                      reverse=True)
-            shitdict: dict[int, dict[int, ImageTk.PhotoImage]] = dict()
+            win2.shitdict: dict[int, dict[int, ImageTk.PhotoImage]] = dict()
             for i in range(len(a)):
-                shitdict[i] = dict()
+                win2.shitdict[i] = dict()
                 text = str(i + 1) + ". place : " + a[i].name + " with " + str(
                     a[i].gold) + " gold \n"
                 newframe = tk.Frame(win)
@@ -83,7 +83,7 @@ def endscreen(cause: str,
                         text=a[i].list_of_possessed_countries_gold[j].name)
                     newlabel.pack(side="top")
                     countrylabel.pack(side="bottom")
-                    shitdict[i][j] = flag
+                    win2.shitdict[i][j] = flag
                     doubleframe.grid(row=0, column=j)
                 label1.grid(row=0, column=0)
                 flagframe.grid(row=1, column=0)
@@ -96,7 +96,7 @@ def endscreen(cause: str,
                 key=lambda x: sum(attached_backend.score(
                     x.list_of_possessed_countries)),
                 reverse=True)
-            shitdict = dict()
+            win2.shitdict = dict()
 
             # sorting
             def bla(x: Country) -> float:
@@ -117,7 +117,7 @@ def endscreen(cause: str,
             for i in range(len(a)):
                 scorelist = attached_backend.score(
                     a[i].list_of_possessed_countries)
-                shitdict[i] = dict()
+                win2.shitdict[i] = dict()
                 text = str(i + 1) + ". place : " + a[i].name + " with " + str(
                     round(sum(scorelist), 2)) + " points \n"
                 newframe = tk.Frame(win)
@@ -216,7 +216,7 @@ def endscreen(cause: str,
                             font="Helvetica 20")
                         label_of_worldrank.grid(row=6, sticky="s")
 
-                    shitdict[i][j] = flag
+                    win2.shitdict[i][j] = flag
                     doubleframe.grid(row=0, column=j, sticky="NS")
                 label1.grid(row=0, column=0)
                 flagframe.grid(row=1, column=0)
@@ -229,9 +229,9 @@ def endscreen(cause: str,
                 key=lambda x: float(
                     (len(x.list_of_possessed_countries)) + random.random()),
                 reverse=True)
-            shitdict = dict()
+            win2.shitdict = dict()
             for i in range(len(a)):
-                shitdict[i] = dict()
+                win2.shitdict[i] = dict()
                 text = str(i + 1) + ". place : " + a[i].name + " with " + str(
                     len(a[i].list_of_possessed_countries)) + " countries \n"
                 newframe = tk.Frame(win)
@@ -248,7 +248,7 @@ def endscreen(cause: str,
                         text=a[i].list_of_possessed_countries[j].name)
                     newlabel.pack(side="top")
                     countrylabel.pack(side="bottom")
-                    shitdict[i][j] = flag
+                    win2.shitdict[i][j] = flag
                     doubleframe.grid(row=0, column=j)
                 label1.grid(row=0, column=0)
                 flagframe.grid(row=1, column=0)
@@ -257,7 +257,7 @@ def endscreen(cause: str,
 
         case "twocountriesclaimed":
             text = ""
-            return_message = "Congratulations, " + winner_name
+            return_message = "Congratulations, " + triggered_player_name
 
         case "secret targets":
             a = sorted(
@@ -266,9 +266,9 @@ def endscreen(cause: str,
                     set(x.list_of_possessed_countries).intersection(
                         set(dict_of_targets[x])))) + random.random()),
                 reverse=True)
-            shitdict = dict()
+            win2.shitdict = dict()
             for i in range(len(a)):
-                shitdict[i] = dict()
+                win2.shitdict[i] = dict()
                 text = str(i + 1) + ". place : " + a[i].name
                 newframe = tk.Frame(win)
                 label1 = tk.Label(newframe, text=text)
@@ -286,7 +286,7 @@ def endscreen(cause: str,
                             text=a[i].list_of_possessed_countries[j].name)
                         newlabel.pack(side="top")
                         countrylabel.pack(side="bottom")
-                        shitdict[i][j] = flag
+                        win2.shitdict[i][j] = flag
                         doubleframe.grid(row=0, column=j)
                 label1.grid(row=0, column=0)
                 flagframe.grid(row=1, column=0)
@@ -295,12 +295,12 @@ def endscreen(cause: str,
 
         case "secret attribute":
             text = ""
-            return_message = "Congratulations, " + winner_name
+            return_message = "Congratulations, " + triggered_player_name
 
-            real_winner : Player = call_player_by_name(winner_name)
+            real_winner : Player = call_player_by_name(triggered_player_name)
 
-            to_display_text: str = "Congratulations, " + winner_name + "\nbecause " + gotcha_country.name + " is worldrank\n" + \
-                str(dict_of_targets[real_winner].index(gotcha_country) + 1) + "\nin\n" + \
+            to_display_text: str = "Congratulations, " + triggered_player_name + "\nbecause " + winning_country.name + " is worldrank\n" + \
+                str(dict_of_targets[real_winner].index(winning_country) + 1) + "\nin\n" + \
                 dict_of_target_attribute_name[real_winner] + \
                 "\nyou win the game!!!"
 

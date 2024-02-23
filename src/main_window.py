@@ -13,6 +13,8 @@ from player import Player, call_player_by_name, No_Data_Body, mr_nobody
 from image import greencountrydict, green_image
 from global_definitions import all_categories, all_countries_in_game, dictionary_attribute_name_to_attribute, gold, realgrey
 from backend_game import BackendGame
+from endscreen import endscreen
+
 
 class MainWindow():
 
@@ -27,9 +29,11 @@ class MainWindow():
                  pred_attribute: str = "random",
                  peacemode: bool = False,
                  reversed_end_attribute: int = 0):
-        
-        self.backend : BackendGame = BackendGame(list_of_players, wormhole_mode)
-        self.rerolls : int = 3
+
+        self.backend: BackendGame = BackendGame(list_of_players, wormhole_mode, starting_countries_preferences,
+                                                number_of_rounds, winning_condition, number_of_wormholes,
+                                                  pred_attribute, peacemode, reversed_end_attribute)
+        self.rerolls: int = 3
 
         self.number_of_targets = 2
 
@@ -49,13 +53,14 @@ class MainWindow():
 
         print(self.backend.list_of_players)
         print(len(list_of_players))
-        self.active_player_counter = 0
-        self.active_player = self.backend.list_of_players[self.active_player_counter]
+        self.backend.active_player = self.backend.list_of_players[
+            self.backend.active_player_counter]
         self.number_of_players = len(self.backend.list_of_players)
 
-        self.end_attribute: Category | None = None
 
         self.wormhole_mode: str = wormhole_mode
+        self.linelist = list()
+        self.pointlist = list()
 
         self.wormholed_countries: list[list[Country]] = list()
 
@@ -125,16 +130,17 @@ class MainWindow():
 
         self.reroll_button = tk.Button(
             self.frame5,
-            text="rerolls left:\n " + str(self.active_player.rerolls_left),
+            text="rerolls left:\n " +
+            str(self.backend.active_player.rerolls_left),
             font="Helvetica 25",
             anchor="sw",
-            command=lambda: self.active_player.reroll(to_update_category_label=self.showing_current_attribute_text_label, to_update_reroll_button_label=self.reroll_button['text']))
+            command=lambda: self.backend.active_player.reroll(to_update_category_label=self.showing_current_attribute_text_label, to_update_reroll_button_label=self.reroll_button['text']))
 
         self.reroll_button.pack(side="left", fill="y")
 
         self.showing_country_label = tk.Label(
             self.frame5,
-            text="It is the turn of " + self.active_player.name +
+            text="It is the turn of " + self.backend.active_player.name +
             "\n You have not chosen any country yet",
             font="Helvetica 25")
         self.showing_country_label.pack(side="bottom",
@@ -176,12 +182,12 @@ class MainWindow():
         # usher choosing countries procedure if that mode was chosen
         if self.starting_countries == "choose":
             self.choosing_index = 0
-            self.active_player = self.backend.list_of_players[self.random_people_start[
+            self.backend.active_player = self.backend.list_of_players[self.random_people_start[
                 self.choosing_index]]
             self.showing_current_attribute_text_label[
                 "text"] = "Choose a starting country of your choice"
             self.showing_country_label[
-                "text"] = self.active_player.name + "\n Please choose a starting country"
+                "text"] = self.backend.active_player.name + "\n Please choose a starting country"
 
         # roll starting countries for the players
         # TODO take care of ending attribute
@@ -202,7 +208,7 @@ class MainWindow():
                     if self.winning_condition == "attribute":
                         try:
                             all_countries_in_game[rng].dict_of_attributes[
-                                self.end_attribute.name].value
+                                self.backend.end_attribute.name].value
                         except:
                             j = 1
                 if j == 0:
@@ -213,7 +219,7 @@ class MainWindow():
                 print(all_countries_in_game[self.randomstart[i]].name)
 
         # roll first attribute
-        self.current_attribute = self.active_player.get_good_attribute(
+        self.current_attribute = self.backend.active_player.get_good_attribute(
             peacemode=self.peacemode)
         self.current_attribute.replace_A_and_B_in_category_name(
             self.showing_current_attribute_text_label)
@@ -234,9 +240,9 @@ class MainWindow():
             clicked_country = get_country_by_position(self.c.canvasx(event.x),
                                                       self.c.canvasy(event.y))
             self.showing_country_label[
-                "text"] = self.active_player.name + " do you want to start with \n" + clicked_country.name + " ?"
+                "text"] = self.backend.active_player.name + " do you want to start with \n" + clicked_country.name + " ?"
             self.button_claim["command"] = lambda: self.claim_starting_country(
-                self.active_player, clicked_country)
+                self.backend.active_player, clicked_country)
             self.button_claim.pack(side="bottom")
             self.buttonframe2.pack(side="bottom")
             return None
@@ -244,8 +250,8 @@ class MainWindow():
                                                   self.c.canvasy(event.y))
         if self.chosen_country_a == None:
             self.showing_country_label[
-                "text"] = "It is the turn of " + self.active_player.name + "\n You have chosen " + clicked_country.name + " currently controlled by " + clicked_country.owner_name
-            if clicked_country.owner_name == self.active_player.name:
+                "text"] = "It is the turn of " + self.backend.active_player.name + "\n You have chosen " + clicked_country.name + " currently controlled by " + clicked_country.owner_name
+            if clicked_country.owner_name == self.backend.active_player.name:
                 self.chosen_country_a = clicked_country
                 self.current_attribute.replace_A_and_B_in_category_name(
                     self.showing_current_attribute_text_label, self.chosen_country_a)
@@ -255,7 +261,7 @@ class MainWindow():
                         "text"] + "\n You can attack with this country"
         else:
             if self.peacemode and clicked_country.owner_name != "Nobody" and call_player_by_name(
-                    clicked_country.owner_name) != self.active_player:
+                    clicked_country.owner_name) != self.backend.active_player:
                 self.chosen_country_a = None
                 self.showing_country_label[
                     "text"] = "You can not attack anoter player's countries in peace mode! \n Choose another country!"
@@ -263,7 +269,7 @@ class MainWindow():
                 # self.showingcountrylabel["text"]=""
                 return None
             if clicked_country.is_connected_with(self.chosen_country_a):
-                if self.active_player != call_player_by_name(
+                if self.backend.active_player != call_player_by_name(
                         clicked_country.owner_name):
                     self.current_attribute.replace_A_and_B_in_category_name(
                         self.showing_current_attribute_text_label, self.chosen_country_a,
@@ -311,14 +317,14 @@ class MainWindow():
         self.d = ""
         self.showing_country_label["text"] = ""
         self.chosen_country_a = None
-        result = self.active_player.check_if_attack_is_succesful(self.current_attribute,
-                                                                 country_a, country_b)
+        result = self.backend.active_player.check_if_attack_is_succesful(self.current_attribute,
+                                                                         country_a, country_b)
         if result == "no data":
             self.popup_win_or_loose(country_a,
                                     country_b,
                                     self.current_attribute,
                                     wl="no data")
-            self.current_attribute = self.active_player.get_good_attribute()
+            self.current_attribute = self.backend.active_player.get_good_attribute()
             self.current_attribute.replace_A_and_B_in_category_name(
                 self.showing_current_attribute_text_label,
             )
@@ -328,20 +334,20 @@ class MainWindow():
                                     country_b,
                                     self.current_attribute,
                                     wl="draw")
-            self.current_attribute = self.active_player.get_good_attribute()
+            self.current_attribute = self.backend.active_player.get_good_attribute()
             self.current_attribute.replace_A_and_B_in_category_name(
                 self.showing_current_attribute_text_label,
             )
             return None
         if result == "hard defeat":
-            self.claim_country(self.active_player, country_b)
+            self.claim_country(self.backend.active_player, country_b)
             self.popup_win_or_loose(country_a,
                                     country_b,
                                     self.current_attribute,
                                     wl="hard defeat")
             return None
         if result == "win":
-            self.claim_country(self.active_player, country_b)
+            self.claim_country(self.backend.active_player, country_b)
             self.popup_win_or_loose(country_a,
                                     country_b,
                                     self.current_attribute,
@@ -356,17 +362,30 @@ class MainWindow():
                 self.claim_country(call_player_by_name(country_b.owner_name),
                                    country_a)
 
-    
-
-
     def transition(self, same_player_again: bool = False):
 
         if not same_player_again:
             if self.backend.check_if_game_should_end():
+                self.d = 'disabled'
+                to_show_message: str = endscreen(cause='', triggered_player_name=self.backend.active_player.name,
+                                                 winning_condition=self.winning_condition,
+                                                 list_of_players=self.backend.list_of_players,
+                                                 attached_backend=self.backend,
+                                                 end_attribute=self.backend.end_attribute,
+                                                 reversed_end_attribute=self.reversed_end_attribute,
+                                                 winning_country=self.backend.winning_country,
+                                                 dict_of_targets=self.backend.dict_of_targets,
+                                                 dict_of_target_attribute_name=self.backend.dict_of_target_attribute_name,
+                                                 )
+                self.showing_country_label[
+                    "text"] = to_show_message
+                self.showing_current_attribute_text_label[
+                    "text"] = to_show_message
                 return None
-            self.active_player_counter = self.active_player_counter + 1
-        
-        self.index = self.active_player_counter % len(self.backend.list_of_players)
+            self.backend.active_player_counter = self.backend.active_player_counter + 1
+
+        self.index = self.backend.active_player_counter % len(
+            self.backend.list_of_players)
 
         if not same_player_again:
             if self.index == 0:
@@ -374,16 +393,16 @@ class MainWindow():
 
         # update the interface
         self.turn_counter_label["text"] = str(self.turn_counter)
-        self.flagframe_dict[self.active_player.name].pack_forget()
-        self.active_player = self.backend.list_of_players[self.index]
+        self.flagframe_dict[self.backend.active_player.name].pack_forget()
+        self.backend.active_player = self.backend.list_of_players[self.index]
         self.showing_country_label[
-            "text"] = "It is the turn of " + self.active_player.name + "\n You have not chosen any country yet"
+            "text"] = "It is the turn of " + self.backend.active_player.name + "\n You have not chosen any country yet"
 
         # roll a new attribute
-        self.current_attribute = self.active_player.get_good_attribute()
+        self.current_attribute = self.backend.active_player.get_good_attribute()
         self.current_attribute.replace_A_and_B_in_category_name(
             self.showing_current_attribute_text_label)
-        self.flagframe_dict[self.active_player.name].pack(side="top")
+        self.flagframe_dict[self.backend.active_player.name].pack(side="top")
         if self.wormhole_mode == "every round changing wormholes":
             if self.index == 0:
                 try:
@@ -396,11 +415,11 @@ class MainWindow():
                 self.destroy_all_wormholes()
             except:
                 traceback.print_exc()
-            if len(self.active_player.list_of_possessed_countries) >= 3:
+            if len(self.backend.active_player.list_of_possessed_countries) >= 3:
                 print("wormholes are getting activated")
-                self.activate_wormholes(1, player=self.active_player)
+                self.activate_wormholes(1, player=self.backend.active_player)
         self.reroll_button["text"] = "rerolls left:\n " + str(
-            self.active_player.rerolls_left)
+            self.backend.active_player.rerolls_left)
 
     def go_back(self):
         # self.buttonsure.pack_forget()
@@ -413,9 +432,8 @@ class MainWindow():
     def claim_country(self, player: Player, country: Country):
 
         # backend
-        old_player : Player = call_player_by_name(country.owner_name)
+        old_player: Player = call_player_by_name(country.owner_name)
         self.backend.claim_country_backend(old_player, player, country)
-
 
         # frontend
         inv_map = {v: k for k, v in greencountrydict.items()}
@@ -443,27 +461,25 @@ class MainWindow():
 
         self.update_image(self.bild)
 
-        
-
     def claim_starting_country(self, player: Player, country: Country):
         self.buttonframe2.pack_forget()
         self.claim_country(player, country)
         self.choosing_index = self.choosing_index + 1
         if self.choosing_index == len(self.backend.list_of_players):
-            self.active_player = self.backend.list_of_players[self.index]
+            self.backend.active_player = self.backend.list_of_players[self.index]
             self.showing_country_label[
-                "text"] = "It is the turn of " + self.active_player.name + "\n You have not chosen any country yet"
+                "text"] = "It is the turn of " + self.backend.active_player.name + "\n You have not chosen any country yet"
             self.current_attribute.replace_A_and_B_in_category_name(
                 self.showing_current_attribute_text_label,
             )
             self.setupgame()
         else:
-            self.active_player = self.backend.list_of_players[self.random_people_start[
+            self.backend.active_player = self.backend.list_of_players[self.random_people_start[
                 self.choosing_index]]
             self.showing_current_attribute_text_label[
                 "text"] = "Choose a starting country of your choice"
             self.showing_country_label[
-                "text"] = self.active_player.name + " Please choose a starting country"
+                "text"] = self.backend.active_player.name + " Please choose a starting country"
 
     def callback(self, url):
         webbrowser.open_new(url)
@@ -627,7 +643,7 @@ class MainWindow():
                 country1.wormhole_coordinates[0] - 15,
                 country1.wormhole_coordinates[1] - 15,
                 fill="gray",
-                stipple="@my_stripple.xbm",
+                # stipple="@my_stripple.xbm",
                 outline=color,
                 width=5)
             endpoint = self.c.create_rectangle(
@@ -636,7 +652,7 @@ class MainWindow():
                 country2.wormhole_coordinates[0] - 15,
                 country2.wormhole_coordinates[1] - 15,
                 fill="gray",
-                stipple="@my_stripple.xbm",
+                # stipple="@my_stripple.xbm",
                 outline=color,
                 width=5)
             self.pointlist.append(startpoint)
@@ -650,7 +666,7 @@ class MainWindow():
             self.c.tag_bind(endpoint, "<Leave>", lambda x: makeline_hidden(ml))
 
         self.linelist = list()
-        self.pointlist  = list()
+        self.pointlist = list()
         country1 = Germany
         country2 = France
         if player != None:
@@ -1068,8 +1084,6 @@ class MainWindow():
         if countryb_worst5:
             panel9_2.grid(row=6, column=2)
 
-    
-
     def setupclaim2countries(self):
         Target = Player(realgrey, "Nobody")
         if self.choosing_index == len(self.backend.list_of_players):
@@ -1086,8 +1100,9 @@ class MainWindow():
 
     def setupgold(self):
 
-        self.goldids : list[int] = []
-        def get_good_ids(numberofgold : int):
+        self.goldids: list[int] = []
+
+        def get_good_ids(numberofgold: int):
             self.goldids = random.sample(range(len(all_countries_in_game)),
                                          numberofgold)
             for i in self.goldids:
@@ -1107,8 +1122,6 @@ class MainWindow():
             self.goldlist.append(all_countries_in_game[i])
 
     def setup_starting_attribute(self) -> Category:
-        
-        
 
         if self.pred_attribute_name != "Random":
             print(self.pred_attribute_name)
@@ -1125,8 +1138,6 @@ class MainWindow():
                     if country.dict_of_attributes[attribute.name].rank == -1:
                         numberofnodata += 1
 
-        
-                
             if random.random() < 0.5:
 
                 text: str = "The target attribute is " + attribute.name
@@ -1137,11 +1148,11 @@ class MainWindow():
                 self.reversed_end_attribute = 1
                 text = "The target attribute is " + attribute.name + "\n REVERSED!!!"
                 tk.messagebox.showinfo(self.main, message=text)
-        
+
         return attribute
 
     def setuppredattribute(self):
-        self.end_attribute = self.setup_starting_attribute()
+        self.backend.end_attribute = self.setup_starting_attribute()
         if True:
             self.grey_no_data()
 
@@ -1150,7 +1161,7 @@ class MainWindow():
             if country == Unknown_country:
                 continue
             try:
-                country.dict_of_attributes[self.end_attribute.name].value
+                country.dict_of_attributes[self.backend.end_attribute.name].value
             except:
                 print(country.name)
                 traceback.print_exc()
@@ -1201,7 +1212,7 @@ class MainWindow():
                                     pady=40)
                 newlabel.grid(row=2, column=index)
                 pass
-            self.dict_of_targets[player] = targetlist
+            self.backend.dict_of_targets[player] = targetlist
             self.got_targets_Button = tk.Button(self.target_countries_frame,
                                                 text="got it",
                                                 command=open_next_frame,
@@ -1219,14 +1230,13 @@ class MainWindow():
                 return None
             show_targets(self.no_targets_yetlist[0])
 
-        self.dict_of_targets : dict[Player,list[Country]]= dict()
         self.no_targets_yetlist = self.backend.list_of_players.copy()
-        show_targets(self.active_player)
+        show_targets(self.backend.active_player)
 
-    def setup_secret_attribute(self, n : int):
-        self.target_countries_frame : tk.Toplevel
-        self.got_targets_Button : tk.Button
-        self.target_attribute_name : str
+    def setup_secret_attribute(self, n: int):
+        self.target_countries_frame: tk.Toplevel
+        self.got_targets_Button: tk.Button
+        self.target_attribute_name: str
 
         def open_next_frame():
             self.target_countries_frame.destroy()
@@ -1238,7 +1248,7 @@ class MainWindow():
             self.no_targets_yetlist.remove(player)
             self.target_countries_frame = tk.Toplevel()
             self.target_attribute_name = player.get_random_attribute_with_cluster().name
-            self.dict_of_target_attribute_name[player] = self.target_attribute_name
+            self.backend.dict_of_target_attribute_name[player] = self.target_attribute_name
             welcomelabel = tk.Label(self.target_countries_frame,
                                     text="Welcome " + player.name +
                                     "your attribute is the following: \n\n" +
@@ -1247,7 +1257,7 @@ class MainWindow():
                                     " countries in order to win the game",
                                     font="Helvetica 25")
             welcomelabel.grid(row=0, column=0)
-            self.dict_of_targets[player] = self.backend.find_top_n_countries(
+            self.backend.dict_of_targets[player] = self.backend.find_top_n_countries(
                 n, self.target_attribute_name)
             self.got_targets_Button = tk.Button(self.target_countries_frame,
                                                 text="got it",
@@ -1255,14 +1265,9 @@ class MainWindow():
                                                 font="Helvetica 25")
             self.got_targets_Button.grid(row=3, column=0)
 
-        self.dict_of_target_attribute_name : dict[Player,str] = dict()
-        self.dict_of_targets = dict()
+        self.backend.dict_of_targets = dict()
         self.no_targets_yetlist = self.backend.list_of_players.copy()
-        show_targets(self.active_player)
-
-    
-
-    
+        show_targets(self.backend.active_player)
 
     def setupgame(self):
 

@@ -166,6 +166,9 @@ class Country:
 
 
 def call_country_by_name(name: str) -> Country:
+    """
+    Takes the country name as input (e.g. "Nigeria") and returns the corresponding Country Object Nigeria
+    """
     for country in all_countries_available:
         if country.name == name:
             return country

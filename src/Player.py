@@ -104,7 +104,7 @@ class Player:
     def player_win_analysis(self, category: Category, peacemode: bool = False) -> dict[str, int]:
         """
         returns a dictionary in the form {'win' : 10, 'no data' : 1, 'draw' : 2, 'loose': 2} 
-        according to the outcome of the eventual attacks of a player
+        (according to the outcome of the eventual attacks of a player)
         """
 
         returndict = {'win': 0, 'no data': 0, 'draw': 0, 'loose': 0}
