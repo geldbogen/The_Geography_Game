@@ -1,4 +1,5 @@
 import tkinter as tk
+import ttkbootstrap as ttk
 
 from global_definitions import (
     all_categories, all_categories_names_and_clusters,
@@ -84,9 +85,9 @@ class Category:
                         -1 for country in list_of_countries_in_game]
         return sum(no_data_list)
 
-    def replace_A_and_B_in_category_name(self, tk_label: tk.Label,
+    def replace_A_and_B_in_category_name(self, tk_label: ttk.Label,
                                          first_country: Country | None = None,
-                                         second_country: Country | None = None) -> tk.Label:
+                                         second_country: Country | None = None) -> ttk.Label:
 
         categoryname = self.name.rstrip(".csv")
         try:

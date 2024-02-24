@@ -5,6 +5,8 @@ from PIL import ImageTk, Image
 import traceback
 import random
 
+import ttkbootstrap as ttk
+
 from player import Player, call_player_by_name
 from country import Country, Unknown_country
 
@@ -29,26 +31,26 @@ def endscreen(cause: str,
         canvas21.yview_scroll(int(-1 * (float(event.delta) / 120)),
                               "units")
 
-    win2 = tk.Toplevel()
+    win2 = ttk.Window()
 
-    frame21 = tk.Frame(win2)
+    frame21 = ttk.Frame(win2)
     frame21.pack(fill="both", expand=True)
-    canvas21 = tk.Canvas(frame21)
+    canvas21 = ttk.Canvas(frame21)
 
-    my_scrollbar12 = tk.Scrollbar(frame21,
+    my_scrollbar12 = ttk.Scrollbar(frame21,
                                   orient="vertical",
                                   command=canvas21.yview)
     my_scrollbar12.pack(side="right", fill="y")
     my_scrollbar12.config(command=canvas21.yview)
 
-    my_scrollbar13 = tk.Scrollbar(frame21,
+    my_scrollbar13 = ttk.Scrollbar(frame21,
                                   orient="horizontal",
                                   command=canvas21.xview)
     my_scrollbar13.pack(side="bottom", fill="x")
     my_scrollbar13.config(command=canvas21.xview)
     canvas21.pack(side="left", expand=True, fill="both")
 
-    win = tk.Frame(canvas21)
+    win = ttk.Frame(canvas21)
     canvas21.create_window((0, 0), window=win, anchor="nw")
     win2.geometry("1650x825")
     win.bind(
@@ -69,16 +71,16 @@ def endscreen(cause: str,
                 win2.shitdict[i] = dict()
                 text = str(i + 1) + ". place : " + a[i].name + " with " + str(
                     a[i].gold) + " gold \n"
-                newframe = tk.Frame(win)
-                label1 = tk.Label(newframe, text=text)
+                newframe = ttk.Frame(win)
+                label1 = ttk.Label(newframe, text=text)
                 label1.config(font=("Helvetica", 20))
-                flagframe = tk.Frame(newframe)
+                flagframe = ttk.Frame(newframe)
                 for j in range(len(a[i].list_of_possessed_countries_gold)):
-                    doubleframe = tk.Frame(flagframe)
+                    doubleframe = ttk.Frame(flagframe)
                     flag = a[i].list_of_possessed_countries_gold[
                         j].get_resized_flag(100)
-                    newlabel = tk.Label(doubleframe, image=flag)
-                    countrylabel = tk.Label(
+                    newlabel = ttk.Label(doubleframe, image=flag)
+                    countrylabel = ttk.Label(
                         doubleframe,
                         text=a[i].list_of_possessed_countries_gold[j].name)
                     newlabel.pack(side="top")
@@ -120,28 +122,28 @@ def endscreen(cause: str,
                 win2.shitdict[i] = dict()
                 text = str(i + 1) + ". place : " + a[i].name + " with " + str(
                     round(sum(scorelist), 2)) + " points \n"
-                newframe = tk.Frame(win)
-                label1 = tk.Label(newframe, text=text)
+                newframe = ttk.Frame(win)
+                label1 = ttk.Label(newframe, text=text)
                 label1.config(font=("Helvetica", 44))
-                flagframe = tk.Frame(newframe,
+                flagframe = ttk.Frame(newframe,
                                      highlightbackground="green",
                                      highlightthickness=2)
                 flagframe.grid_columnconfigure(0, weight=1)
                 flagframe.grid_rowconfigure(0, weight=1)
                 for j in range(len(a[i].list_of_possessed_countries)):
 
-                    doubleframe = tk.Frame(flagframe,
+                    doubleframe = ttk.Frame(flagframe,
                                            highlightbackground="white",
                                            highlightthickness=2)
-                    name_value_rank_frame = tk.Frame(doubleframe)
+                    name_value_rank_frame = ttk.Frame(doubleframe)
 
                     flag = a[i].list_of_possessed_countries[
                         j].get_resized_flag(100)
 
-                    country_score_label = tk.Label(doubleframe,
+                    country_score_label = ttk.Label(doubleframe,
                                                    text=scorelist[j],
                                                    font="Helvetica 30")
-                    newlabel = tk.Label(doubleframe, image=flag)
+                    newlabel = ttk.Label(doubleframe, image=flag)
                     country = a[i].list_of_possessed_countries[j]
                     if reversed_end_attribute == 1:
                         country.dict_of_attributes[end_attribute.name].rank = country.dict_of_attributes[
@@ -149,7 +151,7 @@ def endscreen(cause: str,
                             name].how_many_ranked - country.dict_of_attributes[
                             end_attribute.name].rank
 
-                    countrylabel = tk.Label(doubleframe,
+                    countrylabel = ttk.Label(doubleframe,
                                             text=country.name,
                                             font="Helvetica 20")
                     newlabel.grid(row=0)
@@ -157,13 +159,13 @@ def endscreen(cause: str,
                     countrylabel.grid(row=2)
                     if end_attribute.is_active:
                         try:
-                            label_of_thing = tk.Label(
+                            label_of_thing = ttk.Label(
                                 name_value_rank_frame,
                                 text=str(country.dict_of_attributes[
                                     end_attribute.name].additional_information_name),
                                 font="Helvetica 20")
                         except:
-                            label_of_thing = tk.Label(
+                            label_of_thing = ttk.Label(
                                 name_value_rank_frame,
                                 text="--",
                                 font="Helvetica 20")
@@ -182,19 +184,19 @@ def endscreen(cause: str,
                             imgA = ImageTk.PhotoImage(
                                 imgA.resize((int(width), int(width * h / w)),
                                             Image.LANCZOS))
-                            panelA = tk.Label(doubleframe, image=imgA)
+                            panelA = ttk.Label(doubleframe, image=imgA)
                             panelA.imgA = imgA
                             panelA.grid(row=3)
                         except:
                             traceback.print_exc()
                         label_of_thing.grid(row=0)
-                        label_of_value = tk.Label(
+                        label_of_value = ttk.Label(
                             name_value_rank_frame,
                             text=format((country.dict_of_attributes[
                                 end_attribute.name].value), ","),
                             font="Helvetica 20")
                         label_of_value.grid(row=1)
-                        label_of_worldrank = tk.Label(
+                        label_of_worldrank = ttk.Label(
                             name_value_rank_frame,
                             text="worldrank:" + str(country.dict_of_attributes[
                                 end_attribute.name].rank),
@@ -203,13 +205,13 @@ def endscreen(cause: str,
                         doubleframe.grid_rowconfigure(4, weight=1)
                         name_value_rank_frame.grid(row=4, sticky="s")
                     else:
-                        label_of_value = tk.Label(
+                        label_of_value = ttk.Label(
                             doubleframe,
                             text=format((country.dict_of_attributes[
                                 end_attribute.name].value), ","),
                             font="Helvetica 20")
                         label_of_value.grid(row=5, sticky="s")
-                        label_of_worldrank = tk.Label(
+                        label_of_worldrank = ttk.Label(
                             doubleframe,
                             text="worldrank:" + str(country.dict_of_attributes[
                                 end_attribute.name].rank),
@@ -234,16 +236,16 @@ def endscreen(cause: str,
                 win2.shitdict[i] = dict()
                 text = str(i + 1) + ". place : " + a[i].name + " with " + str(
                     len(a[i].list_of_possessed_countries)) + " countries \n"
-                newframe = tk.Frame(win)
-                label1 = tk.Label(newframe, text=text)
+                newframe = ttk.Frame(win)
+                label1 = ttk.Label(newframe, text=text)
                 label1.config(font=("Helvetica", 44))
-                flagframe = tk.Frame(newframe)
+                flagframe = ttk.Frame(newframe)
                 for j in range(len(a[i].list_of_possessed_countries)):
-                    doubleframe = tk.Frame(flagframe)
+                    doubleframe = ttk.Frame(flagframe)
                     flag = a[i].list_of_possessed_countries[
                         j].get_resized_flag(100)
-                    newlabel = tk.Label(doubleframe, image=flag)
-                    countrylabel = tk.Label(
+                    newlabel = ttk.Label(doubleframe, image=flag)
+                    countrylabel = ttk.Label(
                         doubleframe,
                         text=a[i].list_of_possessed_countries[j].name)
                     newlabel.pack(side="top")
@@ -270,18 +272,18 @@ def endscreen(cause: str,
             for i in range(len(a)):
                 win2.shitdict[i] = dict()
                 text = str(i + 1) + ". place : " + a[i].name
-                newframe = tk.Frame(win)
-                label1 = tk.Label(newframe, text=text)
+                newframe = ttk.Frame(win)
+                label1 = ttk.Label(newframe, text=text)
                 label1.config(font=("Helvetica", 44))
-                flagframe = tk.Frame(newframe)
+                flagframe = ttk.Frame(newframe)
                 for j in range(len(a[i].list_of_possessed_countries)):
                     if a[i].list_of_possessed_countries[
                             j] in dict_of_targets[a[i]]:
-                        doubleframe = tk.Frame(flagframe)
+                        doubleframe = ttk.Frame(flagframe)
                         flag = a[i].list_of_possessed_countries[
                             j].get_resized_flag(100)
-                        newlabel = tk.Label(doubleframe, image=flag)
-                        countrylabel = tk.Label(
+                        newlabel = ttk.Label(doubleframe, image=flag)
+                        countrylabel = ttk.Label(
                             doubleframe,
                             text=a[i].list_of_possessed_countries[j].name)
                         newlabel.pack(side="top")
@@ -304,7 +306,7 @@ def endscreen(cause: str,
                 dict_of_target_attribute_name[real_winner] + \
                 "\nyou win the game!!!"
 
-            showing_winner_label = tk.Label(
+            showing_winner_label = ttk.Label(
                 win,
                 text=to_display_text,
                 font="Helvetivca 30")
@@ -312,4 +314,5 @@ def endscreen(cause: str,
             showing_winner_label.grid(row=0, column=0)
         case _:
             return_message = 'Unknown winning condition'
+    win2.mainloop()
     return return_message

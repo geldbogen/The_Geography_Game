@@ -1,6 +1,8 @@
 import tkinter as tk
 import ttkbootstrap as ttk
+from ttkbootstrap.window import Toplevel
 from PIL import ImageTk, Image
+import sv_ttk
 import random
 import traceback
 import numpy as np
@@ -41,7 +43,7 @@ class MainWindow():
 
         self.winning_condition = winning_condition
 
-        self.flagframe_dict: dict[str, tk.Frame] = dict()
+        self.flagframe_dict: dict[str, ttk.Frame] = dict()
         self.number_of_rounds = number_of_rounds
         self.index = 0
         self.goldlist: list[Country] = list()
@@ -49,7 +51,6 @@ class MainWindow():
         self.starting_countries = starting_countries_preferences
         self.reversed_end_attribute = reversed_end_attribute
         self.main = ttk.Window()
-        
 
         print(self.backend.list_of_players)
         print(len(list_of_players))
@@ -70,24 +71,24 @@ class MainWindow():
 
         self.peacemode: bool = peacemode
 
-        self.backend.current_attribute: Category = all_categories[0]
+        self.backend.current_attribute = all_categories[0]
 
         self.chosen_country_a = None
         self.turn_counter = 0
 
-        self.frame1 = tk.Frame(self.main, width=300, height=300)
+        self.frame1 = ttk.Frame(self.main, width=300, height=300)
         self.frame1.pack(side="bottom", fill="both", expand=True)
 
         # frame1=frame2+areyousurebuttons
 
-        self.frame2 = tk.Frame(self.frame1)
+        self.frame2 = ttk.Frame(self.frame1)
         # frame2= frame3 + flags
 
-        self.frame3 = tk.Frame(self.frame2)
-        self.buttonframe = tk.Frame(self.frame1)
-        self.buttonframe2 = tk.Frame(self.frame1)
+        self.frame3 = ttk.Frame(self.frame2)
+        self.buttonframe = ttk.Frame(self.frame1)
+        self.buttonframe2 = ttk.Frame(self.frame1)
         self.bild = bild
-        self.c = tk.Canvas(self.frame3, bg="white", width=1000, height=600)
+        self.c = ttk.Canvas(self.frame3, bg="white", width=1000, height=600)
 
         ph = ImageTk.PhotoImage(image=bild, master=self.c)
 
@@ -113,7 +114,7 @@ class MainWindow():
         self.c.config(scrollregion=self.c.bbox("all"))
 
         for player in self.backend.list_of_players:
-            self.flagframe_dict[player.name] = tk.Frame(self.frame2)
+            self.flagframe_dict[player.name] = ttk.Frame(self.frame2)
             self.flagframe_dict[player.name].current_flagdict = dict()
 
         self.c.bind("<ButtonPress-1>", self.click)
@@ -125,20 +126,18 @@ class MainWindow():
         self.frame3.pack(side="bottom", expand=True, fill="both")
         self.frame2.pack(side="top", expand=True, fill="both")
         self.frame1.pack(side="top", expand=True, fill="both")
-        self.frame4 = tk.Frame(self.frame3)
-        self.frame5 = tk.Frame(self.frame3)
+        self.frame4 = ttk.Frame(self.frame3)
+        self.frame5 = ttk.Frame(self.frame3)
 
-        self.reroll_button = tk.Button(
+        self.reroll_button = ttk.Button(
             self.frame5,
             text="rerolls left:\n " +
             str(self.backend.active_player.rerolls_left),
-            font="Helvetica 25",
-            anchor="sw",
             command=lambda: self.backend.reroll(activating_player=self.backend.active_player,to_update_category_label=self.showing_current_attribute_text_label, to_update_reroll_button=self.reroll_button))
 
         self.reroll_button.pack(side="left", fill="y")
 
-        self.showing_country_label = tk.Label(
+        self.showing_country_label = ttk.Label(
             self.frame5,
             text="It is the turn of " + self.backend.active_player.name +
             "\n You have not chosen any country yet",
@@ -147,12 +146,12 @@ class MainWindow():
                                         expand=True,
                                         fill="both")
 
-        self.turn_counter_label = tk.Label(self.frame4,
+        self.turn_counter_label = ttk.Label(self.frame4,
                                            text=str(self.turn_counter),
                                            font="Helvetica 50")
         self.turn_counter_label.pack(side="right")
 
-        self.showing_current_attribute_text_label = tk.Label(
+        self.showing_current_attribute_text_label = ttk.Label(
             self.frame4, text="Welcome!", font="Helvetica 25")
         self.showing_current_attribute_text_label.pack(anchor="nw",
                                                        expand=True,
@@ -163,17 +162,17 @@ class MainWindow():
 
         self.c.pack(side="top", fill="both", expand=True)
 
-        self.button_sure = tk.Button(self.buttonframe,
+        self.button_sure = ttk.Button(self.buttonframe,
                                      text="Attack!",
-                                     font="Helvetica 20")
-        self.button_not_sure = tk.Button(self.buttonframe,
+                                     )
+        self.button_not_sure = ttk.Button(self.buttonframe,
                                          text="No go back",
-                                         font="Helvetica 20")
+                                         )
         self.button_sure.pack(side="left")
         self.button_not_sure.pack(side="right")
-        self.button_claim = tk.Button(self.buttonframe2,
+        self.button_claim = ttk.Button(self.buttonframe2,
                                       text="Yes Please!",
-                                      font="Helvetica 20")
+                                      )
 
         self.d = ""
         self.random_people_start = random.sample(
@@ -223,6 +222,8 @@ class MainWindow():
             peacemode=self.peacemode)
         self.backend.current_attribute.replace_A_and_B_in_category_name(
             self.showing_current_attribute_text_label)
+        
+        self.main.mainloop()
 
     def start(self):
         self.main.mainloop()
@@ -452,7 +453,7 @@ class MainWindow():
             if self.winning_condition != "get gold" or country in self.goldlist:
                 frame = self.flagframe_dict[player.name]
                 myimage = country.get_resized_flag(50)
-                new_label = tk.Label(frame, image=myimage)
+                new_label = ttk.Label(frame, image=myimage)
                 new_label.grid(row=0,
                                column=len(player.list_of_possessed_countries) +
                                1)
@@ -492,20 +493,20 @@ class MainWindow():
             canvas21.yview_scroll(int(-1 * (float(event.delta) / 120)),
                                   "units")
 
-        win2 = tk.Toplevel()
+        win2 = Toplevel()
 
-        frame21 = tk.Frame(win2)
+        frame21 = ttk.Frame(win2)
         frame21.pack(fill="both", expand=True)
-        canvas21 = tk.Canvas(frame21)
+        canvas21 = ttk.Canvas(frame21)
         canvas21.pack(side="left", expand=True, fill="both")
 
-        my_scrollbar12 = tk.Scrollbar(frame21,
+        my_scrollbar12 = ttk.Scrollbar(frame21,
                                       orient="vertical",
                                       command=canvas21.yview)
         my_scrollbar12.pack(side="right", fill="y")
         my_scrollbar12.config(command=canvas21.yview)
 
-        frame22 = tk.Frame(canvas21)
+        frame22 = ttk.Frame(canvas21)
         canvas21.create_window((0, 0), window=frame22, anchor="nw")
         win2.geometry("1650x825")
         frame22.bind(
@@ -515,30 +516,30 @@ class MainWindow():
 
         img = country.get_resized_flag(800)
         self.img221 = img
-        panel = tk.Label(frame22, image=img)
+        panel = ttk.Label(frame22, image=img)
         panel.grid(column=0, row=0, columnspan=4, sticky="N")
-        namelabel = tk.Label(frame22, text=country.name, font="Helvetica 100")
+        namelabel = ttk.Label(frame22, text=country.name, font="Helvetica 100")
         namelabel.grid(row=1, column=0, columnspan=4)
 
         mylist = list(country.dict_of_attributes.keys())
         mylist.sort(key=lambda x: x.lower())
         for index, item in enumerate(mylist):
-            mylabel = tk.Label(frame22,
+            mylabel = ttk.Label(frame22,
                                text=item.replace(".csv", ""),
                                font="Helvetica 15")
             mylabel.grid(row=index + 2, column=0, pady=10)
-            mylabel2 = tk.Label(frame22,
+            mylabel2 = ttk.Label(frame22,
                                 text=country.dict_of_attributes[item].value,
                                 font="Helvetica 15")
             try:
-                mylabel3 = tk.Label(frame22,
+                mylabel3 = ttk.Label(frame22,
                                     text=country.dict_of_attributes[item].additional_information_name,
                                     font="Helvetica 15")
             except IndexError:
-                mylabel3 = tk.Label(frame22, text="--", font="Helvetica 15")
+                mylabel3 = ttk.Label(frame22, text="--", font="Helvetica 15")
             mylabel2.grid(row=index + 2, column=1, pady=10)
             mylabel3.grid(row=index + 2, column=2, pady=10)
-            mylabel4 = tk.Label(frame22,
+            mylabel4 = ttk.Label(frame22,
                                 text=str(country.dict_of_attributes[item].rank) +
                                 "/" +
                                 str(
@@ -555,32 +556,33 @@ class MainWindow():
                   [-1, -1.0, -9999.0, -9999]]
         badlist = ddlist[-5:]
         badlist.reverse()
-        good_label = tk.Label(frame22,
+        good_label = ttk.Label(frame22,
                               text=country.name + " is good in:",
                               font="Helvetica 15")
-        bad_label = tk.Label(frame22,
+        bad_label = ttk.Label(frame22,
                              text=country.name + " is bad in:",
                              font="Helvetica 15")
 
         good_label.grid(row=len(mylist) + 3, column=0, columnspan=4, pady=20)
         for index, ditem in enumerate(goodlist):
             item = ditem[0]
-            mylabel = tk.Label(frame22,
-                               text=item.replace(".csv", ""),
+            item = str(item)
+            mylabel = ttk.Label(frame22,
+                               text=str(item.replace(".csv", "")),
                                font="Helvetica 15")
             mylabel.grid(row=len(mylist) + index + 4, column=0, pady=10)
-            mylabel2 = tk.Label(frame22,
+            mylabel2 = ttk.Label(frame22,
                                 text=country.dict_of_attributes[item].value,
                                 font="Helvetica 15")
             try:
-                mylabel3 = tk.Label(frame22,
+                mylabel3 = ttk.Label(frame22,
                                     text=country.dict_of_attributes[item].additional_information_name,
                                     font="Helvetica 15")
             except IndexError:
-                mylabel3 = tk.Label(frame22, text="--", font="Helvetica 15")
+                mylabel3 = ttk.Label(frame22, text="--", font="Helvetica 15")
             mylabel2.grid(row=index + 4 + len(mylist), column=1, pady=10)
             mylabel3.grid(row=index + 4 + len(mylist), column=2, pady=10)
-            mylabel4 = tk.Label(frame22,
+            mylabel4 = ttk.Label(frame22,
                                 text=str(country.dict_of_attributes[item].rank) +
                                 "/" +
                                 str(
@@ -591,28 +593,30 @@ class MainWindow():
         bad_label.grid(row=len(mylist) + 9, column=0, columnspan=4, pady=20)
         for index, ditem in enumerate(badlist):
             item = ditem[0]
-            mylabel = tk.Label(frame22,
+            item = str(item)
+            mylabel = ttk.Label(frame22,
                                text=item.replace(".csv", ""),
                                font="Helvetica 15")
             mylabel.grid(row=len(mylist) + index + 10, column=0, pady=10)
-            mylabel2 = tk.Label(frame22,
+            mylabel2 = ttk.Label(frame22,
                                 text=country.dict_of_attributes[item].value,
                                 font="Helvetica 15")
             try:
-                mylabel3 = tk.Label(frame22,
+                mylabel3 = ttk.Label(frame22,
                                     text=country.dict_of_attributes[item].additional_information_name,
                                     font="Helvetica 15")
             except IndexError:
-                mylabel3 = tk.Label(frame22, text="--", font="Helvetica 15")
+                mylabel3 = ttk.Label(frame22, text="--", font="Helvetica 15")
             mylabel2.grid(row=index + 10 + len(mylist), column=1, pady=10)
             mylabel3.grid(row=index + 10 + len(mylist), column=2, pady=10)
-            mylabel4 = tk.Label(frame22,
+            mylabel4 = ttk.Label(frame22,
                                 text=str(country.dict_of_attributes[item].rank) +
                                 "/" +
                                 str(
                                     country.dict_of_attributes[item].how_many_ranked),
                                 font="Helvetica 15")
             mylabel4.grid(row=index + 10 + len(mylist), column=3, pady=10)
+        
 
     def activate_wormholes(self, numberofwormholes: int, player: Player | None = None) -> None:
         self.colorarray = [
@@ -622,10 +626,10 @@ class MainWindow():
         ]
 
         def makeline_not_hidden(line):
-            self.c.itemconfig(line, state=tk.NORMAL)
+            self.c.itemconfig(line, state=ttk.NORMAL)
 
         def makeline_hidden(line):
-            self.c.itemconfig(line, state=tk.HIDDEN)
+            self.c.itemconfig(line, state=ttk.HIDDEN)
 
         def create_good_line(country1: Country, country2: Country):
             ml = self.c.create_line(country1.wormhole_coordinates[0],
@@ -635,7 +639,7 @@ class MainWindow():
                                     width=5,
                                     fill="black",
                                     dash=[5, 2],
-                                    state=tk.HIDDEN)
+                                    state=ttk.HIDDEN)
             self.linelist.append(ml)
             color = self.colorarray[random.randrange(0, len(self.colorarray))]
             self.colorarray.remove(color)
@@ -730,34 +734,34 @@ class MainWindow():
 
         def kill_guessed_correct():
             self.transition(same_player_again=True)
-            win.destroy()
+            self.win.destroy()
 
         def kill_button():
             if wl == "no data" or wl == "draw":
                 self.transition(same_player_again=True)
             else:
                 self.transition(same_player_again=False)
-            win.destroy()
+            self.win.destroy()
 
         def _on_mousewheel(event):
             canvas11.yview_scroll(int(-1 * (float(event.delta) / 120)),
                                   "units")
 
+        self.win = Toplevel()
         additional_information = property.is_active
-        win = tk.Toplevel()
-        win.geometry("1400x825")
-        frame11 = tk.Frame(win)
+        # win.geometry("1400x825")
+        frame11 = ttk.Frame(self.win)
         frame11.pack(fill="both", expand=True)
-        canvas11 = tk.Canvas(frame11)
+        canvas11 = ttk.Canvas(frame11)
         canvas11.pack(side="left", expand=True, fill="both")
 
-        my_scrollbar11 = tk.Scrollbar(frame11,
-                                      orient="vertical",
-                                      command=canvas11.yview)
-        my_scrollbar11.pack(side="right", fill="y")
+        my_scrollbar11 = ttk.Scrollbar(frame11,
+                                      orient="vertical"
+                                      )
         my_scrollbar11.config(command=canvas11.yview)
+        my_scrollbar11.pack(side="right", fill="y")
 
-        frame12 = tk.Frame(canvas11)
+        frame12 = ttk.Frame(canvas11)
         canvas11.create_window((0, 0), window=frame12, anchor="nw")
 
         frame12.bind(
@@ -776,8 +780,8 @@ class MainWindow():
         img2 = ImageTk.PhotoImage(Image.open(url2))
         frame12.img1 = img1
         frame12.img2 = img2
-        panel1 = tk.Label(frame12, image=img1)
-        panel2 = tk.Label(frame12, image=img2)
+        panel1 = ttk.Label(frame12, image=img1)
+        panel2 = ttk.Label(frame12, image=img2)
 
         url3 = "pictures/success3.png"
         url4 = "pictures/fail2.png"
@@ -806,16 +810,16 @@ class MainWindow():
         frame12.img9 = img9
         frame12.img10 = img10
 
-        panel3 = tk.Label(frame12, image=img3)
-        panel4 = tk.Label(frame12, image=img4)
-        panel5 = tk.Label(frame12, image=img5)
-        panel6 = tk.Label(frame12, image=img6)
-        panel7 = tk.Label(frame12, image=img7)
-        panel8_1 = tk.Label(frame12, image=img8)
-        panel8_2 = tk.Label(frame12, image=img8)
+        panel3 = ttk.Label(frame12, image=img3)
+        panel4 = ttk.Label(frame12, image=img4)
+        panel5 = ttk.Label(frame12, image=img5)
+        panel6 = ttk.Label(frame12, image=img6)
+        panel7 = ttk.Label(frame12, image=img7)
+        panel8_1 = ttk.Label(frame12, image=img8)
+        panel8_2 = ttk.Label(frame12, image=img8)
 
-        panel9_1 = tk.Label(frame12, image=img9)
-        panel9_2 = tk.Label(frame12, image=img9)
+        panel9_1 = ttk.Label(frame12, image=img9)
+        panel9_2 = ttk.Label(frame12, image=img9)
 
         try:
             displayed_world_rank_a = str(
@@ -823,13 +827,13 @@ class MainWindow():
             displayed_how_many_ranked_a = str(
                 country_a.dict_of_attributes[property.name].how_many_ranked) if country_a.dict_of_attributes[property.name].how_many_ranked != 1 else "--"
 
-            l1 = tk.Label(frame12, text=country_a.name + "\n" + property.name.replace(".csv", "") + "\n" +
+            l1 = ttk.Label(frame12, text=country_a.name + "\n" + property.name.replace(".csv", "") + "\n" +
                           format((country_a.dict_of_attributes[property.name].value), ",") + "\n" +
                           "worldrank:" +
                           displayed_world_rank_a
                           + "\n (of " + displayed_how_many_ranked_a + " countries ranked)", font="Helvetica 25", wraplength=500)
         except:
-            l1 = tk.Label(frame12,
+            l1 = ttk.Label(frame12,
                           text=country_a.name + "\n" +
                           property.name.replace(".csv", "") + "\n" +
                           "sorry no data",
@@ -841,7 +845,7 @@ class MainWindow():
             displayed_how_many_ranked_b = str(
                 country_b.dict_of_attributes[property.name].how_many_ranked) if country_b.dict_of_attributes[property.name].how_many_ranked != 1 else "--"
 
-            l2 = tk.Label(
+            l2 = ttk.Label(
                 frame12,
                 text=country_b.name + "\n" + property.name.replace(".csv", "") +
                 "\n" + format(
@@ -854,17 +858,17 @@ class MainWindow():
                 wraplength=500)
         except:
             traceback.print_exc()
-            l2 = tk.Label(frame12,
+            l2 = ttk.Label(frame12,
                           text=country_b.name + "\n" +
                           property.name.replace(".csv", "") + "\n" +
                           "sorry no data",
                           font="Helvetica 25")
 
-        killbutton = tk.Button(frame12,
+        killbutton = ttk.Button(frame12,
                                image=img7,
                                command=kill_button,
                                width=400,
-                               height=200)
+                               )
 
         l1.grid(row=1, column=0)
         l2.grid(row=1, column=2)
@@ -902,9 +906,8 @@ class MainWindow():
             killbutton.configure(command=kill_guessed_correct)
 
         if additional_information:
-            guessed_correct_button = tk.Button(frame12,
+            guessed_correct_button = ttk.Button(frame12,
                                                text="guessed correct",
-                                               font="Helvetica 30",
                                                command=kill_guessed_correct)
             guessed_correct_button.grid(row=3, column=1)
             try:
@@ -936,9 +939,9 @@ class MainWindow():
                     imgA.resize((int(height * w / h), int(height)),
                                 Image.LANCZOS))
                 frame12.imgA = imgA
-                panelA = tk.Label(frame12, image=imgA)
+                panelA = ttk.Label(frame12, image=imgA)
                 panelA.grid(row=2, column=0)
-                panelA_extra = tk.Label(
+                panelA_extra = ttk.Label(
                     frame12,
                     text=country_a.dict_of_attributes[property.name].additional_information_name,
                     font="Helvetica 20",
@@ -962,11 +965,11 @@ class MainWindow():
                                 Image.LANCZOS))
                 frame12.imgB = imgB
 
-                panelB = tk.Label(frame12, image=imgB)
+                panelB = ttk.Label(frame12, image=imgB)
 
                 panelB.grid(row=2, column=2)
 
-                panelB_extra = tk.Label(
+                panelB_extra = ttk.Label(
                     frame12,
                     text=country_b.dict_of_attributes[property.name].additional_information_name,
                     font="Helvetica 20",
@@ -996,15 +999,14 @@ class MainWindow():
                         wiki_url_A = wikiurl_A
                         wiki_summary_A = wiki_summary_A_extra
 
-                    wiki_url_A_Label = tk.Label(frame12,
+                    wiki_url_A_Label = ttk.Label(frame12,
                                                 text=wiki_url_A,
-                                                fg="blue",
                                                 cursor="hand2",
                                                 font="Helvetica 15")
                     wiki_url_A_Label.bind("<Button-1>",
                                           lambda x: self.callback(wiki_url_A))
 
-                    wiki_summary_A_Label = tk.Label(frame12,
+                    wiki_summary_A_Label = ttk.Label(frame12,
                                                     text=wiki_summary_A,
                                                     wraplength=500,
                                                     font="Helvetica 15")
@@ -1034,7 +1036,7 @@ class MainWindow():
                         wiki_url_B = wikiurl_B
                         wiki_summary_B = wiki_summary_B_extra
 
-                    wiki_url_B_Label = tk.Label(frame12,
+                    wiki_url_B_Label = ttk.Label(frame12,
                                                 text=wiki_url_B,
                                                 fg="blue",
                                                 cursor="hand2",
@@ -1043,7 +1045,7 @@ class MainWindow():
                     wiki_url_B_Label.bind("<Button-1>",
                                           lambda x: self.callback(wiki_url_B))
 
-                    wiki_summary_B_Label = tk.Label(frame12,
+                    wiki_summary_B_Label = ttk.Label(frame12,
                                                     text=wiki_summary_B,
                                                     wraplength=500,
                                                     font="Helvetica 15")
@@ -1143,13 +1145,13 @@ class MainWindow():
             if random.random() < 0.5:
 
                 text: str = "The target attribute is " + attribute.name
-                tk.messagebox.showinfo(self.main, message=text)
+                ttk.messagebox.showinfo(self.main, message=text)
                 self.reversed_end_attribute = 0
 
             else:
                 self.reversed_end_attribute = 1
                 text = "The target attribute is " + attribute.name + "\n REVERSED!!!"
-                tk.messagebox.showinfo(self.main, message=text)
+                ttk.messagebox.showinfo(self.main, message=text)
 
         return attribute
 
@@ -1183,12 +1185,12 @@ class MainWindow():
 
         def show_targets(player: Player):
             self.no_targets_yetlist.remove(player)
-            self.target_countries_frame = tk.Toplevel()
+            self.target_countries_frame = ttk.Toplevel()
             targetlist = [Unknown_country] * numberoftargets
             while (not checkcountrylist(targetlist)):
                 targetlist = [roll_random_country(item) for item in targetlist]
 
-            welcomelabel = tk.Label(
+            welcomelabel = ttk.Label(
                 self.target_countries_frame,
                 text="Welcome " + player.name +
                 " those are your countries\n if you don't know where these are feel free to look at the map.",
@@ -1204,18 +1206,18 @@ class MainWindow():
                                           width=3,
                                           outline="red")
                 self.created_circles.append(item)
-                newcountrylabel = tk.Label(self.target_countries_frame,
+                newcountrylabel = ttk.Label(self.target_countries_frame,
                                            text=country.name,
                                            font="Helvetica 25")
                 newcountrylabel.grid(row=1, column=index)
                 self.myimage[index] = country.get_resized_flag(400)
-                newlabel = tk.Label(self.target_countries_frame,
+                newlabel = ttk.Label(self.target_countries_frame,
                                     image=self.myimage[index],
                                     pady=40)
                 newlabel.grid(row=2, column=index)
                 pass
             self.backend.dict_of_targets[player] = targetlist
-            self.got_targets_Button = tk.Button(self.target_countries_frame,
+            self.got_targets_Button = ttk.Button(self.target_countries_frame,
                                                 text="got it",
                                                 command=open_next_frame,
                                                 font="Helvetica 25")
@@ -1236,8 +1238,8 @@ class MainWindow():
         show_targets(self.backend.active_player)
 
     def setup_secret_attribute(self, n: int):
-        self.target_countries_frame: tk.Toplevel
-        self.got_targets_Button: tk.Button
+        self.target_countries_frame: ttk.Toplevel
+        self.got_targets_Button: ttk.Button
         self.target_attribute_name: str
 
         def open_next_frame():
@@ -1248,10 +1250,10 @@ class MainWindow():
 
         def show_targets(player: Player):
             self.no_targets_yetlist.remove(player)
-            self.target_countries_frame = tk.Toplevel()
+            self.target_countries_frame = ttk.Toplevel()
             self.target_attribute_name = player.get_random_attribute_with_cluster().name
             self.backend.dict_of_target_attribute_name[player] = self.target_attribute_name
-            welcomelabel = tk.Label(self.target_countries_frame,
+            welcomelabel = ttk.Label(self.target_countries_frame,
                                     text="Welcome " + player.name +
                                     "your attribute is the following: \n\n" +
                                     self.target_attribute_name.rstrip(".csv") +
@@ -1261,10 +1263,10 @@ class MainWindow():
             welcomelabel.grid(row=0, column=0)
             self.backend.dict_of_targets[player] = self.backend.find_top_n_countries(
                 n, self.target_attribute_name)
-            self.got_targets_Button = tk.Button(self.target_countries_frame,
+            self.got_targets_Button = ttk.Button(self.target_countries_frame,
                                                 text="got it",
                                                 command=open_next_frame,
-                                                font="Helvetica 25")
+                                                )
             self.got_targets_Button.grid(row=3, column=0)
 
         self.backend.dict_of_targets = dict()
@@ -1299,4 +1301,4 @@ class MainWindow():
         x = self.c.canvasx(event.x)
         y = self.c.canvasy(event.y)
         factor = 1.001**event.delta
-        self.c.scale(tk.ALL, x, y, factor, factor)
+        self.c.scale(ttk.ALL, x, y, factor, factor)
