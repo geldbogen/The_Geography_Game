@@ -1,6 +1,6 @@
 import tkinter as tk
+import ttkbootstrap as ttk
 from PIL import ImageTk, Image
-import sv_ttk
 import random
 import traceback
 import numpy as np
@@ -48,8 +48,8 @@ class MainWindow():
         self.choosing_index = -1
         self.starting_countries = starting_countries_preferences
         self.reversed_end_attribute = reversed_end_attribute
-        self.main = tk.Tk()
-        sv_ttk.set_theme("dark")  # Set light theme
+        self.main = ttk.Window()
+        
 
         print(self.backend.list_of_players)
         print(len(list_of_players))
