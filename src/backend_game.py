@@ -1,10 +1,12 @@
 from __future__ import annotations
 from typing import TYPE_CHECKING
+import tkinter as tk
 
 if TYPE_CHECKING:
     from player import Player
 
     from category import Category
+
 
 from global_definitions import all_categories, all_countries_in_game
 from country import Country, Unknown_country
@@ -82,7 +84,18 @@ class BackendGame():
         return all_countries_with_data[:n]
         
         
-       
+    def reroll(self, activating_player : Player, to_update_category_label: tk.Label,
+               to_update_reroll_button: tk.Button):
+        if activating_player.rerolls_left == 0:
+            return None
+        activating_player.rerolls_left -= 1
+
+        self.current_attribute = activating_player.get_good_attribute()
+
+        self.current_attribute.replace_A_and_B_in_category_name(to_update_category_label,
+                                                                )
+        to_update_reroll_button.configure(
+            text="rerolls left:\n " + str(activating_player.rerolls_left))
 
     def check_if_game_should_end(self):
 

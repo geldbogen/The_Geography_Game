@@ -1,0 +1,15 @@
+AttributeError: 'BackendGame' object has no attribute 'end_attribute'. Did you mean: 'current_attribute'?
+the game is asked to end
+active_player_counter
+9
+Exception in Tkinter callback
+Traceback (most recent call last):
+  File "C:\Users\juliu\AppData\Local\Programs\Python\Python312\Lib\tkinter\__init__.py", line 1962, in __call__
+    return self.func(*args)
+           ^^^^^^^^^^^^^^^^
+  File "d:\Projects with git\The_Geography_Game\src\main_window.py", line 737, in kill_button
+    self.transition(same_player_again=False)
+  File "d:\Projects with git\The_Geography_Game\src\main_window.py", line 374, in transition
+    end_attribute=self.backend.end_attribute,
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'BackendGame' object has no attribute 'end_attribute'. Did you mean: 'current_attribute'?

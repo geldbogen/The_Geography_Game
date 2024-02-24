@@ -40,18 +40,7 @@ class Player:
 
         self.gold : int = 0
 
-    def reroll(self, to_update_category_label: tk.Label,
-               to_update_reroll_button_label: tk.Label,):
-        if self.rerolls_left == 0:
-            return None
-        self.rerolls_left -= 1
-
-        self.current_attribute = self.get_good_attribute()
-
-        self.current_attribute.replace_A_and_B_in_category_name(to_update_category_label,
-                                                                )
-        to_update_reroll_button_label.configure(
-            text="rerolls left:\n " + str(self.rerolls_left))
+    
 
     def check_if_attack_is_succesful(self,
                                      category: Category,
@@ -65,12 +54,13 @@ class Player:
         if local_attribute_a.rank == -1 or local_attribute_b.rank == -1:
             if not category.treat_missing_data_as_bad:
                 return 'no data'
+            # treat missing data from here
             elif local_attribute_a.rank == local_attribute_b.rank:
-                return 'no data'
+                return 'draw'
             elif local_attribute_a.rank == -1:
-                return 'win'
-            else:
                 return 'loose'
+            else:
+                return 'win'
 
         if local_attribute_a.value == local_attribute_b.value:
             return 'draw'

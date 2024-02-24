@@ -43,6 +43,10 @@ def test_categories():
     assert price_rice_category.is_active == False
     assert price_rice_category.treat_missing_data_as_bad == False
     assert price_rice_category.number_of_chosen_already == 0
+
+    # export_import_category : category.Category = dictionary_attribute_name_to_attribute['Export to import ratio (higher is better).csv']
+    assert United_States.dict_of_attributes['Export to import ratio (higher is better).csv'].value == 0.77
+
     # assert reverse_countries_alternative_names == 0
     # assert dictionary_attribute_name_to_attribute == 0
 
@@ -59,6 +63,10 @@ def test_get_good_category():
     assert player_a.list_of_possessed_countries == [call_country_by_name('Chad')]
     my_dict = Chad.win_analysis(dictionary_attribute_name_to_attribute['Number of physicians by 10,000 population (higher is better).csv'][0])
     assert my_dict == {'win': 1, 'no data': 0, 'draw': 1, 'loose': 4}
+    my_dict2 = United_States.win_analysis(dictionary_attribute_name_to_attribute['Export to import ratio (higher is better).csv'][0])
+    assert my_dict2['no data'] == 0
+    assert player_a.check_if_attack_is_succesful(dictionary_attribute_name_to_attribute['Number of wiki-languages of most famous desert of that country (higher is better).csv'][0], Switzerland, Germany) == 'loose'
+    
     category_name_list = [player_a.get_good_attribute().name for _ in range(100)]
     assert len(category_name_list) == 100
     # assert 0
@@ -72,4 +80,4 @@ def test_that_all_countries_have_good_attributes():
         category_name_list = [player_a.get_good_attribute().name for _ in range(200)]
         assert len(set(category_name_list)) > 100
         country_dict[country.name] = len(set(category_name_list))
-    assert 0
+    # assert 0

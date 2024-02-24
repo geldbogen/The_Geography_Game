@@ -70,7 +70,7 @@ class MainWindow():
 
         self.peacemode: bool = peacemode
 
-        self.current_attribute: Category = all_categories[0]
+        self.backend.current_attribute: Category = all_categories[0]
 
         self.chosen_country_a = None
         self.turn_counter = 0
@@ -134,7 +134,7 @@ class MainWindow():
             str(self.backend.active_player.rerolls_left),
             font="Helvetica 25",
             anchor="sw",
-            command=lambda: self.backend.active_player.reroll(to_update_category_label=self.showing_current_attribute_text_label, to_update_reroll_button_label=self.reroll_button['text']))
+            command=lambda: self.backend.reroll(activating_player=self.backend.active_player,to_update_category_label=self.showing_current_attribute_text_label, to_update_reroll_button=self.reroll_button))
 
         self.reroll_button.pack(side="left", fill="y")
 
@@ -219,9 +219,9 @@ class MainWindow():
                 print(all_countries_in_game[self.randomstart[i]].name)
 
         # roll first attribute
-        self.current_attribute = self.backend.active_player.get_good_attribute(
+        self.backend.current_attribute = self.backend.active_player.get_good_attribute(
             peacemode=self.peacemode)
-        self.current_attribute.replace_A_and_B_in_category_name(
+        self.backend.current_attribute.replace_A_and_B_in_category_name(
             self.showing_current_attribute_text_label)
 
     def start(self):
@@ -253,7 +253,7 @@ class MainWindow():
                 "text"] = "It is the turn of " + self.backend.active_player.name + "\n You have chosen " + clicked_country.name + " currently controlled by " + clicked_country.owner_name
             if clicked_country.owner_name == self.backend.active_player.name:
                 self.chosen_country_a = clicked_country
-                self.current_attribute.replace_A_and_B_in_category_name(
+                self.backend.current_attribute.replace_A_and_B_in_category_name(
                     self.showing_current_attribute_text_label, self.chosen_country_a)
 
                 self.showing_country_label[
@@ -271,7 +271,7 @@ class MainWindow():
             if clicked_country.is_connected_with(self.chosen_country_a):
                 if self.backend.active_player != call_player_by_name(
                         clicked_country.owner_name):
-                    self.current_attribute.replace_A_and_B_in_category_name(
+                    self.backend.current_attribute.replace_A_and_B_in_category_name(
                         self.showing_current_attribute_text_label, self.chosen_country_a,
                         clicked_country)
 
@@ -289,6 +289,7 @@ class MainWindow():
                 self.chosen_country_a = None
                 self.showing_country_label[
                     "text"] = "These countries do not share a common land border.\n Please choose another pair!"
+                self.backend.current_attribute.replace_A_and_B_in_category_name(self.showing_current_attribute_text_label)
 
     def find_distance(self, country_a: Country, country_b: Country) -> None:
         mydict = dict()
@@ -317,25 +318,25 @@ class MainWindow():
         self.d = ""
         self.showing_country_label["text"] = ""
         self.chosen_country_a = None
-        result = self.backend.active_player.check_if_attack_is_succesful(self.current_attribute,
+        result = self.backend.active_player.check_if_attack_is_succesful(self.backend.current_attribute,
                                                                          country_a, country_b)
         if result == "no data":
             self.popup_win_or_loose(country_a,
                                     country_b,
-                                    self.current_attribute,
+                                    self.backend.current_attribute,
                                     wl="no data")
-            self.current_attribute = self.backend.active_player.get_good_attribute()
-            self.current_attribute.replace_A_and_B_in_category_name(
+            self.backend.current_attribute = self.backend.active_player.get_good_attribute()
+            self.backend.current_attribute.replace_A_and_B_in_category_name(
                 self.showing_current_attribute_text_label,
             )
             return None
         if result == "draw":
             self.popup_win_or_loose(country_a,
                                     country_b,
-                                    self.current_attribute,
+                                    self.backend.current_attribute,
                                     wl="draw")
-            self.current_attribute = self.backend.active_player.get_good_attribute()
-            self.current_attribute.replace_A_and_B_in_category_name(
+            self.backend.current_attribute = self.backend.active_player.get_good_attribute()
+            self.backend.current_attribute.replace_A_and_B_in_category_name(
                 self.showing_current_attribute_text_label,
             )
             return None
@@ -343,20 +344,20 @@ class MainWindow():
             self.claim_country(self.backend.active_player, country_b)
             self.popup_win_or_loose(country_a,
                                     country_b,
-                                    self.current_attribute,
+                                    self.backend.current_attribute,
                                     wl="hard defeat")
             return None
         if result == "win":
             self.claim_country(self.backend.active_player, country_b)
             self.popup_win_or_loose(country_a,
                                     country_b,
-                                    self.current_attribute,
+                                    self.backend.current_attribute,
                                     wl="you win!")
 
         else:
             self.popup_win_or_loose(country_a,
                                     country_b,
-                                    self.current_attribute,
+                                    self.backend.current_attribute,
                                     wl="you loose!")
             if country_b.owner_name != "Nobody":
                 self.claim_country(call_player_by_name(country_b.owner_name),
@@ -399,8 +400,8 @@ class MainWindow():
             "text"] = "It is the turn of " + self.backend.active_player.name + "\n You have not chosen any country yet"
 
         # roll a new attribute
-        self.current_attribute = self.backend.active_player.get_good_attribute()
-        self.current_attribute.replace_A_and_B_in_category_name(
+        self.backend.current_attribute = self.backend.active_player.get_good_attribute()
+        self.backend.current_attribute.replace_A_and_B_in_category_name(
             self.showing_current_attribute_text_label)
         self.flagframe_dict[self.backend.active_player.name].pack(side="top")
         if self.wormhole_mode == "every round changing wormholes":
@@ -427,6 +428,7 @@ class MainWindow():
         self.buttonframe.pack_forget()
         self.chosen_country_a = None
         self.showing_country_label["text"] = ""
+        self.backend.current_attribute.replace_A_and_B_in_category_name(self.showing_current_attribute_text_label)
         self.d = ""
 
     def claim_country(self, player: Player, country: Country):
@@ -469,7 +471,7 @@ class MainWindow():
             self.backend.active_player = self.backend.list_of_players[self.index]
             self.showing_country_label[
                 "text"] = "It is the turn of " + self.backend.active_player.name + "\n You have not chosen any country yet"
-            self.current_attribute.replace_A_and_B_in_category_name(
+            self.backend.current_attribute.replace_A_and_B_in_category_name(
                 self.showing_current_attribute_text_label,
             )
             self.setupgame()
