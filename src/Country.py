@@ -144,6 +144,9 @@ class Country:
         for country_name in self.neighboring_countries:
             if peacemode and player.call_player_by_name(call_country_by_name(country_name).owner_name) != player.mr_nobody:
                 continue
+            
+            if self.owner_name == call_country_by_name(country_name).owner_name:
+                continue
 
             result = player.mr_nobody.check_if_attack_is_succesful(
                 category, self, call_country_by_name(country_name))
