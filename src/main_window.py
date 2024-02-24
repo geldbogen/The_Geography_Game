@@ -1,8 +1,9 @@
 import tkinter as tk
 import ttkbootstrap as ttk
 from ttkbootstrap.window import Toplevel
+from ttkbootstrap.widgets import LabelFrame
+
 from PIL import ImageTk, Image
-import sv_ttk
 import random
 import traceback
 import numpy as np
@@ -18,6 +19,15 @@ from backend_game import BackendGame
 from endscreen import endscreen
 
 
+# testing ttkbootstrap styles
+# my_style = ttk.Style()
+
+# my_style.configure('TLabel')
+
+
+
+
+
 class MainWindow():
 
     def __init__(self,
@@ -31,6 +41,12 @@ class MainWindow():
                  pred_attribute: str = "random",
                  peacemode: bool = False,
                  reversed_end_attribute: int = 0):
+
+
+
+
+
+
 
         self.backend: BackendGame = BackendGame(list_of_players, wormhole_mode, starting_countries_preferences,
                                                 number_of_rounds, winning_condition, number_of_wormholes,
@@ -142,6 +158,9 @@ class MainWindow():
             text="It is the turn of " + self.backend.active_player.name +
             "\n You have not chosen any country yet",
             font="Helvetica 25")
+        self.showing_country_label.configure(justify='center')
+        self.showing_country_label.configure(anchor='center')
+
         self.showing_country_label.pack(side="bottom",
                                         expand=True,
                                         fill="both")
@@ -150,12 +169,17 @@ class MainWindow():
                                            text=str(self.turn_counter),
                                            font="Helvetica 50")
         self.turn_counter_label.pack(side="right")
+        self.turn_counter_label.configure(justify='center')
+        self.turn_counter_label.configure(anchor='center')
 
         self.showing_current_attribute_text_label = ttk.Label(
             self.frame4, text="Welcome!", font="Helvetica 25")
         self.showing_current_attribute_text_label.pack(anchor="nw",
                                                        expand=True,
                                                        fill="both")
+        self.showing_current_attribute_text_label.configure(justify='center')
+        self.showing_current_attribute_text_label.configure(anchor='center')
+        
 
         self.frame4.pack(side="top", fill="x")
         self.frame5.pack(side="bottom", fill="x")
@@ -747,19 +771,24 @@ class MainWindow():
             canvas11.yview_scroll(int(-1 * (float(event.delta) / 120)),
                                   "units")
 
+        print('a')
         self.win = Toplevel()
         additional_information = property.is_active
-        # win.geometry("1400x825")
+        self.win.geometry("1400x825")
+        print('go')
         frame11 = ttk.Frame(self.win)
         frame11.pack(fill="both", expand=True)
         canvas11 = ttk.Canvas(frame11)
         canvas11.pack(side="left", expand=True, fill="both")
+        print('gogogo')
 
-        my_scrollbar11 = ttk.Scrollbar(frame11,
+        self.my_scrollbar11 = tk.Scrollbar(frame11,
                                       orient="vertical"
                                       )
-        my_scrollbar11.config(command=canvas11.yview)
-        my_scrollbar11.pack(side="right", fill="y")
+        self.my_scrollbar11.config(command=canvas11.yview)
+        self.my_scrollbar11.pack(side="right", fill="y")
+
+        print('B')
 
         frame12 = ttk.Frame(canvas11)
         canvas11.create_window((0, 0), window=frame12, anchor="nw")
@@ -782,6 +811,8 @@ class MainWindow():
         frame12.img2 = img2
         panel1 = ttk.Label(frame12, image=img1)
         panel2 = ttk.Label(frame12, image=img2)
+        
+        print('C')
 
         url3 = "pictures/success3.png"
         url4 = "pictures/fail2.png"
@@ -838,6 +869,9 @@ class MainWindow():
                           property.name.replace(".csv", "") + "\n" +
                           "sorry no data",
                           font="Helvetica 25")
+        
+        l1.configure(justify='center')
+        l1.configure(anchor='center')
 
         try:
             displayed_world_rank_b = str(
@@ -863,6 +897,9 @@ class MainWindow():
                           property.name.replace(".csv", "") + "\n" +
                           "sorry no data",
                           font="Helvetica 25")
+        
+        l2.configure(justify='center')
+        l2.configure(anchor='center')
 
         killbutton = ttk.Button(frame12,
                                image=img7,
@@ -881,28 +918,28 @@ class MainWindow():
         if wl == "you win!":
             killbutton["image"] = img3
             killbutton["width"] = 300
-            killbutton["height"] = 300
+            # killbutton["height"] = 300
             # panel3.grid(row=2,column=1)
 
         if wl == "you loose!":
             killbutton["image"] = img4
             killbutton["width"] = 300
-            killbutton["height"] = 300
+            # killbutton["height"] = 300
 
         if wl == "no data":
             killbutton["image"] = img6
             killbutton["width"] = 300
-            killbutton["height"] = 300
+            # killbutton["height"] = 300
 
         if wl == "draw":
             killbutton["image"] = img7
             killbutton["width"] = 300
-            killbutton["height"] = 300
+            # killbutton["height"] = 300
 
         if wl == "hard defeat":
             killbutton["image"] = img10
             killbutton["width"] = 300
-            killbutton["height"] = 300
+            # killbutton["height"] = 300
             killbutton.configure(command=kill_guessed_correct)
 
         if additional_information:
@@ -999,14 +1036,21 @@ class MainWindow():
                         wiki_url_A = wikiurl_A
                         wiki_summary_A = wiki_summary_A_extra
 
+                    # create wikipedia url widgets (for A)
+                    
+                    
                     wiki_url_A_Label = ttk.Label(frame12,
                                                 text=wiki_url_A,
                                                 cursor="hand2",
                                                 font="Helvetica 15")
                     wiki_url_A_Label.bind("<Button-1>",
                                           lambda x: self.callback(wiki_url_A))
+                    
+                    # create wikipedia summary widgets (for A)
+                    
+                    wiki_summary_info_label = ttk.LabelFrame(master=frame12, bootstyle='info')
 
-                    wiki_summary_A_Label = ttk.Label(frame12,
+                    wiki_summary_A_Label = ttk.Label(wiki_summary_info_label,
                                                     text=wiki_summary_A,
                                                     wraplength=500,
                                                     font="Helvetica 15")
@@ -1022,13 +1066,7 @@ class MainWindow():
                             property.name].additional_information_name
                         self.search_string = wikipedia.search(
                             self.search_string)[0]
-                        print(self.search_string)
-                        print(wikipedia.search(self.search_string)[0])
-                        print(self.search_string)
                         wiki_url_B = wikipedia.page(self.search_string).url
-                        print("hier kommt url")
-                        print(type(wiki_url_B))
-                        print(wiki_url_B)
                         wiki_summary_B = wikipedia.summary(self.search_string,
                                                            sentences=2)
 
@@ -1038,7 +1076,6 @@ class MainWindow():
 
                     wiki_url_B_Label = ttk.Label(frame12,
                                                 text=wiki_url_B,
-                                                fg="blue",
                                                 cursor="hand2",
                                                 font="Helvetica 15",
                                                 wraplength=500)
