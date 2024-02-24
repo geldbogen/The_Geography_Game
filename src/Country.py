@@ -172,6 +172,8 @@ def call_country_by_name(name: str) -> Country:
     for country in all_countries_available:
         if country.name == name:
             return country
+    
+    return Unknown_country
 
 
 def get_country_by_position(xcoordinate, ycoordinate) -> Country:
