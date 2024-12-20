@@ -1,32 +1,33 @@
-Woman died at least 500 years ago
-                        SELECT DISTINCT ?pageid ?novelist ?novelistLabel ?countryLabel ?sitelinks WHERE {
+# Woman died at least 500 years ago
+historical_women_query = '''SELECT DISTINCT ?pageid ?novelist ?novelistLabel ?countryLabel ?sitelinks WHERE {
     
-            SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
-            hint:Query hint:optimizer "None".
-            
-            VALUES ?country {'''+item+'''}
-            
-            
-            {?novelist wdt:P27 ?country;
-                        wikibase:sitelinks ?sitelinks
-            filter(?sitelinks>0)} 
-            UNION
-            {?novelist wdt:P19 [wdt:P17 ?country];
-                        wikibase:sitelinks ?sitelinks.
-            filter(?sitelinks>0)}
-                    
-            ?novelist wdt:P21 wd:Q6581072.
-             ?novelist wdt:P570 ?date.
-            filter(YEAR(?date)<=1523)
-            
-            }
-            ORDER BY DESC(?sitelinks)
-            LIMIT 50
+                            SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
+                            hint:Query hint:optimizer "None".
+                            
+                            VALUES ?country {'''+item+'''}
+                            
+                            
+                            {?novelist wdt:P27 ?country;
+                                        wikibase:sitelinks ?sitelinks
+                            filter(?sitelinks>0)} 
+                            UNION
+                            {?novelist wdt:P19 [wdt:P17 ?country];
+                                        wikibase:sitelinks ?sitelinks.
+                            filter(?sitelinks>0)}
+                                    
+                            ?novelist wdt:P21 wd:Q6581072.
+                            ?novelist wdt:P570 ?date.
+                            filter(YEAR(?date)<=1523)
+                            
+                            }
+                            ORDER BY DESC(?sitelinks)
+                            LIMIT 50
+                            
+                            '''
 
-
-
-query2= '''
-                        SELECT DISTINCT ?pageid ?novelist ?novelistLabel ?countryLabel ?sitelinks WHERE {
+# most famous desert in a country
+desert_query = '''
+            SELECT DISTINCT ?pageid ?novelist ?novelistLabel ?countryLabel ?sitelinks WHERE {
     
             SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
             hint:Query hint:optimizer "None".
@@ -48,7 +49,9 @@ query2= '''
             ORDER BY DESC(?sitelinks)
             
             '''
-            query2='''SELECT DISTINCT ?pageid ?novelist ?novelistLabel ?countryLabel ?sitelinks WHERE {
+
+# most famous companies in a country (except Airlines and National Banks)
+geographical_object_query = '''SELECT DISTINCT ?pageid ?novelist ?novelistLabel ?countryLabel ?sitelinks WHERE {
     
             SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
             hint:Query hint:optimizer "None".
@@ -67,7 +70,9 @@ query2= '''
             ORDER BY DESC(?sitelinks)
             LIMIT 50
             '''
-            query2='''
+
+# most famous beverage in a country
+beverage_query = '''
             SELECT DISTINCT ?pageid ?novelist ?novelistLabel ?countryLabel ?sitelinks WHERE {
     
             SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
@@ -82,13 +87,14 @@ query2= '''
             ORDER BY DESC(?sitelinks)
             LIMIT 50
             '''
-            query2='''
+# most famous young person in a country
+young_women_and_men_query = '''
             SELECT DISTINCT ?pageid ?novelist ?novelistLabel ?countryLabel ?sitelinks WHERE {
     
             SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
             hint:Query hint:optimizer "None".
             
-            VALUES ?country {'''+ item + '''}
+            VALUES ?country {''' + item + '''}
             
             
             {?novelist wdt:P27 ?country;
@@ -106,7 +112,8 @@ query2= '''
             ORDER BY DESC(?sitelinks)
             LIMIT 50
             '''
-            query2='''  
+# query where things are located (museums, hotels, etc.)
+where_located_query = '''  
             SELECT DISTINCT ?novelist ?novelistLabel ?countryLabel ?sitelinks WHERE {
             SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". } 
             VALUES ?country {'''+item+'''}
@@ -120,9 +127,8 @@ query2= '''
             ORDER BY DESC(?sitelinks)
             LIMIT 10
             '''
-            
-            
-            query2='''
+
+most_famous_person_born_after_query = '''
             SELECT ?pageid ?novelist ?novelistLabel (COUNT(?person) AS ?sitelinks) ?countryLabel WHERE {
             SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
             VALUES ?country {''' + item + '''}
@@ -137,11 +143,13 @@ query2= '''
             }
             GROUP BY ?countryLabel ?pageid ?novelist ?novelistLabel
             '''
-            query2='''
+
+# query for most famous architectural structure in a country
+architectural_structure_query = '''
             SELECT DISTINCT ?novelist ?novelistLabel ?countryLabel ?sitelinks WHERE { 
             SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
             hint:Query hint:optimizer "None".
-                        VALUES ?country {'''+item+ '''}
+                        VALUES ?country {'''+item + '''}
                         ?novelist wdt:P17 ?country.
                         ?novelist wikibase:sitelinks ?sitelinks.    
                         filter(?sitelinks>70)
@@ -156,14 +164,15 @@ query2= '''
             
             
             '''
-    	    
-            query2='''
+
+# most famous airlines in a country
+airline_query = '''
             SELECT DISTINCT ?pageid ?novelist ?novelistLabel ?countryLabel ?sitelinks WHERE {
     
             SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
             hint:Query hint:optimizer "None".
             
-            VALUES ?country {'''+item+ '''}
+            VALUES ?country {'''+item + '''}
             
             ?novelist wdt:P159 [wdt:P17 ?country].
             ?novelist wdt:P17 ?country;
@@ -179,56 +188,11 @@ query2= '''
             
             '''
 
-            query2='''
-            SELECT DISTINCT ?pageid ?novelist ?novelistLabel ?countryLabel ?sitelinks WHERE {
-    
-            SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
-            hint:Query hint:optimizer "None".
-            
-            VALUES ?country {'''+item+ '''}
-            
-            ?novelist wdt:P159 [wdt:P17 ?country].
-            ?novelist wdt:P17 ?country;
-             wikibase:sitelinks ?sitelinks
-            filter(?sitelinks>50) 
-            
-                    
-            wd:Q6881511 ^wdt:P279*/^wdt:P31 ?novelist
-            MINUS {
-            ?novelist wdt:P31 wd:Q46970
-            }
-            MINUS {
-            ?novelist wdt:P31 wd:Q66344
-            }
-            
-            }
-            ORDER BY DESC(?sitelinks)
-            LIMIT 200'''
-
-            query2='''
-            SELECT DISTINCT ?pageid ?novelist ?novelistLabel ?countryLabel ?sitelinks WHERE {
-    
-            SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
-            hint:Query hint:optimizer "None".
-            
-            VALUES ?country {'''+item+ '''}
-            
-            
-            ?novelist wdt:P17 ?country;
-             wdt:P1082 ?sitelinks
-            filter(?sitelinks>200000)  
-            
-                    
-            wd:Q515 ^wdt:P279*/^wdt:P31 ?novelist
-            
-            }
-            ORDER BY DESC(?sitelinks)
-            LIMIT 10
-            '''
-            query2='''
+# query for most famous geographical object in a country
+geographical_object_query = '''
             SELECT DISTINCT ?novelist ?novelistLabel ?sitelinks ?countryLabel WHERE {
             hint:Query hint:optimizer "None".
-            VALUES ?country {'''+item+ '''}
+            VALUES ?country {'''+item + '''}
             ?novelist wdt:P17 ?country.
             ?novelist wikibase:sitelinks ?sitelinks.
             filter(?sitelinks>20)
@@ -241,29 +205,12 @@ query2= '''
             ORDER BY DESC(?sitelinks)
             '''
 
-
-            query2='''
-            SELECT ?countryLabel (COUNT(distinct *) as ?sumcompany) ?novelist ?novelistLabel  ?population (10000*xsd:float(?sumcompany)/xsd:float(?population) AS ?sitelinks) WHERE {
-            SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
-            VALUES ?country {'''+item+ '''}
-            ?company wdt:P19 ?novelist.
-            ?novelist wdt:P17 ?country.
-            wd:Q515 ^wdt:P279*/^wdt:P31 ?novelist.
-            ?novelist wdt:P1082 ?population.
-            filter(?population>100000)
-            
-            }
-            GROUP BY ?novelistLabel ?sitelinks ?population ?countryLabel ?novelist
-            ORDER BY DESC(?sitelinks)
-            '''
-
-
-
-            query2='''
+# query for weird historical event with a weird duration
+weird_historical_event_query = '''
             SELECT DISTINCT ?novelist ?novelistLabel ?sitelinks ?country ?countryLabel ?pointtime ?duration WHERE
             {
             hint:Query hint:optimizer "None".
-            VALUES ?country {'''+ item + '''
+            VALUES ?country {''' + item + '''
             }
             {?novelist wdt:P276 [ wdt:P17 ?country]}
             UNION 
@@ -299,38 +246,12 @@ query2= '''
             
             '''
 
-            # query='''
-            # SELECT DISTINCT ?pageid ?novelist ?novelistLabel ?countryLabel ?sitelinks ?dateofbirth WHERE {
-    
-            # SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
-            # hint:Query hint:optimizer "None".
-
-            # VALUES ?country {'''+ item + '''}
-
-
-            # {?novelist wdt:P27 ?country.
-            #             ?novelist wdt:P569 ?dateofbirth.
-            # BIND(YEAR(?dateofbirth) AS ?sitelinks)
-            #             filter(?sitelinks<1800)} 
-            # UNION
-            # {?novelist wdt:P19 [wdt:P17 ?country].
-            #             ?novelist wdt:P569 ?dateofbirth.
-            # BIND(YEAR(?dateofbirth) AS ?sitelinks)
-            # filter(?sitelinks<2000)}
-
-            
-
-            # }
-            # ORDER BY ASC(?dateofbirth)
-            # LIMIT 20
-            # '''
-
-            #city with at most x inhabitants
-            query2='''
+# query for cities with at most 1 million inhabitants
+city_query_with_bound_population = '''
             
             SELECT DISTINCT ?pageid ?novelist ?novelistLabel ?countryLabel ?sitelinks ?dateofbirth WHERE {
             SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
-            VALUES ?country {'''+ item +'''}
+            VALUES ?country {''' + item + '''}
             
             ?novelist wdt:P17 ?country.
             ?novelist wikibase:sitelinks ?sitelinks.
@@ -345,3 +266,27 @@ query2= '''
             LIMIT 100
             
             '''
+
+# TODO interpret the query
+# query='''
+# SELECT DISTINCT ?pageid ?novelist ?novelistLabel ?countryLabel ?sitelinks ?dateofbirth WHERE {
+
+# SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
+# hint:Query hint:optimizer "None".
+
+# VALUES ?country {'''+ item + '''}
+
+# {?novelist wdt:P27 ?country.
+#             ?novelist wdt:P569 ?dateofbirth.
+# BIND(YEAR(?dateofbirth) AS ?sitelinks)
+#             filter(?sitelinks<1800)}
+# UNION
+# {?novelist wdt:P19 [wdt:P17 ?country].
+#             ?novelist wdt:P569 ?dateofbirth.
+# BIND(YEAR(?dateofbirth) AS ?sitelinks)
+# filter(?sitelinks<2000)}
+
+# }
+# ORDER BY ASC(?dateofbirth)
+# LIMIT 20
+# '''
