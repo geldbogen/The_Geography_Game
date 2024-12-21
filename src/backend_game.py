@@ -160,10 +160,13 @@ class BackendGame():
             
             return 0.0
 
+            
+
         # higherorlower : str = ""
         propertylist : list[float] = list()
         mcountrylist : list[Country] = list()
         dlist : list[Country] = list()
+        
         if self.reversed_end_attribute == 0:
             if "higher is better" in self.end_attribute.name:
                 self.higherorlower = "higher"
@@ -177,8 +180,8 @@ class BackendGame():
 
         for country in all_countries_in_game:
             try:
-                if (country.dict_of_attributes[self.end_attribute.name].value
-                        ) != float(-1):
+                if (country.dict_of_attributes[self.end_attribute.name].rank != 0 
+                    ) or (self.end_attribute.treat_missing_data_as_bad):
                     propertylist.append(
                         (country.dict_of_attributes[self.end_attribute.name].value))
                     mcountrylist.append(country)
@@ -187,10 +190,14 @@ class BackendGame():
             except KeyError:
                 dlist.append(country)
         print(propertylist)
+        print('this is dlist')
+        print([d.name for d in dlist])
         returnlist : list[float] = list()
+        
         for country in countrylist:
             if country in dlist:
-                returnlist.append(30.0)
+                # TODO implement half the number of ranked countries instead of 75
+                returnlist.append(75.0)
             else:
                 returnlist.append(
                     helphelp(

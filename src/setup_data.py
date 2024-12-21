@@ -71,16 +71,25 @@ def setup_data(name,
     # load the data
     data = pd.read_csv("data/" + name, index_col=None)
 
+    if treat_missing_data_as_bad == False:
+        data = data[data.iloc[:, column] != float(-1)]
+        
     # normalize the country names
     data.iloc[:, namecolumn] = data.iloc[:, namecolumn].apply(
         lambda x: normalize_country_name(x))
 
     # get the relative ranking of each country in the countrylist
+    
+    
     # TODO rank only the countries, which are in the game
+    
+    
     data.sort_values(by=data.columns[column],
                      ascending=ascending,
                      inplace=True)
     data = data.reset_index(drop=True)
+    
+    
     ranking_list = list(range(len(data.index)))
     data["ranking"] = ranking_list
 
