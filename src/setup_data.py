@@ -30,7 +30,7 @@ def extract_data_from_series(series: pd.DataFrame, nameofattribute,
 
     my_local_attribute.rank = series.loc["ranking"] + 1
 
-    my_local_attribute.how_many_ranked = numberofranked
+    my_local_attribute.number_of_countries_ranked = numberofranked
 
     # extract the additional information
     if additional_information:

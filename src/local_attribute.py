@@ -5,7 +5,7 @@ from dataclasses import dataclass
 class LocalAttribute():
     value: float = 0.0
     rank: int = 0
-    how_many_ranked : int = 1
+    number_of_countries_ranked : int = 1
     additional_information_name : str = ''
     additional_information: str = ''
     wikipedia_link: str = ''

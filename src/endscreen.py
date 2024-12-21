@@ -146,7 +146,7 @@ def endscreen(cause: str,
                     if reversed_end_attribute == 1:
                         country.dict_of_attributes[end_attribute.name].rank = country.dict_of_attributes[
                             end_attribute.
-                            name].how_many_ranked - country.dict_of_attributes[
+                            name].number_of_countries_ranked - country.dict_of_attributes[
                             end_attribute.name].rank
 
                     countrylabel = tk.Label(doubleframe,

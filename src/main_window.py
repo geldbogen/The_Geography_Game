@@ -542,10 +542,10 @@ class MainWindow():
                                 text=str(country.dict_of_attributes[item].rank) +
                                 "/" +
                                 str(
-                                    country.dict_of_attributes[item].how_many_ranked),
+                                    country.dict_of_attributes[item].number_of_countries_ranked),
                                 font="Helvetica 15")
             mylabel4.grid(row=index + 2, column=3, pady=10)
-        ddlist = [[propertyname, value.rank / value.how_many_ranked]
+        ddlist = [[propertyname, value.rank / value.number_of_countries_ranked]
                   for propertyname, value in country.dict_of_attributes.items()]
         ddlist.sort(key=lambda x: x[1])
         print(ddlist)
@@ -584,7 +584,7 @@ class MainWindow():
                                 text=str(country.dict_of_attributes[item].rank) +
                                 "/" +
                                 str(
-                                    country.dict_of_attributes[item].how_many_ranked),
+                                    country.dict_of_attributes[item].number_of_countries_ranked),
                                 font="Helvetica 15")
             mylabel4.grid(row=index + 4 + len(mylist), column=3, pady=10)
 
@@ -610,7 +610,7 @@ class MainWindow():
                                 text=str(country.dict_of_attributes[item].rank) +
                                 "/" +
                                 str(
-                                    country.dict_of_attributes[item].how_many_ranked),
+                                    country.dict_of_attributes[item].number_of_countries_ranked),
                                 font="Helvetica 15")
             mylabel4.grid(row=index + 10 + len(mylist), column=3, pady=10)
 
@@ -821,7 +821,7 @@ class MainWindow():
             displayed_world_rank_a = str(
                 country_a.dict_of_attributes[property.name].rank) if country_a.dict_of_attributes[property.name].rank != -1 else "--"
             displayed_how_many_ranked_a = str(
-                country_a.dict_of_attributes[property.name].how_many_ranked) if country_a.dict_of_attributes[property.name].how_many_ranked != 1 else "--"
+                country_a.dict_of_attributes[property.name].number_of_countries_ranked) if country_a.dict_of_attributes[property.name].number_of_countries_ranked != 1 else "--"
 
             l1 = tk.Label(frame12, text=country_a.name + "\n" + property.name.replace(".csv", "") + "\n" +
                           format((country_a.dict_of_attributes[property.name].value), ",") + "\n" +
@@ -839,7 +839,7 @@ class MainWindow():
             displayed_world_rank_b = str(
                 country_b.dict_of_attributes[property.name].rank) if country_b.dict_of_attributes[property.name].rank != -1 else "--"
             displayed_how_many_ranked_b = str(
-                country_b.dict_of_attributes[property.name].how_many_ranked) if country_b.dict_of_attributes[property.name].how_many_ranked != 1 else "--"
+                country_b.dict_of_attributes[property.name].number_of_countries_ranked) if country_b.dict_of_attributes[property.name].number_of_countries_ranked != 1 else "--"
 
             l2 = tk.Label(
                 frame12,
@@ -1063,13 +1063,13 @@ class MainWindow():
             countryb_top5 = False
 
         try:
-            countrya_worst5 = country_a.dict_of_attributes[property.name].how_many_ranked - \
+            countrya_worst5 = country_a.dict_of_attributes[property.name].number_of_countries_ranked - \
                 country_a.dict_of_attributes[property.name].rank < 6
         except:
             countrya_worst5 = False
 
         try:
-            countryb_worst5 = country_b.dict_of_attributes[property.name].how_many_ranked - \
+            countryb_worst5 = country_b.dict_of_attributes[property.name].number_of_countries_ranked - \
                 country_b.dict_of_attributes[property.name].rank < 6
         except:
             countryb_worst5 = False

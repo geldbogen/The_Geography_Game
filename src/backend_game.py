@@ -197,7 +197,7 @@ class BackendGame():
         for country in countrylist:
             if country in dlist:
                 # TODO implement half the number of ranked countries instead of 75
-                returnlist.append(75.0)
+                returnlist.append(country.dict_of_attributes[self.end_attribute.name].number_of_countries_ranked // 2)
             else:
                 returnlist.append(
                     helphelp(
