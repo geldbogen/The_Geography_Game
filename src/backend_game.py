@@ -4,7 +4,6 @@ import tkinter as tk
 
 if TYPE_CHECKING:
     from player import Player
-
     from category import Category
 
 
