@@ -90,8 +90,9 @@ def setup_data(name,
     data = data.reset_index(drop=True)
     
     
-    ranking_list = list(range(len(data.index)))
+    ranking_list = list(range(1,len(data.index) + 1))
     data["ranking"] = ranking_list
+    breakpoint()
 
     # get the data from the rows
     data.apply(lambda x: extract_data_from_series(
