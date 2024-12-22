@@ -64,6 +64,7 @@ for mlist in countries_alternative_names.values():
         if countries_alternative_names[key] == mlist:
             for item in mlist:
                 reverse_countries_alternative_names[item.lower()] = key
+                reverse_countries_alternative_names[item] = key
 
 for item in countries_for_language_en:
     reverse_countries_alternative_names[item[1].lower()] = item[1]

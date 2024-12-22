@@ -1,5 +1,6 @@
 import pandas as pd
-
+pd.set_option('display.max_columns', None)
+pd.set_option('display.max_rows', None)
 import additional_explanations
 
 import category
@@ -63,6 +64,8 @@ def setup_data(name,
                additional_information_column_list=[2],
                cluster=None,
                is_end_only: bool = False):
+
+
 
     # just for convenience
     if "lower is better" in name:

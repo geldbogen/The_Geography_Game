@@ -20,7 +20,7 @@ countries_alternative_names={\
     "Trinidad and Tobago":["Trinidad/Tob.","Trinidad and Tobago","Trinidad & Tobago","Tr.&Tobago"],\
     "Palestine":["Palestine","State of Palestine","Palestine (Gaza Strip)","Palestine","Palestinian Territories"],\
     "Timor-Leste":["Timor Leste","East Timor","East Timor *","East Timor","Timor-Leste"," East Timor"],\
-    "United States":["the United States","US","USA","United States of America"],\
+    "United States":["the United States","US","USA","United States of America", 'United States of America'],\
     "Czech Republic":["Czechia","Czech Republic"],\
     "North Macedonia":["Macedonia"],\
     "Vatican City":["Vatican"],\
