@@ -92,7 +92,6 @@ def setup_data(name,
     
     ranking_list = list(range(1,len(data.index) + 1))
     data["ranking"] = ranking_list
-    breakpoint()
 
     # get the data from the rows
     data.apply(lambda x: extract_data_from_series(

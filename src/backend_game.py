@@ -160,8 +160,6 @@ class BackendGame():
             
             return 0.0
 
-            
-
         # higherorlower : str = ""
         propertylist : list[float] = list()
         mcountrylist : list[Country] = list()
@@ -189,14 +187,10 @@ class BackendGame():
                     dlist.append(country)
             except KeyError:
                 dlist.append(country)
-        print(propertylist)
-        print('this is dlist')
-        print([d.name for d in dlist])
         returnlist : list[float] = list()
         
         for country in countrylist:
             if country in dlist:
-                # TODO implement half the number of ranked countries instead of 75
                 returnlist.append(country.dict_of_attributes[self.end_attribute.name].number_of_countries_ranked // 2)
             else:
                 returnlist.append(

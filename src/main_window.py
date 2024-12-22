@@ -29,7 +29,6 @@ class MainWindow():
                  pred_attribute: str = "random",
                  peacemode: bool = False,
                  reversed_end_attribute: int = 0):
-
         self.backend: BackendGame = BackendGame(list_of_players, wormhole_mode, starting_countries_preferences,
                                                 number_of_rounds, winning_condition, number_of_wormholes,
                                                   pred_attribute, peacemode, reversed_end_attribute)
@@ -49,8 +48,7 @@ class MainWindow():
         self.starting_countries = starting_countries_preferences
         self.reversed_end_attribute = reversed_end_attribute
         self.main = tk.Tk()
-        sv_ttk.set_theme("dark")  # Set light theme
-
+        sv_ttk.set_theme("dark") 
         print(self.backend.list_of_players)
         print(len(list_of_players))
         self.backend.active_player = self.backend.list_of_players[
@@ -1162,11 +1160,7 @@ class MainWindow():
         for country in all_countries_in_game:
             if country == Unknown_country:
                 continue
-            try:
-                country.dict_of_attributes[self.backend.end_attribute.name].value
-            except:
-                print(country.name)
-                traceback.print_exc()
+            if country.dict_of_attributes[self.backend.end_attribute.name].rank == 0:
                 self.claim_country(No_Data_Body, country)
 
     def setup_secret_target_countries(self, numberoftargets: int):
