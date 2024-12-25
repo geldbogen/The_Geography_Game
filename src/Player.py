@@ -51,13 +51,13 @@ class Player:
         local_attribute_a = country_a.dict_of_attributes[category.name]
         local_attribute_b = country_b.dict_of_attributes[category.name]
 
-        if local_attribute_a.rank == -1 or local_attribute_b.rank == -1:
+        if local_attribute_a.rank == 0 or local_attribute_b.rank == 0:
             if not category.treat_missing_data_as_bad:
                 return 'no data'
             # treat missing data from here
             elif local_attribute_a.rank == local_attribute_b.rank:
                 return 'draw'
-            elif local_attribute_a.rank == -1:
+            elif local_attribute_a.rank == 0:
                 return 'loose'
             else:
                 return 'win'
