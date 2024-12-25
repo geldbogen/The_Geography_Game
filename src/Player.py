@@ -74,6 +74,16 @@ class Player:
         return 'loose'
 
     def get_random_attribute_with_cluster(self) -> Category:
+        """
+        Selects a random attribute name, which may include the name of a cluster, 
+        and returns a random attribute from that cluster if it is a cluster. 
+        If it is not a cluster, returns the attribute itself.
+
+        PARAMS:
+            None
+        RETURNS:
+            Category: A random attribute from the selected cluster or the attribute itself.
+        """
 
         # get a random attribute name (including the name of a cluster)
 
@@ -93,8 +103,17 @@ class Player:
         return Category()
     def player_win_analysis(self, category: Category, peacemode: bool = False) -> dict[str, int]:
         """
-        returns a dictionary in the form {'win' : 10, 'no data' : 1, 'draw' : 2, 'loose': 2} 
+        Returns a dictionary in the form {'win' : 10, 'no data' : 1, 'draw' : 2, 'loose': 2} 
         (according to the outcome of the eventual attacks of a player)
+
+        Utilizes the win_analysis method of the countries the player possesses.
+
+        PARAMS:
+            category (Category): The attribute with which the player wants to attack.
+            peacemode (bool): If True, the player cannot attack countries which are possessed by other players.
+
+        RETURNS:
+            dict[str, int]: A dictionary with the number of wins, draws, losses and no data outcomes.
         """
 
         returndict = {'win': 0, 'no data': 0, 'draw': 0, 'loose': 0}
