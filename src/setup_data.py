@@ -343,9 +343,9 @@ def setup_all_data():
                   dif=2, treat_missing_data_as_bad=True)
     setup_data("Home ownership rate (higher is better).csv", dif=2)
     setup_data("Number of wiki-languages of most famous person from that country (higher is better).csv",
-                  dif=1, additional_information=True, additional_information_column_list=[2, 3, 4])
+                  dif=1, additional_information=True, additional_information_column_list=[2, 3, 4], treat_missing_data_as_bad=True)
     setup_data("Number of wiki-languages of most famous architect of that country (higher is better).csv",
-                  dif=2, additional_information=True, additional_information_column_list=[2, 3, 4])
+                  dif=2, additional_information=True, additional_information_column_list=[2, 3, 4], treat_missing_data_as_bad=True)
     setup_data(
         "Number of urban areas with more than 1 mio. citizens (higher is better).csv", dif=1)
     setup_data("Number of twitter followers of head of state resp. head of government (higher is better).csv",
@@ -367,7 +367,7 @@ def setup_all_data():
     setup_data("Number of wiki-languages of most famous actor from that country (higher is better).csv", dif=2,
                   treat_missing_data_as_bad=True, additional_information=True, additional_information_column_list=[2, 7, 8])
     setup_data("Number of wiki-languages of most famous singer of that country (higher is better).csv",
-                  additional_information=True, additional_information_column_list=[2, 7, 8])
+                  additional_information=True, additional_information_column_list=[2, 7, 8], treat_missing_data_as_bad=True)
     setup_data("Number of wiki-languages of most famous person from that country, who is still alive (higher is better).csv",
                   dif=2, treat_missing_data_as_bad=True, additional_information=True, additional_information_column_list=[2, 3, 4])
     setup_data("Number of wiki-languages of most famous touristic sight of that country (higher is better).csv",
@@ -392,20 +392,19 @@ def setup_all_data():
     setup_data("Pupil-teacher ratio (lower is better).csv",
                   dif=2, ascending=True)
     setup_data("Number of wiki-languages of most famous city with at most 5000 citizens (higher is better).csv",
-                  additional_information=True, additional_information_column_list=[2, 3, 4])
+                  additional_information=True, additional_information_column_list=[2, 3, 4], treat_missing_data_as_bad=True)
     setup_data("Number of wiki-languages of most famous city with at most 20,000 citizens (higher is better).csv",
-                  additional_information=True, additional_information_column_list=[2, 3, 4])
+                  additional_information=True, additional_information_column_list=[2, 3, 4], treat_missing_data_as_bad=True)
     setup_data("Number of wiki-languages of most famous city with at most 100,000 citizens (higher is better).csv",
-                  additional_information=True, additional_information_column_list=[2, 3, 4])
+                  additional_information=True, additional_information_column_list=[2, 3, 4], treat_missing_data_as_bad=True)
     setup_data("Number of wiki-languages of most famous historical person (at least 50 years dead) (higher is better).csv",
-                  additional_information=True, additional_information_column_list=[2, 3, 4])
+                  additional_information=True, additional_information_column_list=[2, 3, 4], treat_missing_data_as_bad=True)
     setup_data("Number of wiki-languages of most famous historical person (at least 100 years dead) (higher is better).csv",
-                  additional_information=True, additional_information_column_list=[2, 3, 4])
+                  additional_information=True, additional_information_column_list=[2, 3, 4], treat_missing_data_as_bad=True)
     setup_data("Number of wiki-languages of most famous historical person (at least 200 years dead) (higher is better).csv",
-                  additional_information=True, additional_information_column_list=[2, 3, 4])
+                  additional_information=True, additional_information_column_list=[2, 3, 4], treat_missing_data_as_bad=True)
     setup_data("Number of wiki-languages of most famous historical person (at least 500 years dead) (higher is better).csv",
-                  additional_information=True, additional_information_column_list=[2, 3, 4])
-    setup_data("Literacy rate (higher is better).csv")
+                  additional_information=True, additional_information_column_list=[2, 3, 4], treat_missing_data_as_bad=True)
     setup_data("Number of wiki-languages of most famous one-day historic event at least 90 years ago (higher is better).csv",
                   additional_information=True, additional_information_column_list=[2, 3, 4])
     setup_data("Highest building of that country in meter (higher is better).csv",
@@ -415,14 +414,14 @@ def setup_all_data():
     setup_data(
         "Minimum number of paid annual vacation (higher is better).csv")
     setup_data("Number of wiki-languages of most famous writer of that country (higher is better).csv",
-                  additional_information=True, additional_information_column_list=[2, 3, 4])
+                  additional_information=True, additional_information_column_list=[2, 3, 4], treat_missing_data_as_bad=True)
     setup_data("Median age (lower is better).csv", ascending=True)
     setup_data("Number of wiki-languages of most famous one-day historic event in the 21st century (higher is better).csv",
-                  additional_information=True, additional_information_column_list=[2, 3, 4])
+                  additional_information=True, additional_information_column_list=[2, 3, 4], treat_missing_data_as_bad=True)
     setup_data("Number of wiki-languages of most famous one-day historic event at least 200 years ago (higher is better).csv",
-                  additional_information=True, additional_information_column_list=[2, 3, 4])
+                  additional_information=True, additional_information_column_list=[2, 3, 4], treat_missing_data_as_bad=True)
     setup_data("Number of wiki-languages of most famous one-day historic event (higher is better).csv",
-                  additional_information=True, additional_information_column_list=[2, 3, 4])
+                  additional_information=True, additional_information_column_list=[2, 3, 4], treat_missing_data_as_bad=True)
     setup_data(
         "Size of the lower house (or equivalent) of that country (higher is better).csv")
     setup_data("Person of that country with the most social media follower (higher is better).csv",
@@ -432,7 +431,7 @@ def setup_all_data():
     setup_data(
         "Percentage of GDP spent on education (higher is better).csv")
     setup_data("Number of wiki-languages of the capital (higher is better).csv",
-                  additional_information=True, additional_information_column_list=[2, 3, 4])
+                  additional_information=True, additional_information_column_list=[2, 3, 4], treat_missing_data_as_bad=True)
     setup_data(
         "Annual cannabis prevalence in percent (lower is better).csv", ascending=True)
     setup_data(
@@ -452,7 +451,7 @@ def setup_all_data():
     setup_data(
         "Electrical power consumption per capita per year (in watts) (lower is better).csv", ascending=True)
     setup_data("Number of wiki-languages of most famous soccer player (higher is better).csv",
-                  additional_information=True, additional_information_column_list=[2, 3, 4])
+                  additional_information=True, additional_information_column_list=[2, 3, 4], treat_missing_data_as_bad=True)
     setup_data(
         "Corporate tax in percent (lower is better).csv", ascending=True)
     setup_data(
@@ -475,18 +474,17 @@ def setup_all_data():
     setup_data(
         "Population density (in citizens per km^2) (higher is better).csv")
     setup_data("Number of wiki-languages of most famous geographical feature of that country (higher is better).csv",
-                  additional_information=True, additional_information_column_list=[2, 3, 4])
+                  additional_information=True, additional_information_column_list=[2, 3, 4], treat_missing_data_as_bad=True)
     setup_data("Number of wiki-languages of most famous one-day event between 1950 and 2000 (higher is better).csv",
-                  additional_information=True, additional_information_column_list=[2, 3, 4])
+                  additional_information=True, additional_information_column_list=[2, 3, 4], treat_missing_data_as_bad=True)
     setup_data("Number of wiki-languages of most famous city with at most 500,000 citizens (higher is better).csv",
-                  additional_information=True, additional_information_column_list=[2, 3, 4])
+                  additional_information=True, additional_information_column_list=[2, 3, 4], treat_missing_data_as_bad=True)
     setup_data("Number of wiki-languages of most famous city with at most 1,000,000 citizens (higher is better).csv",
-                  additional_information=True, additional_information_column_list=[2, 3, 4])
+                  additional_information=True, additional_information_column_list=[2, 3, 4], treat_missing_data_as_bad=True)
     setup_data("Number of wiki-languages of most famous (real) building of that country (higher is better).csv",
-                  additional_information=True, additional_information_column_list=[2, 3, 4],)
+                  additional_information=True, additional_information_column_list=[2, 3, 4], treat_missing_data_as_bad=True)
     setup_data("Number of wiki-languages of most famous architectural structure of that country (higher is better).csv",
-                  additional_information=True, additional_information_column_list=[2, 3, 4])
-    setup_data("Percentage of urban population (higher is better).csv")
+                  additional_information=True, additional_information_column_list=[2, 3, 4], treat_missing_data_as_bad=True)
     setup_data(
         "Gini wealth index (more equal is better) (lower is better).csv", ascending=True)
     setup_data(
@@ -526,7 +524,7 @@ def setup_all_data():
     setup_data("Number of speakers of most spoken official language of that country (higher is better).csv",
                   additional_information=True, additional_information_column_list=[2])
     setup_data("Number of wiki-languages of most famous painter of that country (higher is better).csv",
-                  additional_information=True, additional_information_column_list=[2, 3, 4])
+                  additional_information=True, additional_information_column_list=[2, 3, 4], treat_missing_data_as_bad=True)
     setup_data("Population of the most populated city of that country (higher is better).csv",
                   additional_information=True, additional_information_column_list=[2, 3, 4])
     setup_data("Population of the second most populated city of that country (higher is better).csv",
@@ -536,48 +534,48 @@ def setup_all_data():
     setup_data(
         "Sum of the three most populated cities of that country (higher is better).csv")
     setup_data("Number of wiki-languages of most famous city of that country (higher is better).csv",
-                  additional_information=True, additional_information_column_list=[2, 3, 4])
+                  additional_information=True, additional_information_column_list=[2, 3, 4], treat_missing_data_as_bad=True)
     setup_data("Number of wiki-languages of second most famous city of that country (higher is better).csv",
-                  additional_information=True, additional_information_column_list=[2, 3, 4])
+                  additional_information=True, additional_information_column_list=[2, 3, 4], treat_missing_data_as_bad=True)
     setup_data("Number of wiki-languages of third most famous city of that country (higher is better).csv",
-                  additional_information=True, additional_information_column_list=[2, 3, 4])
+                  additional_information=True, additional_information_column_list=[2, 3, 4], treat_missing_data_as_bad=True)
     setup_data(
         "Sum of wiki-languages of the three most famous cities of that country (higher is better).csv")
     setup_data("Number of wiki-languages of most famous company which is neither an airline nor a national bank (higher is better).csv",
-                  additional_information=True, additional_information_column_list=[2, 3, 4])
+                  additional_information=True, additional_information_column_list=[2, 3, 4], treat_missing_data_as_bad=True)
     setup_data(
         "Number of mentions of that countrys name in the NYT from 2000 to 2016 (higher is better).csv")
     setup_data("Number of wiki-languages of most famous airline of that country (higher is better).csv",
-                  additional_information=True, additional_information_column_list=[2, 3, 4])
+                  additional_information=True, additional_information_column_list=[2, 3, 4], treat_missing_data_as_bad=True)
     setup_data("Gay friendly travel index (higher is better).csv")
     setup_data("Number of covid deaths per capita (lower is better).csv")
     setup_data("Number of wiki-languages of most famous newspaper of that country (higher is better).csv",
-                  additional_information=True, additional_information_column_list=[2, 7, 8])
+                  additional_information=True, additional_information_column_list=[2, 7, 8], treat_missing_data_as_bad=True)
     setup_data("Number of wiki-languages of most famous street - avenue - boulevard of that country (higher is better).csv",
-                  additional_information=True, additional_information_column_list=[2, 7, 8])
+                  additional_information=True, additional_information_column_list=[2, 7, 8], treat_missing_data_as_bad=True)
     setup_data("Number of wiki-languages of most famous road - highway - motor circuit of that country (higher is better).csv",
-                  additional_information=True, additional_information_column_list=[2, 7, 8])
+                  additional_information=True, additional_information_column_list=[2, 7, 8], treat_missing_data_as_bad=True)
     setup_data("Number of wiki-languages of most famous bridge of that country (higher is better).csv",
-                  additional_information=True, additional_information_column_list=[2, 7, 8])
+                  additional_information=True, additional_information_column_list=[2, 7, 8], treat_missing_data_as_bad=True)
     setup_data("Number of wiki-languages of most famous place of worship (church,mosque,temple etc.) of that country (higher is better).csv",
-                  additional_information=True, additional_information_column_list=[2, 7, 8])
+                  additional_information=True, additional_information_column_list=[2, 7, 8], treat_missing_data_as_bad=True)
     setup_data("Number of wiki-languages of most famous (real) museum of that country (higher is better).csv",
-                  additional_information=True, additional_information_column_list=[2, 7, 8])
+                  additional_information=True, additional_information_column_list=[2, 7, 8], treat_missing_data_as_bad=True)
     setup_data(
         "Number of chambers of the government (two chambers beat one chamber) (higher is better).csv")
     setup_data("Drinking water quality score (higher is better).csv")
     setup_data("Number of wiki-languages of most famous athlete of that country which is not a soccer player (higher is better).csv",
-                  additional_information=True, additional_information_column_list=[2, 7, 8])
+                  additional_information=True, additional_information_column_list=[2, 7, 8], treat_missing_data_as_bad=True)
     setup_data("Number of wiki-languages of most famous criminal of that country (higher is better).csv",
-                  additional_information=True, additional_information_column_list=[2, 7, 8])
+                  additional_information=True, additional_information_column_list=[2, 7, 8], treat_missing_data_as_bad=True)
     setup_data("Number of wiki-languages of most famous health scientist of that country (higher is better).csv",
-                  additional_information=True, additional_information_column_list=[2, 7, 8])
+                  additional_information=True, additional_information_column_list=[2, 7, 8], treat_missing_data_as_bad=True)
     setup_data("Number of wiki-languages of most famous movie director of that country (higher is better).csv",
-                  additional_information=True, additional_information_column_list=[2, 7, 8])
+                  additional_information=True, additional_information_column_list=[2, 7, 8], treat_missing_data_as_bad=True)
     setup_data("Number of wiki-languages of most famous person from that country born after 2000 (higher is better).csv",
-                  additional_information=True, additional_information_column_list=[2, 7, 8])
+                  additional_information=True, additional_information_column_list=[2, 7, 8], treat_missing_data_as_bad=True)
     setup_data("Number of wiki-languages of most famous social scientist humanities scholar of that country (higher is better).csv",
-                  additional_information=True, additional_information_column_list=[2, 7, 8])
+                  additional_information=True, additional_information_column_list=[2, 7, 8], treat_missing_data_as_bad=True)
     setup_data("Number of wiki-languages of most famous cleric of that country (higher is better).csv",
                   additional_information=True, treat_missing_data_as_bad=True, additional_information_column_list=[2, 3, 4])
     setup_data("Median wealth in US$ (nominal) (higher is better).csv",
@@ -735,12 +733,6 @@ def setup_all_data():
     setup_data("Number of wiki-languages of most famous historical woman (at least 100 years dead) of that country (higher is better).csv",
                   dif=2, treat_missing_data_as_bad=True, additional_information=True, additional_information_column_list=[2, 7, 8])
     setup_data("Number of wiki-languages of most famous historical woman (at least 200 years dead) of that country (higher is better).csv",
-                  dif=2, treat_missing_data_as_bad=True, additional_information=True, additional_information_column_list=[2, 7, 8])
-    setup_data("Number of wiki-languages of most famous historical woman (at least 500 years dead) of that country (higher is better).csv",
-                  dif=2, treat_missing_data_as_bad=True, additional_information=True, additional_information_column_list=[2, 7, 8])
-    setup_data("Number of wiki-languages of most famous historical woman (at least 500 years dead) of that country (higher is better).csv",
-                  dif=2, treat_missing_data_as_bad=True, additional_information=True, additional_information_column_list=[2, 7, 8])
-    setup_data("Number of wiki-languages of most famous historical woman (at least 500 years dead) of that country (higher is better).csv",
                   dif=2, treat_missing_data_as_bad=True, additional_information=True, additional_information_column_list=[2, 7, 8])
     setup_data("Number of wiki-languages of most famous historical woman (at least 500 years dead) of that country (higher is better).csv",
                   dif=2, treat_missing_data_as_bad=True, additional_information=True, additional_information_column_list=[2, 7, 8])
