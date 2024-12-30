@@ -175,6 +175,8 @@ def call_country_by_name(name: str) -> Country:
     for country in all_countries_available:
         if country.name == name:
             return country
+
+    print('We have not found the country with the name ' + name)
     
     return Unknown_country
 
