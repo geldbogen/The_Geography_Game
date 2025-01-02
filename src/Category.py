@@ -97,13 +97,13 @@ class Category:
             displaystring = categoryname + " (ERROR)"
 
         if (second_country == None):
-            displaystring = displaystring.replace("CountryB", " (...) ")
+            displaystring = displaystring.replace("CountryB", " (another country) ")
         else:
             displaystring = displaystring.replace(
                 "CountryB", second_country.name)
 
         if (first_country == None):
-            displaystring = displaystring.replace("CountryA", " (...) ")
+            displaystring = displaystring.replace("CountryA", " (your country) ")
         else:
             displaystring = displaystring.replace(
                 "CountryA", first_country.name)
