@@ -8,35 +8,35 @@ countries_for_language_en = [item[1] for item in countries_for_language_en]
 
 countries_alternative_names={\
     "United Arab Emirates":["Arab Emirates","UAE","UA Emirates"],\
-    "Macao":["China, Macao SAR","Macao SAR China","Macau","Macau *","Macau, China","Macau (China)"],\
+    "Macao":["Macao SAR","China, Macao SAR","Macao SAR China","Macau","Macau *","Macau, China","Macau (China)","Macao (China)"],\
     "Papua New Guinea":["New Guinea","Papua N.G."],\
-    "Republic of the Congo":["Republic Of The Congo","R. of Congo","Congo-Brazzaville","Congo (Brazzaville)","Congo","Republic of the Congo","Congo, Republic of the","Congo, Republic of"],\
-    "Democratic Republic of the Congo":["Dr Congo","Congo, D. R.","Congo-Kinshasa","DR Congo *","Dr Congo","Congo DR","DR Congo *","Congo (Kinshasa)","DR Congo","Democratic Republic of Congo","Congo, Democratic Republic of the","Congo, Democratic Republic of"],\
+    "Republic of the Congo":["Republic of Congo", "Congo (Republic of Congo)","Republic Of The Congo","R. of Congo","Congo-Brazzaville","Congo (Brazzaville)","Congo","Republic of the Congo","Congo, Republic of the","Congo, Republic of"],\
+    "Democratic Republic of the Congo":["Dem. Rep. Congo","Congo (Democratic Republic of the Congo)","Dr Congo","Congo, D. R.","Congo-Kinshasa","DR Congo *","Dr Congo","Congo DR","DR Congo *","Congo (Kinshasa)","DR Congo","Democratic Republic of Congo","Congo, Democratic Republic of the","Congo, Democratic Republic of"],\
     "Dominican Republic":["Dominican Rep.","Domin. Rep."],\
     "Central African Republic":["Central Africa","C.A. Republic"],\
-    "Eswatini":["Swaziland"],\
-    "Equatorial Guinea":["Equ. Guinea"],\
+    "Eswatini":["Swaziland", "Eswatini (Swaziland)"],\
+    "Equatorial Guinea":["Equ. Guinea", 'Eq. Guinea'],\
     "São Tomé & Príncipe":["Sao Tome","São Tomé and Príncipe","São Tomé and Príncipe","São Tomé and Príncipe","São Tomé and Príncipe *","Sao Tome and Principe","Sao Tome and Prinicipe"],\
     "Trinidad and Tobago":["Trinidad/Tob.","Trinidad and Tobago","Trinidad & Tobago","Tr.&Tobago"],\
     "Palestine":["Palestine","State of Palestine","Palestine (Gaza Strip)","Palestine","Palestinian Territories"],\
     "Timor-Leste":["Timor Leste","East Timor","East Timor *","East Timor","Timor-Leste"," East Timor"],\
     "United States":["the United States","US","USA","United States of America", 'United States of America'],\
     "Czech Republic":["Czechia","Czech Republic"],\
-    "North Macedonia":["Macedonia"],\
+    "North Macedonia":["Macedonia", "Republic of Macedonia"],\
     "Vatican City":["Vatican"],\
     "Curaçao":["Curacao"],\
-    "Taiwan":["Republic of China"],\
+    "Taiwan":["Republic of China", "Chinese Taipei", "Taiwan*"],\
     "Kyrgyzstan":["Kyrgyz Republic"],\
-    "Ivory Coast":["Côte d’Ivoire","Côte d’Ivoire","Côte d’Ivoire","Côte d'Ivoire","Ivory Coast *","Ivory Coast","Cote d'Ivoire","Ivory Coast","Cote D Ivoire","Côte d'Ivoire","Côte d'Ivoire","Côte d'Ivoire","Cﾃｴte d'Ivoire"],\
+    "Ivory Coast":["Côte d’Ivoire", "Côte d’Ivoire", "Côte d’Ivoire", "Côte d'Ivoire","Ivory Coast *","Ivory Coast","Cote d'Ivoire","Ivory Coast","Cote D Ivoire","Côte d'Ivoire","Côte d'Ivoire","Côte d'Ivoire","Cﾃｴte d'Ivoire"],\
     "South Korea":["Korea, Rep.","Republic of Korea","Korea, South"],\
     "United Kingdom":["England and Wales * [Note]", "England &  Wales","UK"],\
     "Western Sahara":["Sahrawi Arab Democratic Republic"],\
     "Vietnam":["Vietnam","Viet Nam"],\
-    "Myanmar":["Burma"],\
+    "Myanmar":["Burma", "Burma (Myanmar)"],\
     "Antigua & Barbuda":["Antigua and Barbuda"],\
-    "Cape Verde":["Cape Verde","Cabo Verde"],\
-    "Laos":["Laos","Lao People's Democratic Republic"],\
-    "North Korea":["Dem. People's Republic of Korea","Korea, North","Democratic People's Republic of Korea"],\
+    "Cape Verde":["Cape Verde","Cabo Verde", "Cabo Verde (Cape Verde)"],\
+    "Laos":["Laos","Lao People's Democratic Republic", "Lao PDR", "Lao P.D.R."],\
+    "North Korea":["Dem. People's Republic of Korea","Korea, North","Democratic People's Republic of Korea", "Korea (North Korea)"],\
     "Netherlands":["Kingdom of the Netherlands"],\
     "China":["People's Republic of China"],\
     "Ireland":["Republic of Ireland"],\
@@ -44,15 +44,18 @@ countries_alternative_names={\
     "Brunei":["Brunei Darussalam"],\
     "Gambia":["The Gambia"],\
     "Russia":["Russian Federation"],\
-    "Hong Kong":["China, Hong Kong SAR"],\
+    "Hong Kong":["China, Hong Kong SAR", "Hong Kong (China)", "Hong Kong SAR"],\
     "Moldova":["Republic of Moldova"],\
     "Syria":["Syrian Arab Republic"],\
     "Iran":["Iran (Islamic Republic of)"],\
     "Tanzania":["United Republic of Tanzania"],\
     "Venezuela":["Venezuela (Bolivarian Republic of)"],\
     "Bolivia":["Bolivia (Plurinational State of)"],\
-    "Guinea-Bissau":["Guinea Bissau"],\
-    "Bosnia and Herzegovina":["Bosnia And Herzegovina"],\
+    "Guinea-Bissau":["Guinea Bissau", "G.-Bissau"],\
+    "Bosnia and Herzegovina":["Bosnia And Herzegovina", "Bosnia & Herz.", "Bosnia & Herzegovina"],\
+    "Bahamas":["The Bahamas"],\
+    "Afghanistan":["Islamic Republic of Afghanistan", "Islamic Emirate of Afghanistan", "Transitional Islamic State of Afghanistan"],\
+    "Slovakia" : ["Slovak Republic"],\
 
     }
 reverse_countries_alternative_names = dict()

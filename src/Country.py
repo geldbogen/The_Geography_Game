@@ -13,6 +13,8 @@ if TYPE_CHECKING:
     import category
 
 
+
+
 class Country:
 
     def __init__(self, xcoordinate : list[int], ycoordinate: list[int], name : str, continent: str ="None"):
@@ -167,7 +169,7 @@ class Country:
                 'draw': number_of_draws, 
                 'loose': number_of_loose}
 
-
+g_already_seen_list = []
 def call_country_by_name(name: str) -> Country:
     """
     Takes the country name as input (e.g. "Nigeria") and returns the corresponding Country Object Nigeria
@@ -175,8 +177,11 @@ def call_country_by_name(name: str) -> Country:
     for country in all_countries_available:
         if country.name == name:
             return country
-
-    print('We have not found the country with the name ' + str(name))
+    if name not in ['Monaco', 'Liechtenstein', 'San Marino', 'Andorra', 
+                    'Vatican', 'Cook Islands', 'Nauru', 'Niue', 'Palau', 'Tuvalu', 'Northern Mariana Islands',
+                    'Guam', 'Kiribati', 'Micronesia', '', 'Marshall Islands', 'Tonga', 'Samoa', 'Solomon Islands',] and name not in g_already_seen_list:
+        print('We have not found the country with the name ' + str(name))
+        g_already_seen_list.append(name)
     
     return Unknown_country
 
