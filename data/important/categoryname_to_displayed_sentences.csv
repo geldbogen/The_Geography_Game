@@ -154,7 +154,7 @@ Number of guns per 100 inhabitants (lower is better),There are less (privately o
 Number of international tourists arriving per year (higher is better),CountryA has more annual international tourists than CountryB,,
 "Number of mcdonalds restaurants (by 1,000,000 population) (higher is better)",There are more mcdonald's restaurants in CountryA than in CountryB (per capita),,
 Number of mentions of that countrys name in the NYT from 2000 to 2016 (higher is better),CountryA was more often mentioned in the New York Times than CountryB,,
-"Number of military aricrafts (by 10,000,000 population) (higher is better)",CountryA has more military aircrafts than CountryB (per capita),,
+"Number of military aircrafts (by 10,000,000 population) (higher is better)",CountryA has more military aircrafts than CountryB (per capita),,
 "Number of military ships (by 100,000,000 population) (higher is better)",CountryA has more military ships than CountryB (per capita),,
 Number of mobile phone lines (by 100 population) (higher is better),CountryA has more mobile phone lines than CountryB (per capita),,
 "Number of models from that country with a wiki-page (by 1,000,000 population) (higher is better)",CountryA has more models with a wiki-page than CountryB (per capita),,

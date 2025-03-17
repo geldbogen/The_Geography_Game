@@ -694,10 +694,10 @@ def setup_all_data():
     setup_data(
         "Percentage of US-american citizens having a positive opinion about that country (higher is better).csv")
     setup_data(
-        "Percentage of US-american citizens having heard of that country (higher is better).csv")
+        "Percentage of US-american citizens having heard of that country (higher is better).csv", treat_missing_data_as_bad=True)
 
     setup_data(
-        "Books published in that country per year (by 10,000 population) (higher is better).csv")
+        "Books published in that country per year (by 10,000 population) (higher is better).csv", treat_missing_data_as_bad=True)
     setup_data(
         "Annual cocaine prevalence (lower is better).csv", ascending=True)
     setup_data(
@@ -755,7 +755,7 @@ def setup_all_data():
                   treat_missing_data_as_bad=True)
     setup_data("Number of military ships (by 100,000,000 population) (higher is better).csv",
                   treat_missing_data_as_bad=True)
-    setup_data("Number of military aricrafts (by 10,000,000 population) (higher is better).csv",
+    setup_data("Number of military aircrafts (by 10,000,000 population) (higher is better).csv",
                   treat_missing_data_as_bad=True)
     setup_data("National Holiday (earlier in the year is better).csv", ascending=True,
                   additional_information=True, additional_information_column_list=[2, 3, 4])
