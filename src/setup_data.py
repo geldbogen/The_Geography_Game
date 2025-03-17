@@ -130,15 +130,12 @@ def setup_all_data():
 
     setup_data("Strength of passport (in countries enterable without need of visa) (higher is better).csv",
                   # explain
-                  treat_missing_data_as_bad=True, dif=2, additional_information=True, additional_information_column_list=[2, 3, 4])
+                dif=2, additional_information=True, additional_information_column_list=[2, 3, 4])
     setup_data("Forest area in 1000 hectars (by 100 km^2) (higher is better).csv",
-                  treat_missing_data_as_bad=True, dif=1)
-    setup_data("Yearly average temperature in (in Celsius) (higher is better).csv",
-                  treat_missing_data_as_bad=True, dif=2)
-    setup_data("Annual precipiation (in mm) (higher is better).csv",
-                  treat_missing_data_as_bad=True, dif=2)
-    setup_data("Number of different established languages and dialects (higher is better).csv",
-                  treat_missing_data_as_bad=True, dif=3)  # was ist eine Sprache
+                dif=1)
+    setup_data("Yearly average temperature in (in Celsius) (higher is better).csv", dif=2)
+    setup_data("Annual precipiation (in mm) (higher is better).csv", dif=2)
+    setup_data("Number of different established languages and dialects (higher is better).csv", dif=3)  # was ist eine Sprache
     setup_data("First use of current flag (older is better).csv",
                   ascending=True, dif=4)
     setup_data("Gender Gap Index (more equal is better).csv",
@@ -146,18 +143,20 @@ def setup_all_data():
     setup_data("Prison occupacy (lower is better).csv",
                   ascending=True, dif=4)
     setup_data("Percentage of prisoners being female (higher is better).csv",
-                  treat_missing_data_as_bad=True, dif=5)
+                   dif=5)
     setup_data(
         "Number of prisoners per 100,000 population (lower is better).csv", ascending=True, dif=3)
     setup_data("Press Freedom Index (more free is better).csv",
                   ascending=True, dif=2)
 
     setup_data("Percentage of alcohol being consumed is wine (higher is better).csv",
-                  treat_missing_data_as_bad=True, dif=3)  # genauer
+                   dif=3)  # genauer
     setup_data("Percentage of alcohol being consumed is beer (higher is better).csv",
-                  treat_missing_data_as_bad=True, dif=3)  # genauer
+                   dif=3)  # genauer
     setup_data("Alcohol consumption per person per year (lower is better) (in l).csv",
                   ascending=True, dif=2)  # liter und lower is better umdrehen
+    
+    # production stuff
     setup_data("Fishing in tons (by 1000 population) (higher is better).csv",
                   treat_missing_data_as_bad=True, dif=2)
     setup_data("Garlic production in tons  (by 10,000 population) (higher is better).csv",
@@ -198,27 +197,29 @@ def setup_all_data():
         # erklären
         "Industrial production growth rate 2017 in percent (higher is better).csv", dif=4)
     setup_data("Minimum wage PPP-adjusted in Int$ (higher is better).csv",
-                  treat_missing_data_as_bad=True, dif=2)  # was ist PPP
+                   dif=2)  # was ist PPP
     setup_data(
         "Meat consumption in kg per year and person (lower is better).csv", dif=2, ascending=True)
 
     setup_data("Irrigated area (by 100 km^2 country size) (higher is better).csv",
-                  treat_missing_data_as_bad=True, dif=3, cluster="productioncluster")
+                   dif=3, cluster="productioncluster")
     setup_data("Number of different breeding bird species (higher is better).csv",
                   dif=4, cluster="number of animalcluster")
     setup_data("Number of different mammal species (higher is better).csv",
                   dif=4, cluster="number of animalcluster")
+    setup_data(
+        "Percentage of people feeling safe walking alone (during the day) (higher is better).csv", dif=2)
+    setup_data(
+        "Percentage of people feeling safe walking alone (at night) (higher is better).csv", dif=2)
+
+
+    # prices
     setup_data("Taxi price per 1km in US$ (lower is better).csv",
                   ascending=True, dif=3, cluster="pricecluster")
     setup_data("Average price for public transport in US$ (one-way-ticket) (lower is better).csv",
                   ascending=True, dif=3, cluster="pricecluster")
     setup_data("Average price for public transport in US$ (monthly pass) (lower is better).csv",
                   ascending=True, dif=3, cluster="pricecluster")
-    setup_data(
-        "Percentage of people feeling safe walking alone (during the day) (higher is better).csv", dif=2)
-    setup_data(
-        "Percentage of people feeling safe walking alone (at night) (higher is better).csv", dif=2)
-
     setup_data("Price of 1l of milk in US$ (lower is better).csv",
                   ascending=True, dif=4, cluster="pricecluster")
     setup_data("Price of 1kg of rice in US$ (lower is better).csv",
@@ -239,7 +240,6 @@ def setup_all_data():
                   ascending=True, dif=4, cluster="pricecluster")
     setup_data("Price of 1kg of potatoes in US$ (lower is better).csv",
                   ascending=True, dif=4, cluster="pricecluster")
-
     setup_data("Price of newest nike shoes in US$ (lower is better).csv",
                   ascending=True, dif=3, cluster="pricecluster")
     setup_data("Price of one pair of Levi 501s or equivalent in US$ (lower is better).csv",
@@ -264,6 +264,10 @@ def setup_all_data():
                   ascending=True, dif=4, cluster="pricecluster")
     setup_data("Price of one pack of Marlboro in US$ (lower is better).csv",
                   ascending=True, dif=4, cluster="pricecluster")
+    setup_data("Gasoline prices in US$ (lower is better).csv",
+                  ascending=True, dif=2)
+    setup_data("Cinema ticket price in US$ (lower is better).csv",
+                  ascending=True, dif=3, cluster="pricecluster")
 
     setup_data("Obesity rate (lower is better).csv", ascending=True, dif=2)
     setup_data("Unemployment rate (lower is better).csv",
@@ -274,14 +278,10 @@ def setup_all_data():
         "Number of guns per 100 inhabitants (lower is better).csv", ascending=True, dif=4)
     setup_data(
         "Roller coasters per million inhabitants (higher is better).csv", dif=4)
-    setup_data("Cinema ticket price in US$ (lower is better).csv",
-                  ascending=True, dif=3, cluster="pricecluster")
     setup_data(
         "Believes crime increasing in 2010-2014 (lower is better).csv", ascending=True, dif=4)
     setup_data(
         "Rapes per 100,000 population (lower is better).csv", ascending=True, dif=4)
-    setup_data("Gasoline prices in US$ (lower is better).csv",
-                  ascending=True, dif=2)
     setup_data(
         "Percentage of land being protected (higher is better).csv", dif=4)
     setup_data(
