@@ -10,7 +10,7 @@ countries_alternative_names={\
     "United Arab Emirates":["Arab Emirates","UAE","UA Emirates"],\
     "Macao":["Macao SAR","China, Macao SAR","Macao SAR China","Macau","Macau *","Macau, China","Macau (China)","Macao (China)"],\
     "Papua New Guinea":["New Guinea","Papua N.G."],\
-    "Republic of the Congo":["Republic of Congo", "Congo (Republic of Congo)","Republic Of The Congo","R. of Congo","Congo-Brazzaville","Congo (Brazzaville)","Congo","Republic of the Congo","Congo, Republic of the","Congo, Republic of"],\
+    "Republic of the Congo":["Congo (DRC)","Republic of Congo", "Congo (Republic of Congo)","Republic Of The Congo","R. of Congo","Congo-Brazzaville","Congo (Brazzaville)","Congo","Republic of the Congo","Congo, Republic of the","Congo, Republic of"],\
     "Democratic Republic of the Congo":["Dem. Rep. Congo","Congo (Democratic Republic of the Congo)","Dr Congo","Congo, D. R.","Congo-Kinshasa","DR Congo *","Dr Congo","Congo DR","DR Congo *","Congo (Kinshasa)","DR Congo","Democratic Republic of Congo","Congo, Democratic Republic of the","Congo, Democratic Republic of"],\
     "Dominican Republic":["Dominican Rep.","Domin. Rep."],\
     "Central African Republic":["Central Africa","C.A. Republic"],\
@@ -20,14 +20,14 @@ countries_alternative_names={\
     "Trinidad and Tobago":["Trinidad/Tob.","Trinidad and Tobago","Trinidad & Tobago","Tr.&Tobago"],\
     "Palestine":["Palestine","State of Palestine","Palestine (Gaza Strip)","Palestine","Palestinian Territories"],\
     "Timor-Leste":["Timor Leste","East Timor","East Timor *","East Timor","Timor-Leste"," East Timor"],\
-    "United States":["the United States","US","USA","United States of America", 'United States of America'],\
+    "United States":["United States (USA)","the United States","US","USA","United States of America", 'United States of America'],\
     "Czech Republic":["Czechia","Czech Republic"],\
     "North Macedonia":["Macedonia", "Republic of Macedonia"],\
     "Vatican City":["Vatican"],\
     "Curaçao":["Curacao"],\
     "Taiwan":["Republic of China", "Chinese Taipei", "Taiwan*"],\
     "Kyrgyzstan":["Kyrgyz Republic"],\
-    "Ivory Coast":["Côte d’Ivoire", "Côte d’Ivoire", "Côte d’Ivoire", "Côte d'Ivoire","Ivory Coast *","Ivory Coast","Cote d'Ivoire","Ivory Coast","Cote D Ivoire","Côte d'Ivoire","Côte d'Ivoire","Côte d'Ivoire","Cﾃｴte d'Ivoire"],\
+    "Ivory Coast":["Cote d'lvoire (Ivory Coast)","Côte d’Ivoire", "Côte d’Ivoire", "Côte d’Ivoire", "Côte d'Ivoire","Ivory Coast *","Ivory Coast","Cote d'Ivoire","Ivory Coast","Cote D Ivoire","Côte d'Ivoire","Côte d'Ivoire","Côte d'Ivoire","Cﾃｴte d'Ivoire"],\
     "South Korea":["Korea, Rep.","Republic of Korea","Korea, South"],\
     "United Kingdom":["England and Wales * [Note]", "England &  Wales","UK"],\
     "Western Sahara":["Sahrawi Arab Democratic Republic"],\

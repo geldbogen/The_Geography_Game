@@ -211,7 +211,7 @@ def setup_all_data():
                    dif=3, cluster="productioncluster")
     setup_data("Number of different breeding bird species (higher is better).csv",
                   dif=4, cluster="number of animalcluster")
-    setup_data("number of different reptile species (higher is better).csv",
+    setup_data("Number of different reptile species (higher is better).csv",
                   dif=4, cluster="number of animalcluster")
     
     setup_data("Number of different mammal species (higher is better).csv",
