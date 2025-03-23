@@ -469,7 +469,8 @@ class MainWindow():
         if self.choosing_index == len(self.backend.list_of_players):
             self.backend.active_player = self.backend.list_of_players[self.index]
             self.showing_country_label[
-                "text"] = "It is the turn of " + self.backend.active_player.name + "\n You have not chosen any country yet"
+                "text"] = f"It is {self.backend.active_player.name}'s turn. \n \
+                    You have not chosen any country yet"
             self.backend.current_attribute.replace_A_and_B_in_category_name(
                 self.showing_current_attribute_text_label,
             )
