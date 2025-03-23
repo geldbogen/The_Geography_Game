@@ -128,6 +128,8 @@ def endscreen(cause: str,
                                      highlightthickness=2)
                 flagframe.grid_columnconfigure(0, weight=1)
                 flagframe.grid_rowconfigure(0, weight=1)
+                if reversed_end_attribute == 1:
+                    ranked_players[i].list_of_possessed_countries = ranked_players[i].list_of_possessed_countries[::-1]
                 for j in range(len(ranked_players[i].list_of_possessed_countries)):
 
                     doubleframe = tk.Frame(flagframe,
