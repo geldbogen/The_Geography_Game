@@ -395,7 +395,8 @@ class MainWindow():
         self.flagframe_dict[self.backend.active_player.name].pack_forget()
         self.backend.active_player = self.backend.list_of_players[self.index]
         self.showing_country_label[
-            "text"] = "It is the turn of " + self.backend.active_player.name + "\n You have not chosen any country yet"
+            "text"] = f"It's {self.backend.active_player.name}'s turn. \n \
+                You have not chosen any country yet"
 
         # roll a new attribute
         self.backend.current_attribute = self.backend.active_player.get_good_attribute()
