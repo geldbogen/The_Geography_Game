@@ -29,7 +29,7 @@ def extract_data_from_series(series: pd.DataFrame, nameofattribute,
         print(nameofattribute)
         print(value)
 
-    my_local_attribute.rank = series.loc["ranking"] + 1
+    my_local_attribute.rank = series.loc["ranking"]
 
     my_local_attribute.number_of_countries_ranked = numberofranked
 
@@ -72,7 +72,7 @@ def setup_data(name,
         ascending = True
 
     # load the data
-    data = pd.read_csv("data/" + name, index_col=None)
+    data = pd.read_csv("data/" + name, index_col=None, header = 0)
 
     if treat_missing_data_as_bad == False:
         data = data[data.iloc[:, column] != float(-1)]
@@ -150,11 +150,11 @@ def setup_all_data():
                   ascending=True, dif=2)
 
     setup_data("Percentage of alcohol being consumed is wine (higher is better).csv",
-                   dif=3)  # genauer
+                   dif=3)  
     setup_data("Percentage of alcohol being consumed is beer (higher is better).csv",
-                   dif=3)  # genauer
+                   dif=3)  
     setup_data("Alcohol consumption per person per year (lower is better) (in l).csv",
-                  ascending=True, dif=2)  # liter und lower is better umdrehen
+                  ascending=True, dif=2) 
     
     # production stuff
     setup_data("Fishing in tons (by 1000 population) (higher is better).csv",
