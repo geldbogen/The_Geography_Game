@@ -181,6 +181,7 @@ class MainWindow():
 
         # usher choosing countries procedure if that mode was chosen
         if self.starting_countries == "choose":
+            self.setupgame()
             self.choosing_index = 0
             self.backend.active_player = self.backend.list_of_players[self.random_people_start[
                 self.choosing_index]]
@@ -465,6 +466,8 @@ class MainWindow():
         self.update_image(self.bild)
 
     def claim_starting_country(self, player: Player, country: Country):
+        # if self.choosing_index == 0:
+            # self.setupgame()
         self.buttonframe2.pack_forget()
         self.claim_country(player, country)
         self.choosing_index = self.choosing_index + 1
@@ -476,7 +479,6 @@ class MainWindow():
             self.backend.current_attribute.replace_A_and_B_in_category_name(
                 self.showing_current_attribute_text_label,
             )
-            self.setupgame()
         else:
             self.backend.active_player = self.backend.list_of_players[self.random_people_start[
                 self.choosing_index]]
@@ -1158,7 +1160,7 @@ class MainWindow():
 
     def setuppredattribute(self):
         self.backend.end_attribute = self.setup_starting_attribute()
-        if True:
+        if not self.backend.end_attribute.treat_missing_data_as_bad:
             self.grey_no_data()
 
     def grey_no_data(self):
