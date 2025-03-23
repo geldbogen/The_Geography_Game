@@ -11,7 +11,7 @@ countries_alternative_names={\
     "Macao":["Macao SAR","China, Macao SAR","Macao SAR China","Macau","Macau *","Macau, China","Macau (China)","Macao (China)"],\
     "Papua New Guinea":["New Guinea","Papua N.G."],\
     "Republic of the Congo":["Congo (DRC)","Republic of Congo", "Congo (Republic of Congo)","Republic Of The Congo","R. of Congo","Congo-Brazzaville","Congo (Brazzaville)","Congo","Republic of the Congo","Congo, Republic of the","Congo, Republic of"],\
-    "Democratic Republic of the Congo":["Dem. Rep. Congo","Congo (Democratic Republic of the Congo)","Dr Congo","Congo, D. R.","Congo-Kinshasa","DR Congo *","Dr Congo","Congo DR","DR Congo *","Congo (Kinshasa)","DR Congo","Democratic Republic of Congo","Congo, Democratic Republic of the","Congo, Democratic Republic of"],\
+    "Democratic Republic of the Congo":["Congo (DRC)","Dem. Rep. Congo","Congo (Democratic Republic of the Congo)","Dr Congo","Congo, D. R.","Congo-Kinshasa","DR Congo *","Dr Congo","Congo DR","DR Congo *","Congo (Kinshasa)","DR Congo","Democratic Republic of Congo","Congo, Democratic Republic of the","Congo, Democratic Republic of"],\
     "Dominican Republic":["Dominican Rep.","Domin. Rep."],\
     "Central African Republic":["Central Africa","C.A. Republic"],\
     "Eswatini":["Swaziland", "Eswatini (Swaziland)"],\
@@ -19,7 +19,7 @@ countries_alternative_names={\
     "São Tomé & Príncipe":["Sao Tome","São Tomé and Príncipe","São Tomé and Príncipe","São Tomé and Príncipe","São Tomé and Príncipe *","Sao Tome and Principe","Sao Tome and Prinicipe"],\
     "Trinidad and Tobago":["Trinidad/Tob.","Trinidad and Tobago","Trinidad & Tobago","Tr.&Tobago"],\
     "Palestine":["Palestine","State of Palestine","Palestine (Gaza Strip)","Palestine","Palestinian Territories"],\
-    "Timor-Leste":["Timor Leste","East Timor","East Timor *","East Timor","Timor-Leste"," East Timor"],\
+    "Timor-Leste":["East Timor (Timor-Leste)","Timor Leste","East Timor","East Timor *","East Timor","Timor-Leste"," East Timor"],\
     "United States":["United States (USA)","the United States","US","USA","United States of America", 'United States of America'],\
     "Czech Republic":["Czechia","Czech Republic"],\
     "North Macedonia":["Macedonia", "Republic of Macedonia"],\

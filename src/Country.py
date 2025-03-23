@@ -2,7 +2,7 @@ from __future__ import annotations
 from PIL import ImageDraw, Image, ImageTk
 import numpy as np
 
-from global_definitions import resize_ratio, all_countries_available, countries_for_language_en, all_countries_in_game, country_name_list
+from global_definitions import resize_ratio, all_countries_available, countries_for_language_en, all_countries_in_game, country_name_list, countrynames_to_ignore_because_not_in_game
 from image import png_image
 from local_attribute import LocalAttribute
 from image import green_image_2, greencountrydict
@@ -169,7 +169,6 @@ class Country:
                 'draw': number_of_draws, 
                 'loose': number_of_loose}
 
-g_already_seen_list = []
 def call_country_by_name(name: str) -> Country:
     """
     Takes the country name as input (e.g. "Nigeria") and returns the corresponding Country Object Nigeria
@@ -177,11 +176,9 @@ def call_country_by_name(name: str) -> Country:
     for country in all_countries_available:
         if country.name == name:
             return country
-    if name not in ['Monaco', 'Liechtenstein', 'San Marino', 'Andorra', 
-                    'Vatican', 'Cook Islands', 'Nauru', 'Niue', 'Palau', 'Tuvalu', 'Northern Mariana Islands',
-                    'Guam', 'Kiribati', 'Micronesia', '', 'Marshall Islands', 'Tonga', 'Samoa', 'Solomon Islands',] and name not in g_already_seen_list:
-        print('We have not found the country with the name ' + str(name))
-        g_already_seen_list.append(name)
+    if name not in countrynames_to_ignore_because_not_in_game:
+        print(str(name))
+        countrynames_to_ignore_because_not_in_game.append(name)
     
     return Unknown_country
 
