@@ -238,7 +238,7 @@ class MainWindow():
             clicked_country = get_country_by_position(self.c.canvasx(event.x),
                                                       self.c.canvasy(event.y))
             self.showing_country_label[
-                "text"] = self.backend.active_player.name + " do you want to start with \n" + clicked_country.name + " ?"
+                "text"] = self.backend.active_player.name + "Do you want to start with \n" + clicked_country.name + " ?"
             self.button_claim["command"] = lambda: self.claim_starting_country(
                 self.backend.active_player, clicked_country)
             self.button_claim.pack(side="bottom")
@@ -403,14 +403,14 @@ class MainWindow():
         self.backend.current_attribute.replace_A_and_B_in_category_name(
             self.showing_current_attribute_text_label)
         self.flagframe_dict[self.backend.active_player.name].pack(side="top")
-        if self.wormhole_mode == "every round changing wormholes":
+        if self.wormhole_mode == "Every round changing wormholes":
             if self.index == 0:
                 try:
                     self.destroy_all_wormholes()
                 except:
                     traceback.print_exc()
                 self.activate_wormholes(3)
-        if self.wormhole_mode == "every round changing wormholes from your countries":
+        if self.wormhole_mode == "Every round changing wormholes from your countries":
             try:
                 self.destroy_all_wormholes()
             except:
@@ -418,7 +418,7 @@ class MainWindow():
             if len(self.backend.active_player.list_of_possessed_countries) >= 3:
                 print("wormholes are getting activated")
                 self.activate_wormholes(1, player=self.backend.active_player)
-        self.reroll_button["text"] = "rerolls left:\n " + str(
+        self.reroll_button["text"] = "Rerolls left:\n " + str(
             self.backend.active_player.rerolls_left)
 
     def go_back(self):
@@ -479,9 +479,9 @@ class MainWindow():
             self.backend.active_player = self.backend.list_of_players[self.random_people_start[
                 self.choosing_index]]
             self.showing_current_attribute_text_label[
-                "text"] = "Choose a starting country of your choice"
+                "text"] = "Choose a starting country!"
             self.showing_country_label[
-                "text"] = self.backend.active_player.name + " Please choose a starting country"
+                "text"] = self.backend.active_player.name + "Choose a starting country!"
 
     def callback(self, url):
         webbrowser.open_new(url)
