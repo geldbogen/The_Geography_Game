@@ -1,3 +1,5 @@
+from typing import Literal
+
 import tkinter as tk
 from PIL import ImageTk, Image
 import sv_ttk
@@ -726,7 +728,7 @@ class MainWindow():
         for item in self.pointlist:
             self.pointlist.remove(item)
 
-    def popup_win_or_loose(self, country_a: Country, country_b: Country, property: Category, wl: str):
+    def popup_win_or_loose(self, country_a: Country, country_b: Country, property: Category, wl: Literal["you win!", "you loose!", "hard defeat", "no data", "draw"]):
 
         def kill_guessed_correct():
             self.transition(same_player_again=True)
@@ -819,7 +821,7 @@ class MainWindow():
 
         try:
             displayed_world_rank_a = str(
-                country_a.dict_of_attributes[property.name].rank) if country_a.dict_of_attributes[property.name].rank != -1 else "--"
+                country_a.dict_of_attributes[property.name].rank) if country_a.dict_of_attributes[property.name].rank != 0 else "--"
             displayed_how_many_ranked_a = str(
                 country_a.dict_of_attributes[property.name].number_of_countries_ranked) if country_a.dict_of_attributes[property.name].number_of_countries_ranked != 1 else "--"
 
@@ -841,7 +843,7 @@ class MainWindow():
 
         try:
             displayed_world_rank_b = str(
-                country_b.dict_of_attributes[property.name].rank) if country_b.dict_of_attributes[property.name].rank != -1 else "--"
+                country_b.dict_of_attributes[property.name].rank) if country_b.dict_of_attributes[property.name].rank != 0 else "--"
             displayed_how_many_ranked_b = str(
                 country_b.dict_of_attributes[property.name].number_of_countries_ranked) if country_b.dict_of_attributes[property.name].number_of_countries_ranked != 1 else "--"
 
@@ -852,7 +854,7 @@ class MainWindow():
                 third_line = "--"
             
             fourth_line = "worldrank:" + displayed_world_rank_b + "\n (of " + displayed_how_many_ranked_b + " countries ranked)"
-            l1 = tk.Label(frame12, text = f'{first_line} \n {second_line} \n {third_line} \n {fourth_line}', font="Helvetica 25", wraplength=500)
+            l2 = tk.Label(frame12, text = f'{first_line} \n {second_line} \n {third_line} \n {fourth_line}', font="Helvetica 25", wraplength=500)
         except:
             traceback.print_exc()
             l2 = tk.Label(frame12,
