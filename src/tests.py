@@ -1,8 +1,4 @@
-import pytest
-
 from player import Player, mr_nobody
-
-import start
 
 from country import *
 from setup_game import setup_the_game

@@ -47,7 +47,7 @@ class BackendGame():
         print(len(list_of_players))
         self.active_player = self.list_of_players[self.active_player_counter]
         self.number_of_players = len(self.list_of_players)
-        self.end_attribute: Category 
+        self.end_attribute: Category = None
         self.wormhole_mode: str = wormhole_mode
         self.wormholed_countries: list[list[Country]] = list()
         self.number_of_wormholes = number_of_wormholes

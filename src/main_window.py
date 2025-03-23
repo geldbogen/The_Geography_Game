@@ -823,11 +823,15 @@ class MainWindow():
             displayed_how_many_ranked_a = str(
                 country_a.dict_of_attributes[property.name].number_of_countries_ranked) if country_a.dict_of_attributes[property.name].number_of_countries_ranked != 1 else "--"
 
-            l1 = tk.Label(frame12, text=country_a.name + "\n" + property.name.replace(".csv", "") + "\n" +
-                          format((country_a.dict_of_attributes[property.name].value), ",") + "\n" +
-                          "worldrank:" +
-                          displayed_world_rank_a
-                          + "\n (of " + displayed_how_many_ranked_a + " countries ranked)", font="Helvetica 25", wraplength=500)
+            first_line = country_a.name
+            second_line = property.name.replace(".csv", "")
+            third_line = format((country_a.dict_of_attributes[property.name].value), ",")
+            if third_line == '-1.0' and property.treat_missing_data_as_bad:
+                third_line = "--"
+            
+            fourth_line = "worldrank:" + displayed_world_rank_a + "\n (of " + displayed_how_many_ranked_a + " countries ranked)"
+            l1 = tk.Label(frame12, text = f'{first_line} \n {second_line} \n {third_line} \n {fourth_line}', font="Helvetica 25", wraplength=500)
+        
         except:
             l1 = tk.Label(frame12,
                           text=country_a.name + "\n" +
@@ -841,17 +845,14 @@ class MainWindow():
             displayed_how_many_ranked_b = str(
                 country_b.dict_of_attributes[property.name].number_of_countries_ranked) if country_b.dict_of_attributes[property.name].number_of_countries_ranked != 1 else "--"
 
-            l2 = tk.Label(
-                frame12,
-                text=country_b.name + "\n" + property.name.replace(".csv", "") +
-                "\n" + format(
-                    (country_b.dict_of_attributes[property.name].value), ",") +
-                "\n" + "worldrank:" +
-                displayed_world_rank_b + "\n (of " +
-                displayed_how_many_ranked_b +
-                " countries ranked)",
-                font="Helvetica 25",
-                wraplength=500)
+            first_line = country_b.name
+            second_line = property.name.replace(".csv", "")
+            third_line = format((country_b.dict_of_attributes[property.name].value), ",")
+            if third_line == '-1.0' and property.treat_missing_data_as_bad:
+                third_line = "--"
+            
+            fourth_line = "worldrank:" + displayed_world_rank_b + "\n (of " + displayed_how_many_ranked_b + " countries ranked)"
+            l1 = tk.Label(frame12, text = f'{first_line} \n {second_line} \n {third_line} \n {fourth_line}', font="Helvetica 25", wraplength=500)
         except:
             traceback.print_exc()
             l2 = tk.Label(frame12,

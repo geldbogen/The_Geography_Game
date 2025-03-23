@@ -64,7 +64,7 @@ def endscreen(cause: str,
                                      key=lambda x: attached_backend.score(
                                          x.list_of_possessed_countries),
                                      reverse=True)
-            win2.shitdict: dict[int, dict[int, ImageTk.PhotoImage]] = dict()
+            win2.shitdict = dict()
             for i in range(len(a)):
                 win2.shitdict[i] = dict()
                 text = str(i + 1) + ". place : " + a[i].name + " with " + str(
