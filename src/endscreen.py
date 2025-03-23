@@ -60,27 +60,27 @@ def endscreen(cause: str,
     match winning_condition:
 
         case "get gold":
-            a: list[Player] = sorted(list_of_players,
+            ranked_players: list[Player] = sorted(list_of_players,
                                      key=lambda x: attached_backend.score(
                                          x.list_of_possessed_countries),
                                      reverse=True)
             win2.shitdict = dict()
-            for i in range(len(a)):
+            for i in range(len(ranked_players)):
                 win2.shitdict[i] = dict()
-                text = str(i + 1) + ". place : " + a[i].name + " with " + str(
-                    a[i].gold) + " gold \n"
+                text = str(i + 1) + ". place : " + ranked_players[i].name + " with " + str(
+                    ranked_players[i].gold) + " gold \n"
                 newframe = tk.Frame(win)
                 label1 = tk.Label(newframe, text=text)
                 label1.config(font=("Helvetica", 20))
                 flagframe = tk.Frame(newframe)
-                for j in range(len(a[i].list_of_possessed_countries_gold)):
+                for j in range(len(ranked_players[i].list_of_possessed_countries_gold)):
                     doubleframe = tk.Frame(flagframe)
-                    flag = a[i].list_of_possessed_countries_gold[
+                    flag = ranked_players[i].list_of_possessed_countries_gold[
                         j].get_resized_flag(100)
                     newlabel = tk.Label(doubleframe, image=flag)
                     countrylabel = tk.Label(
                         doubleframe,
-                        text=a[i].list_of_possessed_countries_gold[j].name)
+                        text=ranked_players[i].list_of_possessed_countries_gold[j].name)
                     newlabel.pack(side="top")
                     countrylabel.pack(side="bottom")
                     win2.shitdict[i][j] = flag
@@ -88,10 +88,10 @@ def endscreen(cause: str,
                 label1.grid(row=0, column=0)
                 flagframe.grid(row=1, column=0)
                 newframe.grid(row=i, column=0)
-            return_message = "Congratulations, " + a[0].name
+            return_message = "Congratulations, " + ranked_players[0].name
 
         case "attribute":
-            a = sorted(
+            ranked_players = sorted(
                 list_of_players,
                 key=lambda x: sum(attached_backend.score(
                     x.list_of_possessed_countries)),
@@ -105,20 +105,20 @@ def endscreen(cause: str,
                 except:
                     return -9999999.0
 
-            for i in range(len(a)):
+            for i in range(len(ranked_players)):
                 if "higher is better" in end_attribute.name:
-                    a[i].list_of_possessed_countries = sorted(
-                        a[i].list_of_possessed_countries,
+                    ranked_players[i].list_of_possessed_countries = sorted(
+                        ranked_players[i].list_of_possessed_countries,
                         key=lambda x: bla(x),
                         reverse=True)
                 else:
-                    a[i].list_of_possessed_countries = sorted(
-                        a[i].list_of_possessed_countries, key=lambda x: bla(x))
-            for i in range(len(a)):
+                    ranked_players[i].list_of_possessed_countries = sorted(
+                        ranked_players[i].list_of_possessed_countries, key=lambda x: bla(x))
+            for i in range(len(ranked_players)):
                 scorelist = attached_backend.score(
-                    a[i].list_of_possessed_countries)
+                    ranked_players[i].list_of_possessed_countries)
                 win2.shitdict[i] = dict()
-                text = str(i + 1) + ". place : " + a[i].name + " with " + str(
+                text = str(i + 1) + ". place : " + ranked_players[i].name + " with " + str(
                     round(sum(scorelist), 2)) + " points \n"
                 newframe = tk.Frame(win)
                 label1 = tk.Label(newframe, text=text)
@@ -128,21 +128,21 @@ def endscreen(cause: str,
                                      highlightthickness=2)
                 flagframe.grid_columnconfigure(0, weight=1)
                 flagframe.grid_rowconfigure(0, weight=1)
-                for j in range(len(a[i].list_of_possessed_countries)):
+                for j in range(len(ranked_players[i].list_of_possessed_countries)):
 
                     doubleframe = tk.Frame(flagframe,
                                            highlightbackground="white",
                                            highlightthickness=2)
                     name_value_rank_frame = tk.Frame(doubleframe)
 
-                    flag = a[i].list_of_possessed_countries[
+                    flag = ranked_players[i].list_of_possessed_countries[
                         j].get_resized_flag(100)
 
                     country_score_label = tk.Label(doubleframe,
                                                    text=scorelist[j],
                                                    font="Helvetica 30")
                     newlabel = tk.Label(doubleframe, image=flag)
-                    country = a[i].list_of_possessed_countries[j]
+                    country = ranked_players[i].list_of_possessed_countries[j]
                     if reversed_end_attribute == 1:
                         country.dict_of_attributes[end_attribute.name].rank = country.dict_of_attributes[
                             end_attribute.
@@ -194,10 +194,15 @@ def endscreen(cause: str,
                                 end_attribute.name].value), ","),
                             font="Helvetica 20")
                         label_of_value.grid(row=1)
+                        
+                        
+                        rendered_worldrank = str(country.dict_of_attributes[
+                                end_attribute.name].rank) 
+                        if rendered_worldrank == "0":
+                            rendered_worldrank = "--"
                         label_of_worldrank = tk.Label(
                             name_value_rank_frame,
-                            text="worldrank:" + str(country.dict_of_attributes[
-                                end_attribute.name].rank),
+                            text= f"worldrank: {rendered_worldrank}",
                             font="Helvetica 20")
                         label_of_worldrank.grid(row=2)
                         doubleframe.grid_rowconfigure(4, weight=1)
@@ -209,10 +214,12 @@ def endscreen(cause: str,
                                 end_attribute.name].value), ","),
                             font="Helvetica 20")
                         label_of_value.grid(row=5, sticky="s")
+                        rendered_worldrank = str(country.dict_of_attributes[end_attribute.name].rank)
+                        if rendered_worldrank == "0":
+                            rendered_worldrank = "--"
                         label_of_worldrank = tk.Label(
                             doubleframe,
-                            text="worldrank:" + str(country.dict_of_attributes[
-                                end_attribute.name].rank),
+                            text= f"worldrank: {rendered_worldrank}",
                             font="Helvetica 20")
                         label_of_worldrank.grid(row=6, sticky="s")
 
@@ -221,31 +228,31 @@ def endscreen(cause: str,
                 label1.grid(row=0, column=0)
                 flagframe.grid(row=1, column=0)
                 newframe.grid(row=i, column=0)
-            return_message = "Congratulations, " + a[0].name
+            return_message = "Congratulations, " + ranked_players[0].name
 
         case "number of countries":
-            a = sorted(
+            ranked_players = sorted(
                 list_of_players,
                 key=lambda x: float(
                     (len(x.list_of_possessed_countries)) + random.random()),
                 reverse=True)
             win2.shitdict = dict()
-            for i in range(len(a)):
+            for i in range(len(ranked_players)):
                 win2.shitdict[i] = dict()
-                text = str(i + 1) + ". place : " + a[i].name + " with " + str(
-                    len(a[i].list_of_possessed_countries)) + " countries \n"
+                text = str(i + 1) + ". place : " + ranked_players[i].name + " with " + str(
+                    len(ranked_players[i].list_of_possessed_countries)) + " countries \n"
                 newframe = tk.Frame(win)
                 label1 = tk.Label(newframe, text=text)
                 label1.config(font=("Helvetica", 44))
                 flagframe = tk.Frame(newframe)
-                for j in range(len(a[i].list_of_possessed_countries)):
+                for j in range(len(ranked_players[i].list_of_possessed_countries)):
                     doubleframe = tk.Frame(flagframe)
-                    flag = a[i].list_of_possessed_countries[
+                    flag = ranked_players[i].list_of_possessed_countries[
                         j].get_resized_flag(100)
                     newlabel = tk.Label(doubleframe, image=flag)
                     countrylabel = tk.Label(
                         doubleframe,
-                        text=a[i].list_of_possessed_countries[j].name)
+                        text=ranked_players[i].list_of_possessed_countries[j].name)
                     newlabel.pack(side="top")
                     countrylabel.pack(side="bottom")
                     win2.shitdict[i][j] = flag
@@ -253,37 +260,37 @@ def endscreen(cause: str,
                 label1.grid(row=0, column=0)
                 flagframe.grid(row=1, column=0)
                 newframe.grid(row=i, column=0)
-            return_message = "Congratulations, " + a[0].name
+            return_message = "Congratulations, " + ranked_players[0].name
 
         case "twocountriesclaimed":
             text = ""
             return_message = "Congratulations, " + triggered_player_name
 
         case "secret targets":
-            a = sorted(
+            ranked_players = sorted(
                 list_of_players,
                 key=lambda x: float((len(
                     set(x.list_of_possessed_countries).intersection(
                         set(dict_of_targets[x])))) + random.random()),
                 reverse=True)
             win2.shitdict = dict()
-            for i in range(len(a)):
+            for i in range(len(ranked_players)):
                 win2.shitdict[i] = dict()
-                text = str(i + 1) + ". place : " + a[i].name
+                text = str(i + 1) + ". place : " + ranked_players[i].name
                 newframe = tk.Frame(win)
                 label1 = tk.Label(newframe, text=text)
                 label1.config(font=("Helvetica", 44))
                 flagframe = tk.Frame(newframe)
-                for j in range(len(a[i].list_of_possessed_countries)):
-                    if a[i].list_of_possessed_countries[
-                            j] in dict_of_targets[a[i]]:
+                for j in range(len(ranked_players[i].list_of_possessed_countries)):
+                    if ranked_players[i].list_of_possessed_countries[
+                            j] in dict_of_targets[ranked_players[i]]:
                         doubleframe = tk.Frame(flagframe)
-                        flag = a[i].list_of_possessed_countries[
+                        flag = ranked_players[i].list_of_possessed_countries[
                             j].get_resized_flag(100)
                         newlabel = tk.Label(doubleframe, image=flag)
                         countrylabel = tk.Label(
                             doubleframe,
-                            text=a[i].list_of_possessed_countries[j].name)
+                            text=ranked_players[i].list_of_possessed_countries[j].name)
                         newlabel.pack(side="top")
                         countrylabel.pack(side="bottom")
                         win2.shitdict[i][j] = flag
@@ -291,7 +298,7 @@ def endscreen(cause: str,
                 label1.grid(row=0, column=0)
                 flagframe.grid(row=1, column=0)
                 newframe.grid(row=i, column=0)
-            return_message = "Congratulations, " + a[0].name
+            return_message = "Congratulations, " + ranked_players[0].name
 
         case "secret attribute":
             text = ""
