@@ -97,7 +97,7 @@ class Category:
             displaystring = categoryname + " (ERROR)"
 
         if (second_country == None):
-            displaystring = displaystring.replace("CountryB", " (another country) ")
+            displaystring = displaystring.replace("CountryB", " (target country) ")
         else:
             displaystring = displaystring.replace(
                 "CountryB", second_country.name)
