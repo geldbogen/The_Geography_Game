@@ -265,7 +265,7 @@ class MainWindow():
                     clicked_country.owner_name) != self.backend.active_player:
                 self.chosen_country_a = None
                 self.showing_country_label[
-                    "text"] = "You can not attack anoter player's countries in peace mode! \n Choose another country!"
+                    "text"] = "You can not attack another player's countries in peace mode! \n Choose another country!"
                 # time.sleep(5)
                 # self.showingcountrylabel["text"]=""
                 return None
