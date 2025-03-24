@@ -436,7 +436,7 @@ class MainWindow():
     def claim_country(self, player: Player, country: Country):
 
         # backend
-        old_player: Player = call_player_by_name(country.owner_name)
+        old_player : Player = call_player_by_name(country.owner_name)
         self.backend.claim_country_backend(old_player, player, country)
 
         # frontend
