@@ -19,6 +19,32 @@ class Category:
                  explanation: str = "",
                  cluster: str = "",
                  is_end_only: bool = False):
+        """
+        Initializes a Category instance with specified attributes and updates global collections.
+        Parameters:
+        ----------
+        name : str
+            The name of the category.
+        is_active : bool
+            Whether the category is active, allowing players to "guess" before moving for a free turn.
+        treat_missing_data_as_bad : bool
+            Whether missing data in this category should be treated as a loss.
+        difficulty : int
+            The difficulty level of the category on a scale from 1 (easiest) to 5 (hardest).
+        explanation : str, optional
+            Additional details about the category, such as its meaning or source. Default is empty string.
+        cluster : str, optional
+            The cluster group this category belongs to. Default is empty string 
+            If a category belongs to a cluster the probability of showing up is only as large as the probability of chosing the cluster.
+        is_end_only : bool, optional
+            Whether this category should only be used at the end of the game. Default is False.
+        Notes:
+        -----
+        Upon initialization, the category is added to global collections:
+        - Added to the global list of all categories
+        - If part of a cluster, the cluster name is added to the global list of category names/clusters
+        - Category name to category instance mapping is created in the global dictionary
+        """
 
         # the name of the category
         self.name = name
@@ -80,13 +106,49 @@ class Category:
             dictionary_attribute_name_to_attribute[self.name] = [self]
 
     def get_number_of_missing_data(self, list_of_countries_in_game: list[Country]) -> int:
+        """
+        Returns the number of countries in the game that have missing data (rank = 0) for this category.
+
+        Args:
+            list_of_countries_in_game (list[Country]): A list of Country objects representing countries in the game.
+
+        Returns:
+            int: The number of countries with missing data for this category.
+        """
         no_data_list = [country.dict_of_attributes[self.name].rank == 
-                        -1 for country in list_of_countries_in_game]
+                        0 for country in list_of_countries_in_game]
         return sum(no_data_list)
 
-    def replace_A_and_B_in_category_name(self, tk_label: tk.Label,
-                                         first_country: Country | None = None,
+    def replace_A_and_B_in_category_name(self, tk_label: tk.Label,first_country: Country | None = None,
                                          second_country: Country | None = None) -> tk.Label:
+        """
+        Replace placeholders in category name with actual country names for display.
+        This method customizes the display text for a category by replacing 'CountryA' and 'CountryB' 
+        placeholders with the names of the provided countries (or generic descriptions, like '(your country)' resp. '(other country)' if countries 
+        are not provided). 
+        It also appends additional context information for specific category types.
+        It does change the provided Tkinter label in place but also returns it for convenience.
+        Parameters
+        ----------
+        tk_label : tk.Label
+            The Tkinter label widget that will display the category name.
+        first_country : Country | None, optional
+            The first country to replace 'CountryA' in the display text. If None, replaces the name with '(your country)'.
+        second_country : Country | None, optional
+            The second country to replace 'CountryB' in the display text. If None, replaces the name with '(target country)'.
+        Returns
+        -------
+        tk.Label
+            The updated Tkinter label with the configured text.
+        Notes
+        -----
+        The method handles several special cases:
+        - Uses a dictionary lookup to convert internal category names to display names
+        - Adds '(TODO)' suffix for categories marked as incomplete in the dictionary
+        - Adds '(ERROR)' suffix for categories not found in the dictionary
+        - Appends explanatory text for categories about people or historical events
+        - Has a commented-out section for future implementation of guessing hints
+        """
 
         categoryname = self.name.rstrip(".csv")
         try:

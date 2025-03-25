@@ -198,6 +198,7 @@ def setup_all_data():
                   treat_missing_data_as_bad=True, cluster="productioncluster")
     setup_data("Natural gas production (in million m^3 per year) (by 10,000 population) (higher is better).csv",
                   treat_missing_data_as_bad=True, cluster="productioncluster")
+    setup_data("Gold production (by 10,000 population) (higher is better).csv",treat_missing_data_as_bad=True, cluster="productioncluster")
     
     setup_data(
         # erklären
@@ -497,11 +498,8 @@ def setup_all_data():
                   treat_missing_data_as_bad=True, additional_information=True, additional_information_column_list=[2, 7, 8])
     setup_data("Number of wiki-languages of most famous female singer of that country (higher is better).csv", dif=2,
                   treat_missing_data_as_bad=True, additional_information=True, additional_information_column_list=[2, 7, 8])
-    
     setup_data(
         "Sum of wiki-languages of the three most famous cities of that country (higher is better).csv")
-    
-    
     setup_data("Drinking water quality score (higher is better).csv")
     setup_data("Facebook accounts (by 10 population) (higher is better).csv",
                   treat_missing_data_as_bad=True, dif=2)
@@ -742,7 +740,7 @@ def setup_all_data():
     setup_data("Labor force participation rate (higher is better).csv")
     setup_data("Fertilizer use (lower is better).csv", ascending=True)
     setup_data("Shadow economy (lower is better).csv", ascending=True)
-    setup_data("Road Quality Index (higher is better).csv", ascending=True)
+    setup_data("Road Quality Index (higher is better).csv")
     setup_data(
         "Percentage of total stock market capitalization to GDP (higher is better).csv",)
     setup_data(
@@ -762,6 +760,7 @@ def setup_all_data():
                   treat_missing_data_as_bad=True)
     setup_data("Number of military aircrafts (by 10,000,000 population) (higher is better).csv",
                   treat_missing_data_as_bad=True)
+    setup_data("Percentage of GDP spent on military (higher is better).csv", )	
     setup_data("National Holiday (earlier in the year is better).csv", ascending=True,
                   additional_information=True, additional_information_column_list=[2, 3, 4])
     setup_data(

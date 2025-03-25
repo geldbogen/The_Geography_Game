@@ -140,8 +140,8 @@ class MainWindow():
 
         self.showing_country_label = tk.Label(
             self.frame5,
-            text="It is the turn of " + self.backend.active_player.name +
-            "\n You have not chosen any country yet",
+            text="It is " + self.backend.active_player.name +
+            "'s turn. \n You have not chosen any country yet",
             font="Helvetica 25")
         self.showing_country_label.pack(side="bottom",
                                         expand=True,
@@ -251,7 +251,7 @@ class MainWindow():
                                                   self.c.canvasy(event.y))
         if self.chosen_country_a == None:
             self.showing_country_label[
-                "text"] = "It is the turn of " + self.backend.active_player.name + "\n You have chosen " + clicked_country.name + " currently controlled by " + clicked_country.owner_name
+                "text"] = "It is " + self.backend.active_player.name + "'s turn. \n You have chosen " + clicked_country.name + " currently controlled by " + clicked_country.owner_name
             if clicked_country.owner_name == self.backend.active_player.name:
                 self.chosen_country_a = clicked_country
                 self.backend.current_attribute.replace_A_and_B_in_category_name(
@@ -406,14 +406,14 @@ class MainWindow():
         self.backend.current_attribute.replace_A_and_B_in_category_name(
             self.showing_current_attribute_text_label)
         self.flagframe_dict[self.backend.active_player.name].pack(side="top")
-        if self.wormhole_mode == "Every round changing wormholes":
+        if self.wormhole_mode == "every round changing wormholes":
             if self.index == 0:
                 try:
                     self.destroy_all_wormholes()
                 except:
                     traceback.print_exc()
                 self.activate_wormholes(3)
-        if self.wormhole_mode == "Every round changing wormholes from your countries":
+        if self.wormhole_mode == "every round changing wormholes from your countries":
             try:
                 self.destroy_all_wormholes()
             except:
@@ -421,6 +421,9 @@ class MainWindow():
             if len(self.backend.active_player.list_of_possessed_countries) >= 3:
                 print("wormholes are getting activated")
                 self.activate_wormholes(1, player=self.backend.active_player)
+            else:
+                print("not enough countries to activate wormholes")
+                print(self.backend.active_player.list_of_possessed_countries)
         self.reroll_button["text"] = "Rerolls left:\n " + str(
             self.backend.active_player.rerolls_left)
 
