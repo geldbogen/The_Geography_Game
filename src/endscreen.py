@@ -308,7 +308,7 @@ def endscreen(cause: str,
 
             real_winner : Player = call_player_by_name(triggered_player_name)
 
-            to_display_text: str = "Congratulations, " + triggered_player_name + "\nbecause " + winning_country.name + " is worldrank\n" + \
+            to_display_text: str = "Congratulations " + triggered_player_name + ",\nbecause " + winning_country.name + " is worldrank\n" + \
                 str(dict_of_targets[real_winner].index(winning_country) + 1) + "\nin\n" + \
                 dict_of_target_attribute_name[real_winner] + \
                 "\nyou win the game!!!"

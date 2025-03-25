@@ -38,6 +38,7 @@ class Player:
         # the number of rerolls the player has left
         self.rerolls_left = reroll_number
 
+        # only relevant for the gold mode
         self.gold : int = 0
 
     
@@ -47,13 +48,32 @@ class Player:
                                      country_a: Country,
                                      country_b: Country,
                                      ) -> str:
-
+        """
+        Determines if an attack is successful based on comparing attributes of two countries.
+        This method compares the specified category attribute between country_a and country_b
+        and returns the outcome of the attack.
+        Parameters:
+            category (Category): The category to compare between countries.
+            country_a (Country): The attacking country.
+            country_b (Country): The defending country.
+        Returns:
+            str: The result of the attack, which can be one of:
+                - 'no data': If data is missing in either of the two countries (and missing data is not treated as bad).
+                - 'draw': If both countries have equal attribute values.
+                - 'win': If country_a's rank is better than country_b's rank.
+                - 'loose': If country_a's rank is worse than country_b's rank.
+                - 'hard defeat': If country_a's rank is significantly better (99+ ranks difference).
+        Note:
+            The ranking system is assumed to be where lower rank numbers are better.
+            A rank of 0 indicates missing data for that attribute.
+        """
         local_attribute_a = country_a.dict_of_attributes[category.name]
         local_attribute_b = country_b.dict_of_attributes[category.name]
 
         if local_attribute_a.rank == 0 or local_attribute_b.rank == 0:
             if not category.treat_missing_data_as_bad:
                 return 'no data'
+            
             # treat missing data from here
             elif local_attribute_a.rank == local_attribute_b.rank:
                 return 'draw'
@@ -100,7 +120,6 @@ class Player:
             return dictionary_attribute_name_to_attribute[
                 self.current_attributename_with_cluster][0]
         
-        return Category()
     def player_win_analysis(self, category: Category, peacemode: bool = False) -> dict[str, int]:
         """
         Returns a dictionary in the form {'win' : 10, 'no data' : 1, 'draw' : 2, 'loose': 2} 
@@ -129,6 +148,24 @@ class Player:
 
 
     def get_good_attribute(self, threshold: float = 0.25, at_least_one_win: bool = True, peacemode : bool = False) -> Category:
+        """
+        Selects a random attribute that provides a reasonably good chance of winning attacks.
+        This method repeatedly selects random attributes until finding one that meets
+        the specified criteria for being "good" (i.e., useful for attacks). An attribute
+        is considered good if:
+        1. The probability of winning or drawing attacks with it exceeds the threshold
+        2. It's not an "end only" attribute
+        3. If at_least_one_win is True, there must be at least one possible winning attack
+        Args:
+            threshold (float, optional): Minimum probability of win+draw outcomes required.
+                Defaults to 0.25.
+            at_least_one_win (bool, optional): Whether to require at least one possible
+                winning attack. Defaults to True.
+            peacemode (bool, optional): Ignores countries owned by other players, due to peacemode if set to True.
+                Defaults to False.
+        Returns:
+            Category: A suitable attribute meeting the specified criteria
+        """
 
         is_good_attribute = False
 
@@ -199,6 +236,19 @@ class Player:
 
 
 def call_player_by_name(name: str) -> Player:
+    """
+    Retrieve a player object by their name.
+
+    This function searches through all registered players and returns the player
+    object that matches the provided name. If no player is found with the given name,
+    it returns the default 'mr_nobody' player.
+
+    Args:
+        name (str): The name of the player to search for.
+
+    Returns:
+        Player: The player object if found, otherwise returns 'mr_nobody'.
+    """
     for playername in all_players.keys():
         if playername == name:
             return all_players[playername]
