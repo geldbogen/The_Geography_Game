@@ -1,5 +1,7 @@
 from __future__ import annotations
 from typing import TYPE_CHECKING
+import random
+
 import tkinter as tk
 
 if TYPE_CHECKING:
@@ -133,6 +135,28 @@ class BackendGame():
                 return False
 
     def claim_country_backend(self, loose_player : Player, win_player: Player, country : Country):
+        """
+        Transfers ownership of a country from one player to another.
+        This method handles the backend logic of claiming a country, including updating player's
+        possessed countries list, setting the country's owner, and handling gold acquisition
+        when the winning condition is "get gold".
+        Parameters:
+        -----------
+        loose_player : Player
+            The player who is losing the country. Can be "Nobody" for unclaimed countries.
+        win_player : Player
+            The player who is claiming the country.
+        country : Country
+            The country being claimed.
+        Notes:
+        ------
+        - If loose_player is not "Nobody" and the winning condition is not "get gold",
+            the country is removed from loose_player's possession and the GUI label is destroyed.
+        - If the winning condition is "get gold" and the country contains gold,
+            win_player's gold count is incremented and the country is added to their
+            list of gold-containing countries.
+        """
+        
         win_player.list_of_possessed_countries.append(country)
         country.owner_name = win_player.name
         if loose_player.name != "Nobody" and not self.winning_condition in [
@@ -196,7 +220,6 @@ class BackendGame():
         
         for country in countrylist:
             if country in dlist:
-                # TODO implement half the number of ranked countries instead of 75
                 returnlist.append(country.dict_of_attributes[self.end_attribute.name].number_of_countries_ranked // 2)
             else:
                 returnlist.append(
@@ -205,3 +228,40 @@ class BackendGame():
                         propertylist))
         returnlist = [float(item) / float(5) for item in returnlist]
         return returnlist
+    
+    def get_two_countries_for_wormhole_connection(self, player: Player = None) -> tuple[Country, Country]:
+        """
+        Gets two countries for a wormhole connection that meet specific criteria.
+        
+        This method selects two countries that:
+        - Are not neighbors
+        - Are from different continents
+        - At least one country is owned by the player (if player is provided)
+        - Neither country is the Unknown_country
+        - In peace mode, at least one country must be unowned ("Nobody")
+        
+        Args:
+            player (Player, optional): The player for whom to create a wormhole connection.
+                If None, default countries (Germany and France) will be returned without validation.
+
+        Returns:
+            tuple[Country, Country]: A pair of countries suitable for creating a wormhole connection.
+        """
+        country1 = Unknown_country
+        country2 = Unknown_country
+        if player != None:
+            while (
+                    country2.name in country1.neighboring_countries
+                    or country1.name in country2.neighboring_countries
+                    or country1.continent_name == country2.continent_name
+                    or country2 in player.list_of_possessed_countries
+                    or country1 == Unknown_country
+                    or country2 == Unknown_country 
+                    or
+                (self.peacemode and
+                #  TODO in case of end_attribute don't connect with Mr_Nobody country
+                 (country1.owner_name != "Nobody" and country2.owner_name != "Nobody"))
+                ):
+                
+                country1 = random.choice(player.list_of_possessed_countries)
+                country2 = random.choice(all_countries_in_game)

@@ -358,5 +358,5 @@ Number of visits by an US-President (since formation of the country) (higher is 
 Healthy life expectancy score (higher is better),CountryA has a higher healthy life expectancy score than CountryB,,
 Index of Economic Freedom (higher is better),CountryA provides more economic freedom than CountryB (according to the BBBBEconomic Freedom IndexBBBB),,
 Export to import ratio (higher is better),CountryA has a higher export to import ratio than CountryB,,
-Gold production (by 10,000 population) (higher is better),CountryA produces more gold than CountryB (per capita),,
-Percentage of GDP spent on military (higher is better),CountryA spends more of its GDP on military than CountryB,,
+"Gold production (by 10,000 population) (higher is better)",CountryA produces more gold than CountryB (per capita),,
+"Percentage of GDP spent on military (higher is better)",CountryA spends more of its GDP on military than CountryB,,

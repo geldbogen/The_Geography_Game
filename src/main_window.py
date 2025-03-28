@@ -674,28 +674,12 @@ class MainWindow():
 
         self.linelist = list()
         self.pointlist = list()
-        country1 = Germany
-        country2 = France
-        if player != None:
-            while (
-                    country2.name in country1.neighboring_countries
-                    or country1.name in country2.neighboring_countries
-                    or country1.continent_name == country2.continent_name
-                    or country2 in player.list_of_possessed_countries
-                    or country1 == Unknown_country
-                    or country2 == Unknown_country or
-                (self.peacemode and
-                 (country1.owner_name != "Nobody" and country2.owner_name != "Nobody"))):
-                country1 = player.list_of_possessed_countries[random.randrange(
-                    1, len(player.list_of_possessed_countries))]
-                country2 = all_countries_in_game[random.randrange(
-                    1, len(all_countries_in_game))]
-            country1.neighboring_countries.append(country2.name)
-            self.wormholed_countries.append([country1, country2])
-            create_good_line(country1, country2)
-            print(self.linelist)
-            return None
-
+            
+        country1, country2 = self.backend.get_two_countries_for_wormhole_connection(player)
+        country1.neighboring_countries.append(country2.name)
+        self.wormholed_countries.append([country1, country2])
+        create_good_line(country1, country2)
+        print(self.linelist)
         for _ in range(numberofwormholes):
 
             while (country2.name in country1.neighboring_countries
@@ -709,6 +693,7 @@ class MainWindow():
             self.wormholed_countries.append([country1, country2])
             create_good_line(country1, country2)
             print(self.linelist)
+        return None
 
     def destroy_all_wormholes(self):
         self.colorarray = [
