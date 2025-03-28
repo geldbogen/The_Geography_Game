@@ -143,14 +143,14 @@ class BackendGame():
         Parameters:
         -----------
         loose_player : Player
-            The player who is losing the country. Can be "Nobody" for unclaimed countries.
+            The player who is losing the country. Can be Mr_Nobody for unclaimed countries.
         win_player : Player
             The player who is claiming the country.
         country : Country
             The country being claimed.
         Notes:
         ------
-        - If loose_player is not "Nobody" and the winning condition is not "get gold",
+        - If loose_player's name is not "Nobody" and the winning condition is not "get gold",
             the country is removed from loose_player's possession and the GUI label is destroyed.
         - If the winning condition is "get gold" and the country contains gold,
             win_player's gold count is incremented and the country is added to their
