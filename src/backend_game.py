@@ -135,6 +135,7 @@ class BackendGame():
                 return False
 
     def claim_country_backend(self, loose_player : Player, win_player: Player, country : Country):
+        # TODO check docstring
         """
         Transfers ownership of a country from one player to another.
         This method handles the backend logic of claiming a country, including updating player's
@@ -236,9 +237,9 @@ class BackendGame():
         This method selects two countries that:
         - Are not neighbors
         - Are from different continents
-        - At least one country is owned by the player (if player is provided)
+        - If player is provided, one country MUST NOT be owned by the player
         - Neither country is the Unknown_country
-        - In peace mode, at least one country must be unowned ("Nobody")
+        - In peace mode, at least one country must be unowned
         
         Args:
             player (Player, optional): The player for whom to create a wormhole connection.
