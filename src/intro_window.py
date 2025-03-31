@@ -316,7 +316,7 @@ class IntroWindow:
         self.number_of_rounds = int(self.numberofroundsentry.get())
 
         if not self.number_of_rounds:
-            self.number_of_rounds == -1
+            self.number_of_rounds = -1
 
         self.root.destroy()
 
