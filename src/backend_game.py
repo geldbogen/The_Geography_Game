@@ -266,3 +266,4 @@ class BackendGame():
                 
                 country1 = random.choice(player.list_of_possessed_countries)
                 country2 = random.choice(all_countries_in_game)
+        return country1, country2
