@@ -279,8 +279,8 @@ class BackendGame():
         print(propertylist)
         print('this is dlist')
         print([d.name for d in dlist])
-        returnlist: list[float] = list()
 
+        returnlist: list[float] = list()
         for country in countrylist:
             if country in dlist:
                 returnlist.append(
