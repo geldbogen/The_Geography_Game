@@ -292,26 +292,6 @@ class MainWindow():
                     "text"] = "These countries do not share a common land border.\n Please choose another pair!"
                 self.backend.current_attribute.replace_A_and_B_in_category_name(self.showing_current_attribute_text_label)
 
-    def find_distance(self, country_a: Country, country_b: Country) -> None:
-        mydict = dict()
-        myset = set(country_a.name)
-        q = [[country_a.name, 0]]
-        print(q)
-        for country in all_countries_in_game:
-            mydict[country.name] = country.neighboring_countries
-        while country_b.name not in myset:
-            temp = q[0]
-            q.pop(0)
-            for countryname in mydict[temp[0]]:
-                if countryname in myset:
-                    pass
-                else:
-                    myset.add(countryname)
-                    q.append([countryname, temp[1] + 1])
-                    if countryname == country_b.name:
-                        return temp[1] + 1
-            pass
-        return None
 
     def attack(self, country_a: Country, country_b: Country):
 

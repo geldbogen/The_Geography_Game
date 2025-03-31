@@ -293,6 +293,71 @@ class BackendGame():
         returnlist = [float(item) / float(5) for item in returnlist]
         return returnlist
 
+    def find_distance(self, country_a: Country, country_b: Country) -> None:
+        """
+        Calculates the shortest distance (in terms of the number of connections) 
+        between two countries in the game using a breadth-first search algorithm.
+
+        Args:
+            country_a (Country): The starting country.
+            country_b (Country): The target country.
+
+        Returns:
+            int: The shortest distance between country_a and country_b in terms of 
+                 the number of connections, or None if no path exists.
+        """
+        mydict = dict()
+        myset = set(country_a.name)
+        q = [[country_a.name, 0]]
+        print(q)
+        for country in all_countries_in_game:
+            mydict[country.name] = country.neighboring_countries
+        while country_b.name not in myset:
+            temp = q[0]
+            q.pop(0)
+            for countryname in mydict[temp[0]]:
+                if countryname in myset:
+                    pass
+                else:
+                    myset.add(countryname)
+                    q.append([countryname, temp[1] + 1])
+                    if countryname == country_b.name:
+                        return temp[1] + 1
+            pass
+        return None
+    
+    def find_all_countries_with_max_distance_of_n(self, country: Country, n: int) -> list[Country]:
+        """
+        Finds all countries that are at a maximum distance of n connections from a given country.
+
+        Args:
+            country (Country): The starting country.
+            n (int): The maximum distance in terms of connections.
+
+        Returns:
+            list[Country]: A list of countries that are at a maximum distance of n from the starting country.
+        """
+        mydict = dict()
+        myset = set(country.name)
+        q = [[country.name, 0]]
+        print(q)
+        for country in all_countries_in_game:
+            mydict[country.name] = country.neighboring_countries
+        while q[0][1] < n:
+            temp = q[0]
+            q.pop(0)
+            for countryname in mydict[temp[0]]:
+                if countryname in myset:
+                    pass
+                else:
+                    myset.add(countryname)
+                    q.append([countryname, temp[1] + 1])
+                    if temp[1] + 1 == n:
+                        returnlist = [country for country in all_countries_in_game if country.name in myset]
+                        print(f'find_all_countries_with_max_distance_of_n: {country.name} -> {len(returnlist)}')
+                        return returnlist
+        
+
     def get_two_countries_for_wormhole_connection(self, player: Player = None) -> tuple[Country, Country]:
         """
         Gets two countries for a wormhole connection that meet specific criteria.
