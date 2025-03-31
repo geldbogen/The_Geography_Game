@@ -44,7 +44,7 @@ p = pd.read_csv("data/important/countrylist.csv",
                 keep_default_na=False)
 countries_for_language_en = p.values.tolist()
 
-neighboring_countries : pd.DataFrame = pd.read_csv("data/Really New Country Borders.csv")
+neighboring_countries : pd.DataFrame = pd.read_csv("data/important/country_borders.csv")
 neighboring_countries.columns = list(range(len(neighboring_countries.columns))
 )
 reverse_countries_alternative_names : dict[str,str] = dict()

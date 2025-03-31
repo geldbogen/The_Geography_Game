@@ -195,29 +195,44 @@ class MainWindow():
         if self.starting_countries == "random":
             self.choosing_index = len(self.backend.list_of_players)
             self.setupgame()
-            while True:
-                j = 0
-                self.randomstart = random.sample(range(0, len(all_countries_in_game)),
-                                                 len(self.backend.list_of_players))
-                for rng in self.randomstart:
-                    if len(all_countries_in_game[rng].neighboring_countries) < 3:
-                        j = 1
-                    for rng2 in self.randomstart:
-                        if all_countries_in_game[rng2].is_connected_with(
-                                all_countries_in_game[rng]):
-                            j = 1
-                    if self.winning_condition == "attribute":
+
+            # find a valid country selection
+            is_valid_country_selection = False
+            while not is_valid_country_selection:
+                is_valid_country_selection = True
+
+                # start with a random selection
+                self.randomstart = random.sample(all_countries_in_game,
+                                                 self.number_of_players)
+                for random_country in self.randomstart:
+                    if len(random_country.neighboring_countries) < 3:
+                        is_valid_country_selection = False
+                    
+                    for other_random_country in self.randomstart:
+                        if random_country.is_connected_with(
+                                other_random_country):
+                            is_valid_country_selection = False
+                
+                # in case of ending attribute choose fair starting countries    
+                if self.winning_condition == "attribute":
+                    scorelist = []
+                    for random_country in self.randomstart:
                         try:
-                            all_countries_in_game[rng].dict_of_attributes[
+                            random_country.dict_of_attributes[
                                 self.backend.end_attribute.name].value
                         except:
-                            j = 1
-                if j == 0:
-                    break
-            for i in range(len(self.backend.list_of_players)):
-                self.claim_country(self.backend.list_of_players[i],
-                                   all_countries_in_game[self.randomstart[i]])
-                print(all_countries_in_game[self.randomstart[i]].name)
+                            is_valid_country_selection = False
+                        
+                        countrylist = self.backend.find_all_countries_with_max_distance_of_n(random_country, 3)
+                        average_score = sum(self.backend.score(countrylist)) / len(countrylist)
+                        scorelist = scorelist + [average_score]
+                    if max(scorelist) - min(scorelist) > 50:
+                        is_valid_country_selection = False
+
+            for index, country in enumerate(self.randomstart):
+                self.claim_country(self.backend.list_of_players[index],
+                                   country)
+                print(country.name)
 
         # roll first attribute
         self.backend.current_attribute = self.backend.active_player.get_good_attribute(

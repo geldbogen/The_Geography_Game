@@ -337,6 +337,7 @@ class BackendGame():
         Returns:
             list[Country]: A list of countries that are at a maximum distance of n from the starting country.
         """
+        called_country = country
         mydict = dict()
         myset = set(country.name)
         q = [[country.name, 0]]
@@ -354,7 +355,7 @@ class BackendGame():
                     q.append([countryname, temp[1] + 1])
                     if temp[1] + 1 == n:
                         returnlist = [country for country in all_countries_in_game if country.name in myset]
-                        print(f'find_all_countries_with_max_distance_of_n: {country.name} -> {len(returnlist)}')
+                        print(f'find_all_countries_with_max_distance_of_n: {called_country.name} -> {[c.name for c in returnlist]}')
                         return returnlist
         
 
