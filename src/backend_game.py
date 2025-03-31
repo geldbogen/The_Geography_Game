@@ -218,6 +218,28 @@ class BackendGame():
                     win_player.list_of_possessed_countries_gold.append(country)
 
     def score(self, countrylist: list[Country]) -> list[float]:
+        """
+        Calculates a score for a list of countries based on their attributes and a specified end attribute.
+        Args:
+            countrylist (list[Country]): A list of Country objects for which the scores are to be calculated.
+        Returns:
+            list[float]: A list of scores (as floats) corresponding to the input countries.
+        The scoring is determined by comparing the value of the specified end attribute for each country
+        against the values of the same attribute for all countries in the game. The comparison is influenced
+        by whether "higher is better" or "lower is better" for the attribute, and whether the attribute's
+        ranking is reversed.
+        Internal logic:
+            - If the attribute is missing or treated as bad, the country is assigned a default score.
+            - Otherwise, the score is calculated based on the number of countries with better or worse
+              attribute values, depending on the "higher or lower" rule.
+            - The scores are normalized by dividing by 5.
+        Note:
+            - The function assumes the existence of `self.end_attribute`, which contains the name and
+              properties of the attribute being evaluated.
+            - The `self.higherorlower` variable determines the comparison direction ("higher" or "lower").
+            - The `self.reversed_end_attribute` variable indicates whether the ranking is reversed.
+            - The `all_countries_in_game` variable is expected to be a list of all Country objects in the game.
+        """
 
         def helphelp(number: float, list1: list[float]) -> float:
             if self.higherorlower == "higher":
