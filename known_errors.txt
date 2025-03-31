@@ -3,3 +3,5 @@ change owner_name property from country to owner (which also has a name)
 
 Mauritania attacks Lybia with price of rice --> worldrank -1???
 shit emoji is showed when there is no data
+Population of the most populated city of that country (higher is better) --> USA is missing
+in 4th wormhole mode there is a new wormhole popping up

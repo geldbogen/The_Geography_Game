@@ -155,7 +155,7 @@ class BackendGame():
             return True
         match self.winning_condition:
             case "claim 2 countries":
-                if self.targetcountry1.owner_name != "Nobody" and self.targetcountry1.owner_name == self.targetcountry2.owner_name:
+                if self.targetcountry1.owner.name != "Nobody" and self.targetcountry1.owner == self.targetcountry2.owner:
                     return True
             case "get gold":
                 if len(self.goldlist) == 0:
@@ -203,7 +203,7 @@ class BackendGame():
         """
 
         win_player.list_of_possessed_countries.append(country)
-        country.owner_name = win_player.name
+        country.owner = win_player
 
         if loose_player.name != "Nobody":
             loose_player.list_of_possessed_countries.remove(
@@ -390,7 +390,7 @@ class BackendGame():
                 or
                     (self.peacemode and
                      #  TODO in case of end_attribute don't connect with Mr_Nobody country
-                     (country1.owner_name != "Nobody" and country2.owner_name != "Nobody"))
+                     (country1.owner != "Nobody" and country2.owner != "Nobody"))
             ):
 
                 country1 = random.choice(player.list_of_possessed_countries)

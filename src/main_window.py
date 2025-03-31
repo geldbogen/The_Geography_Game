@@ -266,8 +266,8 @@ class MainWindow():
                                                   self.c.canvasy(event.y))
         if self.chosen_country_a == None:
             self.showing_country_label[
-                "text"] = "It is " + self.backend.active_player.name + "'s turn. \n You have chosen " + clicked_country.name + " currently controlled by " + clicked_country.owner_name
-            if clicked_country.owner_name == self.backend.active_player.name:
+                "text"] = "It is " + self.backend.active_player.name + "'s turn. \n You have chosen " + clicked_country.name + " currently controlled by " + clicked_country.owner.name
+            if clicked_country.owner.name == self.backend.active_player.name:
                 self.chosen_country_a = clicked_country
                 self.backend.current_attribute.replace_A_and_B_in_category_name(
                     self.showing_current_attribute_text_label, self.chosen_country_a)
@@ -276,8 +276,7 @@ class MainWindow():
                     "text"] = self.showing_country_label[
                         "text"] + "\n You can attack with this country"
         else:
-            if self.peacemode and clicked_country.owner_name != "Nobody" and call_player_by_name(
-                    clicked_country.owner_name) != self.backend.active_player:
+            if self.peacemode and clicked_country.owner.name != "Nobody" and clicked_country.owner != self.backend.active_player:
                 self.chosen_country_a = None
                 self.showing_country_label[
                     "text"] = "You can not attack another player's countries in peace mode! \n Choose another country!"
@@ -285,8 +284,7 @@ class MainWindow():
                 # self.showingcountrylabel["text"]=""
                 return None
             if clicked_country.is_connected_with(self.chosen_country_a):
-                if self.backend.active_player != call_player_by_name(
-                        clicked_country.owner_name):
+                if self.backend.active_player != clicked_country.owner:
                     self.backend.current_attribute.replace_A_and_B_in_category_name(
                         self.showing_current_attribute_text_label, self.chosen_country_a,
                         clicked_country)
@@ -355,8 +353,8 @@ class MainWindow():
                                     country_b,
                                     self.backend.current_attribute,
                                     wl="you loose!")
-            if country_b.owner_name != "Nobody":
-                self.claim_country(call_player_by_name(country_b.owner_name),
+            if country_b.owner.name != "Nobody":
+                self.claim_country(country_b.owner,
                                    country_a)
 
     def transition(self, same_player_again: bool = False):
@@ -434,8 +432,7 @@ class MainWindow():
     def claim_country(self, player: Player, country: Country):
 
         # backend
-        old_player : Player = call_player_by_name(country.owner_name)
-        self.backend.claim_country_backend(old_player, player, country)
+        self.backend.claim_country_backend(country.owner, player, country)
 
         # frontend
         inv_map = {v: k for k, v in greencountrydict.items()}
@@ -1094,7 +1091,7 @@ class MainWindow():
             self.goldids = random.sample(range(len(all_countries_in_game)),
                                          numberofgold)
             for i in self.goldids:
-                if all_countries_in_game[i].owner_name != "Nobody" or all_countries_in_game[
+                if all_countries_in_game[i].owner.name != "Nobody" or all_countries_in_game[
                         i].name == "Unknown Country":
                     get_good_ids(numberofgold)
             return None
@@ -1156,7 +1153,7 @@ class MainWindow():
 
         def checkcountrylist(list1: list[Country]):
             for country in list1:
-                if country.owner_name != "Nobody" or country == self.really_unknown:
+                if country.owner.name != "Nobody" or country == self.really_unknown:
                     return False
             return True
 
@@ -1173,7 +1170,7 @@ class MainWindow():
             welcomelabel = tk.Label(
                 self.target_countries_frame,
                 text="Welcome " + player.name +
-                " those are your countries\n if you don't know where these are feel free to look at the map.",
+                " these are your countries\n if you don't know where these are feel free to look at the map.",
                 font="Helvetica 25")
             welcomelabel.grid(row=0, column=0, columnspan=len(targetlist))
             self.myimage = [0] * numberoftargets

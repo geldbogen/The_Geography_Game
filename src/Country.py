@@ -38,7 +38,7 @@ class Country:
         self.name: str = name
 
         # the name of the current owner of the country
-        self.owner_name: str = "Nobody"
+        self.owner: player.Player = player.mr_nobody
 
         # the name of the continent, which the country belongs to
         self.continent_name: str = continent
@@ -144,10 +144,10 @@ class Country:
         number_of_draws = 0
         number_of_loose = 0
         for country_name in self.neighboring_countries:
-            if peacemode and player.call_player_by_name(call_country_by_name(country_name).owner_name) != player.mr_nobody:
+            if peacemode and (call_country_by_name(country_name).owner) != player.mr_nobody:
                 continue
             
-            if self.owner_name == call_country_by_name(country_name).owner_name:
+            if self.owner == call_country_by_name(country_name).owner:
                 continue
 
             result = player.mr_nobody.check_if_attack_is_succesful(
