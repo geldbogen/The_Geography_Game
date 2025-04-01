@@ -5,7 +5,7 @@ import random
 import tkinter as tk
 
 if TYPE_CHECKING:
-    from player import Player
+    from player import Player, No_Data_Body
 
     from category import Category
 
@@ -387,10 +387,10 @@ class BackendGame():
                 or country2 in player.list_of_possessed_countries
                 or country1 == Unknown_country
                 or country2 == Unknown_country
+                or (country2.owner == No_Data_Body)
                 or
                     (self.peacemode and
-                     #  TODO in case of end_attribute don't connect with Mr_Nobody country
-                     (country1.owner != "Nobody" and country2.owner != "Nobody"))
+                     (country1.owner.name != "Nobody" and country2.owner.name != "Nobody"))
             ):
 
                 country1 = random.choice(player.list_of_possessed_countries)
