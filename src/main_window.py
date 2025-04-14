@@ -667,20 +667,9 @@ class MainWindow():
         self.linelist = list()
         self.pointlist = list()
             
-        country1, country2 = self.backend.get_two_countries_for_wormhole_connection(player)
-        country1.neighboring_countries.append(country2.name)
-        self.wormholed_countries.append([country1, country2])
-        create_good_line(country1, country2)
-        print(self.linelist)
+        
         for _ in range(numberofwormholes):
-
-            while (country2.name in country1.neighboring_countries
-                   or country1.name in country2.neighboring_countries
-                   or country1.continent_name == country2.continent_name):
-                country1 = all_countries_in_game[random.randrange(
-                    1, len(all_countries_in_game))]
-                country2 = all_countries_in_game[random.randrange(
-                    1, len(all_countries_in_game))]
+            country1, country2 = self.backend.get_two_countries_for_wormhole_connection(player)
             country1.neighboring_countries.append(country2.name)
             self.wormholed_countries.append([country1, country2])
             create_good_line(country1, country2)
