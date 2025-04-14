@@ -216,9 +216,11 @@ def setup_all_data():
                   dif=4, cluster="number of animalcluster")
     setup_data("Number of different fish species (higher is better).csv",
                   dif=4, cluster="number of animalcluster")
-    
+    setup_data("Number of different amphibian species (higher is better).csv",
+                  dif=4, cluster="number of animalcluster")
     setup_data("Number of different mammal species (higher is better).csv",
                   dif=4, cluster="number of animalcluster")
+    
     setup_data(
         "Percentage of people feeling safe walking alone (during the day) (higher is better).csv", dif=2)
     setup_data(
