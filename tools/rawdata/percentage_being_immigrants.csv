@@ -1,0 +1,279 @@
+﻿0,1
+ Cuba,0
+ Madagascar,0.1
+ China,0.1
+ Indonesia,0.1
+ Myanmar,0.1
+ Vietnam,0.1
+ Sri Lanka,0.2
+ North Korea,0.2
+ Philippines,0.2
+ Haiti,0.2
+ Somalia,0.3
+ Lesotho,0.3
+ Morocco,0.3
+ Afghanistan,0.4
+ India,0.4
+ Honduras,0.4
+ Brazil,0.4
+ Papua New Guinea,0.4
+ Solomon Islands,0.4
+ Eritrea,0.5
+ Egypt,0.5
+ Tunisia,0.5
+Eastern Asia,0.5
+ Cambodia,0.5
+ Guatemala,0.5
+ Nigeria,0.6
+ Algeria,0.6
+ Nicaragua,0.6
+ Sierra Leone,0.7
+Southern Asia,0.7
+ Mongolia,0.7
+ Lao People's Democratic Republic,0.7
+ Timor-Leste,0.7
+ El Salvador,0.7
+EASTERN AND SOUTH-EASTERN ASIA,0.8
+ Jamaica,0.8
+ Mexico,0.8
+Lower-middle-income countries,0.9
+ United Republic of Tanzania,0.9
+ Guinea,0.9
+ Western Sahara,0.9
+ Iraq,0.9
+ Zambia,1
+ Sao Tome and Principe,1
+CENTRAL AND SOUTHERN ASIA,1
+ Ethiopia,1.1
+ Mozambique,1.1
+ Democratic Republic of the Congo,1.1
+Central America,1.1
+Melanesia,1.1
+ Vanuatu,1.1
+ Bosnia and Herzegovina,1.1
+Northern Africa,1.2
+ Malawi,1.3
+ Niger,1.3
+ Yemen,1.3
+ Bangladesh,1.3
+Middle-income countries,1.4
+ Guinea-Bissau,1.4
+ Bolivia (Plurinational State of),1.4
+ Comoros,1.5
+ Ghana,1.5
+ Pakistan,1.5
+South-Eastern Asia,1.5
+Least developed countries,1.6
+ Fiji,1.6
+Low-income countries,1.7
+ Senegal,1.7
+   Nepal,1.7
+ Poland,1.7
+ Albania,1.7
+Asia,1.8
+Latin America and the Caribbean,1.8
+Eastern Africa,1.8
+LATIN AMERICA AND THE CARIBBEAN,1.8
+Less developed regions,1.9
+"Less developed regions, excluding least developed countries",1.9
+ Central African Republic,1.9
+Western Africa,1.9
+ Liberia,1.9
+Africa,2
+ Kenya,2
+ Cameroon,2
+ Georgia,2
+ Japan,2
+ Guyana,2
+ Samoa,2
+ Tuvalu,2
+Upper-middle-income countries,2.1
+ Angola,2.1
+SUB-SAHARAN AFRICA,2.2
+Middle Africa,2.2
+ Ecuador,2.2
+ Mauritius,2.3
+ South Korea,2.3
+ Colombia,2.3
+ Paraguay,2.3
+ Mali,2.4
+ Peru,2.4
+ Uruguay,2.4
+ Bulgaria,2.4
+ Romania,2.4
+ Azerbaijan,2.5
+ Micronesia,2.5
+ Kiribati,2.6
+ Republic of Moldova,2.6
+ Burundi,2.8
+ Zimbabwe,2.8
+ Eswatini,2.8
+ Cabo Verde,2.8
+ Sudan,2.9
+ Tajikistan,2.9
+South America,2.9
+ Kyrgyzstan,3.1
+ Chad,3.2
+ Iran (Islamic Republic of),3.2
+ Benin,3.3
+ Turkmenistan,3.3
+ Slovakia,3.4
+WORLD,3.5
+ Burkina Faso,3.5
+ Togo,3.5
+ Uzbekistan,3.5
+ Caribbean,3.5
+ Tonga,3.6
+ Mauritania,3.8
+ Uganda,3.9
+ Saint Vincent and the Grenadines,4.2
+ Trinidad and Tobago,4.2
+ Lithuania,4.2
+ Rwanda,4.3
+ Namibia,4.3
+ Panama,4.4
+ Saint Lucia,4.6
+ Botswana,4.8
+ Venezuela (Bolivarian Republic of),4.8
+ Czech Republic,4.8
+ Argentina,4.9
+ Chile,5
+ Syrian Arab Republic,5.1
+ Thailand,5.2
+ Dominican Republic,5.3
+ Hungary,5.3
+ Marshall Islands,5.6
+ North Macedonia,6.3
+ Armenia,6.4
+ Grenada,6.4
+Southern Africa,6.7
+Eastern Europe,6.9
+ Finland,6.9
+ Turkey,7
+ Bhutan,7
+ Saint Helena,7.1
+ South Africa,7.2
+ Congo,7.5
+Central Asia,7.6
+ South Sudan,7.8
+ Suriname,7.9
+ Russian Federation,8
+ Costa Rica,8.3
+ Portugal,8.7
+ Wallis and Futuna,8.9
+ Puerto Rico,9.1
+ Gambia,9.2
+NORTHERN AFRICA AND WESTERN ASIA,9.4
+ Serbia,9.4
+ Côte d'Ivoire,9.9
+ Greenland,10
+Polynesia,10.1
+ Italy,10.4
+ Malaysia,10.7
+Southern Europe,10.8
+Europe,11
+EUROPE,11
+ French Polynesia,11.2
+ Belarus,11.3
+ Ukraine,11.3
+ Montenegro,11.3
+ Dominica,11.5
+ Greece,11.6
+ Djibouti,11.8
+More developed regions,12
+ Libya,12.1
+ Barbados,12.1
+ Slovenia,12.2
+ Latvia,12.4
+ Denmark,12.5
+ Croatia,12.5
+EUROPE AND NORTHERN AMERICA,12.7
+ Maldives,13
+ Seychelles,13.2
+ Faroe Islands,13.3
+ Netherlands,13.4
+High-income countries,14
+ United Kingdom,14.1
+ France,14.1
+Northern Europe,14.3
+ Saint Kitts and Nevis,14.4
+ Estonia,14.4
+ Réunion,14.5
+ Spain,15.2
+ Belize,15.4
+ United States of America,15.4
+ Iceland,15.5
+Western Europe,15.6
+ Germany,15.7
+Northern America,16
+ Cyprus,16
+NORTHERN AMERICA,16
+ Norway,16.1
+ Bahamas,16.2
+ San Marino,16.3
+ Martinique,16.4
+Western Asia,16.6
+ Equatorial Guinea,16.8
+ Saint Pierre and Miquelon,17
+ Ireland,17.1
+ Belgium,17.2
+No income group available,17.9
+ Gabon,18.9
+ Malta,19.3
+ Nauru,19.7
+ Cook Islands,19.9
+ Austria,19.9
+ Kazakhstan,20
+ Sweden,20
+Oceania,21.2
+OCEANIA,21.2
+ Canada,21.3
+ Micronesia,21.7
+ Guadeloupe,22.3
+ Israel,23
+ Curaçao,25
+ Brunei Darussalam,25.5
+ New Caledonia,25.7
+ Lebanon,27.2
+ New Zealand,27.4
+ Montserrat,27.6
+ Mayotte,28
+ Palau,28.1
+Australia / New Zealand,28.7
+ Switzerland,29.9
+ Australia,30
+ Antigua and Barbuda,30.1
+ Bermuda,30.9
+ Jordan,33.1
+ Gibraltar,33.2
+ Aruba,34.4
+ Niue,36.4
+ Singapore,37.1
+ Tokelau,37.6
+ Northern Mariana Islands,38.1
+ Anguilla,38.2
+ Saudi Arabia,38.3
+" China, Hong Kong SAR",39.6
+ French Guiana,40.4
+ American Samoa,42.6
+ Cayman Islands,44.6
+ Bahrain,45.2
+ Oman,46
+ Luxembourg,47.4
+ Guam,47.7
+Channel Islands,48.7
+ Isle of Man,50.7
+ United States Virgin Islands,54.3
+ Falkland Islands,56.3
+ Andorra,58.5
+" Bonaire, Sint Eustatius and Saba",59.6
+" China, Macao SAR",62.4
+ Turks and Caicos Islands,64.2
+ Sint Maarten (Dutch part),66.7
+ Liechtenstein,67
+ Monaco,68
+ British Virgin Islands,69.2
+ Kuwait,72.1
+ Qatar,78.7
+ United Arab Emirates,87.9
+  Holy See,100

@@ -1,0 +1,208 @@
+﻿cityLabel,countryLabel,sitelinks
+"Washington, D.C.",United States of America,273
+Berlin,Germany,308
+Bern,Switzerland,189
+London,United Kingdom,319
+Cairo,Egypt,241
+Paris,France,332
+Vilnius,Lithuania,215
+Rome,Italy,313
+City of Brussels,Belgium,215
+Tashkent,Uzbekistan,172
+Warsaw,Poland,261
+Singapore,Singapore,303
+Skopje,North Macedonia,181
+Ljubljana,Slovenia,180
+Sofia,Bulgaria,212
+Oslo,Norway,224
+Lisbon,Portugal,242
+Moscow,Russia,319
+Beijing,People's Republic of China,277
+New Delhi,India,201
+Tbilisi,Georgia,211
+Prague,Czech Republic,248
+Montevideo,Uruguay,186
+Zagreb,Croatia,199
+Buenos Aires,Argentina,255
+Mexico City,Mexico,230
+Tokyo,Japan,273
+La Paz,Bolivia,144
+Nur-Sultan,Kazakhstan,195
+Athens,Greece,257
+Caracas,Venezuela,193
+Havana,Cuba,180
+Vienna,Austria,263
+Stockholm,Sweden,260
+Helsinki,Finland,232
+Dublin,Republic of Ireland,215
+Reykjavík,Iceland,199
+Tallinn,Estonia,200
+Riga,Latvia,208
+Bratislava,Slovakia,208
+Budapest,Hungary,244
+Luxembourg,Luxembourg,154
+Vaduz,Liechtenstein,166
+San Marino,San Marino,125
+Phnom Penh,Cambodia,162
+Andorra la Vella,Andorra,177
+Kyiv,Ukraine,228
+Ottawa,Canada,209
+Yerevan,Armenia,193
+Minsk,Belarus,210
+Madrid,Spain,279
+Bogotá,Colombia,262
+Brasília,Brazil,204
+Lima,Peru,195
+Santiago,Chile,272
+Quito,Ecuador,165
+Sucre,Bolivia,136
+Asunción,Paraguay,163
+Paramaribo,Suriname,142
+Belmopan,Belize,131
+Canberra,Australia,191
+Algiers,Algeria,185
+Addis Ababa,Ethiopia,178
+Jakarta,Indonesia,222
+Ankara,Turkey,222
+N'Djamena,Chad,149
+Belgrade,Serbia,209
+Accra,Ghana,177
+Nicosia,Cyprus,188
+Nairobi,Kenya,204
+Manama,Bahrain,150
+Pretoria,South Africa,168
+Cape Town,South Africa,187
+Baku,Azerbaijan,219
+Dili,East Timor,144
+Georgetown,Guyana,129
+Sarajevo,Bosnia and Herzegovina,194
+Majuro,Marshall Islands,112
+Pyongyang,North Korea,177
+Bucharest,Romania,219
+Tirana,Albania,203
+Chișinău,Moldova,179
+Ulaanbaatar,Mongolia,176
+Podgorica,Montenegro,170
+Wellington,New Zealand,172
+Valletta,Malta,161
+Yaren District,Nauru,102
+Funafuti,Tuvalu,109
+Bridgetown,Barbados,124
+Apia,Samoa,131
+Port Moresby,Papua New Guinea,136
+Bloemfontein,South Africa,129
+Port Vila,Vanuatu,122
+Suva,Fiji,126
+Nuku'alofa,Tonga,111
+Honiara,Solomon Islands,117
+Palikir,Federated States of Micronesia,104
+Monaco City,Monaco,53
+South Tarawa,Kiribati,87
+Ngerulmud,Palau,78
+Kabul,Transitional Islamic State of Afghanistan,196
+Kabul,Islamic Republic of Afghanistan,196
+Hargeisa,State of Somaliland,85
+Copenhagen,Kingdom of Denmark,224
+Bucharest,Romanian Old Kingdom,219
+Port of Spain,Trinidad and Tobago,124
+Kingstown,Saint Vincent and the Grenadines,104
+Berlin,Weimar Republic,308
+Amsterdam,Kingdom of the Netherlands,253
+Jerusalem,Israel,268
+Dhaka,Bangladesh,189
+Islamabad,Pakistan,172
+Manila,Philippines,187
+Abu Dhabi,United Arab Emirates,170
+Baghdad,Iraq,231
+Guatemala City,Guatemala,138
+Hanoi,Vietnam,186
+Bangkok,Thailand,228
+Kuala Lumpur,Malaysia,190
+Taipei,Taiwan,173
+Juba,South Sudan,136
+Khartoum,Sudan,160
+Mogadishu,Somalia,157
+Nassau,The Bahamas,128
+Sanaa,Yemen,150
+Kathmandu,Nepal,180
+San José,Costa Rica,134
+San Salvador,El Salvador,136
+Tegucigalpa,Honduras,145
+Managua,Nicaragua,143
+Panama City,Panama,142
+Rabat,Morocco,172
+Tunis,Tunisia,170
+Tripoli,Libya,171
+Djibouti,Djibouti,135
+Tehran,Iran,215
+Asmara,Eritrea,152
+Niamey,Niger,147
+Nouakchott,Mauritania,142
+Riyadh,Saudi Arabia,170
+Bamako,Mali,167
+Dakar,Senegal,159
+Banjul,The Gambia,152
+Conakry,Guinea,149
+Bissau,Guinea-Bissau,155
+Monrovia,Liberia,147
+Praia,Cape Verde,146
+Damascus,Syria,212
+Yamoussoukro,Côte d'Ivoire,145
+Ouagadougou,Burkina Faso,155
+Freetown,Sierra Leone,145
+Abuja,Nigeria,170
+Lomé,Togo,145
+Porto-Novo,Benin,149
+Amman,Jordan,175
+Yaoundé,Cameroon,149
+Malabo,Equatorial Guinea,144
+Beirut,Lebanon,194
+Libreville,Gabon,147
+Muscat,Oman,151
+Bangui,Central African Republic,149
+Kinshasa,Democratic Republic of the Congo,182
+Brazzaville,Republic of the Congo,158
+Kigali,Rwanda,148
+Doha,Qatar,169
+Dodoma,Tanzania,143
+Lilongwe,Malawi,139
+Lusaka,Zambia,154
+Maputo,Mozambique,151
+Kampala,Uganda,162
+Luanda,Angola,163
+Moroni,Comoros,135
+Mbabane,Eswatini,131
+Maseru,Lesotho,141
+Antananarivo,Madagascar,153
+Gaborone,Botswana,151
+Harare,Zimbabwe,156
+Port Louis,Mauritius,140
+São Tomé,São Tomé and Príncipe,132
+Windhoek,Namibia,162
+Victoria,Seychelles,132
+Kabul,Afghanistan,196
+Kabul,Islamic Emirate of Afghanistan,196
+Seoul,South Korea,223
+Thimphu,Bhutan,155
+Bandar Seri Begawan,Brunei,144
+Vientiane,Laos,158
+Malé,Maldives,141
+Bishkek,Kyrgyzstan,169
+Dushanbe,Tajikistan,161
+Ashgabat,Turkmenistan,165
+Port-au-Prince,Haiti,139
+Kingston,Jamaica,141
+Santo Domingo,Dominican Republic,134
+Kuwait City,Kuwait,155
+Colombo,Sri Lanka,145
+Saint John's,Antigua and Barbuda,120
+Roseau,Dominica,113
+Naypyidaw,Myanmar,135
+Basseterre,Saint Kitts and Nevis,110
+St. George's,Grenada,115
+Castries,Saint Lucia,115
+Sri Jayawardenepura Kotte,Sri Lanka,115
+Kandahar,Islamic Emirate of Afghanistan,105
+Lobamba,Eswatini,84
+Aden,Yemen,98
+Gitega,Burundi,81

@@ -1,0 +1,192 @@
+Unnamed: 0,0,1,2
+0,United States,273.0,"Washington, D.C."
+1,Germany,308.0,Berlin
+2,Switzerland,189.0,Bern
+3,United Kingdom,319.0,London
+4,Egypt,241.0,Cairo
+5,France,332.0,Paris
+6,Lithuania,215.0,Vilnius
+7,Italy,313.0,Rome
+8,Belgium,215.0,City of Brussels
+9,Uzbekistan,172.0,Tashkent
+10,Poland,261.0,Warsaw
+11,Singapore,303.0,Singapore
+12,North Macedonia,181.0,Skopje
+13,Slovenia,180.0,Ljubljana
+14,Bulgaria,212.0,Sofia
+15,Norway,224.0,Oslo
+16,Portugal,242.0,Lisbon
+17,Russia,319.0,Moscow
+18,China,277.0,Beijing
+19,India,201.0,New Delhi
+20,Georgia,211.0,Tbilisi
+21,Czech Republic,248.0,Prague
+22,Uruguay,186.0,Montevideo
+23,Croatia,199.0,Zagreb
+24,Argentina,255.0,Buenos Aires
+25,Mexico,230.0,Mexico City
+26,Japan,273.0,Tokyo
+27,Bolivia,144.0,La Paz
+28,Kazakhstan,195.0,Nur-Sultan
+29,Greece,257.0,Athens
+30,Venezuela,193.0,Caracas
+31,Cuba,180.0,Havana
+32,Austria,263.0,Vienna
+33,Sweden,260.0,Stockholm
+34,Finland,232.0,Helsinki
+35,Ireland,215.0,Dublin
+36,Iceland,199.0,Reykjavík
+37,Estonia,200.0,Tallinn
+38,Latvia,208.0,Riga
+39,Slovakia,208.0,Bratislava
+40,Hungary,244.0,Budapest
+41,Luxembourg,154.0,Luxembourg
+42,Liechtenstein,166.0,Vaduz
+43,San Marino,125.0,San Marino
+44,Cambodia,162.0,Phnom Penh
+45,Andorra,177.0,Andorra la Vella
+46,Ukraine,228.0,Kyiv
+47,Canada,209.0,Ottawa
+48,Armenia,193.0,Yerevan
+49,Belarus,210.0,Minsk
+50,Spain,279.0,Madrid
+51,Colombia,262.0,Bogotá
+52,Brazil,204.0,Brasília
+53,Peru,195.0,Lima
+54,Chile,272.0,Santiago
+55,Ecuador,165.0,Quito
+57,Paraguay,163.0,Asunción
+58,Suriname,142.0,Paramaribo
+59,Belize,131.0,Belmopan
+60,Australia,191.0,Canberra
+61,Algeria,185.0,Algiers
+62,Ethiopia,178.0,Addis Ababa
+63,Indonesia,222.0,Jakarta
+64,Turkey,222.0,Ankara
+65,Chad,149.0,N'Djamena
+66,Serbia,209.0,Belgrade
+67,Ghana,177.0,Accra
+68,Cyprus,188.0,Nicosia
+69,Kenya,204.0,Nairobi
+70,Bahrain,150.0,Manama
+71,South Africa,168.0,Pretoria
+73,Azerbaijan,219.0,Baku
+74,Timor-Leste,144.0,Dili
+75,Guyana,129.0,Georgetown
+76,Bosnia and Herzegovina,194.0,Sarajevo
+77,Marshall Islands,112.0,Majuro
+78,North Korea,177.0,Pyongyang
+79,Romania,219.0,Bucharest
+80,Albania,203.0,Tirana
+81,Moldova,179.0,Chișinău
+82,Mongolia,176.0,Ulaanbaatar
+83,Montenegro,170.0,Podgorica
+84,New Zealand,172.0,Wellington
+85,Malta,161.0,Valletta
+86,Nauru,102.0,Yaren District
+87,Tuvalu,109.0,Funafuti
+88,Barbados,124.0,Bridgetown
+89,Samoa,131.0,Apia
+90,Papua New Guinea,136.0,Port Moresby
+92,Vanuatu,122.0,Port Vila
+93,Fiji,126.0,Suva
+94,Tonga,111.0,Nuku'alofa
+95,Solomon Islands,117.0,Honiara
+96,Micronesia,104.0,Palikir
+97,Monaco,53.0,Monaco City
+98,Kiribati,87.0,South Tarawa
+99,Palau,78.0,Ngerulmud
+103,Denmark,224.0,Copenhagen
+105,Trinidad & Tobago,124.0,Port of Spain
+108,Netherlands,253.0,Amsterdam
+109,Israel,268.0,Jerusalem
+110,Bangladesh,189.0,Dhaka
+111,Pakistan,172.0,Islamabad
+112,Philippines,187.0,Manila
+113,United Arab Emirates,170.0,Abu Dhabi
+114,Iraq,231.0,Baghdad
+115,Guatemala,138.0,Guatemala City
+116,Vietnam,186.0,Hanoi
+117,Thailand,228.0,Bangkok
+118,Malaysia,190.0,Kuala Lumpur
+119,Taiwan,173.0,Taipei
+120,South Sudan,136.0,Juba
+121,Sudan,160.0,Khartoum
+122,Somalia,157.0,Mogadishu
+123,Bahamas,128.0,Nassau
+124,Yemen,150.0,Sanaa
+125,Nepal,180.0,Kathmandu
+126,Costa Rica,134.0,San José
+127,El Salvador,136.0,San Salvador
+128,Honduras,145.0,Tegucigalpa
+129,Nicaragua,143.0,Managua
+130,Panama,142.0,Panama City
+131,Morocco,172.0,Rabat
+132,Tunisia,170.0,Tunis
+133,Libya,171.0,Tripoli
+134,Djibouti,135.0,Djibouti
+135,Iran,215.0,Tehran
+136,Eritrea,152.0,Asmara
+137,Niger,147.0,Niamey
+138,Mauritania,142.0,Nouakchott
+139,Saudi Arabia,170.0,Riyadh
+140,Mali,167.0,Bamako
+141,Senegal,159.0,Dakar
+142,Gambia,152.0,Banjul
+143,Guinea,149.0,Conakry
+144,Guinea-Bissau,155.0,Bissau
+145,Liberia,147.0,Monrovia
+146,Cape Verde,146.0,Praia
+147,Syria,212.0,Damascus
+148,Côte d’Ivoire,145.0,Yamoussoukro
+149,Burkina Faso,155.0,Ouagadougou
+150,Sierra Leone,145.0,Freetown
+151,Nigeria,170.0,Abuja
+152,Togo,145.0,Lomé
+153,Benin,149.0,Porto-Novo
+154,Jordan,175.0,Amman
+155,Cameroon,149.0,Yaoundé
+156,Equatorial Guinea,144.0,Malabo
+157,Lebanon,194.0,Beirut
+158,Gabon,147.0,Libreville
+159,Oman,151.0,Muscat
+160,Central African Republic,149.0,Bangui
+161,Democratic Republic of the Congo,182.0,Kinshasa
+162,Republic of the Congo,158.0,Brazzaville
+163,Rwanda,148.0,Kigali
+164,Qatar,169.0,Doha
+165,Tanzania,143.0,Dodoma
+166,Malawi,139.0,Lilongwe
+167,Zambia,154.0,Lusaka
+168,Mozambique,151.0,Maputo
+169,Uganda,162.0,Kampala
+170,Angola,163.0,Luanda
+171,Comoros,135.0,Moroni
+172,Eswatini,131.0,Mbabane
+173,Lesotho,141.0,Maseru
+174,Madagascar,153.0,Antananarivo
+175,Botswana,151.0,Gaborone
+176,Zimbabwe,156.0,Harare
+177,Mauritius,140.0,Port Louis
+178,São Tomé & Príncipe,132.0,São Tomé
+179,Namibia,162.0,Windhoek
+180,Seychelles,132.0,Victoria
+181,Afghanistan,196.0,Kabul
+183,South Korea,223.0,Seoul
+184,Bhutan,155.0,Thimphu
+185,Brunei,144.0,Bandar Seri Begawan
+186,Laos,158.0,Vientiane
+187,Maldives,141.0,Malé
+188,Kyrgyzstan,169.0,Bishkek
+189,Tajikistan,161.0,Dushanbe
+190,Turkmenistan,165.0,Ashgabat
+191,Haiti,139.0,Port-au-Prince
+192,Jamaica,141.0,Kingston
+193,Dominican Republic,134.0,Santo Domingo
+194,Kuwait,155.0,Kuwait City
+195,Sri Lanka,145.0,Colombo
+196,Antigua & Barbuda,120.0,Saint John's
+197,Dominica,113.0,Roseau
+198,Myanmar,135.0,Naypyidaw
+200,Grenada,115.0,St. George's
+206,Burundi,81.0,Gitega

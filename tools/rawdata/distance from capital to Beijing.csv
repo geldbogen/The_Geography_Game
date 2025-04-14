@@ -1,0 +1,206 @@
+countryLabel,cityLabel,distance
+United States of America,"Washington, D.C.",11146.40816632196
+Germany,Berlin,7358.62973542046
+Switzerland,Bern,8075.180731778538
+United Kingdom,London,8140.685905297592
+Egypt,Cairo,7543.917184149074
+France,Paris,8216.606852951167
+Lithuania,Vilnius,6562.349063254834
+Italy,Rome,8126.372944202503
+Vatican City,Vatican City,8127.526428835033
+Belgium,City of Brussels,7961.648622379943
+Uzbekistan,Tashkent,3931.781847512175
+Poland,Warsaw,6941.040286624301
+Singapore,Singapore,4477.823606038261
+North Macedonia,Skopje,7525.388816451729
+Slovenia,Ljubljana,7715.040535374736
+Bulgaria,Sofia,7352.88148240901
+Norway,Oslo,7024.794295431402
+Portugal,Lisbon,9668.289982606038
+Russia,Moscow,5793.512987399744
+People's Republic of China,Beijing,0.0
+India,New Delhi,3779.729670705204
+Georgia,Tbilisi,5847.40391939946
+Czech Republic,Prague,7455.920753767976
+Uruguay,Montevideo,19152.07028525154
+Croatia,Zagreb,7639.048304097189
+Argentina,Buenos Aires,19265.76448833
+Mexico,Mexico City,12458.119319542684
+Japan,Tokyo,2092.2829251907806
+Kazakhstan,Astana,3653.4729420048156
+Greece,Athens,7616.194514142587
+Venezuela,Caracas,14399.130236400055
+Cuba,Havana,12739.349007302071
+Austria,Vienna,7460.251236073345
+Sweden,Stockholm,6707.97948591959
+Finland,Helsinki,6321.918223033663
+Republic of Ireland,Dublin,8281.852844647203
+Iceland,Reykjavík,7882.243330721657
+Estonia,Tallinn,6364.9226583191885
+Latvia,Riga,6516.566903746129
+Slovakia,Bratislava,7419.155525069171
+Hungary,Budapest,7340.157562658734
+Luxembourg,Luxembourg,7956.416483734937
+Liechtenstein,Vaduz,7940.898183617895
+San Marino,San Marino,7986.92725822981
+Cambodia,Phnom Penh,3346.948826960497
+Andorra,Andorra la Vella,8755.488623469566
+Ukraine,Kyiv,6450.609276232372
+Canada,Ottawa,10450.0027953628
+Armenia,Yerevan,5938.879207936959
+Belarus,Minsk,6467.542936556707
+Spain,Madrid,9221.995538217005
+Colombia,Bogotá,14949.598363084337
+Brazil,Brasília,16931.36460565168
+Peru,Lima,16648.4484344742
+Chile,Santiago,19059.323144434657
+Ecuador,Quito,15349.594523773756
+Paraguay,Asunción,18298.168203780955
+Suriname,Paramaribo,14852.07365932707
+Belize,Belmopan,13144.360802366513
+Australia,Canberra,9008.219322532706
+Algeria,Algiers,9108.745175868577
+Ethiopia,Addis Ababa,8315.389912527393
+Indonesia,Jakarta,5216.92296714158
+Turkey,Ankara,6834.355659064509
+Chad,N'Djamena,10090.692876333138
+Serbia,Belgrade,7414.902888042291
+Ghana,Accra,11809.302657320559
+Cyprus,Nicosia,7065.581282370126
+Kenya,Nairobi,9213.959792134408
+Bahrain,Manama,6180.023548129352
+South Africa,Pretoria,11664.181830308118
+South Africa,Cape Town,12955.193918122673
+Azerbaijan,Baku,5517.0850862810785
+East Timor,Dili,5470.052542044556
+Guyana,Georgetown,14790.495350403138
+Bosnia and Herzegovina,Sarajevo,7609.395680708233
+Marshall Islands,Majuro,6552.0454139833555
+North Korea,Pyongyang,805.7178353648449
+Romania,Bucharest,7063.829716628213
+Albania,Tirana,7677.583860108455
+Moldova,Chișinău,6733.786576433442
+Mongolia,Ulaanbaatar,1170.364972077726
+Montenegro,Podgorica,7643.752107312326
+New Zealand,Wellington,10779.87813263591
+Malta,Valletta,8410.114777330415
+Nauru,Yaren District,6805.511665656558
+Tuvalu,Funafuti,8385.178153632538
+Barbados,Bridgetown,14106.575074378025
+Samoa,Apia,9498.324953217609
+Papua New Guinea,Port Moresby,6337.5287180108335
+South Africa,Bloemfontein,12043.349361649398
+Vanuatu,Port Vila,8361.994706349415
+Fiji,Suva,9097.361114597674
+Tonga,Nuku'alofa,9801.363231592422
+Solomon Islands,Honiara,7080.470085659231
+Federated States of Micronesia,Palikir,5539.625906116037
+Monaco,Monaco City,8310.671584508022
+Kiribati,South Tarawa,7121.923173268913
+Federated States of Micronesia,Kolonia,5537.518808963248
+Palau,Ngerulmud,4033.500718995205
+Bolivia,La Paz,17374.18679770856
+Bolivia,Sucre,17689.606537229156
+Trinidad and Tobago,Port of Spain,14387.110331713462
+Saint Vincent and the Grenadines,Kingstown,14108.171596284563
+Burundi,Gitega,9952.152702243313
+Kingdom of the Netherlands,Amsterdam,7821.896728467189
+Israel,Jerusalem,7120.1039393821375
+State of Palestine,Jerusalem,7120.1039393821375
+Bangladesh,Dhaka,3026.386453729574
+Pakistan,Islamabad,3883.7462313362753
+Philippines,Manila,2848.973063612502
+United Arab Emirates,Abu Dhabi,5961.043728136048
+Iraq,Baghdad,6297.010371378664
+Guatemala,Guatemala City,13342.697196973715
+Kingdom of Denmark,Copenhagen,7201.193579619611
+Vietnam,Hanoi,2326.457009425531
+Thailand,Bangkok,3295.82569824193
+Malaysia,Kuala Lumpur,4347.220874297538
+Taiwan,Taipei,1721.4235531545078
+South Sudan,Juba,9218.81560612348
+Sudan,Khartoum,8388.736913693656
+Somalia,Mogadishu,8254.847792348963
+The Bahamas,Nassau,12649.585113078596
+Yemen,Sanaa,7414.146884103333
+Nepal,Kathmandu,3150.1846404804655
+Costa Rica,San José,14084.167796440992
+El Salvador,San Salvador,13492.512828271609
+Honduras,Tegucigalpa,13530.9063264924
+Nicaragua,Managua,13769.61129949717
+Panama,Panama City,14335.15491008271
+Morocco,Rabat,9940.659446837695
+Tunisia,Tunis,8642.04391809231
+Libya,Tripoli,8718.576582012874
+Djibouti,Djibouti,7760.423492082422
+Iran,Tehran,5601.585695912145
+Eritrea,Asmara,7865.4142994177
+Niger,Niamey,11010.781522914649
+Mauritania,Nouakchott,11897.696472866332
+Saudi Arabia,Riyadh,6601.478971156978
+Mali,Bamako,11831.231904752656
+Senegal,Dakar,12291.666664156744
+The Gambia,Banjul,12349.303062911438
+Guinea,Conakry,12501.014465662729
+Guinea-Bissau,Bissau,12425.343457763753
+Liberia,Monrovia,12563.564497817035
+Cape Verde,Praia,12642.656110210797
+Syria,Damascus,6933.27641078121
+Ivory Coast,Yamoussoukro,12108.481614295293
+Burkina Faso,Ouagadougou,11378.547413940203
+Sierra Leone,Freetown,12555.27417288589
+Nigeria,Abuja,10931.638678301817
+Togo,Lomé,11656.629289735118
+Benin,Porto-Novo,11518.582646743804
+Jordan,Amman,7053.470451295927
+Cameroon,Yaoundé,10988.899324768048
+Equatorial Guinea,Malabo,11224.301337515046
+Lebanon,Beirut,6972.999055046827
+Gabon,Libreville,11415.675335663862
+Oman,Muscat,5653.930071686575
+Central African Republic,Bangui,10360.697181368696
+Democratic Republic of the Congo,Kinshasa,11261.48218713527
+Republic of the Congo,Brazzaville,11260.66445313945
+Rwanda,Kigali,9835.166386646466
+Qatar,Doha,6153.786974221391
+Tanzania,Dodoma,9658.695998726336
+Malawi,Lilongwe,10386.02692343752
+Zambia,Lusaka,10942.634209042106
+Mozambique,Maputo,11330.315844909785
+Uganda,Kampala,9458.460474530373
+Angola,Luanda,11757.439874290785
+Comoros,Moroni,9448.513064607716
+Eswatini,Mbabane,11468.891747429156
+Lesotho,Maseru,11958.306007997347
+Madagascar,Antananarivo,9668.159848934305
+Botswana,Gaborone,11773.2321180341
+Zimbabwe,Harare,10884.402492834113
+Mauritius,Port Louis,9042.9461177449
+São Tomé and Príncipe,São Tomé,11646.63900915326
+Namibia,Windhoek,12359.89988789403
+Seychelles,Victoria,7935.079197814911
+Afghanistan,Kabul,4176.516285569681
+South Korea,Seoul,953.5033156390193
+Bhutan,Thimphu,2819.799021327664
+Brunei,Bandar Seri Begawan,3893.103740826394
+Laos,Vientiane,2776.745674342757
+Maldives,Malé,5850.23948523971
+Kyrgyzstan,Bishkek,3470.034645075176
+Tajikistan,Dushanbe,4054.4078676074273
+Turkmenistan,Ashgabat,4933.426644110254
+Turkmenistan,Ashgabat,4933.426372170461
+Haiti,Port-au-Prince,13452.443433718352
+Jamaica,Kingston,13434.950846841512
+Dominican Republic,Santo Domingo,13490.000782536932
+Kuwait,Kuwait City,6216.862701351562
+Sri Lanka,Colombo,5166.109630748863
+Antigua and Barbuda,Saint John's,13670.932876012821
+Dominica,Roseau,13871.745791752046
+Myanmar,Naypyidaw,2960.649379625227
+Saint Kitts and Nevis,Basseterre,13653.194465728742
+Grenada,St. George's,14234.829174258499
+Saint Lucia,Castries,14012.6245055198
+Sri Lanka,Sri Jayawardenepura Kotte,5161.771553834584
+Eswatini,Lobamba,11474.045454217445
+Yemen,Aden,7516.603400447847
+State of Palestine,Ramallah,7114.953222393136

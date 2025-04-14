@@ -1,0 +1,230 @@
+Country,Amount,Date
+"Kazakhstan","99.5%",1999
+"Uzbekistan","99.3%",2003
+"Tonga","98.9%",1999
+"Kyrgyzstan","98.7%",1999
+"Croatia","98.5%",2003
+"Romania","98.4%",2003
+"South Korea","98.1%",2003
+"Spain","97.9%",2003
+"Martinique","97.7%",2003
+"Cyprus","97.6%",2003
+"Greece","97.5%",2003
+"Aruba","97.3%",2000
+"Serbia and Montenegro","96.4%",2003
+"Taiwan","96.1%",2003
+"Philippines","95.9%",2003
+"The Bahamas","95.6%",2003
+"Macau","94.5%",2003
+"Maldives","93.8%",2006
+"Venezuela","93.4%",2003
+"Singapore","93.2%",2003
+"Peru","92.9%",2007
+"Malta","92.8%",2005
+"Panama","92.6%",2003
+"Ecuador","92.5%",2003
+"Sri Lanka","92.3%",2003
+"Palau","92%",1980
+"Seychelles","91.9%",2003
+"Brunei","91.8%",2003
+"China","91.6%",2007
+"Zimbabwe","90.7%",2003
+"Saint Lucia","90.1%",2001
+"Suriname","89.6%",2004
+"Bahrain","89.1%",2003
+"Brazil","88.6%",2004
+"Jamaica","87.9%",2003
+"Bolivia","87.2%",2003
+"Albania","86.5%",2003
+"South Africa","86.4%",2003
+"Mexico","86.1%",2005
+"Antigua and Barbuda","85.8%",2003
+"Equatorial Guinea","85.7%",2003
+"Mauritius","85.6%",2003
+"Kenya","85.1%",2003
+"Sao Tome and Principe","84.9%",2001
+"Lesotho","84.8%",2003
+"Dominican Republic","84.7%",2003
+"Namibia","84%",2003
+"Congo, Republic of the","83.8%",2003
+"Libya","82.6%",2003
+"Swaziland","81.6%",2003
+"Oman","81.4%",2003
+"Botswana","81.2%",2003
+"El Salvador","81.1%",2007
+"Zambia","80.6%",2003
+"Syria","79.6%",2004
+"Iran","79.4%",2003
+"Cameroon","79%",2003
+"Saudi Arabia","78.8%",2003
+"Tanzania","78.2%",2003
+"United Arab Emirates","77.9%",2003
+"Cape Verde","76.6%",2003
+"Honduras","76.2%",2003
+"Ghana","74.8%",2003
+"Tunisia","74.3%",2004
+"Vanuatu","74%",1999
+"Cambodia","73.6%",2004
+"Laos","73%",2005
+"Egypt","71.4%",2005
+"Guatemala","70.6%",2003
+"Rwanda","70.4%",2003
+"Algeria","70%",2003
+"Uganda","69.9%",2003
+"Madagascar","68.9%",2003
+"Nigeria","68%",2003
+"Djibouti","67.9%",2003
+"Nicaragua","67.5%",2003
+"Angola","67.4%",2001
+"Papua New Guinea","66%",2003
+"Democratic Republic of the Congo","65.5%",2003
+"Gabon","63.2%",1995
+"Malawi","62.7%",2003
+"Sudan","61.1%",2003
+"Togo","60.9%",2003
+"India","59.5%",2003
+"Liberia","57.5%",2003
+"Comoros","56.5%",2003
+"Haiti","52.9%",2003
+"Morocco","52.3%",2004
+"Burundi","51.6%",2003
+"Central African Republic","51%",2003
+"Cote d'Ivoire","50.9%",2003
+"Yemen","50.2%",2003
+"Wallis and Futuna","50%",1969
+"Pakistan","49.9%",2005
+"Mozambique","47.8%",2003
+"Chad","47.5%",2003
+"Bhutan","47%",2003
+"Mali","46.4%",2003
+"Nepal","45.2%",2003
+"Bangladesh","43.1%",2003
+"Ethiopia","42.7%",2003
+"Guinea-Bissau","42.4%",2003
+"Mauritania","41.7%",2003
+"Iraq","40.4%",2003
+"Senegal","40.2%",2003
+"The Gambia","40.1%",2003
+"Somalia","37.8%",2001
+"Sierra Leone","35.1%",2004
+"Benin","34.7%",2002
+"Guinea","29.5%",2003
+"Niger","28.7%",2005
+"Afghanistan","28.1%",2000
+"Burkina Faso","21.8%",2003
+"Holy See (Vatican City)","100%",2011
+"Liechtenstein","100%",2008
+"Norway","100%",2008
+"Andorra","100%",2008
+"Georgia","100%",2004
+"Greenland","100%",2001
+"Luxembourg","100%",2000
+"Finland","100%",2000
+"Estonia","99.8%",2003
+"Latvia","99.8%",2003
+"Poland","99.8%",2003
+"Slovenia","99.7%",2008
+"Samoa","99.7%",2003
+"Ukraine","99.7%",2003
+"Barbados","99.7%",2002
+"Slovakia","99.6%",2004
+"Lithuania","99.6%",2003
+"Russia","99.6%",2003
+"Belarus","99.6%",2003
+"Tajikistan","99.4%",2003
+"Hungary","99.4%",2003
+"Moldova","99.1%",2005
+"Mongolia","99.1%",2003
+"North Korea","99%",2011
+"Canada","99%",2003
+"Netherlands","99%",2003
+"Monaco","99%",2003
+"France","99%",2003
+"Ireland","99%",2003
+"Australia","99%",2003
+"Denmark","99%",2003
+"United Kingdom","99%",2003
+"New Zealand","99%",2003
+"Czech Republic","99%",2003
+"United States","99%",2003
+"Sweden","99%",2003
+"Belgium","99%",2003
+"Switzerland","99%",2003
+"Iceland","99%",2003
+"Germany","99%",2003
+"Japan","99%",2002
+"Guam","99%",1990
+"Saint Pierre and Miquelon","99%",1982
+"Azerbaijan","98.8%",2003
+"Guyana","98.8%",2003
+"Turkmenistan","98.8%",1999
+"Italy","98.6%",2003
+"Trinidad and Tobago","98.6%",2003
+"Armenia","98.6%",2003
+"Bulgaria","98.6%",2003
+"Austria","98%",2008
+"Bermuda","98%",2005
+"Uruguay","98%",2003
+"French Polynesia","98%",1977
+"Cayman Islands","98%",1970
+"Turks and Caicos Islands","98%",1970
+"Saint Kitts and Nevis","97.8%",2003
+"British Virgin Islands","97.8%",1991
+"Israel","97.1%",2004
+"Argentina","97.1%",2003
+"Cuba","97%",2003
+"American Samoa","97%",1980
+"Northern Mariana Islands","97%",1980
+"Montserrat","97%",1970
+"Netherlands Antilles","96.7%",2003
+"Bosnia and Herzegovina","96.7%",2000
+"Chile","96.2%",2003
+"New Caledonia","96.2%",1996
+"San Marino","96%",2011
+"Costa Rica","96%",2003
+"Thailand","96%",2003
+"Grenada","96%",2003
+"Saint Vincent and the Grenadines","96%",1970
+"Cook Islands","95%",2010
+"Niue","95%",2008
+"Anguilla","95%",1984
+"Belize","94.1%",2003
+"Puerto Rico","94.1%",2002
+"Dominica","94%",2003
+"Hong Kong","94%",2003
+"Paraguay","94%",2003
+"Vietnam","94%",2003
+"Fiji","93.7%",2003
+"Marshall Islands","93.7%",1999
+"Kuwait","93.3%",2005
+"Portugal","93.3%",2003
+"West Bank","92.4%",2004
+"Gaza Strip","92.4%",2004
+"Colombia","90.4%",2005
+"Indonesia","90.4%",2004
+"Burma","89.9%",2006
+"Jordan","89.9%",2003
+"Qatar","89%",2004
+"Federated States of Micronesia","89%",1980
+"Malaysia","88.9%",2003
+"Reunion","88.9%",2003
+"Turkey","87.4%",2004
+"Lebanon","87.4%",2003
+"Eritrea","58.6%",2003
+"East Timor","58.6%",2002
+"Group of 7 countries (G7) average","98.93%",2003
+"High income OECD countries average","98.45%",2003
+"European Union average","98.43%",2003
+"NATO countries average","97.7%",2003
+"Non-religious countries average","95.75%",2003
+"Emerging markets average","91.07%",2003
+"Heavily indebted countries average","89.51%",2003
+"Former Spanish colonies average","89.02%",2003
+"Former British colonies average","81.47%",2003
+"OPEC countries average","75.65%",2003
+"Middle Eastern and North Africa average","74.94%",2003
+"Muslim countries average","67.94%",2003
+"Sub-Saharan Africa average","63.06%",2003
+"Former French colonies average","56.56%",2003
+"failed states average","53.52%",2003
+"South Asia average","48.83%",2003

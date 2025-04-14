@@ -1,0 +1,20 @@
+SELECT DISTINCT ?pageid ?novelist ?novelistLabel ?countryLabel ?sitelinks WHERE {
+
+SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
+hint:Query hint:optimizer "None".
+
+VALUES ?country {wd:Q711}
+
+
+{?novelist wdt:P27 ?country;
+            wdt:P19 [wdt:P17 wd:Q142];
+            wikibase:sitelinks ?sitelinks
+filter(?sitelinks>0)} 
+UNION
+{?novelist wdt:P19 [wdt:P17 ?country];
+            wdt:P27 wd:Q142;
+            wikibase:sitelinks ?sitelinks.
+filter(?sitelinks>0)}
+}
+ORDER BY DESC(?sitelinks)
+LIMIT 50

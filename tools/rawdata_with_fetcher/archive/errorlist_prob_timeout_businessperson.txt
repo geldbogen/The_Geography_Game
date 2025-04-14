@@ -1,0 +1,11 @@
+wd:Q40
+wd:Q142
+wd:Q183
+wd:Q1006
+wd:Q790
+wd:Q38
+wd:Q17
+wd:Q159
+wd:Q29
+wd:Q145
+wd:Q30
