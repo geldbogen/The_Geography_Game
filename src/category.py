@@ -80,9 +80,8 @@ class Category:
             # One can specify the probabily of choosing this cluster by appending it multiple times.
             if not cluster in all_categories_names_and_clusters:
                 # here one can tune the probability of choosing the specific cluster
-                # set it as 5/number of attribute
-                for _ in range(5):
-                    all_categories_names_and_clusters.append(cluster)
+                # TODO take care of the size of the clusters
+                all_categories_names_and_clusters.append(cluster)
 
             try:
                 # map clustername to the list of categories it refers to
