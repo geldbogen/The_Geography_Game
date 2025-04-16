@@ -343,7 +343,7 @@ def setup_all_data():
     
     # TODO capitalize English
     setup_data(
-        "Percentage of people who are proficient in english (higher is better).csv", dif=1)
+        "Percentage of people who are proficient in English (higher is better).csv", dif=1)
     
     setup_data(
         "Percentage of people who are proficient in French (higher is better).csv", dif=1)
