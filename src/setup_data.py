@@ -341,7 +341,6 @@ def setup_all_data():
     setup_data(
         "Suicides per 100,000 population (lower is better).csv", ascending=True, dif=2)
     
-    # TODO capitalize English
     setup_data(
         "Percentage of people who are proficient in English (higher is better).csv", dif=1)
     
