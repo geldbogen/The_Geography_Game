@@ -170,6 +170,8 @@ def setup_all_data():
     setup_data("Natural gas production (in million m^3 per year) (by 10,000 population) (higher is better).csv",
                   treat_missing_data_as_bad=True, cluster="productioncluster")
     setup_data("Gold production (by 10,000 population) (higher is better).csv",treat_missing_data_as_bad=True, cluster="productioncluster")
+    setup_data("Irrigated area (by 100 km^2 country size) (higher is better).csv",
+                   dif=3, cluster="productioncluster")
 
     # which alcohol consumption stuff
     setup_data("Percentage of alcohol being consumed is wine (higher is better).csv",
@@ -177,10 +179,29 @@ def setup_all_data():
     setup_data("Percentage of alcohol being consumed is beer (higher is better).csv",
                    dif=3, cluster="which alcohol consumption") 
     
+    # GDP spent stuff
+    setup_data(
+        "Percentage of GDP spent on education (higher is better).csv",cluster="GDP spent stuff")
+    setup_data("Percentage of GDP spent on R&D (higher is better).csv",cluster="GDP spent stuff")
+    setup_data("Percentage of GDP spent on military (higher is better).csv",cluster="GDP spent stuff")	
+
+    #  GDP as percentage stuff
+    setup_data(
+        "Import and exports as percentage of gdp (higher is better).csv", cluster="GDP as percentage stuff")
+    setup_data(
+        "Import and exports as percentage of gdp (lower is better).csv", ascending=True, cluster="GDP as percentage stuff")
+    setup_data(
+        "Percentage of GDP being remittances of international migrants (higher is better).csv", cluster="GDP as percentage stuff")
+    setup_data(
+        "Percentage of total stock market capitalization to GDP (higher is better).csv", cluster="GDP as percentage stuff")
+    setup_data(
+        "Government debt as percentage of GDP (lower is better).csv", ascending=True, cluster="GDP as percentage stuff")
+    setup_data(
+        "Income from natural resources as percent of GDP (lower is better).csv", ascending=True, cluster="GDP as percentage stuff")
+    setup_data("GDP per capita in PPP (higher is better).csv", cluster="GDP as percentage stuff")
+    setup_data("GDP growth in 2020 (higher is better).csv", cluster="GDP as percentage stuff")
 
 
-    
-    
     setup_data(
         # erklären
         "Industrial production growth rate 2017 in percent (higher is better).csv", dif=4)
@@ -188,8 +209,7 @@ def setup_all_data():
                    dif=2)  # was ist PPP
 
 
-    setup_data("Irrigated area (by 100 km^2 country size) (higher is better).csv",
-                   dif=3, cluster="productioncluster")
+    # animal stuff
     setup_data("Number of different breeding bird species (higher is better).csv",
                   dif=4, cluster="number of animalcluster")
     setup_data("Number of different reptile species (higher is better).csv",
@@ -212,6 +232,8 @@ def setup_all_data():
         "Electrical power consumption per capita per year (in watts) (lower is better).csv", ascending=True, cluster="consumption")
     setup_data(
         "Meat consumption in kg per year and person (lower is better).csv", dif=2, ascending=True, cluster="consumption")
+    setup_data("Percentage of people using the internet (higher is better).csv",
+                  treat_missing_data_as_bad=True, dif=2, cluster="consumption")
     
     # drugs consumption
     setup_data(
@@ -220,8 +242,8 @@ def setup_all_data():
         "Annual cocaine prevalence (lower is better).csv", ascending=True, cluster= "drugsconsumption")
     setup_data(
         "Annual opioid prevalence (lower is better).csv", ascending=True, cluster= "drugsconsumption")
-    setup_data("Alcohol consumption per person per year (lower is better) (in l).csv",
-                  ascending=True, dif=2, cluster= "drugsconsumption")
+    setup_data(
+        "Alcohol consumption per person per year (lower is better) (in l).csv", ascending=True, dif=2, cluster= "drugsconsumption")
 
     # prices
     setup_data("Taxi price per 1km in US$ (lower is better).csv",
@@ -287,11 +309,25 @@ def setup_all_data():
     setup_data(
         "Percentage of population being muslim (higher is better).csv", dif=2, cluster="religious people")
     setup_data(
-        "Chinese population (by 1000 population) (higher is better).csv", dif=3, cluster ="religious people")
-    setup_data(
         "Agreement to the statement religion is important (higher is better).csv", dif=2, cluster="religious people")
     setup_data(
         "Percentage of people being atheist (higher is better).csv", dif=1, cluster="religious people")
+    setup_data(
+        "Chinese population (by 1000 population) (higher is better).csv", dif=3, cluster ="religious people")
+
+    # language proficiency stuff
+    setup_data(
+        "Percentage of people who are proficient in English (higher is better).csv", dif=1, cluster="language proficiency")
+    setup_data(
+        "Percentage of people who are proficient in French (higher is better).csv", dif=1, cluster="language proficiency")
+    
+    # prison stuff
+    setup_data("Prison occupacy (lower is better).csv",
+                  ascending=True, dif=4, cluster="prison stuff")
+    setup_data("Percentage of prisoners being female (higher is better).csv",
+                   dif=5, cluster="prison stuff")
+    setup_data(
+        "Number of prisoners per 100,000 population (lower is better).csv", ascending=True, dif=3, cluster="prison stuff")
 
     # vacation policies
     setup_data(
@@ -301,6 +337,12 @@ def setup_all_data():
     setup_data(
         "Minimum number of paid annual vacation (higher is better).csv", dif=2, cluster="vacation policies")
     
+    # safety stuff
+    setup_data(
+        "Believes crime increasing in 2010-2014 (lower is better).csv", ascending=True, dif=4)
+    setup_data(
+        "Rapes per 100,000 population (lower is better).csv", ascending=True, dif=4)
+
     setup_data("Obesity rate (lower is better).csv", ascending=True, dif=2)
     setup_data("Unemployment rate (lower is better).csv",
                   ascending=True, dif=3)
@@ -311,16 +353,11 @@ def setup_all_data():
     setup_data(
         "Roller coasters per million inhabitants (higher is better).csv", dif=4)
     setup_data(
-        "Believes crime increasing in 2010-2014 (lower is better).csv", ascending=True, dif=4)
-    setup_data(
-        "Rapes per 100,000 population (lower is better).csv", ascending=True, dif=4)
-    setup_data(
         "Percentage of land being protected (higher is better).csv", dif=4)
     setup_data(
         "Unpaid diplomatic parking fines in NYC (lower is better).csv", ascending=True, dif=4)
 
-    setup_data("Percentage of people using the internet (higher is better).csv",
-                  treat_missing_data_as_bad=True, dif=2)
+
 
     # Erklären woher das kommt
     setup_data(
@@ -341,11 +378,7 @@ def setup_all_data():
     setup_data(
         "Suicides per 100,000 population (lower is better).csv", ascending=True, dif=2)
     
-    setup_data(
-        "Percentage of people who are proficient in English (higher is better).csv", dif=1)
-    
-    setup_data(
-        "Percentage of people who are proficient in French (higher is better).csv", dif=1)
+
     
     setup_data("Size of largest island in km2 (higher is better).csv",
                   treat_missing_data_as_bad=True, dif=1)
@@ -522,12 +555,7 @@ def setup_all_data():
                   ascending=True, dif=4)
     setup_data("Gender Gap Index (more equal is better).csv",
                   dif=2)  # was ist das genau
-    setup_data("Prison occupacy (lower is better).csv",
-                  ascending=True, dif=4)
-    setup_data("Percentage of prisoners being female (higher is better).csv",
-                   dif=5)
-    setup_data(
-        "Number of prisoners per 100,000 population (lower is better).csv", ascending=True, dif=3)
+
     setup_data("Press Freedom Index (more free is better).csv",
                   ascending=True, dif=2)
     
@@ -557,8 +585,7 @@ def setup_all_data():
                   additional_information=True, additional_information_column_list=[2, 3, 4])
     setup_data(
         "Percentage of marriages getting divorced in percent (lower is better).csv", ascending=True)
-    setup_data(
-        "Percentage of GDP spent on education (higher is better).csv")
+
 
     setup_data(
         "Drug deaths per 100,000 population (lower is better).csv", ascending=True)
@@ -583,12 +610,10 @@ def setup_all_data():
         "Infant mortality (deaths in the first 5 years by 1000 births) (lower is better).csv", ascending=True)
     setup_data(
         "Population growth rate in 2021 in percent (higher is better).csv")
-    setup_data("GDP per capita in PPP (higher is better).csv")
     setup_data(
         "Fragile state index (more stable is better) (lower is better).csv", ascending=True)
     setup_data(
         "Homeless population by 10,000 population (lower is better).csv", ascending=True)
-    setup_data("GDP growth in 2020 (higher is better).csv")
     setup_data(
         "Population density (in citizens per km^2) (higher is better).csv")
     setup_data(
@@ -605,12 +630,8 @@ def setup_all_data():
         "Percentage of people working in the agricultural sector (higher is better).csv")
     setup_data(
         "Percentage of people working in the agricultural sector (lower is better).csv", ascending=True)
-    setup_data(
-        "Import and exports as percentage of gdp (higher is better).csv")
-    setup_data(
-        "Import and exports as percentage of gdp (lower is better).csv", ascending=True)
-    setup_data(
-        "Percentage of GDP being remittances of international migrants (higher is better).csv")
+    
+    
     setup_data(
         "Percentage of people trusting their national government (higher is better).csv")
     setup_data(
@@ -648,7 +669,7 @@ def setup_all_data():
     setup_data(
         "Ease of doing business index (easier is better).csv", ascending=True)
     setup_data("Economic Complexity Index (more complex is better).csv")
-    setup_data("Percentage of GDP spent on R&D (higher is better).csv")
+
     setup_data(
         "Number of scientific and technical journal articles in English from that country (by 1,000,000 population) (higher is better).csv")
     setup_data(
@@ -766,25 +787,18 @@ def setup_all_data():
     setup_data("Shadow economy (lower is better).csv", ascending=True)
     setup_data("Road Quality Index (higher is better).csv")
     setup_data(
-        "Percentage of total stock market capitalization to GDP (higher is better).csv",)
-    setup_data(
         "Percentage of people being fully vaccinated against Covid (higher is better).csv",)
     setup_data(
         "Percentage of people having a credit card (higher is better).csv",)
     setup_data("Share of clean energy (higher is better).csv",)
     setup_data(
         "Number of different taxes (lower is better).csv", ascending=True)
-    setup_data(
-        "Government debt as percentage of GDP (lower is better).csv", ascending=True)
-    setup_data(
-        "Income from natural resources as percent of GDP (lower is better).csv", ascending=True)
     setup_data("Number of tanks (by 10,000,000 population) (higher is better).csv",
                   treat_missing_data_as_bad=True)
     setup_data("Number of military ships (by 100,000,000 population) (higher is better).csv",
                   treat_missing_data_as_bad=True)
     setup_data("Number of military aircrafts (by 10,000,000 population) (higher is better).csv",
                   treat_missing_data_as_bad=True)
-    setup_data("Percentage of GDP spent on military (higher is better).csv", )	
     setup_data("National Holiday (earlier in the year is better).csv", ascending=True,
                   additional_information=True, additional_information_column_list=[2, 3, 4])
     setup_data(
