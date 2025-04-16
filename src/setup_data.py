@@ -63,7 +63,8 @@ def setup_data(name,
                additional_information=False,
                additional_information_column_list=[2],
                cluster=None,
-               is_end_only: bool = False):
+               is_end_only: bool = False,
+               debug=False):
 
 
 
@@ -502,6 +503,8 @@ def setup_all_data():
                   treat_missing_data_as_bad=True, additional_information=True, additional_information_column_list=[2, 7, 8])
     setup_data(
         "Sum of wiki-languages of the three most famous cities of that country (higher is better).csv")
+    
+    
     setup_data("Drinking water quality score (higher is better).csv")
     setup_data("Facebook accounts (by 10 population) (higher is better).csv",
                   treat_missing_data_as_bad=True, dif=2)

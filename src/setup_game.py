@@ -20,7 +20,7 @@ def setup_the_game(continent_list: list[str] = [],
                    reversed_end_attribute: int = 0,
                    start_the_game: bool = False
                    ):
-
+    
     for country in all_countries_available:
         if country.continent_name in continent_list:
             all_countries_in_game.append(country)

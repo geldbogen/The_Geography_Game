@@ -1,0 +1,3 @@
+TODO: Mauritania attacks Lybia with price of rice --> worldrank -1???
+TODO: shit emoji is showed when there is no data
+TODO: Shift frontend to Dash
