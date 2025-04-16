@@ -8,7 +8,7 @@ if TYPE_CHECKING:
     from player import Player, No_Data_Body
 
     from category import Category
-
+from player import No_Data_Body
 
 from global_definitions import all_categories, all_countries_in_game
 from country import Country, Unknown_country

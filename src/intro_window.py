@@ -2,7 +2,7 @@ import tkinter as tk
 import random
 from tkinter import colorchooser, ttk
 
-from player import Player
+from player import Player, No_Data_Body, mr_nobody
 from global_definitions import all_categories
 from setup_game import setup_the_game
 
@@ -107,7 +107,7 @@ class IntroWindow:
 
         self.winningconditionoption4 = tk.Radiobutton(
             self.winconditionframe,
-            text="Claim countries according to a predeterminded attribute",
+            text="Claim countries according to a predetermined attribute",
             variable=self.winning_condition,
             value="attribute",
             command=self.show_option_for_pred_attribute)
