@@ -13,7 +13,7 @@ from country import Country, get_country_by_position, Unknown_country, Germany, 
 from category import Category
 from player import Player, call_player_by_name, No_Data_Body, mr_nobody
 from image import greencountrydict, green_image
-from global_definitions import all_categories, all_countries_in_game, dictionary_attribute_name_to_attribute, gold, realgrey
+from global_definitions import all_categories, all_countries_in_game, dictionary_attribute_name_to_attribute, gold, realgrey, all_categories_names_and_clusters
 from backend_game import BackendGame
 from endscreen import endscreen
 
@@ -31,6 +31,7 @@ class MainWindow():
                  pred_attribute: str = "random",
                  peacemode: bool = False,
                  reversed_end_attribute: int = 0):
+        
         self.backend: BackendGame = BackendGame(list_of_players, wormhole_mode, starting_countries_preferences,
                                                 number_of_rounds, winning_condition, number_of_wormholes,
                                                   pred_attribute, peacemode, reversed_end_attribute)
@@ -395,10 +396,21 @@ class MainWindow():
                 You have not chosen any country yet"
 
         # roll a new attribute
-        self.backend.current_attribute = self.backend.active_player.get_good_attribute()
+        self.backend.current_attribute = self.backend.active_player.get_good_attribute(list_of_clusters=self.backend.list_of_clusters)
         self.backend.current_attribute.replace_A_and_B_in_category_name(
             self.showing_current_attribute_text_label)
+        
+        print(f'Current list of clusters: {self.backend.list_of_clusters}')
+        print(f'Length of clusters: {len(self.backend.list_of_clusters)}') 
+        
+        if len(self.backend.list_of_clusters) < 3:
+            self.backend.list_of_clusters = all_categories_names_and_clusters
+        
+        
+        # updates the flags on the top
         self.flagframe_dict[self.backend.active_player.name].pack(side="top")
+        
+        # take care of the wormholes
         if self.wormhole_mode == "every round changing wormholes":
             if self.index == 0:
                 try:
@@ -416,7 +428,7 @@ class MainWindow():
                 self.activate_wormholes(1, player=self.backend.active_player)
             else:
                 print("not enough countries to activate wormholes")
-                print(self.backend.active_player.list_of_possessed_countries)
+                print([country.name for country in self.backend.active_player.list_of_possessed_countries])
         self.reroll_button["text"] = "Rerolls left:\n " + str(
             self.backend.active_player.rerolls_left)
 

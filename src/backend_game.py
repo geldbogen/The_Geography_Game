@@ -10,7 +10,7 @@ if TYPE_CHECKING:
     from category import Category
 from player import No_Data_Body
 
-from global_definitions import all_categories, all_countries_in_game
+from global_definitions import all_categories, all_countries_in_game, all_categories_names_and_clusters
 from country import Country, Unknown_country
 
 
@@ -25,7 +25,8 @@ class BackendGame():
                  number_of_wormholes: int = 3,
                  pred_attribute: str = "random",
                  peacemode: bool = False,
-                 reversed_end_attribute: int = 0):
+                 reversed_end_attribute: int = 0,
+                 ):
 
         self.list_of_players: list[Player] = list_of_players
         self.winning_condition: str = winning_condition
@@ -75,6 +76,9 @@ class BackendGame():
         # for secret attribute
         self.dict_of_target_attribute_name: dict[Player, str] = dict()
         self.winning_country: Country = Unknown_country
+        
+        # for the chosen already categories
+        self.list_of_clusters = all_categories_names_and_clusters.copy()
 
     def get_starting_attribute(self):
         pass

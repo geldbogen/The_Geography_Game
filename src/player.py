@@ -3,7 +3,7 @@ from __future__ import annotations
 import random
 import tkinter as tk
 
-from global_definitions import all_players, realgrey, white, all_categories_names_and_clusters, dictionary_attribute_name_to_attribute
+from global_definitions import all_players, realgrey, white, dictionary_attribute_name_to_attribute
 
 
 
@@ -93,7 +93,7 @@ class Player:
 
         return 'loose'
 
-    def get_random_attribute_with_cluster(self) -> Category:
+    def get_random_attribute_with_cluster(self, list_of_clusters : list[str] = []) -> Category:
         """
         Selects a random attribute name, which may include the name of a cluster, 
         and returns a random attribute from that cluster if it is a cluster. 
@@ -106,19 +106,19 @@ class Player:
         """
 
         # get a random attribute name (including the name of a cluster)
-
-        self.current_attributename_with_cluster : str = random.choice(
-            all_categories_names_and_clusters)
+        self.current_clustername : str = random.choice(
+            list_of_clusters)
 
         # if a cluster is chosen choose a random attribute from that cluster
         if len(dictionary_attribute_name_to_attribute[
-                self.current_attributename_with_cluster]) > 1:
+                self.current_clustername]) > 1:
             return random.choice(dictionary_attribute_name_to_attribute[
-                self.current_attributename_with_cluster])
+                self.current_clustername])
+        
         # if it is not a cluster, just return the attribute
         else:
             return dictionary_attribute_name_to_attribute[
-                self.current_attributename_with_cluster][0]
+                self.current_clustername][0]            
         
     def player_win_analysis(self, category: Category, peacemode: bool = False) -> dict[str, int]:
         """
@@ -147,7 +147,7 @@ class Player:
         return returndict
 
 
-    def get_good_attribute(self, threshold: float = 0.25, at_least_one_win: bool = True, peacemode : bool = False) -> Category:
+    def get_good_attribute(self, threshold: float = 0.25, at_least_one_win: bool = True, peacemode : bool = False, list_of_clusters : list[str] = []) -> Category:
         """
         Selects a random attribute that provides a reasonably good chance of winning attacks.
         This method repeatedly selects random attributes until finding one that meets
@@ -171,7 +171,7 @@ class Player:
 
         while (not is_good_attribute):
 
-            current_attribute = self.get_random_attribute_with_cluster()
+            current_attribute = self.get_random_attribute_with_cluster(list_of_clusters)
             is_good_attribute = True
             
             attack_analysis_dict = self.player_win_analysis(current_attribute,peacemode=peacemode)
@@ -189,6 +189,9 @@ class Player:
                 at_least_one_req = attack_analysis_dict['win'] >= 1
                 is_good_attribute = is_good_attribute and at_least_one_req
 
+        # remove the attribute from the list of attributes, so that it cannot be chosen again
+        list_of_clusters.remove(self.current_clustername)
+        
         return current_attribute
 
         # # if the attribute is end only it should not be a valid attribute

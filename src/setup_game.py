@@ -59,6 +59,7 @@ def setup_the_game(continent_list: list[str] = [],
                 continue
             if country1.name in country2.neighboring_countries and not country2.name in country1.neighboring_countries:
                 country1.neighboring_countries.append(country2.name)
+    
     # assigns the countries all the local attributes
     for country in all_countries_in_game:
         country.dict_of_attributes = my_property_dict[country.name]

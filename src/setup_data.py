@@ -118,7 +118,8 @@ def setup_data(name,
              treat_missing_data_as_bad=treat_missing_data_as_bad,
              difficulty=dif,
              explanation=explanation,
-             is_end_only=is_end_only)
+             is_end_only=is_end_only,
+             cluster=cluster)
     
     for country in all_countries_available:
         try:
