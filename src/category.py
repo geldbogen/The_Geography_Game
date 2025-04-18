@@ -74,13 +74,17 @@ class Category:
         # append the global list of all categories with this instance.
         all_categories.append(self)
 
+        if self.is_end_only:
+            # if the category is only used at the end of the game, we do not want to add it to the list of categories
+            # which are used in the normal flow of the game
+            return
+        
         # if there is a real cluster
         if not cluster == "":
             # append the name of cluster in the namelist.
             # One can specify the probabily of choosing this cluster by appending it multiple times.
             if not cluster in all_categories_names_and_clusters:
                 # here one can tune the probability of choosing the specific cluster
-                # TODO take care of the size of the clusters
                 all_categories_names_and_clusters.append(cluster)
 
             try:
@@ -98,6 +102,7 @@ class Category:
                 dictionary_attribute_name_to_attribute[self.name] = [self]
 
         else:
+
             # add category name to list of category namesi
             all_categories_names_and_clusters.append(self.name)
 

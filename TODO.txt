@@ -1,8 +1,11 @@
 TODO: Mauritania attacks Lybia with price of rice --> worldrank -1???
 TODO: shit emoji is showed when there is no data
 TODO: Shift frontend to Dash
-TODO: make the random choice of clusters dependent on previous choices (like not putting back) (and cluster of wiki-languages more likely)
 TODO: Idea about the difficulty: ask Sheryl about one country she knows is in top 5
 TODO: Debug mode (maybe after Dash???)
 TODO: introduce logging
 TODO: fix bug with worldrank 1 never showing up
+TODO: Add guessing hint for wiki-language stuff
+
+TODO: make the random choice of clusters dependent on previous choices (like not putting back) (and cluster of wiki-languages more likely)
+TODO: Deal with None cluster in is_end_only cluster

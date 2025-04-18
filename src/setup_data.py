@@ -843,9 +843,9 @@ def setup_all_data():
         "Neonatal deaths by 1000 births (lower is better).csv", ascending=True, cluster="death_by_cause_cluster")
     
     # end only
-    setup_data("Country size (higher is better).csv", is_end_only=True)
-    setup_data("Population (higher is better).csv", is_end_only=True)
+    setup_data("Country size (higher is better).csv", is_end_only=True, cluster="end only")
+    setup_data("Population (higher is better).csv", is_end_only=True, cluster="end only")
     setup_data(
-        "Latitude of northernmost point of that country (northern is better) (higher is better).csv", is_end_only=True)
+        "Latitude of northernmost point of that country (northern is better) (higher is better).csv", is_end_only=True, cluster="end only")
     setup_data(
-        "Latitude of southernmost point of that country (southern is better) (lower is better).csv", is_end_only=True)
+        "Latitude of southernmost point of that country (southern is better) (lower is better).csv", is_end_only=True, cluster="end only")
