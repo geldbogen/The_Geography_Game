@@ -589,7 +589,7 @@ def setup_all_data():
     setup_data(
         "Percentage of people who are proficient in English (higher is better).csv", dif=1, cluster="language proficiency")
     setup_data(
-        "Percentage of people who are proficient in French (higher is better).csv", dif=1, cluster="language proficiency")
+        "Percentage of people being proficient in French (higher is better).csv", dif=1, cluster="language proficiency")
     
     # prison stuff
     setup_data("Prison occupacy (lower is better).csv",
