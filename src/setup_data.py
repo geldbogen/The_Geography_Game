@@ -193,6 +193,7 @@ def setup_all_data():
     setup_data("Annual precipiation (in mm) (higher is better).csv", dif=2, cluster="geography stuff")
     setup_data(
         "Percentage of land being protected (higher is better).csv", dif=4, cluster="geography stuff")
+    setup_data("number of total renewable water resources per capita (higher is better).csv", cluster="geography stuff")
 
 
     # political stuff
@@ -278,6 +279,7 @@ def setup_all_data():
         "Global peace index (more peaceful is better) (lower is better).csv", dif=2, ascending=True, cluster="general indexes")
     setup_data("Factionalized Elites Index (lower is better).csv", ascending=True, dif=2, cluster="general indexes")
     setup_data("Global Innovation Index (higher is better).csv", cluster="general indexes")
+    setup_data("Global Food Security Index 2019 (higher is better).csv", cluster="general indexes")
     
      
      
@@ -301,6 +303,8 @@ def setup_all_data():
         "Number of mobile phone lines (by 100 population) (higher is better).csv", cluster="military and infrastructure")
     setup_data("length of rail per country size (in km) (higher is better).csv",cluster="military and infrastructure")
     setup_data("percentage of railway being electrified (higher is better).csv", cluster="military and infrastructure")
+    setup_data("cumulative number of objects launched into space (higher is better).csv", treat_missing_data_as_bad=True, cluster="military and infrastructure")
+    
     
     # demographic stuff
     setup_data(
@@ -490,6 +494,8 @@ def setup_all_data():
                   treat_missing_data_as_bad=False, dif=2, cluster="consumption")
     setup_data("vehicles per 1000 population (higher is better).csv",
                   treat_missing_data_as_bad=False, dif=2, cluster="consumption")
+    setup_data("average fixed broadband download speed in mbps (higher is better).csv", cluster="consumption")
+    setup_data("average mobile cellular download speed in mbps (higher is better).csv", cluster="consumption")
     
     
     

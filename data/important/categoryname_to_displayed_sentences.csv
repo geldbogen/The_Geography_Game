@@ -368,3 +368,8 @@ health expenditure per capita in Int$ (lower is better),CountryA has a lower hea
 Global Innovation Index (higher is better)),CountryA has a better Global Innovation Index than CountryB (according to the BBBBGlobal Innovation IndexBBBB),,
 length of rail per country size (in km) (higher is better),CountryA has a longer railway than CountryB (per area),,
 Sugar cane production per capita in kg (higher is better),CountryA produces more sugar cane than CountryB (per capita),,
+cumulative number of objects launched into space (higher is better).csv,CountryA has launched more objects into space than CountryB,,
+number of total renewable water resources per capita (higher is better),CountryA has more total renewable water resources than CountryB (per capita),,
+Global Food Security Index 2019 (higher is better),CountryA has a better Global Food Security Index than CountryB (according to the BBBBGlobal Food Security IndexBBBB),,
+average mobile cellular download speed in mbps (higher is better),CountryA has a higher average mobile cellular download speed than CountryB,,
+average fixed broadband download speed in mbps (higher is better),CountryA has a higher average fixed broadband download speed than CountryB,,
