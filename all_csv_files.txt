@@ -1,0 +1,394 @@
+account with the most social media followers of that country (higher is better).csv
+agreement to the statement religion is important (higher is better).csv
+air cleanliness in percent (higher is better).csv
+alcohol consumption per person per year (lower is better) (in l).csv
+Amount of currencies one US$ can buy (higher is better).csv
+Annual alcohol deaths (by 1,000,000 population) (lower is better).csv
+annual cannabis prevalence in percent (lower is better).csv
+Annual cocaine prevalence (lower is better).csv
+Annual deaths by Alzheimer's disease and other dementias (by 10,000 population).csv
+Annual deaths by cardiovascular diseases (by 1000 population) (lower is better).csv
+Annual deaths by chronic kidney diseases (by 10,000 population) (lower is better).csv
+Annual deaths by chronic respiratory diseases (by 10,000 population) (lower is better).csv
+Annual deaths by Cirrhosis and other chronic liver diseases (by 10,000 population) (lower is better).csv
+Annual deaths by conflict and terrorism (by 10,000,000 population) (lower is better).csv
+Annual deaths by Diabetes Mellitus (by 10,000 population) (lower is better).csv
+Annual deaths by digestive diseases (by 10,000 population) (lower is better).csv
+Annual deaths by drowning (by 100,000 population) (lower is better).csv
+Annual deaths by exposure to environmental cold or heat (by 1,000,000 population) (lower is better).csv
+Annual deaths by exposure to force of nature (by 10,000,000 population) (lower is better).csv
+Annual deaths by fire and heat (by 100,000 population) (lower is better).csv
+Annual deaths by lower respiratory infections (by 10000 population) (lower is better).csv
+Annual deaths by malnutrition (by 100,000 population) (lower is better).csv
+Annual deaths by maternal disorders (by 100,000 population) (lower is better).csv
+Annual deaths by Meningitis (by 1,000,000 population) (lower is better).csv
+Annual deaths by neonatal disorders (by 10,000 population) (lower is better).csv
+Annual deaths by neoplasms (by 1000 population) (lower is better) (lower is better).csv
+Annual deaths by nutritional deficiencies (by 100,000 population).csv
+Annual deaths by Parkinson's disease (by 100,000 population) (lower is better).csv
+Annual deaths by poisonings (by 1,000,000 population) (lower is better).csv
+Annual deaths by traffic related causes (by 10,000 population).csv
+Annual deaths by Tuberculosis (by 100,000 population) (lower is better).csv
+Annual Hepatitis deaths (by 1,000,000 population) (lower is better).csv
+Annual HIV deaths (by 100,000 population) (lower is better).csv
+Annual Malaria deaths (by 10,000 population) (lower is better).csv
+Annual opioid prevalence (lower is better).csv
+annual precipiation (in mm) (higher is better).csv
+apple production in tons (by 100 population) (higher is better).csv
+apricot production in tons (by 1000 population) (higher is better).csv
+ATM's per 100,000 adults (higher is better).csv
+average elevation (higher is better).csv
+Average import duty in % (lower is better).csv
+Average inflation rate 2017-2021 (lower is better).csv
+average price for public transport in US$ (monthly pass) (lower is better).csv
+average price for public transport in US$ (one-way-ticket) (lower is better).csv
+barley production in tons (by 100 population) (higher is better).csv
+believes crime increasing in 2010-2014 (lower is better).csv
+billionaires per million people (higher is better).csv
+Books published in that country per year (by 10,000 population) (higher is better).csv
+cherry production in tons (by 1000 population) (higher is better).csv
+chess grandmasters per capita (higher is better).csv
+chinese population (by 1000 population) (higher is better).csv
+cinema ticket price in US$ (lower is better).csv
+city with most sons or daughter having a wiki-page by 1,000 inhabitans (of that city) (higher is better).csv
+CO2 emission in tons per capita (lower is better).csv
+coconut prodcution in tons  (by 1000 population) (higher is better).csv
+coffee production in tons (by 1000 population) (higher is better).csv
+corporate tax in percent (lower is better).csv
+Countries and their capitals.csv
+Countries and their founding date.csv
+Countries by Happiness etc.csv
+countries by irreligion.csv
+countries by number of airlines.csv
+Country size (higher is better).csv
+cucumber production in tons (by 1000 population) (higher is better).csv
+database_of_embassies.csv
+democracy index (higher is better).csv
+distance from capital to Beijing.csv
+distance from capital to Dubai.csv
+distance from capital to Lagos.csv
+distance from capital to London.csv
+distance from capital to NYC.csv
+distance from capital to Rio de Janeiro.csv
+distance from capital to Singapore.csv
+divorces per 1000 population per year.csv
+Drinking water quality score (higher is better).csv
+drug deaths per 100,000 population (lower is better).csv
+Ease of doing business index (easier is better).csv
+Economic Complexity Index (more complex is better).csv
+eggplant production in tons (by 1000 population) (higher is better).csv
+electrical power consumption per capita per year (in watts) (lower is better).csv
+english speaking data.csv
+estimated population growth 1950-2020 (higher is better).csv
+estimated population in 1950 (higher is better).csv
+ethnic diversity score (higher is better).csv
+export to import ratio (higher is better).csv
+facebook accounts (by 10 population) (higher is better).csv
+Factionalized Elites Index (lower is better).csv
+Female labor force participation rate (higher is better).csv
+Fertilizer use (lower is better).csv
+first use of current flag (older is better).csv
+first year in which (some) women were granted (restricted) suffrage (lower is better) .csv
+fishing in tons (by 1000 population) (higher is better).csv
+Foreign currency reserves of that country (incl. gold and special drawing rights) (by 10,000 population) (higher is better).csv
+forest area in 1000 hectars (by 100 km^2) (higher is better).csv
+fragile state index (more stable is better) (lower is better).csv
+freedom to make life choices score (higher is better).csv
+garlic production in tons  (by 10,000 population) (higher is better).csv
+gasoline prices in US$ (lower is better).csv
+gay friendly travel index (higher is better).csv
+GDP growth in 2020 (higher is better).csv
+GDP per capita in PPP (higher is better).csv
+Gender Gap Index (more equal is better).csv
+generosity score (higher is better).csv
+gini income index (more equal is better) (lower is better).csv
+gini wealth index (more equal is better) (lower is better).csv
+global peace index (more peaceful is better) (lower is better).csv
+Global Terrorism Index (less incidents are better) (lower is better).csv
+Gold production (by 10,000 population) (higher is better).csv
+Government debt as percentage of GDP (lower is better).csv
+grape production in tons (by 100 population) (higher is better).csv
+health expenditure per capita in Int$ (lower is better).csv
+healthy life expectancy score (higher is better).csv
+highest building of that country in meter (higher is better).csv
+highest headquarterdensity of a city (higher is better).csv
+highest mountain of that country (higher is better).csv
+highest possible individual income tax in percent (lower is better).csv
+home ownership rate (higher is better).csv
+homeless population by 10,000 population (lower is better).csv
+homicides per 100,000 population (lower is better).csv
+import and exports as percentage of gdp (higher is better).csv
+import and exports as percentage of gdp (lower is better).csv
+Income from natural resources as percent of GDP (lower is better).csv
+Index of Economic Freedom (higher is better).csv
+industrial production growth rate 2017 in percent (higher is better).csv
+infant mortality (deaths in the first 5 years by 1000 births) (lower is better).csv
+inflation rate in 2021 (lower is better).csv
+International Innovation Index (higher is better).csv
+international tourist data.csv
+irrigated area (by 100 km^2 country size) (higher is better).csv
+Labor force participation rate (higher is better).csv
+largest island.csv
+Last execution (status 2014) (older is better).csv
+Latitude of northernmost point of that country (northern is better) (higher is better).csv
+Latitude of southernmost point of that country (southern is better) (lower is better).csv
+length of rail per country size (in km) (higher is better).csv
+List_of_countries_and_dependencies_by_area.csv
+List_of_countries_and_dependencies_by_population.csv
+List_of_legislatures_by_number_of_members.csv
+literacy rate (higher is better).csv
+Male labor force participation rate (higher is better).csv
+male- to female income ratio (more equal is better) (lower is better).csv
+Maternal deaths by 100,000 births (lower is better).csv
+meat consumption in kg per year and person (lower is better).csv
+median age (lower is better).csv
+median wealth in US$ (nominal) (higher is better).csv
+milk consumption per capita (in kg per year) (higher is better).csv
+minimum number of paid annual leave (higher is better).csv
+minimum number of paid annual vacation (higher is better).csv
+minimum wage PPP-adjusted in Int$ (higher is better).csv
+Mobile phone subscriptions (per 100 people) (higher is better).csv
+monthly price of broadband internet 6Mpbs, uncapped data in US$ (lower is better).csv
+National Holiday (earlier in the year is better).csv
+natural disaster risk in percent (lower is better).csv
+natural gas production (in million m^3 per year) (by 10,000 population) (higher is better).csv
+Neighboring Countries.csv
+Neonatal deaths by 1000 births (lower is better).csv
+net migration rate per 1000 population (higher is better).csv
+New Countries by Internet Users.csv
+New Country Borders.csv
+new internetdata.csv
+number of airports (by 1,000,000 population) (higher is better).csv
+number of airports (higher is better).csv
+number of births per woman (higher is better).csv
+Number of chambers of the government (two chambers beat one chamber) (higher is better).csv
+Number of characters of official name of that country (higher is better).csv
+number of cigarettes smoked per year per person (lower is better).csv
+number of covid deaths per capita (lower is better).csv
+Number of different amphibian species (higher is better).csv
+number of different breeding bird species (higher is better).csv
+number of different established languages and dialects (higher is better).csv
+Number of different fish species (higher is better).csv
+number of different mammal species (higher is better).csv
+Number of different reptile species (higher is better).csv
+Number of different taxes (lower is better).csv
+Number of embassies around the world (higher is better).csv
+Number of emigrants from that country (by 1,000 population) (higher is better).csv
+number of first level administrative regions (i.e. states in the US or prefectures in Japan) (higher is better).csv
+number of guns per 100 inhabitants (lower is better).csv
+number of international tourists arriving per year (higher is better).csv
+number of mcdonalds restaurants (by 1,000,000 population) (higher is better).csv
+number of mentions of that countrys name in the NYT from 2000 to 2016 (higher is better).csv
+Number of military aircrafts (by 10,000,000 population) (higher is better).csv
+Number of military ships (by 100,000,000 population) (higher is better).csv
+Number of mobile phone lines (by 100 population) (higher is better).csv
+number of models from that country with a wiki-page (by 1,000,000 population) (higher is better).csv
+Number of Nobel Laureates (by 10,000,000 population) (higher is better).csv
+number of paid annual public holidays (higher is better).csv
+number of physicians by 10,000 population (higher is better).csv
+Number of police officers per 100,000 people (higher is better).csv
+number of prisoners per 100,000 population (lower is better).csv
+Number of scientific and technical journal articles in English from that country (by 1,000,000 population) (higher is better).csv
+number of soldiers per 1000 population (higher is better).csv
+number of speakers of most spoken official language of that country (higher is better).csv
+number of subscribers of most-subscribed youtube-channel from that country (higher is better).csv
+Number of subway restaurants (by 10,000,000 population) (higher is better).csv
+Number of tanks (by 10,000,000 population) (higher is better).csv
+number of terrorist deaths in 2017 (lower is better).csv
+number of twitter followers of head of state resp. head of government (higher is better).csv
+number of UNESCO World Heritage Sites (higher is better).csv
+number of urban areas with more than 1 mio. citizens (higher is better).csv
+number of visits by an US-President (since formation of the country) (higher is better).csv
+number of volcanos in that country (higher is better).csv
+number of wiki-languages of head of state resp. head of government (higher is better).csv
+number of wiki-languages of most famous (real) building of that country (higher is better).csv
+number of wiki-languages of most famous (real) museum of that country (higher is better).csv
+number of wiki-languages of most famous actor from that country (higher is better).csv
+number of wiki-languages of most famous airline of that country (higher is better).csv
+Number of wiki-languages of most famous airport of that country (higher is better).csv
+number of wiki-languages of most famous architect of that country (higher is better).csv
+number of wiki-languages of most famous architectural structure of that country (higher is better).csv
+number of wiki-languages of most famous athlete of that country which is not a soccer player (higher is better).csv
+number of wiki-languages of most famous band from that country (higher is better).csv
+Number of wiki-languages of most famous battle which took place in that country (higher is better).csv
+number of wiki-languages of most famous bridge of that country (higher is better).csv
+number of wiki-languages of most famous city of that country (higher is better).csv
+number of wiki-languages of most famous city with at most 1,000,000 citizens (higher is better).csv
+number of wiki-languages of most famous city with at most 100,000 citizens (higher is better).csv
+number of wiki-languages of most famous city with at most 20,000 citizens (higher is better).csv
+number of wiki-languages of most famous city with at most 500,000 citizens (higher is better).csv
+number of wiki-languages of most famous city with at most 5000 citizens (higher is better).csv
+number of wiki-languages of most famous cleric of that country (higher is better).csv
+number of wiki-languages of most famous company which is neither an airline nor a national bank (higher is better).csv
+number of wiki-languages of most famous criminal of that country (higher is better).csv
+Number of wiki-languages of most famous desert of that country (higher is better).csv
+number of wiki-languages of most famous event of that country in the timeframe of WWII (1938-1945) (higher is better).csv
+number of wiki-languages of most famous fashion person of that country (higher is better).csv
+Number of wiki-languages of most famous female actor of that country (higher is better).csv
+Number of wiki-languages of most famous female athlete of that country (higher is better).csv
+Number of wiki-languages of most famous female scientist of that country (higher is better).csv
+Number of wiki-languages of most famous female singer of that country (higher is better).csv
+number of wiki-languages of most famous food from that country (higher is better).csv
+number of wiki-languages of most famous geographical feature of that country (higher is better).csv
+number of wiki-languages of most famous health scientist of that country (higher is better).csv
+number of wiki-languages of most famous historical person (at least 100 years dead) (higher is better).csv
+number of wiki-languages of most famous historical person (at least 200 years dead) (higher is better).csv
+number of wiki-languages of most famous historical person (at least 50 years dead) (higher is better).csv
+number of wiki-languages of most famous historical person (at least 500 years dead) (higher is better).csv
+Number of wiki-languages of most famous historical woman (at least 100 years dead) of that country (higher is better).csv
+Number of wiki-languages of most famous historical woman (at least 200 years dead) of that country (higher is better).csv
+Number of wiki-languages of most famous historical woman (at least 50 years dead) of that country (higher is better).csv
+Number of wiki-languages of most famous historical woman (at least 500 years dead) of that country (higher is better).csv
+number of wiki-languages of most famous journalist of that country (higher is better).csv
+number of wiki-languages of most famous movie director of that country (higher is better).csv
+number of wiki-languages of most famous movie from that country (higher is better).csv
+Number of wiki-languages of most famous national park - garden - zoo in that country (higher is better).csv
+number of wiki-languages of most famous newspaper of that country (higher is better).csv
+number of wiki-languages of most famous novelist from that country (higher is better).csv
+number of wiki-languages of most famous one-day event between 1950 and 2000 (higher is better).csv
+number of wiki-languages of most famous one-day historic event (higher is better).csv
+number of wiki-languages of most famous one-day historic event at least 200 years ago (higher is better).csv
+number of wiki-languages of most famous one-day historic event at least 90 years ago (higher is better).csv
+number of wiki-languages of most famous one-day historic event in the 21st century (higher is better).csv
+number of wiki-languages of most famous one-day historical event.csv
+number of wiki-languages of most famous painter of that country (higher is better).csv
+number of wiki-languages of most famous person from that country (higher is better).csv
+number of wiki-languages of most famous person from that country born after 2000 (higher is better).csv
+number of wiki-languages of most famous person from that country, who is still alive (higher is better).csv
+number of wiki-languages of most famous place of worship (church,mosque,temple etc.) of that country (higher is better).csv
+number of wiki-languages of most famous road - highway - motor circuit of that country (higher is better).csv
+number of wiki-languages of most famous scientist of that country (higher is better).csv
+number of wiki-languages of most famous singer of that country (higher is better) copy.csv
+number of wiki-languages of most famous singer of that country (higher is better).csv
+number of wiki-languages of most famous soccer player (higher is better).csv
+number of wiki-languages of most famous social scientist humanities scholar of that country (higher is better).csv
+number of wiki-languages of most famous street - avenue - boulevard of that country (higher is better).csv
+number of wiki-languages of most famous touristic sight of that country (higher is better).csv
+number of wiki-languages of most famous UNESCO-World Heritage Site of that country (higher is better).csv
+Number of wiki-languages of most famous woman being born after 2000 (higher is better).csv
+number of wiki-languages of most famous woman from that country (higher is better).csv
+number of wiki-languages of most famous writer of that country (higher is better).csv
+number of wiki-languages of second most famous city of that country (higher is better).csv
+number of wiki-languages of the capital (higher is better).csv
+number of wiki-languages of third most famous city of that country (higher is better).csv
+obesity rate (lower is better).csv
+oil production in barrel per day (higher is better).csv
+oil production in barrel per year (by 1000 population) (higher is better).csv
+percentage of alcohol being consumed is beer (higher is better).csv
+percentage of alcohol being consumed is wine (higher is better).csv
+percentage of GDP being remittances of international migrants (higher is better).csv
+percentage of GDP spent on education (higher is better).csv
+Percentage of GDP spent on military (higher is better).csv
+percentage of GDP spent on R&D (higher is better).csv
+percentage of land being protected (higher is better).csv
+percentage of marriages getting divorced in percent (lower is better).csv
+percentage of member of the parliament being female (higher is better).csv
+percentage of minimum wage (PPP) over GDP per capita (higher is better).csv
+Percentage of non-performing loans.csv
+percentage of parliament member being female (higher is better).csv
+percentage of people being atheist (higher is better).csv
+Percentage of people being fully vaccinated against Covid (higher is better).csv
+Percentage of people being proficient in French (higher is better).csv
+percentage of people being satisfied with their education quality (higher is better).csv
+percentage of people being satisfied with their health care quality (higher is better).csv
+percentage of people being satisfied with their standard of living (higher is better).csv
+percentage of people being satsified with environment policy of government (higher is better).csv
+percentage of people feeling safe walking alone (at night) (higher is better).csv
+percentage of people feeling safe walking alone (during the day) (higher is better).csv
+Percentage of people having a credit card (higher is better).csv
+percentage of people having confidence in the judical system (higher is better).csv
+percentage of people having volunteered at least once (higher is better).csv
+percentage of people saying that the local labour market is good (higher is better).csv
+percentage of people trusting their national government (higher is better).csv
+percentage of people using the internet (higher is better).csv
+percentage of people who are proficient in english (higher is better).csv
+percentage of people working in the agricultural sector (higher is better).csv
+percentage of people working in the agricultural sector (lower is better).csv
+percentage of population being christian (higher is better).csv
+Percentage of population being female (higher is better).csv
+Percentage of population being female (lower is better).csv
+percentage of population being hindu (higher is better).csv
+Percentage of population being immigrants (higher is better).csv
+percentage of population being muslim (higher is better).csv
+percentage of population living in the capital (higher is better).csv
+percentage of prisoners being female (higher is better).csv
+percentage of railway being electrified (higher is better).csv
+Percentage of total stock market capitalization to GDP (higher is better).csv
+percentage of urban population (higher is better).csv
+Percentage of US-american citizens having a positive opinion about that country (higher is better).csv
+Percentage of US-american citizens having heard of that country (higher is better).csv
+perception of corruption score (less corrupt is higher) (higher is better).csv
+person of that country with the most social media follower (higher is better).csv
+pineapple production in tons (by 1000 population) (higher is better).csv
+plum production in tons (by 1000 population) (higher is better).csv
+Population (higher is better).csv
+population density (in citizens per km^2) (higher is better).csv
+population growth rate in 2021 in percent (higher is better).csv
+population of the capital (higher is better).csv
+population of the most populated city of that country (higher is better).csv
+population of the second most populated city of that country (higher is better).csv
+population of the third most populated city of that country (higher is better).csv
+potato production in tons (by 100 population) (higher is better).csv
+Press Freedom Index (more free is better).csv
+price for a 3 course meal for 2 in a normal restaurant in US$ (lower is better).csv
+price for garbage, water, heating, electricity for 85 sqm apartment in US$ (lower is better).csv
+price of 0.5 l normal beer in a restaurant in US$ (lower is better).csv
+price of 0.5l local beer in supermarket in US$ (lower is better).csv
+price of 1.5l water bottle in supermarket in US$ (lower is better).csv
+price of 1kg of potatoes in US$ (lower is better).csv
+price of 1kg of rice in US$ (lower is better).csv
+price of 1kg of tomatoes in US$ (lower is better).csv
+price of 1l of milk in US$ (lower is better).csv
+price of a bottled water in a restaurant in US$ (lower is better).csv
+price of a dozen eggs in US$ (lower is better).csv
+price of a kg of apples in US$ (lower is better).csv
+price of a mcdonalds menu in US$ (lower is better).csv
+price of a new Volkswagen Golf 1.4 in US$ (lower is better).csv
+price of a regular cappuchino in a restaurant in US$ (lower is better).csv
+price of a skinless, boneless chicken breast in US$ (lower is better).csv
+price of local 1kg cheese in US$ (lower is better).csv
+price of newest nike shoes in US$ (lower is better).csv
+price of one head of lettuce in supermarket in US$ (lower is better).csv
+price of one pack of Marlboro in US$ (lower is better).csv
+price of one pair of Levi 501s or equivalent in US$ (lower is better).csv
+prison occupacy (lower is better).csv
+projected population growth until 2100 in percent (higher is better).csv
+projected population in 2100 (higher is better).csv
+prostitutes per 10,000 inhabitants (lower is better).csv
+pupil-teacher ratio (lower is better).csv
+rapes per 100,000 population (lower is better).csv
+Refugee population (by 100,000 population) (higher is better).csv
+religious diversity score (higher is better).csv
+Road Quality Index (higher is better).csv
+roller coasters per million inhabitants (higher is better).csv
+S&P credit rating (better rating is better) (lower is better).csv
+Shadow economy (lower is better).csv
+Share of clean energy (higher is better).csv
+side of traffic (left hand side beats right hand side) (higher is better).csv
+size of largest island in km2 (higher is better).csv
+size of the lower house (or equivalent) of that country (higher is better).csv
+social support score (higher is better).csv
+soybean production in tons (by 10,000 population) (higher is better).csv
+strength of passport (in countries enterable without need of visa) (higher is better).csv
+suicides per 100,000 population (lower is better).csv
+sum of the three most populated cities of that country (higher is better).csv
+sum of wiki-languages of the three most famous cities of that country (higher is better).csv
+taxi price per 1km in US$ (lower is better).csv
+tobacco production (in kg per year and person) (higher is better).csv
+tomato production in tons (by 100 population) (higher is better).csv
+unemployment rate (lower is better).csv
+UNESCO data.csv
+unpaid diplomatic parking fines in NYC (lower is better).csv
+VAT resp. GST in percent (lower is better).csv
+vehicles per 1000 population (higher is better).csv
+wine production in tons (by 100 population) (higher is better).csv
+World Happiness Index (higher is better).csv
+Year of first Burger King opening in that country (lower is better).csv
+Year of first KFC opening in that country (lower is better).csv
+year of last executed death penalty (lower is better).csv
+yearly average temperature in (in Celsius) (higher is better).csv
+youth unemployment in 2021 (lower is better).csv
+categoryname_to_displayed_sentences.csv
+countrylist.csv
+country_borders.csv
+populationlist.csv
