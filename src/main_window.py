@@ -841,11 +841,15 @@ class MainWindow():
                 
                 log_file.write(f"Country A: {country_a.name}\n")
                 log_file.write(f"Value: {country_a_value}\n")
-                log_file.write(f"Rank: {country_a_rank} of {country_a_total}\n\n")
+                log_file.write(f"Rank: {country_a_rank} of {country_a_total}\n")
+                log_file.write(f"Country A is top 5 : {str(countrya_top5)}\n")
+                log_file.write(f"Country A is worst 5 : {str(countrya_worst5)}\n\n")
                 
                 log_file.write(f"Country B: {country_b.name}\n")
                 log_file.write(f"Value: {country_b_value}\n")
-                log_file.write(f"Rank: {country_b_rank} of {country_b_total}\n\n")
+                log_file.write(f"Rank: {country_b_rank} of {country_b_total}\n")
+                log_file.write(f"Country B is top 5 : {str(countryb_top5)}\n")
+                log_file.write(f"Country B is worst 5 : {str(countryb_worst5)}\n\n")
                 
                 log_file.write(f"Reported by player: {self.backend.active_player.name}\n")
                 

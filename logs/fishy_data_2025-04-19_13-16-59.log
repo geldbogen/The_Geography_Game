@@ -1,0 +1,14 @@
+=== DATA ISSUE REPORT ===
+Timestamp: 2025-04-19_13-16-59
+Attribute: homicides per 100,000 population (lower is better).csv
+Result: you win!
+
+Country A: Uganda
+Value: 10.5
+Rank: 176 of 216
+
+Country A is top 5 : FalseCountry A is worst 5 : FalseCountry B: Democratic Republic of the Congo
+Value: 13.6
+Rank: 187 of 216
+
+Country B is top 5 : FalseCountry B is worst 5 : FalseReported by player: a
