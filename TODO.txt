@@ -1,5 +1,5 @@
 TODO: Mauritania attacks Lybia with price of rice --> worldrank -1???
-TODO: shit emoji is showed when there is no data
+TODO: shit emoji is showed when there is no data [x]
 TODO: Shift frontend to Dash
 TODO: Idea about the difficulty: ask Sheryl about one country she knows is in top 5
 TODO: Debug mode (maybe after Dash???)
@@ -12,6 +12,6 @@ TODO: Deal with None cluster in is_end_only cluster
 TODO: add an archive for players 
 TODO: add number of different trees
 TODO: redo most famous novelist
-TODO: add minimum wage over general incom NOT GDP per capita
+TODO: add minimum wage over general income NOT GDP per capita
 TODO: redo one-day historical event
 TODO: redo non-performing loans

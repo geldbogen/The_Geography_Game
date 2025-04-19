@@ -1111,13 +1111,13 @@ class MainWindow():
 
         try:
             countrya_worst5 = country_a.dict_of_attributes[property.name].number_of_countries_ranked - \
-                country_a.dict_of_attributes[property.name].rank < 6
+                country_a.dict_of_attributes[property.name].rank < 6 and not country_a.dict_of_attributes[property.name].rank == 0
         except:
             countrya_worst5 = False
 
         try:
             countryb_worst5 = country_b.dict_of_attributes[property.name].number_of_countries_ranked - \
-                country_b.dict_of_attributes[property.name].rank < 6
+                country_b.dict_of_attributes[property.name].rank < 6 and not country_a.dict_of_attributes[property.name].rank == 0
         except:
             countryb_worst5 = False
 

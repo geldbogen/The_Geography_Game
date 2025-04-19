@@ -374,6 +374,7 @@ def setup_all_data():
     setup_data("Irrigated area (by 100 km^2 country size) (higher is better).csv",
                    dif=3, cluster="productioncluster")
     setup_data('tobacco production (in kg per year and person) (higher is better).csv',cluster="productioncluster")
+    setup_data("Sugar cane production per capita in kg (higher is better).csv", cluster="productioncluster")
 
     
     
