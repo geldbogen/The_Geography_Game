@@ -775,7 +775,7 @@ def setup_all_data():
                   additional_information=True, additional_information_column_list=[2, 3, 4], treat_missing_data_as_bad=True, cluster="wiki-language stuff")
     setup_data("Number of wiki-languages of most famous desert of that country (higher is better).csv", dif=2,
                   treat_missing_data_as_bad=True, additional_information=True, additional_information_column_list=[2, 7, 8], cluster="wiki-language stuff")
-    setup_data("number of wiki-languages of most famous movie from that country (higher is better)", dif=2,
+    setup_data("number of wiki-languages of most famous movie from that country (higher is better).csv", dif=2,
                   treat_missing_data_as_bad=True, additional_information=True, additional_information_column_list=[2, 3, 4], cluster="wiki-language stuff")
     setup_data("Number of wiki-languages of most famous airport of that country (higher is better).csv", dif=2,
                   treat_missing_data_as_bad=True, additional_information=True, additional_information_column_list=[2, 7, 8], cluster="wiki-language stuff")
