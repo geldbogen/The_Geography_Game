@@ -278,7 +278,7 @@ Percentage of population being hindu (higher is better),More people are Hindu in
 Percentage of population being immigrants (higher is better),More people are immigrants in CountryA than in CountryB,,
 Percentage of population being muslim (higher is better),More people are muslim in CountryA than in CountryB,,
 Percentage of population living in the capital (higher is better),A higher proportion of the population of CountryA live in the capital than of CountryB,,
-Percentage of non-performing loans,More loans perform in CountryA than in CountryB,,
+Percentage of non-performing loans (lower is better).csv,More loans perform in CountryA than in CountryB,,
 Percentage of prisoners being female (higher is better),More prisoners are female in CountryA than in CountryB,,
 Percentage of railway being electrified (higher is better),The railway in CountryA is more electrified than in CountryB,,
 Percentage of total stock market capitalization to GDP (higher is better),The percentage of total stock market capitalization is higher in CountryA than in CountryB,,

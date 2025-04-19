@@ -7,8 +7,6 @@ TODO: introduce logging
 TODO: fix bug with worldrank 1 never showing up
 TODO: Add guessing hint for wiki-language stuff
 
-TODO: make the random choice of clusters dependent on previous choices (like not putting back) (and cluster of wiki-languages more likely)
-TODO: Deal with None cluster in is_end_only cluster
 TODO: add an archive for players 
 TODO: add number of different trees
 TODO: redo most famous novelist

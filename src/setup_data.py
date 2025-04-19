@@ -455,7 +455,7 @@ def setup_all_data():
         "Percentage of people working in the agricultural sector (lower is better).csv", ascending=True, cluster="general economic stuff")
     setup_data("billionaires per million people (higher is better).csv",
                   treat_missing_data_as_bad=False, dif=2, cluster="general economic stuff")
-
+    setup_data("Percentage of non-performing loans (lower is better).csv",ascending=True, cluster="general economic stuff")
 
 
     # animal stuff
