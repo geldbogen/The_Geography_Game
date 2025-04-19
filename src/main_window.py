@@ -1100,12 +1100,12 @@ class MainWindow():
                 traceback.print_exc()
 
         try:
-            countrya_top5 = country_a.dict_of_attributes[property.name].rank < 6
+            countrya_top5 = country_a.dict_of_attributes[property.name].rank < 6 and not country_a.dict_of_attributes[property.name].rank == 0
         except:
             countrya_top5 = False
 
         try:
-            countryb_top5 = country_b.dict_of_attributes[property.name].rank < 6
+            countryb_top5 = country_b.dict_of_attributes[property.name].rank < 6 and not country_a.dict_of_attributes[property.name].rank == 0
         except:
             countryb_top5 = False
 

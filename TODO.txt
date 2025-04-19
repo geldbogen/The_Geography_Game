@@ -13,3 +13,6 @@ TODO: redo most famous novelist
 TODO: add minimum wage over general income NOT GDP per capita
 TODO: redo one-day historical event
 TODO: redo non-performing loans
+
+TODO: Fix weird bug that new categories need to start the game twice before they appear
+TODO: Fix wormhole location for Turkey because it is weird (and also USA?)
