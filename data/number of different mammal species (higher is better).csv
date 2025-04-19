@@ -1,163 +1,223 @@
 0,1
-Indonesia,515.0
-Mexico,491.0
-Peru,460.0
-United States,428.0
-Cameroon,409.0
-China,394.0
-Brazil,394.0
-India,390.0
-Colombia,359.0
-Kenya,359.0
-Uganda,345.0
-Venezuela,323.0
-Argentina,320.0
-Bolivia,316.0
-Paraguay,305.0
-Malaysia,300.0
-Myanmar,300.0
-Ethiopia,277.0
-Angola,276.0
-Nigeria,274.0
-Zimbabwe,270.0
-Russia,269.0
-Sudan,267.0
-Thailand,265.0
-Guatemala,250.0
-Namibia,250.0
-South Africa,247.0
-Former Spanish colonies average,238.61
-Emerging markets average,237.24
-Zambia,233.0
-Cote d'Ivoire,230.0
-Ghana,222.0
-Panama,218.0
-Papua New Guinea,214.0
-Vietnam,213.0
-Central African Republic,209.0
-Costa Rica,205.0
-Religious countries average,202.29
-Nicaragua,200.0
-Republic of the Congo,200.0
-South Asia average,196.4
-Togo,196.0
-Malawi,195.0
-Canada,193.0
-Liberia,193.0
-Guyana,193.0
-Senegal,192.0
-Guinea,190.0
-Gabon,190.0
-Pakistan,188.0
-Benin,188.0
-Japan,188.0
-Equatorial Guinea,184.0
-Nepal,181.0
-Suriname,180.0
-Mozambique,179.0
-Kazakhstan,178.0
-Honduras,173.0
-Laos,172.0
-Somalia,171.0
-failed states average,168.47
-Botswana,164.0
-Bhutan,160.0
-Group of 7 countries (G7) average,159.71
-Former French colonies average,156.26
-Philippines,153.0
-Rwanda,151.0
-South and Central Asia average,149.67
-Burkina Faso,147.0
-Sierra Leone,147.0
-Non-religious countries average,143.18
-Madagascar,141.0
-OPEC countries average,138.33
-Mali,137.0
-El Salvador,135.0
-Chad,134.0
-Mongolia,133.0
-Niger,131.0
-Muslim countries average,130.16
-Bangladesh,125.0
-Belize,125.0
-Cambodia,123.0
-Afghanistan,119.0
-Gambia,117.0
-Turkey,116.0
-Israel,116.0
-Eritrea,112.0
-Cold countries average,108.65
-Ukraine,108.0
-Guinea-Bissau,108.0
-Former Soviet republics average,107.29
-Georgia,107.0
-Burundi,107.0
-Morocco,105.0
-Turkmenistan,103.0
-Trinidad & Tobago,100.0
-Azerbaijan,99.0
-Egypt,98.0
-Uzbekistan,97.0
-Montenegro,96.0
-Greece,95.0
-France,93.0
-Algeria,92.0
-Chile,91.0
-Italy,90.0
-High income OECD countries average,88.61
-Sri Lanka,88.0
-Slovakia,85.0
-Singapore,85.0
-Tajikistan,84.0
-Armenia,84.0
-Romania,84.0
-Poland,84.0
-Hungary,83.0
-Austria,83.0
-Latvia,83.0
-Kyrgyzstan,83.0
-Spain,82.0
-Czech Republic,81.0
-Bulgaria,81.0
-Iraq,81.0
-Uruguay,81.0
-Republic of Macedonia,78.0
-Tunisia,78.0
-NATO countries average,77.38
-Saudi Arabia,77.0
-Libya,76.0
-Croatia,76.0
-Germany,76.0
-Slovenia,75.0
-Switzerland,75.0
-Belarus,74.0
-Eurozone average,72.53
-Bosnia and Herzegovina,72.0
-European Union average,71.92
-Jordan,71.0
-Lithuania,68.0
-Albania,68.0
-Yemen,66.0
-Estonia,65.0
-Portugal,63.0
-Mauritania,61.0
-Finland,60.0
-Sweden,60.0
-Belgium,58.0
-Lebanon,57.0
-Oman,56.0
-Netherlands,55.0
-Norway,54.0
-Solomon Islands,53.0
-United Kingdom,50.0
-Denmark,43.0
-Lesotho,33.0
-Cuba,31.0
-Ireland,25.0
-United Arab Emirates,25.0
-Jamaica,24.0
-Kuwait,21.0
-Haiti,20.0
-Iceland,11.0
-Fiji,4.0
-New Zealand,2.0
+Indonesia,777
+Brazil,776
+China,710
+Mexico,582
+Peru,567
+Colombia,525
+Congo (DRC),508
+United States (USA),444
+Ecuador,441
+India,436
+Kenya,410
+Bolivia,410
+Venezuela,407
+Argentina,407
+Tanzania,404
+Australia,381
+Cameroon,370
+Uganda,367
+Vietnam,355
+Malaysia,355
+Myanmar,353
+Thailand,344
+Angola,333
+South Africa,323
+Ethiopia,316
+Nigeria,315
+Papua New Guinea,291
+Cote d'lvoire (Ivory Coast),278
+Ghana,275
+Guinea,267
+Mozambique,266
+Laos,261
+Central African Republic,261
+Zambia,260
+Panama,257
+Madagascar,257
+Guyana,256
+Costa Rica,252
+South Sudan,244
+Guatemala,243
+Honduras,238
+Philippines,234
+Congo,232
+Suriname,231
+Canada,222
+Nicaragua,220
+French Guiana,219
+Namibia,217
+Iran,214
+Liberia,212
+Zimbabwe,212
+Rwanda,211
+Malawi,210
+Sierra Leone,204
+Benin,203
+Cambodia,203
+Gabon,202
+Pakistan,202
+Togo,201
+Sudan,200
+Nepal,196
+Senegal,194
+Equatorial Guinea,187
+Somalia,187
+Brunei,183
+Paraguay,180
+Burundi,175
+Kazakhstan,174
+Botswana,172
+Turkey,170
+El Salvador,160
+Chile,159
+Mali,159
+Belize,155
+Japan,153
+Bangladesh,152
+Chad,150
+Mongolia,148
+Guinea-Bissau,143
+Bhutan,141
+Burkina Faso,140
+Eswatini (Swaziland),138
+France,138
+Gambia,136
+Niger,136
+Afghanistan,135
+Spain,130
+Morocco,130
+Uruguay,128
+Italy,127
+Eritrea,126
+Trinidad and Tobago,125
+Sri Lanka,121
+Mauritania,117
+Israel,116
+Greece,115
+Egypt,114
+Azerbaijan,112
+North Korea,112
+Ukraine,112
+Georgia,111
+Algeria,109
+Taiwan,107
+Germany,107
+Turkmenistan,107
+Syria,105
+Portugal,103
+Djibouti,102
+Croatia,102
+Romania,102
+Iraq,100
+Uzbekistan,99
+Armenia,98
+Bulgaria,96
+Saudi Arabia,96
+Bosnia and Herzegovina,94
+Jordan,94
+Albania,92
+South Korea,92
+Poland,92
+Singapore,91
+Austria,91
+Yemen,91
+Slovenia,90
+Kyrgyzstan,89
+Serbia,88
+Tunisia,88
+Montenegro,87
+Slovakia,87
+Oman,87
+Libya,87
+Switzerland,86
+United Kingdom,85
+Hungary,84
+Tajikistan,84
+Norway,83
+North Macedonia,82
+Belgium,82
+Lesotho,81
+Lebanon,80
+Netherlands,80
+Sweden,80
+Solomon Islands,79
+Czech Republic,78
+Moldova,74
+Belarus,72
+Denmark,71
+Latvia,68
+Cuba,65
+Lithuania,65
+Liechtenstein,65
+East Timor (Timor-Leste),64
+Finland,64
+Estonia,64
+Luxembourg,60
+Dominican Republic,59
+United Arab Emirates,58
+Haiti,56
+Hong Kong,55
+Ireland,53
+Jamaica,49
+New Zealand,49
+Kuwait,42
+Puerto Rico,41
+Cyprus,41
+Grenada,41
+Bahamas,40
+Dominica,37
+New Caledonia,37
+Qatar,37
+Guadeloupe,37
+Saint Vincent and the Grenadines,36
+Comoros,36
+Greenland,35
+Saint Lucia,34
+Antigua and Barbuda,34
+Martinique,33
+Barbados,33
+Vanuatu,33
+Falkland Island (Malvinas),33
+Aruba,32
+Cayman Islands,32
+Saint Kitts and Nevis,32
+Cape Verde,32
+São Tomé and Príncipe,32
+Seychelles,31
+Virgin Islands U.S.,31
+Montserrat,31
+Iceland,31
+Saint Helena,30
+Fiji,29
+Bermuda,29
+Mauritius,28
+Turks and Caicos Islands,28
+Anguilla,28
+Saint Pierre and Miquelon,27
+Maldives,26
+Samoa,26
+Mayotte,26
+Bahrain,25
+Reunion,25
+Palau,24
+Micronesia,24
+Malta,24
+Northern Mariana Islands,23
+Guam,23
+Cook Islands,23
+Tonga,22
+Kiribati,22
+Antarctica,22
+French Polynesia,21
+American Samoa,21
+South Georgia and the South Sandwich Islands,21
+Niue,21
+Tuvalu,21
+Cocos (Keeling) Island,21
+Nauru,21
+Marshall Islands,20
+Pitcairn,20
+Christmas Island,18
+Norfolk Island,13
+Tokelau,13

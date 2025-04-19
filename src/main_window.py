@@ -403,6 +403,7 @@ class MainWindow():
         print(f'Current list of clusters: {self.backend.list_of_clusters}')
         print(f'Length of clusters: {len(self.backend.list_of_clusters)}') 
         
+        
         if len(self.backend.list_of_clusters) < 3:
             self.backend.list_of_clusters = all_categories_names_and_clusters
         
@@ -799,6 +800,64 @@ class MainWindow():
 
         panel9_1 = tk.Label(frame12, image=img9)
         panel9_2 = tk.Label(frame12, image=img9)
+        
+        def report_fishy_data():
+            import os
+            import datetime
+            
+            # Create logs directory if it doesn't exist
+            log_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "logs")
+            os.makedirs(log_dir, exist_ok=True)
+            
+            # Generate filename with current datetime
+            current_time = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+            log_filename = os.path.join(log_dir, f"fishy_data_{current_time}.log")
+            
+            # Gather all relevant information
+            try:
+                country_a_value = country_a.dict_of_attributes[property.name].value
+                country_a_rank = country_a.dict_of_attributes[property.name].rank
+                country_a_total = country_a.dict_of_attributes[property.name].number_of_countries_ranked
+            except:
+                country_a_value = "No data"
+                country_a_rank = "No data"
+                country_a_total = "No data"
+                
+            try:
+                country_b_value = country_b.dict_of_attributes[property.name].value
+                country_b_rank = country_b.dict_of_attributes[property.name].rank
+                country_b_total = country_b.dict_of_attributes[property.name].number_of_countries_ranked
+            except:
+                country_b_value = "No data"
+                country_b_rank = "No data"
+                country_b_total = "No data"
+            
+            # Write to log file
+            with open(log_filename, "w") as log_file:
+                log_file.write(f"=== DATA ISSUE REPORT ===\n")
+                log_file.write(f"Timestamp: {current_time}\n")
+                log_file.write(f"Attribute: {property.name}\n")
+                log_file.write(f"Result: {wl}\n\n")
+                
+                log_file.write(f"Country A: {country_a.name}\n")
+                log_file.write(f"Value: {country_a_value}\n")
+                log_file.write(f"Rank: {country_a_rank} of {country_a_total}\n\n")
+                
+                log_file.write(f"Country B: {country_b.name}\n")
+                log_file.write(f"Value: {country_b_value}\n")
+                log_file.write(f"Rank: {country_b_rank} of {country_b_total}\n\n")
+                
+                log_file.write(f"Reported by player: {self.backend.active_player.name}\n")
+                
+        # Create the "Something looks fishy" button
+        something_is_fishy_button = tk.Button(
+            frame12,
+            text="Something looks fishy",
+            font="Helvetica 25",
+            command=report_fishy_data,
+            bg="#ffcccc"  # Light red background to draw attention
+        )
+        something_is_fishy_button.grid(row=7, column=1, pady=10)
 
         try:
             displayed_world_rank_a = str(
