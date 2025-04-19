@@ -18,7 +18,7 @@ countries_alternative_names={\
     "Equatorial Guinea":["Equ. Guinea", 'Eq. Guinea'],\
     "São Tomé & Príncipe":["Sao Tome","São Tomé and Príncipe","São Tomé and Príncipe","São Tomé and Príncipe","São Tomé and Príncipe *","Sao Tome and Principe","Sao Tome and Prinicipe"],\
     "Trinidad and Tobago":["Trinidad/Tob.","Trinidad and Tobago","Trinidad & Tobago","Tr.&Tobago"],\
-    "Palestine":["Palestine","State of Palestine","Palestine (Gaza Strip)","Palestine","Palestinian Territories"],\
+    "Palestine":["Palestine","State of Palestine","Palestine (Gaza Strip)","Palestine","Palestinian Territories", "Occupied Palestinian Territory"],\
     "Timor-Leste":["East Timor (Timor-Leste)","Timor Leste","East Timor","East Timor *","East Timor","Timor-Leste"," East Timor"],\
     "United States":[" U.S.","United States (USA)","the United States","US","USA","United States of America", 'United States of America'],\
     "Czech Republic":["Czechia","Czech Republic"],\
@@ -32,7 +32,7 @@ countries_alternative_names={\
     "United Kingdom":["England and Wales * [Note]", "England &  Wales","UK"],\
     "Western Sahara":["Sahrawi Arab Democratic Republic"],\
     "Vietnam":["Vietnam","Viet Nam"],\
-    "Myanmar":["Burma", "Burma (Myanmar)"],\
+    "Myanmar":["Burma", "Burma (Myanmar)", "Myanmar・Eｯ", "Myanmar (Burma)"],\
     "Antigua & Barbuda":["Antigua and Barbuda"],\
     "Cape Verde":["Cape Verde","Cabo Verde", "Cabo Verde (Cape Verde)"],\
     "Laos":["Laos","Lao People's Democratic Republic", "Lao PDR", "Lao P.D.R."],\
@@ -56,6 +56,9 @@ countries_alternative_names={\
     "Bahamas":["The Bahamas"],\
     "Afghanistan":["Islamic Republic of Afghanistan", "Islamic Emirate of Afghanistan", "Transitional Islamic State of Afghanistan"],\
     "Slovakia" : ["Slovak Republic"],\
+    "Zimbabwe" : ["Zimbabwe (Republic of)", "Rhodesia",],\
+    "France" :["French Republic", "France (Metropolitan)"],\
+    "Serbia" : ["Serbia (excl. Kosovo)"]
 
     }
 reverse_countries_alternative_names = dict()
