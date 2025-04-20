@@ -176,7 +176,7 @@ def setup_all_data():
     setup_data(
         "Percentage of marriages getting divorced in percent (lower is better).csv", ascending=True, cluster="diversity and sustainability stuff")
     setup_data("Obesity rate (lower is better).csv", ascending=True, dif=2, cluster="diversity and sustainability stuff")
-    setup_data("health expenditure per capita in Int$ (lower is better).csv",cluster="diversity and sustainability stuff", ascending=True, dif=2)
+    # setup_data("health expenditure per capita in Int$ (lower is better).csv",cluster="diversity and sustainability stuff", ascending=True, dif=2)
 
 
     #  geography stuff
@@ -331,8 +331,8 @@ def setup_all_data():
     setup_data(
         "Percentage of population being immigrants (higher is better).csv", cluster="demographic stuff")
     setup_data("number of births per woman (higher is better).csv", cluster="demographic stuff")
-    setup_data("percentage of population living in the capital (higher is better).csv", cluster="demographic stuff")
-    setup_data("percentage of urban population (higher is better).csv", cluster="demographic stuff")
+    setup_data("Percentage of population living in the capital (higher is better).csv", cluster="demographic stuff")
+    setup_data("Percentage of urban population (higher is better).csv", cluster="demographic stuff")
     
     # production stuff
     setup_data("Fishing in tons (by 1000 population) (higher is better).csv",
