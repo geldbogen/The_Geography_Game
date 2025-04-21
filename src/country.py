@@ -390,7 +390,7 @@ Bosnia_and_Herzegovina = Country(xcoordinate=[6459],
                                  ycoordinate=[1765],
                                  name="Bosnia and Herzegovina",
                                  continent="Europe")
-Albania = Country(xcoordinate=[6543], ycoordinate=[1922], name="Albania")
+Albania = Country(xcoordinate=[6543], ycoordinate=[1922], name="Albania", continent="Europe")
 North_Macedonia = Country(xcoordinate=[6616],
                           ycoordinate=[1896],
                           name="North Macedonia",

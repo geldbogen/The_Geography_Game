@@ -4,7 +4,7 @@ TODO: Shift frontend to Dash
 TODO: Idea about the difficulty: ask Sheryl about one country she knows is in top 5
 TODO: Debug mode (maybe after Dash???)
 TODO: introduce logging
-TODO: fix bug with worldrank 1 never showing up
+TODO: [x] fix bug with worldrank 1 never showing up
 TODO: Add guessing hint for wiki-language stuff
 
 TODO: add an archive for players 
@@ -15,29 +15,10 @@ TODO: redo one-day historical event
 TODO: Fix weird bug that new categories need to start the game twice before they appear
 TODO: Fix wormhole location for Turkey because it is weird (and also USA?)
 
-TODO: Albania seems to be not in the game out of a reason (?)
-FOllowing errorcode:
-Exception in Tkinter callback
-Traceback (most recent call last):
-  File "C:\Users\GA889096\AppData\Local\Programs\Python\Python311\Lib\tkinter\__init__.py", line 1948, in __call__
-    return self.func(*args)
-           ^^^^^^^^^^^^^^^^
-  File "c:\Python Projects\The_Geography_Game\src\intro_window.py", line 323, in go
-    setup_the_game(continent_list=self.active_continent_list,
-  File "c:\Python Projects\The_Geography_Game\src\setup_game.py", line 74, in setup_the_game
-    my_main_window = MainWindow(bild=im,
-                     ^^^^^^^^^^^^^^^^^^^
-  File "c:\Python Projects\The_Geography_Game\src\main_window.py", line 231, in __init__
-    countrylist = self.backend.find_all_countries_with_max_distance_of_n(random_country, 3)
-                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "c:\Python Projects\The_Geography_Game\src\backend_game.py", line 375, in find_all_countries_with_max_distance_of_n
-    for countryname in mydict[temp[0]]:
-                       ~~~~~~^^^^^^^^^
-KeyError: 'Albania'
-
+TODO: [x] Albania seems to be not in the game out of a reason (?)
 
 TODO: Turkey has Edirne as most famous city (??)
 TODO: Largest Island is still not an active category
-TODO: Reroll button not working FIX: list_of_clusters must be provided in reroll function [x]
-TODO: List_of_clusters is shown but not used. ALSO: game crashes if list_of_clusters becomes empty (this shouldnt happen in the beginning)
+TODO: [x] Reroll button not working FIX: list_of_clusters must be provided in reroll function [x]
+TODO: [x] List_of_clusters is shown but not used. ALSO: game crashes if list_of_clusters becomes empty (this shouldnt happen in the beginning) 
 TODO: Allow players in the database to make their personal notes (like adding favorites, particularly in the active categories)

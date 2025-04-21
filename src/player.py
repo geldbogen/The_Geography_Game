@@ -95,14 +95,17 @@ class Player:
 
     def get_random_attribute_with_cluster(self, list_of_clusters : list[str] = []) -> Category:
         """
-        Selects a random attribute name, which may include the name of a cluster, 
-        and returns a random attribute from that cluster if it is a cluster. 
-        If it is not a cluster, returns the attribute itself.
-
-        PARAMS:
-            None
-        RETURNS:
-            Category: A random attribute from the selected cluster or the attribute itself.
+        Selects a random attribute from a randomly chosen cluster in the provided list.
+        This method first randomly selects a cluster name from the provided list of clusters,
+        then returns a random attribute from that cluster using the dictionary mapping
+        cluster names to attributes.
+        Args:
+            list_of_clusters (list[str], optional): List of cluster names to choose from.
+                Defaults to an empty list.
+        Returns:
+            Category: A random attribute from the randomly selected cluster.
+        Note:
+            Sets self.current_clustername as a side effect.
         """
 
         # get a random attribute name (including the name of a cluster)
@@ -111,14 +114,7 @@ class Player:
         return random.choice(dictionary_attribute_name_to_attribute[
             self.current_clustername])
 
-        # # if a cluster is chosen choose a random attribute from that cluster
-        # if len(dictionary_attribute_name_to_attribute[
-        #         self.current_clustername]) > 1:
-        
-        # # if it is not a cluster, just return the attribute
-        # else:
-        #     return dictionary_attribute_name_to_attribute[
-        #         self.current_clustername][0]            
+  
         
     def player_win_analysis(self, category: Category, peacemode: bool = False) -> dict[str, int]:
         """
