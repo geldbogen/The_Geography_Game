@@ -108,17 +108,17 @@ class Player:
         # get a random attribute name (including the name of a cluster)
         self.current_clustername : str = random.choice(
             list_of_clusters)
+        return random.choice(dictionary_attribute_name_to_attribute[
+            self.current_clustername])
 
-        # if a cluster is chosen choose a random attribute from that cluster
-        if len(dictionary_attribute_name_to_attribute[
-                self.current_clustername]) > 1:
-            return random.choice(dictionary_attribute_name_to_attribute[
-                self.current_clustername])
+        # # if a cluster is chosen choose a random attribute from that cluster
+        # if len(dictionary_attribute_name_to_attribute[
+        #         self.current_clustername]) > 1:
         
-        # if it is not a cluster, just return the attribute
-        else:
-            return dictionary_attribute_name_to_attribute[
-                self.current_clustername][0]            
+        # # if it is not a cluster, just return the attribute
+        # else:
+        #     return dictionary_attribute_name_to_attribute[
+        #         self.current_clustername][0]            
         
     def player_win_analysis(self, category: Category, peacemode: bool = False) -> dict[str, int]:
         """

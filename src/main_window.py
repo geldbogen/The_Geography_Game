@@ -135,7 +135,11 @@ class MainWindow():
             str(self.backend.active_player.rerolls_left),
             font="Helvetica 25",
             anchor="sw",
-            command=lambda: self.backend.reroll(activating_player=self.backend.active_player,to_update_category_label=self.showing_current_attribute_text_label, to_update_reroll_button=self.reroll_button))
+            command=lambda: self.backend.roll_a_new_attribute(activating_player=self.backend.active_player,
+                                                              to_update_category_label=self.showing_current_attribute_text_label,
+                                                              to_update_reroll_button=self.reroll_button,
+                                                              pressed_reroll_button=True
+                                                              ))
 
         self.reroll_button.pack(side="left", fill="y")
 
@@ -396,16 +400,21 @@ class MainWindow():
                 You have not chosen any country yet"
 
         # roll a new attribute
-        self.backend.current_attribute = self.backend.active_player.get_good_attribute(list_of_clusters=self.backend.list_of_clusters)
-        self.backend.current_attribute.replace_A_and_B_in_category_name(
-            self.showing_current_attribute_text_label)
+        self.backend.roll_a_new_attribute(activating_player=self.backend.active_player,
+                                          to_update_category_label=self.showing_current_attribute_text_label,
+                                          to_update_reroll_button=self.reroll_button,
+                                          pressed_reroll_button=False
+                                          )
         
         print(f'Current list of clusters: {self.backend.list_of_clusters}')
         print(f'Length of clusters: {len(self.backend.list_of_clusters)}') 
+        print(f'Current list of all clusters: {all_categories_names_and_clusters}')
+        
+        print(f'Length of all clusters: {len(all_categories_names_and_clusters)}') 
         
         
-        if len(self.backend.list_of_clusters) < 3:
-            self.backend.list_of_clusters = all_categories_names_and_clusters
+        
+
         
         
         # updates the flags on the top

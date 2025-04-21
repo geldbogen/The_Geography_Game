@@ -103,29 +103,50 @@ class BackendGame():
             key=lambda x: x.dict_of_attributes[attribute_name].rank)
         return all_countries_with_data[:n]
 
-    def reroll(self, activating_player: Player, to_update_category_label: tk.Label,
-               to_update_reroll_button: tk.Button) -> None:
+    def roll_a_new_attribute(self, activating_player: Player, to_update_category_label: tk.Label,
+               to_update_reroll_button: tk.Button, pressed_reroll_button : bool = False) -> None:
         """
-        Handles the reroll action for a player, allowing them to randomly choose a new current attribute
-        if they have rerolls left. Subtracts one reroll from the player's count and updates the current attribute.
-        Updates the category label and reroll button accordingly.
-        Args:
-            activating_player (Player): The player who is activating the reroll.
-            to_update_category_label (tk.Label): The label widget to update with the new category name.
-            to_update_reroll_button (tk.Button): The button widget to update with the remaining rerolls.
+        Roll a new attribute (category) for the current game round.
+        This method selects a new attribute for the current game round, updates the display,
+        and manages reroll mechanics if applicable.
+        Parameters:
+        ----------
+        activating_player : Player
+            The player who is currently active and rolling for an attribute.
+        to_update_category_label : tk.Label
+            The label widget that displays the current category name, to be updated.
+        to_update_reroll_button : tk.Button
+            The button widget that displays remaining rerolls, to be updated if a reroll is used.
+        pressed_reroll_button : bool, optional
+            Indicates whether this roll was triggered by pressing the reroll button (default is False).
         Returns:
-            None
+        -------
+        None
+        Notes:
+        -----
+        - If pressed_reroll_button is True, it decrements the player's remaining rerolls.
+        - Updates the UI to reflect the new attribute and remaining rerolls.
+        - Replenishes the list of clusters if it becomes too small (≤ 3 clusters remaining).
+        - In peace mode, certain attributes may be filtered out.
         """
-        if activating_player.rerolls_left == 0:
-            return None
-        activating_player.rerolls_left -= 1
+        
+        if pressed_reroll_button:
+            if activating_player.rerolls_left == 0:
+                return None
+            activating_player.rerolls_left -= 1
+            
+            to_update_reroll_button.configure(
+                text="rerolls left:\n " + str(activating_player.rerolls_left))
 
+        # roll a new attribute
         self.current_attribute = activating_player.get_good_attribute(list_of_clusters=self.list_of_clusters, peacemode=self.peacemode)
 
-        self.current_attribute.replace_A_and_B_in_category_name(to_update_category_label,
-                                                                )
-        to_update_reroll_button.configure(
-            text="rerolls left:\n " + str(activating_player.rerolls_left))
+        # update the label with the new category name
+        self.current_attribute.replace_A_and_B_in_category_name(to_update_category_label)
+        
+        # replenish the list of clusters if it is too small
+        if len(self.list_of_clusters) <= 3:
+            self.list_of_clusters = all_categories_names_and_clusters.copy()
         return None
 
     def check_if_game_should_end(self):
