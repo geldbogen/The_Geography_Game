@@ -120,7 +120,7 @@ class BackendGame():
             return None
         activating_player.rerolls_left -= 1
 
-        self.current_attribute = activating_player.get_good_attribute()
+        self.current_attribute = activating_player.get_good_attribute(list_of_clusters=self.list_of_clusters, peacemode=self.peacemode)
 
         self.current_attribute.replace_A_and_B_in_category_name(to_update_category_label,
                                                                 )

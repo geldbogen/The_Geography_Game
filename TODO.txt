@@ -8,16 +8,13 @@ TODO: fix bug with worldrank 1 never showing up
 TODO: Add guessing hint for wiki-language stuff
 
 TODO: add an archive for players 
-TODO: add number of different trees
 TODO: redo most famous novelist
 TODO: add minimum wage over general income NOT GDP per capita
 TODO: redo one-day historical event
-TODO: redo non-performing loans
 
 TODO: Fix weird bug that new categories need to start the game twice before they appear
 TODO: Fix wormhole location for Turkey because it is weird (and also USA?)
 
-TODO: Health expenditure in Int$ lower is better and ascending=True but still a weird (dataset is extremely rigged)
 TODO: Albania seems to be not in the game out of a reason (?)
 TODO: Turkey has Edirne as most famous city (??)
 TODO: Largest Island is still not an active category

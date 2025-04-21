@@ -236,7 +236,7 @@ class MainWindow():
                 print(country.name)
 
         # roll first attribute
-        self.backend.current_attribute = self.backend.active_player.get_good_attribute(
+        self.backend.current_attribute = self.backend.active_player.get_good_attribute(list_of_clusters=self.backend.list_of_clusters,
             peacemode=self.peacemode)
         self.backend.current_attribute.replace_A_and_B_in_category_name(
             self.showing_current_attribute_text_label)
