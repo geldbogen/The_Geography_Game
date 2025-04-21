@@ -7,6 +7,11 @@ import os
 from player import Player
 from global_definitions import all_categories
 from setup_game import setup_the_game
+from PIL import Image
+import numpy as np
+import io
+import base64
+from main_window import MainWindow
 
 # Initialize the Dash app with a Bootstrap theme
 app = dash.Dash(__name__, 
@@ -154,22 +159,29 @@ continent_selection = dbc.Card([
 # Start game button
 start_game_button = dbc.Button("Start Game", id="start-game", color="success", size="lg", className="w-100 mb-4")
 
+# Add a new component to the layout to display the game
+game_container = html.Div(id="game-container", style={"display": "none"})
+
 # Layout the application with all components
 app.layout = dbc.Container([
     header,
-    player_setup,
-    dbc.Row([
-        dbc.Col(game_settings, width=6),
-        dbc.Col(winning_conditions, width=6)
+    html.Div(id="setup-container", children=[
+        player_setup,
+        dbc.Row([
+            dbc.Col(game_settings, width=6),
+            dbc.Col(winning_conditions, width=6)
+        ]),
+        dbc.Row([
+            dbc.Col(wormhole_options, width=6),
+            dbc.Col(continent_selection, width=6)
+        ]),
+        start_game_button,
     ]),
-    dbc.Row([
-        dbc.Col(wormhole_options, width=6),
-        dbc.Col(continent_selection, width=6)
-    ]),
-    start_game_button,
+    game_container,
     
     # Store components to track state
     dcc.Store(id="player-list-store", data=[]),
+    dcc.Store(id="game-state", data={}),
     html.Div(id="redirect", style={"display": "none"})
 ], fluid=True, className="p-5")
 
@@ -264,9 +276,12 @@ def add_player(n_clicks, name, color, current_players):
     
     return table, current_players, "", None
 
-# Callback to handle game start
+# Modify the start_game callback to set up the game but not launch it
 @callback(
-    Output("redirect", "children"),
+    [Output("setup-container", "style"),
+     Output("game-container", "style"),
+     Output("game-container", "children"),
+     Output("game-state", "data")],
     Input("start-game", "n_clicks"),
     [State("player-list-store", "data"),
      State("number-of-rounds", "value"),
@@ -278,8 +293,9 @@ def add_player(n_clicks, name, color, current_players):
     prevent_initial_call=True
 )
 def start_game(n_clicks, players, number_of_rounds, start_country, winning_condition, continents, wormhole_option, peace_mode):
+    print(f"Start game clicked, players: {players}")
     if not n_clicks or not players:
-        return dash.no_update
+        return dash.no_update, dash.no_update, dash.no_update, dash.no_update
     
     # If attribute is chosen, also get the attribute value and reverse setting
     end_attribute = "Random.csv"
@@ -300,23 +316,117 @@ def start_game(n_clicks, players, number_of_rounds, start_country, winning_condi
         color = tuple(int(c.strip()) for c in color_str)
         player_objects.append(Player(color=color, name=player["name"]))
     
-    # Call setup_the_game with all parameters
-    setup_the_game(
-        continent_list=continents,
+    # Setup the game but don't start it yet
+    game_data = {
+        "continent_list": continents,
+        "list_of_players": [p.to_dict() for p in player_objects],
+        "number_of_rounds": number_of_rounds,
+        "number_of_rerolls": number_of_rounds // 3,
+        "starting_countries_preferences": start_country,
+        "winning_condition": winning_condition,
+        "end_attribute_path": end_attribute,
+        "peacemode": bool(peace_mode),
+        "wormhole_mode": wormhole_option,
+        "reversed_end_attribute": reversed_attribute,
+    }
+    
+    # Create the game layout
+    game_layout = create_game_layout()
+    
+    # Hide setup container and show game container
+    return {"display": "none"}, {"display": "block"}, game_layout, game_data
+
+def create_game_layout():
+    """Create the layout for the game interface."""
+    return html.Div([
+        dbc.Row([
+            dbc.Col([
+                html.H2("The Geography Game", className="text-center mb-3"),
+                html.Div(id="game-map-container", className="mb-3", style={"height": "600px", "position": "relative"}),
+                html.Img(id="game-map", style={"width": "100%", "height": "100%"}),
+                html.Div(id="game-overlay", style={"position": "absolute", "top": 0, "left": 0, "width": "100%", "height": "100%", "pointerEvents": "none"}),
+            ], width=8),
+            dbc.Col([
+                html.Div(id="game-status", className="mb-3"),
+                html.Div(id="game-controls", className="mb-3"),
+                html.Div(id="player-info", className="mb-3"),
+                dbc.Button("End Turn", id="end-turn-button", color="primary", className="mb-3"),
+                dbc.Button("Back to Setup", id="back-to-setup", color="secondary"),
+            ], width=4),
+        ]),
+        # Add modals for attacks, country information, etc.
+        dbc.Modal(
+            [
+                dbc.ModalHeader("Country Information"),
+                dbc.ModalBody(id="country-modal-body"),
+                dbc.ModalFooter(
+                    dbc.Button("Close", id="close-country-modal", className="ml-auto")
+                ),
+            ],
+            id="country-info-modal",
+            size="lg",
+        ),
+        # Initialize the game when the layout is first loaded
+        dcc.Interval(id="game-initialization", interval=1000, n_intervals=0, max_intervals=1),
+    ])
+
+# Add a callback to initialize the game
+@callback(
+    Output("game-map", "src"),
+    Input("game-initialization", "n_intervals"),
+    State("game-state", "data"),
+    prevent_initial_call=True
+)
+def initialize_game(n_intervals, game_data):
+    if not game_data:
+        return dash.no_update
+    
+    # Convert player dictionaries back to Player objects
+    player_objects = []
+    for player_dict in game_data["list_of_players"]:
+        player = Player(color=tuple(player_dict["color"]), name=player_dict["name"])
+        player_objects.append(player)
+    
+    # Load the map image
+    map_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 
+                           "pictures", "map.png")
+    map_image = Image.open(map_path)
+    
+    # Initialize the main window with the map, but don't start the tkinter mainloop
+    game_window = MainWindow(
+        bild=map_image,
         list_of_players=player_objects,
-        number_of_rounds=number_of_rounds,
-        number_of_rerolls=number_of_rounds // 3,
-        starting_countries_preferences=start_country,
-        winning_condition=winning_condition,
-        end_attribute_path=end_attribute,
-        peacemode=bool(peace_mode),
-        wormhole_mode=wormhole_option,
-        reversed_end_attribute=reversed_attribute,
-        start_the_game=True
+        wormhole_mode=game_data["wormhole_mode"],
+        starting_countries_preferences=game_data["starting_countries_preferences"],
+        number_of_rounds=game_data["number_of_rounds"],
+        winning_condition=game_data["winning_condition"],
+        pred_attribute=game_data["end_attribute_path"].replace(".csv", ""),
+        peacemode=game_data["peacemode"],
+        reversed_end_attribute=game_data["reversed_end_attribute"]
     )
     
-    # This will close the Dash app
-    return dcc.Location(pathname="/", id="close-app")
+    # Setup the game but don't run the mainloop
+    game_window.setupgame()
+    
+    # Convert the image to a data URL for display
+    buffered = io.BytesIO()
+    game_window.bild.save(buffered, format="PNG")
+    img_str = base64.b64encode(buffered.getvalue()).decode()
+    
+    return f"data:image/png;base64,{img_str}"
+
+# Add callback to go back to setup
+@callback(
+    [Output("setup-container", "style", allow_duplicate=True),
+     Output("game-container", "style", allow_duplicate=True)],
+    Input("back-to-setup", "n_clicks"),
+    prevent_initial_call=True
+)
+def back_to_setup(n_clicks):
+    if not n_clicks:
+        return dash.no_update, dash.no_update
+    
+    return {"display": "block"}, {"display": "none"}
 
 def run_dash_app():
     app.run(debug=True)
