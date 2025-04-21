@@ -65,8 +65,6 @@ def setup_data(name,
                cluster=None,
                is_end_only: bool = False,
                debug=False):
-    # TODO why is there a cluster in setup_data?
-
 
     # just for convenience
     if "lower is better" in name:
@@ -128,8 +126,6 @@ def setup_data(name,
             country.dict_of_attributes[name] = LocalAttribute()
 
 def setup_all_data():
-    # TODO: sort by cluster
-    
     
     # misc
     setup_data("Chess grandmasters per capita (higher is better).csv",
