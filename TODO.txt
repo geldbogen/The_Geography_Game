@@ -22,3 +22,4 @@ TODO: Largest Island is still not an active category
 TODO: [x] Reroll button not working FIX: list_of_clusters must be provided in reroll function [x]
 TODO: [x] List_of_clusters is shown but not used. ALSO: game crashes if list_of_clusters becomes empty (this shouldnt happen in the beginning) 
 TODO: Allow players in the database to make their personal notes (like adding favorites, particularly in the active categories)
+TODO: Read more about decorators

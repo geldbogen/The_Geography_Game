@@ -51,7 +51,7 @@ class MainWindow():
         self.starting_countries = starting_countries_preferences
         self.reversed_end_attribute = reversed_end_attribute
         self.main = tk.Tk()
-        sv_ttk.set_theme("dark") )
+        sv_ttk.set_theme("dark")
         self.backend.active_player = self.backend.list_of_players[
             self.backend.active_player_counter]
         self.number_of_players = len(self.backend.list_of_players)
