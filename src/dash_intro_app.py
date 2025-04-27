@@ -16,6 +16,7 @@ from main_window import MainWindow
 # Initialize the Dash app with a Bootstrap theme
 app = dash.Dash(__name__, 
                 external_stylesheets=[dbc.themes.FLATLY],
+                assets_folder="./assets",
                 meta_tags=[{'name': 'viewport', 'content': 'width=device-width, initial-scale=1'}])
 
 # Create header with game title
@@ -157,7 +158,11 @@ continent_selection = dbc.Card([
 ], className="mb-4")
 
 # Start game button
-start_game_button = dbc.Button("Start Game", id="start-game", color="success", size="lg", className="w-100 mb-4")
+start_game_button = dbc.Button("Start Game",
+                                id="start-game",
+                                  color="success",
+                                    size="lg",
+                                      className="w-100 mb-4 animated-button pulse-animation")
 
 # Add a new component to the layout to display the game
 game_container = html.Div(id="game-container", style={"display": "none"})
@@ -195,10 +200,12 @@ def show_attribute_selector(winning_condition):
         # Get attribute list from all_categories
         displayed_list = [c.name for c in all_categories]
         displayed_list.sort()
+        print(displayed_list)
         displayed_list = ["Surprise Me!"] + displayed_list
         displayed_list = [m.rstrip(".csv") for m in displayed_list]
         
-        options = [{'label': attr, 'value': attr} for attr in displayed_list]
+        # Create options as a dictionary with labels and values
+        options = {attr: attr for attr in displayed_list}
         
         return html.Div([
             dbc.Row([
