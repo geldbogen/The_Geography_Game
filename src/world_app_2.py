@@ -21,7 +21,8 @@ app.layout = html.Div([
     html.Div(id='click-info',
               style={'margin-top': '20px', 
                      'padding': '10px', 
-                     'border': '1px solid #ccc'})
+                     'border': '1px solid #ccc'}),
+    dcc.Store(id='selected-country', data=None)
 ])
 
 
