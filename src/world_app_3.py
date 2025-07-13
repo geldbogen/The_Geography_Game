@@ -1,6 +1,6 @@
 import dash_leaflet as dl
 import dash_leaflet.express as dlx
-from dash_extensions.enrich import DashProxy, Input, Output, html
+from dash_extensions.enrich import DashProxy, Input, Output, State, html
 from dash_extensions.javascript import arrow_function
 
 # Generate some in-memory data, and add a simple popup with the name.
@@ -15,29 +15,75 @@ app.layout = html.Div(
             zoom=4,
             children=[
                 dl.TileLayer(),
-                dl.GeoJSON(data=bermuda),  # in-memory geojson (slowest option)
-                dl.GeoJSON(data=bahamas, format="geobuf"),  # in-memory geobuf (smaller payload than geojson)
                 dl.GeoJSON(
-                    url="/assets/us-state-capitals.json", id="capitals"
+                    url="world_map.geojson", 
+                    id="my_geojson",
+                    hideout=dict(selected=[]),
+                    style=arrow_function("""
+                        function(feature, context) {
+                            const {selected} = context.hideout;
+                            const isSelected = selected.includes(feature.properties.NAME || feature.properties.name);
+                            return {
+                                fillColor: isSelected ? 'red' : 'lightblue',
+                                fillOpacity: 0.7,
+                                color: 'white',
+                                weight: 2
+                            };
+                        }
+                    """),
                 ),  # geojson resource (faster than in-memory)
-                dl.GeoJSON(
-                    url="/assets/us-states.pbf",
-                    format="geobuf",
-                    id="states",
-                    hoverStyle=arrow_function(dict(weight=5, color="#666", dashArray="")),
-                ),  # geobuf resource (fastest option)
             ],
             style={"height": "50vh"},
         ),
         html.Div(id="capital"),
+        html.Div(id="selected-info", style={'margin-top': '20px', 'padding': '10px'}),
     ]
 )
 
 
-@app.callback(Output("capital", "children"), [Input("capitals", "clickData")])
-def capital_click(feature):
-    if feature is not None:
-        return f"You clicked {feature['properties']['name']}"
+@app.callback(
+    Output("my_geojson", "hideout"),
+    Input("my_geojson", "n_clicks"),
+    State("my_geojson", "clickData"),
+    State("my_geojson", "hideout"),
+    prevent_initial_call=True,
+)
+def toggle_select(_, feature, hideout):
+    if not feature:
+        return hideout
+    
+    selected = hideout["selected"]
+    # Try different property names that might exist in your GeoJSON
+    name = feature["properties"].get("NAME") or feature["properties"].get("name") or feature["properties"].get("ADMIN")
+    
+    if not name:
+        return hideout
+    
+    if name in selected:
+        selected.remove(name)
+    else:
+        selected.append(name)
+    
+    # Update hideout to trigger style change
+    hideout["selected"] = selected
+    
+    return hideout
+
+# Add callback to show selected countries
+@app.callback(
+    Output("selected-info", "children"),
+    Input("my_geojson", "hideout")
+)
+def display_selected_countries(hideout):
+    selected = hideout.get("selected", [])
+    if not selected:
+        return "Click on countries to select them. Selected countries will turn red."
+    
+    return html.Div([
+        html.H5("Selected Countries:"),
+        html.Ul([html.Li(country) for country in selected])
+    ])
+
 
 
 if __name__ == "__main__":
