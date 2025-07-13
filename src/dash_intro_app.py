@@ -215,9 +215,10 @@ def show_attribute_selector(winning_condition):
                         id="end-attribute",
                         options=options,
                         value=displayed_list[0],
-                        clearable=False
+                        clearable=False,
+                        className="custom-dropdown"
                     ),
-                ], width=8),
+                ], width=12),
                 dbc.Col([
                     dbc.Label("Reverse?"),
                     dbc.Checklist(
@@ -248,7 +249,8 @@ def randomize_attribute(n_clicks, options):
     rng = random.randrange(1, len(options))
     reverse = [1] if random.random() <= 0.5 else []
     
-    return options[rng]['value'], reverse
+
+    return list(options.keys())[rng], reverse
 
 # Callback to add players and update player list
 @callback(
