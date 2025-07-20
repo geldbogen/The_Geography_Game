@@ -36,8 +36,9 @@ app.layout = html.Div([
 @app.callback(
     Output('countries-layer', 'data'),      # The map layer will be our output
     Output('game-state', 'data'),           # We also update the stored game state
-    Input('countries-layer', 'click_feature'), # The trigger is a click on a country feature
-    State('game-state', 'data')             # We get the current state without triggering the callback
+    Input('countries-layer', 'clickData'), # The trigger is a click on a country feature
+    State('game-state', 'data'),
+    prevent_initial_call=True
 )
 def claim_country(feature, current_owners):
     # If nothing has been clicked yet, don't do anything
@@ -56,11 +57,11 @@ def claim_country(feature, current_owners):
         print(f"{country_name} has been claimed by blue!")
 
     # --- Update the Map's Visuals ---
-    # We need to add a 'style' dictionary to each country based on its owner
     for feat in geojson_data['features']:
+        print(feat)
         owner = current_owners[feat['properties']['sovereignt']]
         if owner == 'blue':
-            feat['properties']['style'] = {'fillColor': 'blue', 'color': 'white', 'weight': 2}
+            feat['properties']['style'] = {'fillColor': 'red', 'color': 'white', 'weight': 2}
         else:
             feat['properties']['style'] = {'fillColor': 'grey', 'color': 'white', 'weight': 1}
 
