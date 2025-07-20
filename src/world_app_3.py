@@ -1,20 +1,22 @@
+from dash import Dash, html, dcc, callback, Output, Input
 import dash
+import dash_bootstrap_components as dbc
 import dash_leaflet as dl
-import dash_html_components as html
-import dash_core_components as dcc
+# import dash_html_components as html
+# import dash_core_components as dcc
 from dash.dependencies import Input, Output, State
 import json
 
 # 1. SETUP
 # Load the country border data from your GeoJSON file
-with open("world_map.geojson", "r") as f:
+with open("world_map.geojson", "r", encoding='utf-8') as f:
     geojson_data = json.load(f)
 
 # Create the Dash App
-app = dash.Dash(__name__)
+app = Dash(__name__)
 
 # This dictionary acts as our game state database
-initial_owners = {feature['properties']['ADMIN']: None for feature in geojson_data['features']}
+initial_owners = {feature['properties']['sovereignt']: None for feature in geojson_data['features']}
 
 # 2. LAYOUT DEFINITION
 app.layout = html.Div([
@@ -40,10 +42,11 @@ app.layout = html.Div([
 def claim_country(feature, current_owners):
     # If nothing has been clicked yet, don't do anything
     if feature is None:
+        print("No country clicked yet.")
         return dash.no_update, dash.no_update
 
     # Get the name of the clicked country
-    country_name = feature['properties']['ADMIN']
+    country_name = feature['properties']['sovereignt']
     print(f"Clicked on {country_name}")
 
     # --- Game Logic ---
@@ -55,7 +58,7 @@ def claim_country(feature, current_owners):
     # --- Update the Map's Visuals ---
     # We need to add a 'style' dictionary to each country based on its owner
     for feat in geojson_data['features']:
-        owner = current_owners[feat['properties']['ADMIN']]
+        owner = current_owners[feat['properties']['sovereignt']]
         if owner == 'blue':
             feat['properties']['style'] = {'fillColor': 'blue', 'color': 'white', 'weight': 2}
         else:
@@ -65,4 +68,4 @@ def claim_country(feature, current_owners):
     return geojson_data, current_owners
 
 if __name__ == '__main__':
-    app.run_server(debug=True)
+    app.run(debug=True)
