@@ -6,6 +6,7 @@ import dash_leaflet as dl
 # import dash_core_components as dcc
 from dash.dependencies import Input, Output, State
 import json
+from dash_extensions.javascript import assign
 
 # 1. SETUP
 # Load the country border data from your GeoJSON file
@@ -18,6 +19,12 @@ app = Dash(__name__)
 # This dictionary acts as our game state database
 initial_owners = {feature['properties']['sovereignt']: None for feature in geojson_data['features']}
 
+style_handle = assign("""function(feature, context){
+    const match = context.props.hideout &&  context.props.hideout.properties.name === feature.properties.name;
+    if(match) return {color:'#126'};
+    return {}
+    }""")
+
 # 2. LAYOUT DEFINITION
 app.layout = html.Div([
     html.H1("World Domination Game"),
@@ -25,48 +32,53 @@ app.layout = html.Div([
     dl.Map(center=[20, 0], zoom=2, children=[
         dl.TileLayer(),
         # The GeoJSON layer that displays the countries
-        dl.GeoJSON(data=geojson_data, id="countries-layer", hoverStyle=dict(weight=5, color='#666', dashArray=''))
+        dl.GeoJSON(data=geojson_data, 
+                   id="countries-layer",
+                     hoverStyle=dict(weight=5, color='#666', dashArray=''),
+                     options=dict(style=style_handle),
+                     hideout=dict(selected=[])
+                     ),
     ], style={'width': '100%', 'height': '80vh'}),
+    html.Div(id='countries-container', children=[]),
+    dash.dash_table.DataTable(id='countries-table', columns=[{"name": i, "id": i} for i in ["state"]], data=[]),
+
 
     # A hidden component to store our game state (the dictionary of owners)
     dcc.Store(id='game-state', data=initial_owners)
 ])
 
 # 3. INTERACTIVITY CALLBACK
-@app.callback(
-    Output('countries-layer', 'data'),      # The map layer will be our output
-    Output('game-state', 'data'),           # We also update the stored game state
-    Input('countries-layer', 'clickData'), # The trigger is a click on a country feature
-    State('game-state', 'data'),
-    prevent_initial_call=True
+app.clientside_callback(
+    """
+    function(clickedFeature, hideout) {
+        if (!clickedFeature) {
+            // NB. raise PreventUpdate to prevent ALL outputs updating, 
+            // dash.no_update prevents only a single output updating
+            throw window.dash_clientside.PreventUpdate;
+        }
+
+        const id = clickedFeature.id;
+        const selection = hideout || {};
+
+        if (id in selection) {
+            delete selection[id];
+        }
+        else {
+            selection[id] = clickedFeature;
+        }
+
+        const stateText = `Clicked: ${clickedFeature.properties.NAME}`;
+
+        return [selection, tableData, stateText, null];
+    }
+    """,
+    Output("countries-layer", "hideout"),
+    Output("countries-table", "data"),
+    Output("countries-container", "children"),
+    Output("countries-layer", "click_feature"),
+    Input("countries-layer", "click_feature"),
+    State("countries-layer", "hideout")
 )
-def claim_country(feature, current_owners):
-    # If nothing has been clicked yet, don't do anything
-    if feature is None:
-        print("No country clicked yet.")
-        return dash.no_update, dash.no_update
-
-    # Get the name of the clicked country
-    country_name = feature['properties']['sovereignt']
-    print(f"Clicked on {country_name}")
-
-    # --- Game Logic ---
-    # If the country is unowned, claim it for 'blue'
-    if current_owners[country_name] is None:
-        current_owners[country_name] = 'blue'
-        print(f"{country_name} has been claimed by blue!")
-
-    # --- Update the Map's Visuals ---
-    for feat in geojson_data['features']:
-        print(feat)
-        owner = current_owners[feat['properties']['sovereignt']]
-        if owner == 'blue':
-            feat['properties']['style'] = {'fillColor': 'red', 'color': 'white', 'weight': 2}
-        else:
-            feat['properties']['style'] = {'fillColor': 'grey', 'color': 'white', 'weight': 1}
-
-    # Return the updated map data and the updated game state
-    return geojson_data, current_owners
 
 if __name__ == '__main__':
     app.run(debug=True)
