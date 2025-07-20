@@ -1,90 +1,68 @@
+import dash
 import dash_leaflet as dl
-import dash_leaflet.express as dlx
-from dash_extensions.enrich import DashProxy, Input, Output, State, html
-from dash_extensions.javascript import arrow_function
+import dash_html_components as html
+import dash_core_components as dcc
+from dash.dependencies import Input, Output, State
+import json
 
-# Generate some in-memory data, and add a simple popup with the name.
-bermuda = dlx.dicts_to_geojson([dict(lat=32.299507, lon=-64.790337, popup="Bermuda")])
-bahamas = dlx.geojson_to_geobuf(dlx.dicts_to_geojson([dict(lat=24.55, lon=-78, popup="Bahamas")]))
-# Create example app.
-app = DashProxy()
-app.layout = html.Div(
-    [
-        dl.Map(
-            center=[39, -98],
-            zoom=4,
-            children=[
-                dl.TileLayer(),
-                dl.GeoJSON(
-                    url="world_map.geojson", 
-                    id="my_geojson",
-                    hideout=dict(selected=[]),
-                    style=arrow_function("""
-                        function(feature, context) {
-                            const {selected} = context.hideout;
-                            const isSelected = selected.includes(feature.properties.NAME || feature.properties.name);
-                            return {
-                                fillColor: isSelected ? 'red' : 'lightblue',
-                                fillOpacity: 0.7,
-                                color: 'white',
-                                weight: 2
-                            };
-                        }
-                    """),
-                ),  # geojson resource (faster than in-memory)
-            ],
-            style={"height": "50vh"},
-        ),
-        html.Div(id="capital"),
-        html.Div(id="selected-info", style={'margin-top': '20px', 'padding': '10px'}),
-    ]
-)
+# 1. SETUP
+# Load the country border data from your GeoJSON file
+with open("world_map.geojson", "r") as f:
+    geojson_data = json.load(f)
 
+# Create the Dash App
+app = dash.Dash(__name__)
 
+# This dictionary acts as our game state database
+initial_owners = {feature['properties']['ADMIN']: None for feature in geojson_data['features']}
+
+# 2. LAYOUT DEFINITION
+app.layout = html.Div([
+    html.H1("World Domination Game"),
+    # The interactive map component
+    dl.Map(center=[20, 0], zoom=2, children=[
+        dl.TileLayer(),
+        # The GeoJSON layer that displays the countries
+        dl.GeoJSON(data=geojson_data, id="countries-layer", hoverStyle=dict(weight=5, color='#666', dashArray=''))
+    ], style={'width': '100%', 'height': '80vh'}),
+
+    # A hidden component to store our game state (the dictionary of owners)
+    dcc.Store(id='game-state', data=initial_owners)
+])
+
+# 3. INTERACTIVITY CALLBACK
 @app.callback(
-    Output("my_geojson", "hideout"),
-    Input("my_geojson", "n_clicks"),
-    State("my_geojson", "clickData"),
-    State("my_geojson", "hideout"),
-    prevent_initial_call=True,
+    Output('countries-layer', 'data'),      # The map layer will be our output
+    Output('game-state', 'data'),           # We also update the stored game state
+    Input('countries-layer', 'click_feature'), # The trigger is a click on a country feature
+    State('game-state', 'data')             # We get the current state without triggering the callback
 )
-def toggle_select(_, feature, hideout):
-    if not feature:
-        return hideout
-    
-    selected = hideout["selected"]
-    # Try different property names that might exist in your GeoJSON
-    name = feature["properties"].get("NAME") or feature["properties"].get("name") or feature["properties"].get("ADMIN")
-    
-    if not name:
-        return hideout
-    
-    if name in selected:
-        selected.remove(name)
-    else:
-        selected.append(name)
-    
-    # Update hideout to trigger style change
-    hideout["selected"] = selected
-    
-    return hideout
+def claim_country(feature, current_owners):
+    # If nothing has been clicked yet, don't do anything
+    if feature is None:
+        return dash.no_update, dash.no_update
 
-# Add callback to show selected countries
-@app.callback(
-    Output("selected-info", "children"),
-    Input("my_geojson", "hideout")
-)
-def display_selected_countries(hideout):
-    selected = hideout.get("selected", [])
-    if not selected:
-        return "Click on countries to select them. Selected countries will turn red."
-    
-    return html.Div([
-        html.H5("Selected Countries:"),
-        html.Ul([html.Li(country) for country in selected])
-    ])
+    # Get the name of the clicked country
+    country_name = feature['properties']['ADMIN']
+    print(f"Clicked on {country_name}")
 
+    # --- Game Logic ---
+    # If the country is unowned, claim it for 'blue'
+    if current_owners[country_name] is None:
+        current_owners[country_name] = 'blue'
+        print(f"{country_name} has been claimed by blue!")
 
+    # --- Update the Map's Visuals ---
+    # We need to add a 'style' dictionary to each country based on its owner
+    for feat in geojson_data['features']:
+        owner = current_owners[feat['properties']['ADMIN']]
+        if owner == 'blue':
+            feat['properties']['style'] = {'fillColor': 'blue', 'color': 'white', 'weight': 2}
+        else:
+            feat['properties']['style'] = {'fillColor': 'grey', 'color': 'white', 'weight': 1}
 
-if __name__ == "__main__":
-    app.run(port=7777)
+    # Return the updated map data and the updated game state
+    return geojson_data, current_owners
+
+if __name__ == '__main__':
+    app.run_server(debug=True)
