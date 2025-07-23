@@ -1,5 +1,5 @@
 import dash
-from dash import dcc, html, Input, Output, State, callback
+from dash import dcc, html, Input, Output, State, callback, no_update
 import dash_bootstrap_components as dbc
 import random
 from player import Player
@@ -162,28 +162,43 @@ start_game_button = dbc.Button("Start Game",
 # Add a new component to the layout to display the game
 game_container = html.Div(id="game-container", style={"display": "none"})
 
-# Layout the application with all components
-app.layout = dbc.Container([
-    header,
-    html.Div(id="setup-container", children=[
-        player_setup,
-        dbc.Row([
-            dbc.Col(game_settings, width=6),
-            dbc.Col(winning_conditions, width=6)
+# Create setup layout as a function
+def create_setup_layout():
+    return dbc.Container([
+        header,
+        html.Div(id="setup-container", children=[
+            player_setup,
+            dbc.Row([
+                dbc.Col(game_settings, width=6),
+                dbc.Col(winning_conditions, width=6)
+            ]),
+            dbc.Row([
+                dbc.Col(wormhole_options, width=6),
+                dbc.Col(continent_selection, width=6)
+            ]),
+            start_game_button,
         ]),
-        dbc.Row([
-            dbc.Col(wormhole_options, width=6),
-            dbc.Col(continent_selection, width=6)
-        ]),
-        start_game_button,
-    ]),
-    game_container,
-    
-    # Store components to track state
+    ], fluid=True, className="p-5")
+
+# Layout the application with URL routing
+app.layout = html.Div([
+    dcc.Location(id='url', refresh=False),
     dcc.Store(id="player-list-store", data=[]),
     dcc.Store(id="game-state", data={}),
-    html.Div(id="redirect", style={"display": "none"})
-], fluid=True, className="p-5")
+    html.Div(id='page-content')
+])
+
+# Page routing callback
+@callback(
+    Output('page-content', 'children'),
+    Input('url', 'pathname'),
+    State('game-state', 'data')
+)
+def display_page(pathname, game_state):
+    if pathname == '/game':
+        return dash_main_window.create_main_window_layout()
+    else:  # Default to setup page
+        return create_setup_layout()
 
 # Callback for showing attribute selector when attribute condition is selected
 @callback(
@@ -238,7 +253,7 @@ def show_attribute_selector(winning_condition):
 )
 def randomize_attribute(n_clicks, options):
     if not n_clicks:
-        return dash.no_update, dash.no_update
+        return no_update, no_update
     
     # Skip first option which is "Surprise Me!"
     rng = random.randrange(1, len(options))
@@ -261,7 +276,7 @@ def randomize_attribute(n_clicks, options):
 )
 def add_player(n_clicks, name, color, current_players):
     if not n_clicks or not name or not color:
-        return dash.no_update, dash.no_update, dash.no_update, dash.no_update
+        return no_update, no_update, no_update, no_update
     
     # Add new player to list
     current_players.append({"name": name, "color": color})
@@ -280,12 +295,9 @@ def add_player(n_clicks, name, color, current_players):
     
     return table, current_players, "", None
 
-# Modify the start_game callback to set up the game but not launch it
+# Modify the start_game callback to use URL routing
 @callback(
-    [Output("setup-container", "style"),
-     Output("game-container", "style"),
-     Output("game-container", "children"),
-     Output("game-state", "data")],
+    Output('url', 'pathname'),
     Input("start-game", "n_clicks"),
     [State("player-list-store", "data"),
      State("number-of-rounds", "value"),
@@ -299,46 +311,49 @@ def add_player(n_clicks, name, color, current_players):
 def start_game(n_clicks, players, number_of_rounds, start_country, winning_condition, continents, wormhole_option, peace_mode):
     print(f"Start game clicked, players: {players}")
     if not n_clicks or not players:
-        return dash.no_update, dash.no_update, dash.no_update, dash.no_update
+        print(f'not starting the game')
+        return no_update
+    else:
+        # Navigate to game page using URL routing
+        return '/game'
+    # # If attribute is chosen, also get the attribute value and reverse setting
+    # end_attribute = "Random.csv"
+    # reversed_attribute = 0
     
-    # If attribute is chosen, also get the attribute value and reverse setting
-    end_attribute = "Random.csv"
-    reversed_attribute = 0
-    
-    if winning_condition == "attribute":
-        try:
-            end_attribute = dash.callback_context.states["end-attribute.value"] + ".csv"
-            reversed_attribute = 1 if dash.callback_context.states["reverse-attribute.value"] else 0
-        except:
-            pass
+    # if winning_condition == "attribute":
+    #     try:
+    #         end_attribute = dash.callback_context.states["end-attribute.value"] + ".csv"
+    #         reversed_attribute = 1 if dash.callback_context.states["reverse-attribute.value"] else 0
+    #     except:
+    #         pass
 
-    # Convert the players data to Player objects
-    player_objects = []
-    for player in players:
-        # Convert color from string to RGB tuple
-        color_str = player["color"].strip("rgb(").strip(")").split(",")
-        color = tuple(int(c.strip()) for c in color_str)
-        player_objects.append(Player(color=color, name=player["name"]))
+    # # Convert the players data to Player objects
+    # player_objects = []
+    # for player in players:
+    #     # Convert color from string to RGB tuple
+    #     color_str = player["color"].strip("rgb(").strip(")").split(",")
+    #     color = tuple(int(c.strip()) for c in color_str)
+    #     player_objects.append(Player(color=color, name=player["name"]))
     
-    # Setup the game but don't start it yet
-    game_data = {
-        "continent_list": continents,
-        "list_of_players": [p.to_dict() for p in player_objects],
-        "number_of_rounds": number_of_rounds,
-        "number_of_rerolls": number_of_rounds // 3,
-        "starting_countries_preferences": start_country,
-        "winning_condition": winning_condition,
-        "end_attribute_path": end_attribute,
-        "peacemode": bool(peace_mode),
-        "wormhole_mode": wormhole_option,
-        "reversed_end_attribute": reversed_attribute,
-    }
+    # # Setup the game but don't start it yet
+    # game_data = {
+    #     "continent_list": continents,
+    #     "list_of_players": [p for p in player_objects],
+    #     "number_of_rounds": number_of_rounds,
+    #     "number_of_rerolls": number_of_rounds // 3,
+    #     "starting_countries_preferences": start_country,
+    #     "winning_condition": winning_condition,
+    #     "end_attribute_path": end_attribute,
+    #     "peacemode": bool(peace_mode),
+    #     "wormhole_mode": wormhole_option,
+    #     "reversed_end_attribute": reversed_attribute,
+    # }
     
-    # Create the game layout
-    game_layout = create_game_layout()
+    # # Create the game layout
+    # game_layout = create_game_layout()
     
-    # Hide setup container and show game container
-    return {"display": "none"}, {"display": "block"}, game_layout, game_data
+    # # Hide setup container and show game container
+    # return {"display": "none"}, {"display": "block"}, game_layout, game_data
 
 def create_game_layout():
     """Create the layout for the game interface."""
@@ -383,7 +398,7 @@ def create_game_layout():
 )
 def initialize_game(n_intervals, game_data):
     if not game_data:
-        return dash.no_update
+        return no_update
     
     # Convert player dictionaries back to Player objects
     player_objects = []
@@ -432,7 +447,7 @@ def initialize_game(n_intervals, game_data):
 )
 def back_to_setup(n_clicks):
     if not n_clicks:
-        return dash.no_update, dash.no_update
+        return no_update, no_update
     
     return {"display": "block"}, {"display": "none"}
 
