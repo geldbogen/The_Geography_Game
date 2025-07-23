@@ -2,15 +2,10 @@ import dash
 from dash import dcc, html, Input, Output, State, callback
 import dash_bootstrap_components as dbc
 import random
-import pandas as pd
-import os
 from player import Player
 from global_definitions import all_categories
 from setup_game import setup_the_game
-from PIL import Image
-import numpy as np
-import io
-import base64
+import dash_main_window
 from main_window import MainWindow
 
 # Initialize the Dash app with a Bootstrap theme
@@ -396,33 +391,37 @@ def initialize_game(n_intervals, game_data):
         player = Player(color=tuple(player_dict["color"]), name=player_dict["name"])
         player_objects.append(player)
     
-    # Load the map image
-    map_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 
-                           "pictures", "map.png")
-    map_image = Image.open(map_path)
+    app.layout = dash_main_window.create_main_window_layout()
     
-    # Initialize the main window with the map, but don't start the tkinter mainloop
-    game_window = MainWindow(
-        bild=map_image,
-        list_of_players=player_objects,
-        wormhole_mode=game_data["wormhole_mode"],
-        starting_countries_preferences=game_data["starting_countries_preferences"],
-        number_of_rounds=game_data["number_of_rounds"],
-        winning_condition=game_data["winning_condition"],
-        pred_attribute=game_data["end_attribute_path"].replace(".csv", ""),
-        peacemode=game_data["peacemode"],
-        reversed_end_attribute=game_data["reversed_end_attribute"]
-    )
+
+
+    # # Load the map image
+    # map_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 
+    #                        "pictures", "map.png")
+    # map_image = Image.open(map_path)
     
-    # Setup the game but don't run the mainloop
-    game_window.setupgame()
+    # # Initialize the main window with the map, but don't start the tkinter mainloop
+    # game_window = MainWindow(
+    #     bild=map_image,
+    #     list_of_players=player_objects,
+    #     wormhole_mode=game_data["wormhole_mode"],
+    #     starting_countries_preferences=game_data["starting_countries_preferences"],
+    #     number_of_rounds=game_data["number_of_rounds"],
+    #     winning_condition=game_data["winning_condition"],
+    #     pred_attribute=game_data["end_attribute_path"].replace(".csv", ""),
+    #     peacemode=game_data["peacemode"],
+    #     reversed_end_attribute=game_data["reversed_end_attribute"]
+    # )
     
-    # Convert the image to a data URL for display
-    buffered = io.BytesIO()
-    game_window.bild.save(buffered, format="PNG")
-    img_str = base64.b64encode(buffered.getvalue()).decode()
+    # # Setup the game but don't run the mainloop
+    # game_window.setupgame()
     
-    return f"data:image/png;base64,{img_str}"
+    # # Convert the image to a data URL for display
+    # buffered = io.BytesIO()
+    # game_window.bild.save(buffered, format="PNG")
+    # img_str = base64.b64encode(buffered.getvalue()).decode()
+    
+    # return f"data:image/png;base64,{img_str}"
 
 # Add callback to go back to setup
 @callback(
