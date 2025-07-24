@@ -5,6 +5,7 @@ from dash.dependencies import Output, Input
 from dash_extensions.javascript import Namespace, assign
 
 from country import call_country_by_name
+from game_state import BACKEND_GAME
 
 
 class MainWindow():
@@ -53,7 +54,27 @@ def create_main_window_layout():
     State("main-window-geojson", "hideout"),
     prevent_initial_call=True,
 )
-def toggle_select(_, feature, hideout):
+def click_on_map(_, feature, hideout):
+    country = call_country_by_name(feature["properties"]["name"])
+    owner = country.owner
+
+    match BACKEND_GAME.chosen_country_1, BACKEND_GAME.chosen_country_2:
+        case None, None:
+            BACKEND_GAME.chosen_country_1 = country
+            return hideout, f'You have selected: {country.name}'
+        case _, None:
+            BACKEND_GAME.chosen_country_2 = country
+            return hideout, f'Do you want to attack {country.name} with {BACKEND_GAME.chosen_country_1.name}? \n \
+                Click again to confirm or select another country to attack'
+        case a, b if a is not None and b is not None:
+            if b == country:
+                # do BACKEND_ATTACK
+                pass
+            else:
+                BACKEND_GAME.chosen_country_1 = None
+                BACKEND_GAME.chosen_country_2 = None
+                return hideout, f'It\'s {BACKEND_GAME.active_player.name}\'s turn to attack'
+
     selected = hideout["selected"]
 
     print(feature['properties']['name'])
@@ -63,8 +84,7 @@ def toggle_select(_, feature, hideout):
         selected.remove(country_name)
     else:
         selected.append(country_name)
-    global BACKEND_GAME 
-    BACKEND_GAME.
+
     return hideout, f'You have selected: {call_country_by_name(country_name).name}'
 
 if __name__ == "__main__":

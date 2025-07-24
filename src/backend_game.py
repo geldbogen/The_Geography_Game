@@ -17,8 +17,8 @@ from country import Country, Unknown_country
 class BackendGame():
 
     def __init__(self,
-                 list_of_players: list[Player],
-                 wormhole_mode: str,
+                 list_of_players: list[Player] = [],
+                 wormhole_mode: str = '',
                  starting_countries_preferences: str = "random",
                  number_of_rounds: int = 99999999999,
                  winning_condition: str = "number of countries",
@@ -27,6 +27,10 @@ class BackendGame():
                  peacemode: bool = False,
                  reversed_end_attribute: int = 0,
                  ):
+
+        # the chosen countries for frontend:
+        self.chosen_country_1: Country | None = None
+        self.chosen_country_2: Country | None = None
 
         self.list_of_players: list[Player] = list_of_players
         self.winning_condition: str = winning_condition
@@ -47,15 +51,12 @@ class BackendGame():
         # for the players
         self.active_player_counter = 0
         self.list_of_players = list_of_players
-        print(self.list_of_players)
-        print(len(list_of_players))
         self.active_player = self.list_of_players[self.active_player_counter]
         self.number_of_players = len(self.list_of_players)
         self.end_attribute: Category = None
         self.wormhole_mode: str = wormhole_mode
         self.wormholed_countries: list[list[Country]] = list()
         self.number_of_wormholes = number_of_wormholes
-        print(self.winning_condition)
 
         self.peacemode: bool = peacemode
 
