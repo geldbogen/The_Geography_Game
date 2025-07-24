@@ -248,10 +248,7 @@ def call_player_by_name(name: str) -> Player:
     Returns:
         Player: The player object if found, otherwise returns 'mr_nobody'.
     """
-    for playername in all_players.keys():
-        if playername == name:
-            return all_players[playername]
-    return mr_nobody
+    return all_players.get(name, mr_nobody)
 
 
 mr_nobody = Player(color = white, name="Nobody")

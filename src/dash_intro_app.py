@@ -7,6 +7,11 @@ from global_definitions import all_categories
 from setup_game import setup_the_game
 import dash_main_window
 from main_window import MainWindow
+import datetime
+from backend_game import BackendGame
+import game_state  # Import shared state module
+
+# Remove the global BACKEND_GAME variable since it's now in game_state.py
 
 # Initialize the Dash app with a Bootstrap theme
 app = dash.Dash(__name__, 
@@ -297,7 +302,8 @@ def add_player(n_clicks, name, color, current_players):
 
 # Modify the start_game callback to use URL routing
 @callback(
-    Output('url', 'pathname'),
+    [Output('url', 'pathname'),
+     Output('game-state', 'data')],  # Also output game state
     Input("start-game", "n_clicks"),
     [State("player-list-store", "data"),
      State("number-of-rounds", "value"),
@@ -312,48 +318,92 @@ def start_game(n_clicks, players, number_of_rounds, start_country, winning_condi
     print(f"Start game clicked, players: {players}")
     if not n_clicks or not players:
         print(f'not starting the game')
-        return no_update
-    else:
-        # Navigate to game page using URL routing
-        return '/game'
-    # # If attribute is chosen, also get the attribute value and reverse setting
-    # end_attribute = "Random.csv"
-    # reversed_attribute = 0
+        return no_update, no_update
     
-    # if winning_condition == "attribute":
-    #     try:
-    #         end_attribute = dash.callback_context.states["end-attribute.value"] + ".csv"
-    #         reversed_attribute = 1 if dash.callback_context.states["reverse-attribute.value"] else 0
-    #     except:
-    #         pass
+    # Process game setup data
+    end_attribute = "Random.csv"
+    reversed_attribute = 0
+    
+    if winning_condition == "attribute":
+        try:
+            ctx = dash.callback_context
+            end_attribute = ctx.states.get("end-attribute.value", "Random") + ".csv"
+            reversed_attribute = 1 if ctx.states.get("reverse-attribute.value") else 0
+        except:
+            pass
+    
+    # Convert players to Player objects for BackendGame
+    player_objects = []
+    player_color_dict = {}
+    
+    for i, player in enumerate(players):
+        player_name = player["name"]
+        player_color = player["color"]
+        
+        # Convert color from string to RGB tuple for Player object
+        color_str = player_color.strip("rgb(").strip(")").split(",")
+        color_tuple = tuple(int(c.strip()) for c in color_str)
+        
+        # Create Player object
+        player_obj = Player(color=color_tuple, name=player_name)
+        player_objects.append(player_obj)
+        
+        # Store color mapping for frontend
+        player_color_dict[player_name] = player_color
+    
+    # Create BackendGame instance with proper parameters
+    try:
+        backend_game = BackendGame(
+            list_of_players=player_objects,
+            wormhole_mode=wormhole_option,
+            starting_countries_preferences=start_country,
+            number_of_rounds=number_of_rounds,
+            winning_condition=winning_condition,
+            pred_attribute=end_attribute.replace(".csv", ""),
+            peacemode=bool(peace_mode),
+            reversed_end_attribute=reversed_attribute,
+        )
+        
+        # Set the backend game in shared state
+        game_state.set_backend_game(backend_game)
+        print(f"BackendGame created successfully with {len(player_objects)} players")
+        
+    except Exception as e:
+        print(f"Error creating BackendGame: {e}")
+        return no_update, no_update
+    
+    # Create comprehensive game data for frontend
+    game_data = {
+        "players": players,
+        "player_color_dict": player_color_dict,
+        "country_owner_dict": {},  # Will be populated during game
+        "number_of_rounds": number_of_rounds,
+        "number_of_rerolls": number_of_rounds // 3,
+        "starting_countries_preferences": start_country,
+        "winning_condition": winning_condition,
+        "end_attribute_path": end_attribute,
+        "peacemode": bool(peace_mode),
+        "wormhole_mode": wormhole_option,
+        "reversed_end_attribute": reversed_attribute,
+        "continents": continents,
+        "game_started_at": datetime.datetime.now().isoformat(),
+        "backend_game_initialized": True,
+    }
+    
+    return '/game', game_data
 
-    # # Convert the players data to Player objects
-    # player_objects = []
-    # for player in players:
-    #     # Convert color from string to RGB tuple
-    #     color_str = player["color"].strip("rgb(").strip(")").split(",")
-    #     color = tuple(int(c.strip()) for c in color_str)
-    #     player_objects.append(Player(color=color, name=player["name"]))
-    
-    # # Setup the game but don't start it yet
-    # game_data = {
-    #     "continent_list": continents,
-    #     "list_of_players": [p for p in player_objects],
-    #     "number_of_rounds": number_of_rounds,
-    #     "number_of_rerolls": number_of_rounds // 3,
-    #     "starting_countries_preferences": start_country,
-    #     "winning_condition": winning_condition,
-    #     "end_attribute_path": end_attribute,
-    #     "peacemode": bool(peace_mode),
-    #     "wormhole_mode": wormhole_option,
-    #     "reversed_end_attribute": reversed_attribute,
-    # }
-    
-    # # Create the game layout
-    # game_layout = create_game_layout()
-    
-    # # Hide setup container and show game container
-    # return {"display": "none"}, {"display": "block"}, game_layout, game_data
+# Add callback to handle navigation back from game
+@callback(
+    Output('url', 'pathname', allow_duplicate=True),
+    Input('back-to-setup-btn', 'n_clicks'),
+    prevent_initial_call=True
+)
+def navigate_back_to_setup(n_clicks):
+    if n_clicks:
+        # Reset backend game when going back to setup
+        game_state.reset_backend_game()
+        return '/'
+    return no_update
 
 def create_game_layout():
     """Create the layout for the game interface."""
