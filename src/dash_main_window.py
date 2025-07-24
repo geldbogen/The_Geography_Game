@@ -65,11 +65,13 @@ def click_on_map(_, feature, hideout):
         case _, None:
             BACKEND_GAME.chosen_country_2 = country
             return hideout, f'Do you want to attack {country.name} with {BACKEND_GAME.chosen_country_1.name}? \n \
-                Click again to confirm or select another country to attack'
+                Click again to confirm click somewhere else to go back to country selection'
         case a, b if a is not None and b is not None:
             if b == country:
                 # do BACKEND_ATTACK
-                pass
+                result = BACKEND_GAME.attack_backend()
+                # do_popup(result)
+                
             else:
                 BACKEND_GAME.chosen_country_1 = None
                 BACKEND_GAME.chosen_country_2 = None

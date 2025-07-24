@@ -7,7 +7,7 @@ from global_definitions import all_players, realgrey, white, dictionary_attribut
 
 
 
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Literal
 if TYPE_CHECKING:
     from category import Category
     from country import Country
@@ -47,7 +47,7 @@ class Player:
                                      category: Category,
                                      country_a: Country,
                                      country_b: Country,
-                                     ) -> str:
+                                     ) -> Literal['no data', 'draw', 'win', 'loose', 'hard defeat']:
         """
         Determines if an attack is successful based on comparing attributes of two countries.
         This method compares the specified category attribute between country_a and country_b

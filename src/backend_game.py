@@ -1,5 +1,5 @@
 from __future__ import annotations
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Literal, Optional, Tuple
 import random
 
 import tkinter as tk
@@ -104,8 +104,7 @@ class BackendGame():
             key=lambda x: x.dict_of_attributes[attribute_name].rank)
         return all_countries_with_data[:n]
 
-    def roll_a_new_attribute(self, activating_player: Player, to_update_category_label: tk.Label,
-               to_update_reroll_button: tk.Button, pressed_reroll_button : bool = False) -> None:
+    def roll_a_new_attribute(self, activating_player: Player, pressed_reroll_button : bool = False) -> None:
         """
         Roll a new attribute (category) for the current game round.
         This method selects a new attribute for the current game round, updates the display,
@@ -121,8 +120,8 @@ class BackendGame():
         pressed_reroll_button : bool, optional
             Indicates whether this roll was triggered by pressing the reroll button (default is False).
         Returns:
-        -------
         None
+
         Notes:
         -----
         - If pressed_reroll_button is True, it decrements the player's remaining rerolls.
@@ -136,15 +135,10 @@ class BackendGame():
                 return None
             activating_player.rerolls_left -= 1
             
-            to_update_reroll_button.configure(
-                text="rerolls left:\n " + str(activating_player.rerolls_left))
 
         # roll a new attribute
         self.current_attribute = activating_player.get_good_attribute(list_of_clusters=self.list_of_clusters, peacemode=self.peacemode)
 
-        # update the label with the new category name
-        self.current_attribute.replace_A_and_B_in_category_name(to_update_category_label)
-        
         # replenish the list of clusters if it is too small
         if len(self.list_of_clusters) <= 3:
             self.list_of_clusters = all_categories_names_and_clusters.copy()
@@ -422,3 +416,47 @@ class BackendGame():
                 country1 = random.choice(player.list_of_possessed_countries)
                 country2 = random.choice(all_countries_in_game)
         return country1, country2
+
+    def attack_backend(self) -> Literal['no data', 'draw', 'win', 'loose', 'hard defeat']:
+        
+        if self.chosen_country_1 is not None and self.chosen_country_2 is not None:
+            result = self.active_player.check_if_attack_is_succesful(self.current_attribute,
+                                                                            self.chosen_country_1, self.chosen_country_2)
+        else:
+            raise ValueError("There was an invalid attack, with one of the countries being none")
+        
+        self.chosen_country_1 = None
+        self.chosen_country_2 = None
+
+        return result
+
+    def transition_backend(self, same_player_again: bool = False) -> Tuple[bool, Category | None]:
+
+        if not same_player_again:
+            if self.check_if_game_should_end():
+                return True, None
+
+            self.active_player_counter = self.active_player_counter + 1
+
+        self.index = self.active_player_counter % len(
+            self.list_of_players)
+
+        if not same_player_again:
+            if self.index == 0:
+                self.turn_counter += 1
+
+        # # update the interface
+        # self.turn_counter_label["text"] = str(self.turn_counter)
+        # self.flagframe_dict[self.active_player.name].pack_forget()
+        # self.active_player = self.list_of_players[self.index]
+        # self.showing_country_label[
+        #     "text"] = f"It's {self.active_player.name}'s turn. \n \
+        #         You have not chosen any country yet"
+
+        # roll a new attribute
+        self.roll_a_new_attribute(activating_player=self.active_player,
+                                          pressed_reroll_button=False
+                                          )
+        
+        
+
