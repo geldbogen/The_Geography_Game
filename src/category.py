@@ -10,7 +10,6 @@ from country import Country
 
 class Category:
 
-
     def __init__(self,
                  name: str,
                  is_active: bool,
@@ -78,7 +77,7 @@ class Category:
             # if the category is only used at the end of the game, we do not want to add it to the list of categories
             # which are used in the normal flow of the game
             return
-        
+
         # if there is a real cluster
         if not cluster == "":
             # append the name of cluster in the namelist.
@@ -119,12 +118,12 @@ class Category:
         Returns:
             int: The number of countries with missing data for this category.
         """
-        no_data_list = [country.dict_of_attributes[self.name].rank == 
+        no_data_list = [country.dict_of_attributes[self.name].rank ==
                         0 for country in list_of_countries_in_game]
         return sum(no_data_list)
 
-    def replace_A_and_B_in_category_name(self, tk_label: tk.Label,first_country: Country | None = None,
-                                         second_country: Country | None = None) -> tk.Label:
+    def replace_A_and_B_in_category_name(self, first_country: Country | None = None,
+                                         second_country: Country | None = None) -> str:
         """
         Replace placeholders in category name with actual country names for display.
         This method customizes the display text for a category by replacing 'CountryA' and 'CountryB' 
@@ -162,14 +161,16 @@ class Category:
         except KeyError:
             displaystring = categoryname + " (ERROR)"
 
-        if (second_country == None):
-            displaystring = displaystring.replace("CountryB", " (target country) ")
+        if (second_country is None):
+            displaystring = displaystring.replace(
+                "CountryB", " (target country) ")
         else:
             displaystring = displaystring.replace(
                 "CountryB", second_country.name)
 
-        if (first_country == None):
-            displaystring = displaystring.replace("CountryA", " (your country) ")
+        if (first_country is None):
+            displaystring = displaystring.replace(
+                "CountryA", " (your country) ")
         else:
             displaystring = displaystring.replace(
                 "CountryA", first_country.name)
@@ -188,16 +189,4 @@ class Category:
 
         displaystring += extra_information_displayed
 
-        # TODO: append guessing hint
-
-        # guessing_hint = ""
-        # try:
-        #     guessing_hint = " \n (guess the "+ +")"
-        # except KeyError:
-        #     pass
-
-        # displaystring+= guessing_hint
-
-        tk_label.configure(text=displaystring)
-
-        return tk_label
+        return displaystring
