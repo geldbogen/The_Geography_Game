@@ -8,9 +8,9 @@ if TYPE_CHECKING:
     from player import Player, No_Data_Body
 
     from category import Category
-from player import No_Data_Body
+from player import No_Data_Body, mr_nobody
 
-from global_definitions import all_categories, all_countries_in_game, all_categories_names_and_clusters
+from global_definitions import all_categories, all_countries_in_game, all_categories_names_and_clusters, all_countries_available
 from country import Country, Unknown_country
 
 
@@ -26,66 +26,76 @@ class BackendGame():
                  pred_attribute: str = "random",
                  peacemode: bool = False,
                  reversed_end_attribute: int = 0,
+                 player_name_color_dict: dict[str, str] = dict(),
+                 countries_in_game: list[Country] = all_countries_available
                  ):
-
-        # the chosen countries for frontend:
-        self.chosen_country_1: Country | None = None
-        self.chosen_country_2: Country | None = None
-
+        
+        # Core game configuration
         self.list_of_players: list[Player] = list_of_players
+        self.number_of_players = len(self.list_of_players)
         self.winning_condition: str = winning_condition
-        self.rerolls: int = 3
-
-        self.number_of_targets = 2
-
-        self.pred_attribute_name = pred_attribute
-
-        # for the rounds
+        self.peacemode: bool = peacemode
+        
+        # Game progression and rounds
         self.number_of_rounds = number_of_rounds
         self.index = 0
-        self.goldlist: list[Country] = list()
         self.choosing_index = -1
-        self.starting_countries = starting_countries_preferences
-        self.reversed_end_attribute = reversed_end_attribute
-
-        # for the players
+        
+        # Player management
         self.active_player_counter = 0
-        self.list_of_players = list_of_players
         self.active_player = self.list_of_players[self.active_player_counter]
-        self.number_of_players = len(self.list_of_players)
-        self.end_attribute: Category = None
+        
+        # Country and territory management
+        self.starting_countries = starting_countries_preferences
+        self.countries_in_game = countries_in_game
+        self.chosen_country_1: Country | None = None
+        self.chosen_country_2: Country | None = None
+        
+        # Wormhole system
         self.wormhole_mode: str = wormhole_mode
-        self.wormholed_countries: list[list[Country]] = list()
         self.number_of_wormholes = number_of_wormholes
-
-        self.peacemode: bool = peacemode
-
-        self.current_attribute: Category = all_categories[0]
-
-        # just declaration
-
-        # for claimtwo countries
+        self.wormholed_countries: list[list[Country]] = list()
+        
+        # Attribute and scoring system
+        self.pred_attribute_name = pred_attribute
+        self.current_attribute: Category = None
+        self.end_attribute: Category = None
+        self.reversed_end_attribute = reversed_end_attribute
+        self.list_of_clusters = all_categories_names_and_clusters.copy()
+        
+        # Game mechanics and resources
+        self.rerolls: int = 3
+        self.number_of_targets = 2
+        self.goldlist: list[Country] = list()
+        
+        # Winning condition specific attributes
         self.targetcountry1: Country
         self.targetcountry2: Country
-
-        # for end attribute
-        self.end_attribute: Category
-
-        # for secret targets
         self.dict_of_targets: dict[Player, list[Country]] = dict()
-
-        # for secret attribute
         self.dict_of_target_attribute_name: dict[Player, str] = dict()
         self.winning_country: Country = Unknown_country
         
-        # for the chosen already categories
-        self.list_of_clusters = all_categories_names_and_clusters.copy()
-
+        # UI and display management
+        self.player_name_color_dict: dict[str, str] = player_name_color_dict
         self.hideout_dict_for_dash = {
             "selected": [],
-            "player_color_dict": {player.name: player.color for player in self.list_of_players},
-            "country_owner_dict": {country.name: country.owner.name for country in all_countries_in_game}
+            "player_color_dict": self.player_name_color_dict,
+            "country_owner_dict": {country.name: country.owner.name for country in self.countries_in_game}
         }
+        
+        # Initialize game state
+        self._get_starting_countries()
+
+    def _get_starting_countries(self) -> None:
+        for player in self.list_of_players:
+            random_country = random.choice(self.countries_in_game)
+            while random_country.owner.name != 'Nobody':
+                random_country = random.choice(self.countries_in_game)
+            self.claim_country_backend(
+                loose_player=mr_nobody,
+                win_player=player,
+                country=random_country
+            )
 
     def get_starting_attribute(self):
         pass

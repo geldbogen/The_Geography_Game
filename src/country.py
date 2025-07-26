@@ -52,12 +52,6 @@ class Country:
             resize_ratio[0] * xcoordinate[0], resize_ratio[1] * ycoordinate[0]
         ]
 
-    def get_color(self, image):
-        output = []
-        for coordinates in self.coordinate_list:
-            output.append(image.getpixel(coordinates))
-        return output
-
     def get_two_country_code(self) -> str:
         if self.name == "Ivory Coast":
             return "ci"
@@ -106,25 +100,6 @@ class Country:
         return ImageTk.PhotoImage(
             flag_image.resize((int(height * w / h), int(height)),
                               Image.LANCZOS))
-
-    def load_pixels(self):
-        global all_countries_in_game
-        global country_name_list
-        if self.name == "Unknown Country":
-            self.set_of_pixels = set()
-            all_countries_in_game.append(self)
-            country_name_list.append(self.name)
-            return None
-        try:
-            print(self.name)
-            marray = np.load(self.save_location, allow_pickle=True)
-            marray = marray.T
-            self.set_of_pixels = set(zip(marray[0], marray[1]))
-        except Exception as e:
-            print(str(e))
-            self.set_pixels(png_image)
-        all_countries_in_game.append(self)
-        country_name_list.append(self.name)
 
     def is_connected_with(self, other_country : Country) -> bool:
         """ 
@@ -181,20 +156,6 @@ def call_country_by_name(name: str) -> Country:
         countrynames_to_ignore_because_not_in_game.append(name)
     
     return Unknown_country
-
-
-def get_country_by_position(xcoordinate, ycoordinate) -> Country:
-    # if bild.getpixel((xcoordinate,ycoordinate))==oceanblue:
-    #     return Unknown_country
-    x = xcoordinate
-    y = ycoordinate
-
-    color = green_image_2[x, y]
-    try:
-        result = call_country_by_name(greencountrydict[color])
-    except KeyError:
-        result = Unknown_country
-    return result
 
 
 Unknown_country = Country(

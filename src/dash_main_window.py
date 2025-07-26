@@ -7,6 +7,8 @@ from dash_extensions.javascript import Namespace, assign
 from country import call_country_by_name
 from game_state import BACKEND_GAME
 
+import popup_window
+
 
 class MainWindow():
 
@@ -18,20 +20,6 @@ def create_main_window_layout():
     ns = Namespace("myNamespace", "mySubNamespace")
     style_handle = ns('my_style')
 
-    player_color_dict = {
-        "Player 1": "blue",
-        "Player 2": "red",
-    }
-    country_owner_dict = {
-        "United States of America": "Player 1",
-        "Canada": "Player 2",
-        # Add more countries and their owners as needed
-    }
-    hideout = {
-        "selected": [],
-        "player_color_dict": player_color_dict,
-        "country_owner_dict": country_owner_dict
-    }
 
     return html.Div([
         html.H1("Geography Game"),
@@ -39,17 +27,18 @@ def create_main_window_layout():
             dl.TileLayer(),
             dl.GeoJSON(url='/assets/world_map.geojson', id="main-window-geojson",
                     options=dict(style=style_handle), 
-                    hideout=hideout,
+                    hideout=BACKEND_GAME.hideout_dict_for_dash,
                     ),
         ], style={'width': '100%', 'height': '80vh'}, id="map"),
-        html.Div(id="info")
+        html.Div(id="info"),
+        popup_window.popup_window,  # Include the popup window component
     ])
 
 
 @callback(
     [Output("main-window-geojson", "hideout"),
      Output("info", "children"),
-     Output("popup-window", "is_open"),
+     Output("popup-window", "is_open", allow_duplicate=True),
      Output("win_or_lose_title", "children")],
     Input("main-window-geojson", "n_clicks"),
     State("main-window-geojson", "clickData"),
@@ -91,6 +80,7 @@ def click_on_map(_, feature, hideout):
 
     
     hideout = BACKEND_GAME.hideout_dict_for_dash
+    print(f"hideout: {hideout}")
     if BACKEND_GAME.chosen_country_1:
         hideout["selected"] = [BACKEND_GAME.chosen_country_1.name, BACKEND_GAME.chosen_country_2.name] if BACKEND_GAME.chosen_country_2 else [BACKEND_GAME.chosen_country_1.name]
     else:

@@ -5,18 +5,21 @@ window.myNamespace = Object.assign({}, window.myNamespace, {
             const country_owner_dict = context.hideout.country_owner_dict;
             const selected = context.hideout.selected;
             const country_name = feature.properties.name;
+            var ans = {};
             if(selected.includes(country_name)){
-                return {fillColor: 'yellow', color: 'yellow', className : 'pulsing-country'}
+                ans['className'] = 'pulsing-country';
             }
 
             if(Object.keys(country_owner_dict).includes(country_name)){
                 const country_owner = country_owner_dict[country_name];
                 if (country_owner == 'Nobody') {
-                    return {fillColor: 'grey', color: 'grey'}
+                    ans['fillColor'] = 'grey';
+                    ans['color'] = 'grey';
                 }
-                return {fillColor: player_color_dict[country_owner], color: 'grey'}
+                ans['fillColor'] = player_color_dict[country_owner];
+                ans['color'] = 'grey';
             }
-            return {fillColor: 'grey', color: 'grey'}  
+            return ans;
         },
         doubleclick: function(e, ctx) {
                 console.log(`You double-clicked at ${e.latlng}.`);

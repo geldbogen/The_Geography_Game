@@ -73,8 +73,8 @@ for item in countries_for_language_en:
     reverse_countries_alternative_names[item[1]] = item[1]
 
 
-with open("backenddata/propertydict_new", "rb") as handle:
-    my_property_dict = pickle.load(handle)
+# with open("backenddata/propertydict_new", "rb") as handle:
+#     my_property_dict = pickle.load(handle)
 
 
 # a dictionary which takes a string and if it is a clustername

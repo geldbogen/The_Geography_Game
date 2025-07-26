@@ -6,6 +6,7 @@ from dash_extensions.javascript import Namespace, assign
 
 import dash_bootstrap_components as dbc
 
+
 pop_up_window_content = html.Div([
     html.H2("", id='win_or_lose_title'),
     html.Div(id="country-info"),
@@ -19,9 +20,10 @@ popup_window = dbc.Modal(
 )
 
 @callback(
-    Output("popup-window", "is_open"),
+    Output("popup-window", "is_open", allow_duplicate=True),
     Input("close-button", "n_clicks"),
     State("popup-window", "is_open"),
+    prevent_initial_call=True
 )
 def toggle_popup(n_clicks, is_open):
     if n_clicks:

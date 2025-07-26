@@ -4,9 +4,7 @@ import dash_bootstrap_components as dbc
 import random
 from player import Player
 from global_definitions import all_categories
-from setup_game import setup_the_game
 import dash_main_window
-from main_window import MainWindow
 import datetime
 from backend_game import BackendGame
 import game_state  # Import shared state module
@@ -334,7 +332,7 @@ def start_game(n_clicks, players, number_of_rounds, start_country, winning_condi
     
     # Convert players to Player objects for BackendGame
     player_objects = []
-    player_color_dict = {}
+    player_name_color_dict = {}
     
     for i, player in enumerate(players):
         player_name = player["name"]
@@ -349,7 +347,7 @@ def start_game(n_clicks, players, number_of_rounds, start_country, winning_condi
         player_objects.append(player_obj)
         
         # Store color mapping for frontend
-        player_color_dict[player_name] = player_color
+        player_name_color_dict[player_name] = player_color
     
     # Create BackendGame instance with proper parameters
     try:
@@ -362,6 +360,7 @@ def start_game(n_clicks, players, number_of_rounds, start_country, winning_condi
             pred_attribute=end_attribute.replace(".csv", ""),
             peacemode=bool(peace_mode),
             reversed_end_attribute=reversed_attribute,
+            player_name_color_dict=player_name_color_dict
         )
         
         # Set the backend game in shared state
@@ -375,7 +374,7 @@ def start_game(n_clicks, players, number_of_rounds, start_country, winning_condi
     # Create comprehensive game data for frontend
     game_data = {
         "players": players,
-        "player_color_dict": player_color_dict,
+        "player_color_dict": player_name_color_dict,
         "country_owner_dict": {},  # Will be populated during game
         "number_of_rounds": number_of_rounds,
         "number_of_rerolls": number_of_rounds // 3,
@@ -405,39 +404,7 @@ def navigate_back_to_setup(n_clicks):
         return '/'
     return no_update
 
-def create_game_layout():
-    """Create the layout for the game interface."""
-    return html.Div([
-        dbc.Row([
-            dbc.Col([
-                html.H2("The Geography Game", className="text-center mb-3"),
-                html.Div(id="game-map-container", className="mb-3", style={"height": "600px", "position": "relative"}),
-                html.Img(id="game-map", style={"width": "100%", "height": "100%"}),
-                html.Div(id="game-overlay", style={"position": "absolute", "top": 0, "left": 0, "width": "100%", "height": "100%", "pointerEvents": "none"}),
-            ], width=8),
-            dbc.Col([
-                html.Div(id="game-status", className="mb-3"),
-                html.Div(id="game-controls", className="mb-3"),
-                html.Div(id="player-info", className="mb-3"),
-                dbc.Button("End Turn", id="end-turn-button", color="primary", className="mb-3"),
-                dbc.Button("Back to Setup", id="back-to-setup", color="secondary"),
-            ], width=4),
-        ]),
-        # Add modals for attacks, country information, etc.
-        dbc.Modal(
-            [
-                dbc.ModalHeader("Country Information"),
-                dbc.ModalBody(id="country-modal-body"),
-                dbc.ModalFooter(
-                    dbc.Button("Close", id="close-country-modal", className="ml-auto")
-                ),
-            ],
-            id="country-info-modal",
-            size="lg",
-        ),
-        # Initialize the game when the layout is first loaded
-        dcc.Interval(id="game-initialization", interval=1000, n_intervals=0, max_intervals=1),
-    ])
+
 
 # Add a callback to initialize the game
 @callback(
@@ -458,35 +425,6 @@ def initialize_game(n_intervals, game_data):
     
     app.layout = dash_main_window.create_main_window_layout()
     
-
-
-    # # Load the map image
-    # map_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 
-    #                        "pictures", "map.png")
-    # map_image = Image.open(map_path)
-    
-    # # Initialize the main window with the map, but don't start the tkinter mainloop
-    # game_window = MainWindow(
-    #     bild=map_image,
-    #     list_of_players=player_objects,
-    #     wormhole_mode=game_data["wormhole_mode"],
-    #     starting_countries_preferences=game_data["starting_countries_preferences"],
-    #     number_of_rounds=game_data["number_of_rounds"],
-    #     winning_condition=game_data["winning_condition"],
-    #     pred_attribute=game_data["end_attribute_path"].replace(".csv", ""),
-    #     peacemode=game_data["peacemode"],
-    #     reversed_end_attribute=game_data["reversed_end_attribute"]
-    # )
-    
-    # # Setup the game but don't run the mainloop
-    # game_window.setupgame()
-    
-    # # Convert the image to a data URL for display
-    # buffered = io.BytesIO()
-    # game_window.bild.save(buffered, format="PNG")
-    # img_str = base64.b64encode(buffered.getvalue()).decode()
-    
-    # return f"data:image/png;base64,{img_str}"
 
 # Add callback to go back to setup
 @callback(
