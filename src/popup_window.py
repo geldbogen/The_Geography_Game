@@ -7,7 +7,7 @@ from dash_extensions.javascript import Namespace, assign
 import dash_bootstrap_components as dbc
 
 pop_up_window_content = html.Div([
-    html.H2("Country Information"),
+    html.H2("", id='win_or_lose_title'),
     html.Div(id="country-info"),
     dbc.Button("Close", id="close-button")
 ])

@@ -48,7 +48,9 @@ def create_main_window_layout():
 
 @callback(
     [Output("main-window-geojson", "hideout"),
-     Output("info", "children")],
+     Output("info", "children"),
+     Output("popup-window", "is_open"),
+     Output("win_or_lose_title", "children")],
     Input("main-window-geojson", "n_clicks"),
     State("main-window-geojson", "clickData"),
     State("main-window-geojson", "hideout"),
@@ -58,27 +60,38 @@ def click_on_map(_, feature, hideout):
     country = call_country_by_name(feature["properties"]["name"])
     owner = country.owner
 
+    to_display_string = 'ERROR'
+    popup_window_is_open = False
+    win_or_lose = 'ERROR'
+
     match BACKEND_GAME.chosen_country_1, BACKEND_GAME.chosen_country_2:
         case None, None:
             BACKEND_GAME.chosen_country_1 = country
-            return hideout, f'You have selected: {country.name}'
+            to_display_string = f'You have selected: {country.name} \n \
+                Click on another country which you want to attack it with'
+            
+            # return hideout, f'You have selected: {country.name}'
         case _, None:
             BACKEND_GAME.chosen_country_2 = country
-            return hideout, f'Do you want to attack {country.name} with {BACKEND_GAME.chosen_country_1.name}? \n \
+            to_display_string = f'Do you want to attack {country.name} with {BACKEND_GAME.chosen_country_1.name}? \n \
                 Click again to confirm click somewhere else to go back to country selection'
+
         case a, b if a is not None and b is not None:
             if b == country:
-                # do BACKEND_ATTACK
                 result = BACKEND_GAME.attack_backend()
-                # do_popup(result)
+                popup_window_is_open = True
+                win_or_lose = result
+
+                to_display_string = f'It\'s {BACKEND_GAME.active_player.name}\'s turn to attack'
                 
             else:
                 BACKEND_GAME.chosen_country_1 = None
                 BACKEND_GAME.chosen_country_2 = None
-                return hideout, f'It\'s {BACKEND_GAME.active_player.name}\'s turn to attack'
+                to_display_string = f'It\'s {BACKEND_GAME.active_player.name}\'s turn to attack'
 
+    
+    
     selected = hideout["selected"]
-
     print(feature['properties']['name'])
     country_name = feature["properties"]["name"]
     print(f'Selected country: {call_country_by_name(country_name).name}')
@@ -87,7 +100,7 @@ def click_on_map(_, feature, hideout):
     else:
         selected.append(country_name)
 
-    return hideout, f'You have selected: {call_country_by_name(country_name).name}'
+    return hideout, to_display_string, popup_window_is_open, win_or_lose
 
 if __name__ == "__main__":
     app = Dash(__name__)
