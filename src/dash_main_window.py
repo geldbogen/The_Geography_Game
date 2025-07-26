@@ -90,16 +90,11 @@ def click_on_map(_, feature, hideout):
                 to_display_string = f'It\'s {BACKEND_GAME.active_player.name}\'s turn to attack'
 
     
-    
-    selected = hideout["selected"]
-    print(feature['properties']['name'])
-    country_name = feature["properties"]["name"]
-    print(f'Selected country: {call_country_by_name(country_name).name}')
-    if country_name in selected:
-        selected.remove(country_name)
+    if BACKEND_GAME.chosen_country_1 is not None:
+        hideout["selected"] = [BACKEND_GAME.chosen_country_1.name, BACKEND_GAME.chosen_country_2.name] if BACKEND_GAME.chosen_country_2 else [BACKEND_GAME.chosen_country_1.name]
     else:
-        selected.append(country_name)
-
+        hideout["selected"] = []
+    
     return hideout, to_display_string, popup_window_is_open, win_or_lose
 
 if __name__ == "__main__":
