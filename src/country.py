@@ -3,9 +3,7 @@ from PIL import ImageDraw, Image, ImageTk
 import numpy as np
 
 from global_definitions import resize_ratio, all_countries_available, countries_for_language_en, all_countries_in_game, country_name_list, countrynames_to_ignore_because_not_in_game
-from image import png_image
 from local_attribute import LocalAttribute
-from image import green_image_2, greencountrydict
 import player
 
 from typing import TYPE_CHECKING
@@ -70,26 +68,6 @@ class Country:
                 return item[0]
         return "noflag"
 
-    def set_pixels(self, image):
-        if self.name == "Unknown Country":
-            return None
-        print(self.name)
-        save_array = np.zeros(shape=(1, 2))
-        for coordinate in self.coordinate_list:
-            image2 = image
-            seed = (coordinate[0], coordinate[1])
-            ImageDraw.floodfill(image2, seed, (0, 255, 0), thresh=200)
-            npImage  = np.array(image2)
-            print(npImage.shape)
-            green = np.array([0, 255, 0], dtype=np.uint8)
-            greens = list(zip(*np.where(np.all((npImage == green), axis=-1))))
-            s_array = np.array([*greens])
-            save_array = np.append(save_array, s_array, axis=0)
-            print(s_array)
-            print(s_array.shape)
-            print(save_array.shape)
-        with open(self.save_location, "wb") as f:
-            np.save(f, save_array)
 
     def get_resized_flag(self, height : int):
         country_url = "pictures/flag_pictures/w1280/" + self.get_two_country_code(
@@ -152,7 +130,7 @@ def call_country_by_name(name: str) -> Country:
         if country.name == name:
             return country
     if name not in countrynames_to_ignore_because_not_in_game:
-        print(str(name))
+        # print(str(name))
         countrynames_to_ignore_because_not_in_game.append(name)
     
     return Unknown_country

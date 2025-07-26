@@ -10,4 +10,4 @@ category_name_to_displayed_name_dict : dict[str,str] = df.set_index("original ca
 category_name_to_displayed_guess_hint : dict[str,str] = df.set_index("original categorynames")["guessing extra"].to_dict()
 category_name_to_displayed_extra_information_category : dict[str,str] = df.set_index("original categorynames")["extra information category"].to_dict()
 
-print(category_name_to_displayed_guess_hint)
+# print(category_name_to_displayed_guess_hint)

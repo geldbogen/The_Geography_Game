@@ -9,10 +9,9 @@ import numpy as np
 import wikipedia
 import webbrowser
 
-from country import Country, get_country_by_position, Unknown_country, Germany, France
+from country import Country, Unknown_country, Germany, France
 from category import Category
 from player import Player, call_player_by_name, No_Data_Body, mr_nobody
-from image import greencountrydict, green_image
 from global_definitions import all_categories, all_countries_in_game, dictionary_attribute_name_to_attribute, gold, realgrey, all_categories_names_and_clusters
 from backend_game import BackendGame
 from endscreen import endscreen

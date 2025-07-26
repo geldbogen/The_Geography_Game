@@ -20,6 +20,11 @@ def create_main_window_layout():
     ns = Namespace("myNamespace", "mySubNamespace")
     style_handle = ns('my_style')
 
+    hideout_dict_for_dash = {
+            "selected": [],
+            "player_color_dict": {},
+            "country_owner_dict": {}
+        }
 
     return html.Div([
         html.H1("Geography Game"),
@@ -27,7 +32,7 @@ def create_main_window_layout():
             dl.TileLayer(),
             dl.GeoJSON(url='/assets/world_map.geojson', id="main-window-geojson",
                     options=dict(style=style_handle), 
-                    hideout=BACKEND_GAME.hideout_dict_for_dash,
+                    hideout=hideout_dict_for_dash,
                     ),
         ], style={'width': '100%', 'height': '80vh'}, id="map"),
         html.Div(id="info"),
@@ -46,6 +51,7 @@ def create_main_window_layout():
     prevent_initial_call=True,
 )
 def click_on_map(_, feature, hideout):
+    global BACKEND_GAME
     country = call_country_by_name(feature["properties"]["name"])
     owner = country.owner
 

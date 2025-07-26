@@ -26,8 +26,9 @@ def extract_data_from_series(series: pd.DataFrame, nameofattribute,
     try:
         my_local_attribute.value = float(value)
     except ValueError:
-        print(nameofattribute)
-        print(value)
+        pass
+        # print(nameofattribute)
+        # print(value)
 
     my_local_attribute.rank = series.loc["ranking"]
 
@@ -398,500 +399,500 @@ def setup_all_data():
     setup_data("Percentage of GDP spent on military (higher is better).csv",
                cluster="GDP spent stuff")
 
-    #  GDP as percentage stuff
-    setup_data(
-        "Import and exports as percentage of gdp (higher is better).csv", cluster="GDP as percentage stuff")
-    setup_data(
-        "Import and exports as percentage of gdp (lower is better).csv", ascending=True, cluster="GDP as percentage stuff")
-    setup_data(
-        "Percentage of GDP being remittances of international migrants (higher is better).csv", cluster="GDP as percentage stuff")
-    setup_data(
-        "Percentage of total stock market capitalization to GDP (higher is better).csv", cluster="GDP as percentage stuff")
-    setup_data(
-        "Government debt as percentage of GDP (lower is better).csv", ascending=True, cluster="GDP as percentage stuff")
-    setup_data(
-        "Income from natural resources as percent of GDP (lower is better).csv", ascending=True, cluster="GDP as percentage stuff")
-    setup_data("GDP per capita in PPP (higher is better).csv",
-               cluster="GDP as percentage stuff")
-    setup_data("GDP growth in 2020 (higher is better).csv",
-               cluster="GDP as percentage stuff")
+    # #  GDP as percentage stuff
+    # setup_data(
+    #     "Import and exports as percentage of gdp (higher is better).csv", cluster="GDP as percentage stuff")
+    # setup_data(
+    #     "Import and exports as percentage of gdp (lower is better).csv", ascending=True, cluster="GDP as percentage stuff")
+    # setup_data(
+    #     "Percentage of GDP being remittances of international migrants (higher is better).csv", cluster="GDP as percentage stuff")
+    # setup_data(
+    #     "Percentage of total stock market capitalization to GDP (higher is better).csv", cluster="GDP as percentage stuff")
+    # setup_data(
+    #     "Government debt as percentage of GDP (lower is better).csv", ascending=True, cluster="GDP as percentage stuff")
+    # setup_data(
+    #     "Income from natural resources as percent of GDP (lower is better).csv", ascending=True, cluster="GDP as percentage stuff")
+    # setup_data("GDP per capita in PPP (higher is better).csv",
+    #            cluster="GDP as percentage stuff")
+    # setup_data("GDP growth in 2020 (higher is better).csv",
+    #            cluster="GDP as percentage stuff")
 
-    # taxes and duties stuff
-    setup_data(
-        "Corporate tax in percent (lower is better).csv", ascending=True, cluster="taxes and duties stuff")
-    setup_data(
-        "Highest possible individual income tax in percent (lower is better).csv", ascending=True, cluster="taxes and duties stuff")
-    setup_data(
-        "VAT resp. GST in percent (lower is better).csv", ascending=True, cluster="taxes and duties stuff")
-    setup_data(
-        "Infant mortality (deaths in the first 5 years by 1000 births) (lower is better).csv", ascending=True, cluster="taxes and duties stuff")
-    setup_data(
-        "Average import duty in % (lower is better).csv", ascending=True, cluster="taxes and duties stuff")
-    setup_data(
-        "Number of different taxes (lower is better).csv", ascending=True, cluster="taxes and duties stuff")
+    # # taxes and duties stuff
+    # setup_data(
+    #     "Corporate tax in percent (lower is better).csv", ascending=True, cluster="taxes and duties stuff")
+    # setup_data(
+    #     "Highest possible individual income tax in percent (lower is better).csv", ascending=True, cluster="taxes and duties stuff")
+    # setup_data(
+    #     "VAT resp. GST in percent (lower is better).csv", ascending=True, cluster="taxes and duties stuff")
+    # setup_data(
+    #     "Infant mortality (deaths in the first 5 years by 1000 births) (lower is better).csv", ascending=True, cluster="taxes and duties stuff")
+    # setup_data(
+    #     "Average import duty in % (lower is better).csv", ascending=True, cluster="taxes and duties stuff")
+    # setup_data(
+    #     "Number of different taxes (lower is better).csv", ascending=True, cluster="taxes and duties stuff")
 
-    # general economic stuff
-    setup_data("Export to import ratio (higher is better).csv",
-               cluster="general economic stuff")
-    setup_data(
-        "Gini wealth index (more equal is better) (lower is better).csv", ascending=True, cluster="general economic stuff")
-    setup_data(
-        "Gini income index (more equal is better) (lower is better).csv", ascending=True, cluster="general economic stuff")
-    setup_data("Home ownership rate (higher is better).csv",
-               dif=2, cluster="general economic stuff")
-    setup_data(
-        "Percentage of people having a credit card (higher is better).csv", dif=2, cluster="general economic stuff")
-    setup_data("Minimum wage PPP-adjusted in Int$ (higher is better).csv",
-               cluster="general economic stuff", dif=2)
-    setup_data("Female labor force participation rate (higher is better).csv",
-               cluster="general economic stuff", dif=2)
-    setup_data("Male labor force participation rate (higher is better).csv",
-               cluster="general economic stuff", dif=2)
-    setup_data("Labor force participation rate (higher is better).csv",
-               cluster="general economic stuff", dif=2)
-    setup_data(
-        "Male- to female income ratio (more equal is better) (lower is better).csv", ascending=True, cluster="general economic stuff")
-    setup_data(
-        "Average inflation rate 2017-2021 (lower is better).csv", ascending=True, cluster="general economic stuff")
-    setup_data("S&P credit rating (better rating is better) (lower is better).csv",
-               ascending=True, additional_information=True, additional_information_column_list=[2], cluster="general economic stuff")
-    setup_data("Median wealth in US$ (nominal) (higher is better).csv",
-               additional_information=False, cluster="general economic stuff")
-    setup_data("Unemployment rate (lower is better).csv",
-               ascending=True, dif=3, cluster="general economic stuff")
-    setup_data(
-        "Youth unemployment in 2021 (lower is better).csv", ascending=True, cluster="general economic stuff")
-    setup_data("Shadow economy (lower is better).csv",
-               ascending=True, cluster="general economic stuff")
-    setup_data("Inflation rate in 2021 (lower is better).csv",
-               ascending=True, cluster="general economic stuff")
-    setup_data(
-        "Foreign currency reserves of that country (incl. gold and special drawing rights) (by 10,000 population) (higher is better).csv", cluster="general economic stuff")
-    setup_data(
-        "Percentage of people working in the agricultural sector (higher is better).csv", cluster="general economic stuff")
-    setup_data(
-        "Percentage of people working in the agricultural sector (lower is better).csv", ascending=True, cluster="general economic stuff")
-    setup_data("billionaires per million people (higher is better).csv",
-               treat_missing_data_as_bad=False, dif=2, cluster="general economic stuff")
-    setup_data("Percentage of non-performing loans (lower is better).csv",
-               ascending=True, cluster="general economic stuff")
+    # # general economic stuff
+    # setup_data("Export to import ratio (higher is better).csv",
+    #            cluster="general economic stuff")
+    # setup_data(
+    #     "Gini wealth index (more equal is better) (lower is better).csv", ascending=True, cluster="general economic stuff")
+    # setup_data(
+    #     "Gini income index (more equal is better) (lower is better).csv", ascending=True, cluster="general economic stuff")
+    # setup_data("Home ownership rate (higher is better).csv",
+    #            dif=2, cluster="general economic stuff")
+    # setup_data(
+    #     "Percentage of people having a credit card (higher is better).csv", dif=2, cluster="general economic stuff")
+    # setup_data("Minimum wage PPP-adjusted in Int$ (higher is better).csv",
+    #            cluster="general economic stuff", dif=2)
+    # setup_data("Female labor force participation rate (higher is better).csv",
+    #            cluster="general economic stuff", dif=2)
+    # setup_data("Male labor force participation rate (higher is better).csv",
+    #            cluster="general economic stuff", dif=2)
+    # setup_data("Labor force participation rate (higher is better).csv",
+    #            cluster="general economic stuff", dif=2)
+    # setup_data(
+    #     "Male- to female income ratio (more equal is better) (lower is better).csv", ascending=True, cluster="general economic stuff")
+    # setup_data(
+    #     "Average inflation rate 2017-2021 (lower is better).csv", ascending=True, cluster="general economic stuff")
+    # setup_data("S&P credit rating (better rating is better) (lower is better).csv",
+    #            ascending=True, additional_information=True, additional_information_column_list=[2], cluster="general economic stuff")
+    # setup_data("Median wealth in US$ (nominal) (higher is better).csv",
+    #            additional_information=False, cluster="general economic stuff")
+    # setup_data("Unemployment rate (lower is better).csv",
+    #            ascending=True, dif=3, cluster="general economic stuff")
+    # setup_data(
+    #     "Youth unemployment in 2021 (lower is better).csv", ascending=True, cluster="general economic stuff")
+    # setup_data("Shadow economy (lower is better).csv",
+    #            ascending=True, cluster="general economic stuff")
+    # setup_data("Inflation rate in 2021 (lower is better).csv",
+    #            ascending=True, cluster="general economic stuff")
+    # setup_data(
+    #     "Foreign currency reserves of that country (incl. gold and special drawing rights) (by 10,000 population) (higher is better).csv", cluster="general economic stuff")
+    # setup_data(
+    #     "Percentage of people working in the agricultural sector (higher is better).csv", cluster="general economic stuff")
+    # setup_data(
+    #     "Percentage of people working in the agricultural sector (lower is better).csv", ascending=True, cluster="general economic stuff")
+    # setup_data("billionaires per million people (higher is better).csv",
+    #            treat_missing_data_as_bad=False, dif=2, cluster="general economic stuff")
+    # setup_data("Percentage of non-performing loans (lower is better).csv",
+    #            ascending=True, cluster="general economic stuff")
 
-    # animal stuff
-    setup_data("Number of different breeding bird species (higher is better).csv",
-               dif=4, cluster="number of animalcluster")
-    setup_data("Number of different reptile species (higher is better).csv",
-               dif=4, cluster="number of animalcluster")
-    setup_data("Number of different fish species (higher is better).csv",
-               dif=4, cluster="number of animalcluster")
-    setup_data("Number of different amphibian species (higher is better).csv",
-               dif=4, cluster="number of animalcluster")
-    setup_data("Number of different mammal species (higher is better).csv",
-               dif=4, cluster="number of animalcluster")
-    setup_data("number of different plant species (higher is better).csv",
-               cluster="number of animalcluster")
+    # # animal stuff
+    # setup_data("Number of different breeding bird species (higher is better).csv",
+    #            dif=4, cluster="number of animalcluster")
+    # setup_data("Number of different reptile species (higher is better).csv",
+    #            dif=4, cluster="number of animalcluster")
+    # setup_data("Number of different fish species (higher is better).csv",
+    #            dif=4, cluster="number of animalcluster")
+    # setup_data("Number of different amphibian species (higher is better).csv",
+    #            dif=4, cluster="number of animalcluster")
+    # setup_data("Number of different mammal species (higher is better).csv",
+    #            dif=4, cluster="number of animalcluster")
+    # setup_data("number of different plant species (higher is better).csv",
+    #            cluster="number of animalcluster")
 
-    # consumption
-    setup_data(
-        "Electrical power consumption per capita per year (in watts) (lower is better).csv", ascending=True, cluster="consumption")
-    setup_data(
-        "Meat consumption in kg per year and person (lower is better).csv", dif=2, ascending=True, cluster="consumption")
-    setup_data("Percentage of people using the internet (higher is better).csv",
-               treat_missing_data_as_bad=True, dif=2, cluster="consumption")
-    setup_data("Fertilizer use (lower is better).csv",
-               ascending=True, cluster="consumption")
-    setup_data(
-        "Roller coasters per million inhabitants (higher is better).csv", dif=4, cluster="consumption")
-    setup_data(
-        "CO2 emission in tons per capita (lower is better).csv", ascending=True, dif=1, cluster="consumption")
-    setup_data("Facebook accounts (by 10 population) (higher is better).csv",
-               treat_missing_data_as_bad=True, dif=2, cluster="consumption")
-    setup_data("milk consumption per capita (in kg per year) (higher is better).csv",
-               treat_missing_data_as_bad=False, dif=2, cluster="consumption")
-    setup_data("vehicles per 1000 population (higher is better).csv",
-               treat_missing_data_as_bad=False, dif=2, cluster="consumption")
-    setup_data("average fixed broadband download speed in mbps (higher is better).csv",
-               cluster="consumption")
-    setup_data("average mobile cellular download speed in mbps (higher is better).csv",
-               cluster="consumption")
+    # # consumption
+    # setup_data(
+    #     "Electrical power consumption per capita per year (in watts) (lower is better).csv", ascending=True, cluster="consumption")
+    # setup_data(
+    #     "Meat consumption in kg per year and person (lower is better).csv", dif=2, ascending=True, cluster="consumption")
+    # setup_data("Percentage of people using the internet (higher is better).csv",
+    #            treat_missing_data_as_bad=True, dif=2, cluster="consumption")
+    # setup_data("Fertilizer use (lower is better).csv",
+    #            ascending=True, cluster="consumption")
+    # setup_data(
+    #     "Roller coasters per million inhabitants (higher is better).csv", dif=4, cluster="consumption")
+    # setup_data(
+    #     "CO2 emission in tons per capita (lower is better).csv", ascending=True, dif=1, cluster="consumption")
+    # setup_data("Facebook accounts (by 10 population) (higher is better).csv",
+    #            treat_missing_data_as_bad=True, dif=2, cluster="consumption")
+    # setup_data("milk consumption per capita (in kg per year) (higher is better).csv",
+    #            treat_missing_data_as_bad=False, dif=2, cluster="consumption")
+    # setup_data("vehicles per 1000 population (higher is better).csv",
+    #            treat_missing_data_as_bad=False, dif=2, cluster="consumption")
+    # setup_data("average fixed broadband download speed in mbps (higher is better).csv",
+    #            cluster="consumption")
+    # setup_data("average mobile cellular download speed in mbps (higher is better).csv",
+    #            cluster="consumption")
 
-    # drugs consumption
-    setup_data(
-        "Annual cannabis prevalence in percent (lower is better).csv", ascending=True, cluster="drugsconsumption")
-    setup_data(
-        "Annual cocaine prevalence (lower is better).csv", ascending=True, cluster="drugsconsumption")
-    setup_data(
-        "Annual opioid prevalence (lower is better).csv", ascending=True, cluster="drugsconsumption")
-    setup_data(
-        "Alcohol consumption per person per year (lower is better) (in l).csv", ascending=True, dif=2, cluster="drugsconsumption")
-    setup_data(
-        "Number of cigarettes smoked per year per person (lower is better).csv", ascending=True, cluster="drugsconsumption")
-    setup_data("Percentage of alcohol being consumed is wine (higher is better).csv",
-               dif=3, cluster="drugsconsumption")
-    setup_data("Percentage of alcohol being consumed is beer (higher is better).csv",
-               dif=3, cluster="drugsconsumption")
-    setup_data(
-        "Drug deaths per 100,000 population (lower is better).csv", ascending=True, cluster="drugsconsumption")
+    # # drugs consumption
+    # setup_data(
+    #     "Annual cannabis prevalence in percent (lower is better).csv", ascending=True, cluster="drugsconsumption")
+    # setup_data(
+    #     "Annual cocaine prevalence (lower is better).csv", ascending=True, cluster="drugsconsumption")
+    # setup_data(
+    #     "Annual opioid prevalence (lower is better).csv", ascending=True, cluster="drugsconsumption")
+    # setup_data(
+    #     "Alcohol consumption per person per year (lower is better) (in l).csv", ascending=True, dif=2, cluster="drugsconsumption")
+    # setup_data(
+    #     "Number of cigarettes smoked per year per person (lower is better).csv", ascending=True, cluster="drugsconsumption")
+    # setup_data("Percentage of alcohol being consumed is wine (higher is better).csv",
+    #            dif=3, cluster="drugsconsumption")
+    # setup_data("Percentage of alcohol being consumed is beer (higher is better).csv",
+    #            dif=3, cluster="drugsconsumption")
+    # setup_data(
+    #     "Drug deaths per 100,000 population (lower is better).csv", ascending=True, cluster="drugsconsumption")
 
-    # prices
-    setup_data("Taxi price per 1km in US$ (lower is better).csv",
-               ascending=True, dif=3, cluster="pricecluster")
-    setup_data("Average price for public transport in US$ (one-way-ticket) (lower is better).csv",
-               ascending=True, dif=3, cluster="pricecluster")
-    setup_data("Average price for public transport in US$ (monthly pass) (lower is better).csv",
-               ascending=True, dif=3, cluster="pricecluster")
-    setup_data("Price of 1l of milk in US$ (lower is better).csv",
-               ascending=True, dif=4, cluster="pricecluster")
-    setup_data("Price of 1kg of rice in US$ (lower is better).csv",
-               ascending=True, dif=4, cluster="pricecluster")
-    setup_data("Price of a dozen eggs in US$ (lower is better).csv",
-               ascending=True, dif=4, cluster="pricecluster")
-    setup_data("Price of a kg of apples in US$ (lower is better).csv",
-               ascending=True, dif=4, cluster="pricecluster")
-    setup_data("Price of a skinless, boneless chicken breast in US$ (lower is better).csv",
-               ascending=True, dif=4, cluster="pricecluster")
-    setup_data("Price of 1.5l water bottle in supermarket in US$ (lower is better).csv",
-               ascending=True, dif=4, cluster="pricecluster")
-    setup_data("Price of 0.5l local beer in supermarket in US$ (lower is better).csv",
-               ascending=True, dif=4, cluster="pricecluster")
-    setup_data("Price of one head of lettuce in supermarket in US$ (lower is better).csv",
-               ascending=True, dif=4, cluster="pricecluster")
-    setup_data("Price of 1kg of tomatoes in US$ (lower is better).csv",
-               ascending=True, dif=4, cluster="pricecluster")
-    setup_data("Price of 1kg of potatoes in US$ (lower is better).csv",
-               ascending=True, dif=4, cluster="pricecluster")
-    setup_data("Price of newest nike shoes in US$ (lower is better).csv",
-               ascending=True, dif=3, cluster="pricecluster")
-    setup_data("Price of one pair of Levi 501s or equivalent in US$ (lower is better).csv",
-               ascending=True, dif=3, cluster="pricecluster")
-    setup_data("Price for garbage, water, heating, electricity for 85 sqm apartment in US$ (lower is better).csv",
-               ascending=True, dif=3, cluster="pricecluster")
-    setup_data("Price of a regular cappuchino in a restaurant in US$ (lower is better).csv",
-               ascending=True, dif=3, cluster="pricecluster")
-    setup_data("Price of a mcdonalds menu in US$ (lower is better).csv",
-               ascending=True, dif=3, cluster="pricecluster")
-    setup_data("Price for a 3 course meal for 2 in a normal restaurant in US$ (lower is better).csv",
-               ascending=True, dif=3, cluster="pricecluster")
-    setup_data("Price of 0.5 l normal beer in a restaurant in US$ (lower is better).csv",
-               ascending=True, dif=3, cluster="pricecluster")
-    setup_data("Price of a bottled water in a restaurant in US$ (lower is better).csv",
-               ascending=True, dif=3, cluster="pricecluster")
-    setup_data("Price of a new Volkswagen Golf 1.4 in US$ (lower is better).csv",
-               ascending=True, dif=4, cluster="pricecluster")
-    setup_data("Monthly price of broadband internet 6Mpbs, uncapped data in US$ (lower is better).csv",
-               ascending=True, dif=4, cluster="pricecluster")
-    setup_data("Price of local 1kg cheese in US$ (lower is better).csv",
-               ascending=True, dif=4, cluster="pricecluster")
-    setup_data("Price of one pack of Marlboro in US$ (lower is better).csv",
-               ascending=True, dif=4, cluster="pricecluster")
-    setup_data("Gasoline prices in US$ (lower is better).csv",
-               ascending=True, dif=2, cluster="pricecluster")
-    setup_data("Cinema ticket price in US$ (lower is better).csv",
-               ascending=True, dif=3, cluster="pricecluster")
+    # # prices
+    # setup_data("Taxi price per 1km in US$ (lower is better).csv",
+    #            ascending=True, dif=3, cluster="pricecluster")
+    # setup_data("Average price for public transport in US$ (one-way-ticket) (lower is better).csv",
+    #            ascending=True, dif=3, cluster="pricecluster")
+    # setup_data("Average price for public transport in US$ (monthly pass) (lower is better).csv",
+    #            ascending=True, dif=3, cluster="pricecluster")
+    # setup_data("Price of 1l of milk in US$ (lower is better).csv",
+    #            ascending=True, dif=4, cluster="pricecluster")
+    # setup_data("Price of 1kg of rice in US$ (lower is better).csv",
+    #            ascending=True, dif=4, cluster="pricecluster")
+    # setup_data("Price of a dozen eggs in US$ (lower is better).csv",
+    #            ascending=True, dif=4, cluster="pricecluster")
+    # setup_data("Price of a kg of apples in US$ (lower is better).csv",
+    #            ascending=True, dif=4, cluster="pricecluster")
+    # setup_data("Price of a skinless, boneless chicken breast in US$ (lower is better).csv",
+    #            ascending=True, dif=4, cluster="pricecluster")
+    # setup_data("Price of 1.5l water bottle in supermarket in US$ (lower is better).csv",
+    #            ascending=True, dif=4, cluster="pricecluster")
+    # setup_data("Price of 0.5l local beer in supermarket in US$ (lower is better).csv",
+    #            ascending=True, dif=4, cluster="pricecluster")
+    # setup_data("Price of one head of lettuce in supermarket in US$ (lower is better).csv",
+    #            ascending=True, dif=4, cluster="pricecluster")
+    # setup_data("Price of 1kg of tomatoes in US$ (lower is better).csv",
+    #            ascending=True, dif=4, cluster="pricecluster")
+    # setup_data("Price of 1kg of potatoes in US$ (lower is better).csv",
+    #            ascending=True, dif=4, cluster="pricecluster")
+    # setup_data("Price of newest nike shoes in US$ (lower is better).csv",
+    #            ascending=True, dif=3, cluster="pricecluster")
+    # setup_data("Price of one pair of Levi 501s or equivalent in US$ (lower is better).csv",
+    #            ascending=True, dif=3, cluster="pricecluster")
+    # setup_data("Price for garbage, water, heating, electricity for 85 sqm apartment in US$ (lower is better).csv",
+    #            ascending=True, dif=3, cluster="pricecluster")
+    # setup_data("Price of a regular cappuchino in a restaurant in US$ (lower is better).csv",
+    #            ascending=True, dif=3, cluster="pricecluster")
+    # setup_data("Price of a mcdonalds menu in US$ (lower is better).csv",
+    #            ascending=True, dif=3, cluster="pricecluster")
+    # setup_data("Price for a 3 course meal for 2 in a normal restaurant in US$ (lower is better).csv",
+    #            ascending=True, dif=3, cluster="pricecluster")
+    # setup_data("Price of 0.5 l normal beer in a restaurant in US$ (lower is better).csv",
+    #            ascending=True, dif=3, cluster="pricecluster")
+    # setup_data("Price of a bottled water in a restaurant in US$ (lower is better).csv",
+    #            ascending=True, dif=3, cluster="pricecluster")
+    # setup_data("Price of a new Volkswagen Golf 1.4 in US$ (lower is better).csv",
+    #            ascending=True, dif=4, cluster="pricecluster")
+    # setup_data("Monthly price of broadband internet 6Mpbs, uncapped data in US$ (lower is better).csv",
+    #            ascending=True, dif=4, cluster="pricecluster")
+    # setup_data("Price of local 1kg cheese in US$ (lower is better).csv",
+    #            ascending=True, dif=4, cluster="pricecluster")
+    # setup_data("Price of one pack of Marlboro in US$ (lower is better).csv",
+    #            ascending=True, dif=4, cluster="pricecluster")
+    # setup_data("Gasoline prices in US$ (lower is better).csv",
+    #            ascending=True, dif=2, cluster="pricecluster")
+    # setup_data("Cinema ticket price in US$ (lower is better).csv",
+    #            ascending=True, dif=3, cluster="pricecluster")
 
-    # religious people
-    setup_data(
-        "Percentage of population being christian (higher is better).csv", dif=2, cluster="religious people")
-    setup_data(
-        "Percentage of population being hindu (higher is better).csv", dif=1, cluster="religious people")
-    setup_data(
-        "Percentage of population being muslim (higher is better).csv", dif=2, cluster="religious people")
-    setup_data(
-        "Agreement to the statement religion is important (higher is better).csv", dif=2, cluster="religious people")
-    setup_data(
-        "Percentage of people being atheist (higher is better).csv", dif=1, cluster="religious people")
-    setup_data(
-        "Chinese population (by 1000 population) (higher is better).csv", dif=3, cluster="religious people")
+    # # religious people
+    # setup_data(
+    #     "Percentage of population being christian (higher is better).csv", dif=2, cluster="religious people")
+    # setup_data(
+    #     "Percentage of population being hindu (higher is better).csv", dif=1, cluster="religious people")
+    # setup_data(
+    #     "Percentage of population being muslim (higher is better).csv", dif=2, cluster="religious people")
+    # setup_data(
+    #     "Agreement to the statement religion is important (higher is better).csv", dif=2, cluster="religious people")
+    # setup_data(
+    #     "Percentage of people being atheist (higher is better).csv", dif=1, cluster="religious people")
+    # setup_data(
+    #     "Chinese population (by 1000 population) (higher is better).csv", dif=3, cluster="religious people")
 
-    # percentage of people being satisfied with stuff
-    setup_data(
-        "Percentage of people trusting their national government (higher is better).csv", cluster="percentage of people being satisfied with stuff")
-    setup_data(
-        "Percentage of people being satsified with environment policy of government (higher is better).csv", cluster="percentage of people being satisfied with stuff")
-    setup_data(
-        "Percentage of people having confidence in the judical system (higher is better).csv", cluster="percentage of people being satisfied with stuff")
-    setup_data(
-        "Percentage of people having volunteered at least once (higher is better).csv", cluster="percentage of people being satisfied with stuff")
-    setup_data(
-        "Percentage of people saying that the local labour market is good (higher is better).csv", cluster="percentage of people being satisfied with stuff")
-    setup_data(
-        "Percentage of people being satisfied with their health care quality (higher is better).csv", cluster="percentage of people being satisfied with stuff")
-    setup_data(
-        "Percentage of people being satisfied with their standard of living (higher is better).csv", cluster="percentage of people being satisfied with stuff")
-    setup_data(
-        "Percentage of people being satisfied with their education quality (higher is better).csv", cluster="percentage of people being satisfied with stuff")
+    # # percentage of people being satisfied with stuff
+    # setup_data(
+    #     "Percentage of people trusting their national government (higher is better).csv", cluster="percentage of people being satisfied with stuff")
+    # setup_data(
+    #     "Percentage of people being satsified with environment policy of government (higher is better).csv", cluster="percentage of people being satisfied with stuff")
+    # setup_data(
+    #     "Percentage of people having confidence in the judical system (higher is better).csv", cluster="percentage of people being satisfied with stuff")
+    # setup_data(
+    #     "Percentage of people having volunteered at least once (higher is better).csv", cluster="percentage of people being satisfied with stuff")
+    # setup_data(
+    #     "Percentage of people saying that the local labour market is good (higher is better).csv", cluster="percentage of people being satisfied with stuff")
+    # setup_data(
+    #     "Percentage of people being satisfied with their health care quality (higher is better).csv", cluster="percentage of people being satisfied with stuff")
+    # setup_data(
+    #     "Percentage of people being satisfied with their standard of living (higher is better).csv", cluster="percentage of people being satisfied with stuff")
+    # setup_data(
+    #     "Percentage of people being satisfied with their education quality (higher is better).csv", cluster="percentage of people being satisfied with stuff")
 
-    # language proficiency stuff
-    setup_data(
-        "Percentage of people who are proficient in English (higher is better).csv", dif=1, cluster="language proficiency")
-    setup_data(
-        "Percentage of people being proficient in French (higher is better).csv", dif=1, cluster="language proficiency")
+    # # language proficiency stuff
+    # setup_data(
+    #     "Percentage of people who are proficient in English (higher is better).csv", dif=1, cluster="language proficiency")
+    # setup_data(
+    #     "Percentage of people being proficient in French (higher is better).csv", dif=1, cluster="language proficiency")
 
-    # prison stuff
-    setup_data("Prison occupacy (lower is better).csv",
-               ascending=True, dif=4, cluster="prison stuff")
-    setup_data("Percentage of prisoners being female (higher is better).csv",
-               dif=5, cluster="prison stuff")
-    setup_data(
-        "Number of prisoners per 100,000 population (lower is better).csv", ascending=True, dif=3, cluster="prison stuff")
+    # # prison stuff
+    # setup_data("Prison occupacy (lower is better).csv",
+    #            ascending=True, dif=4, cluster="prison stuff")
+    # setup_data("Percentage of prisoners being female (higher is better).csv",
+    #            dif=5, cluster="prison stuff")
+    # setup_data(
+    #     "Number of prisoners per 100,000 population (lower is better).csv", ascending=True, dif=3, cluster="prison stuff")
 
-    # vacation policies
-    setup_data(
-        "Minimum number of paid annual leave (higher is better).csv", dif=2, cluster="vacation policies")
-    setup_data(
-        "Number of paid annual public holidays (higher is better).csv", dif=2, cluster="vacation policies")
-    setup_data(
-        "Minimum number of paid annual vacation (higher is better).csv", dif=2, cluster="vacation policies")
+    # # vacation policies
+    # setup_data(
+    #     "Minimum number of paid annual leave (higher is better).csv", dif=2, cluster="vacation policies")
+    # setup_data(
+    #     "Number of paid annual public holidays (higher is better).csv", dif=2, cluster="vacation policies")
+    # setup_data(
+    #     "Minimum number of paid annual vacation (higher is better).csv", dif=2, cluster="vacation policies")
 
-    # safety stuff
-    setup_data(
-        "Believes crime increasing in 2010-2014 (lower is better).csv", ascending=True, dif=4, cluster="safety stuff")
-    setup_data(
-        "Rapes per 100,000 population (lower is better).csv", ascending=True, dif=4, cluster="safety stuff")
-    setup_data(
-        "Percentage of people being fully vaccinated against Covid (higher is better).csv", dif=2, cluster="safety stuff")
-    setup_data(
-        "Percentage of people feeling safe walking alone (during the day) (higher is better).csv", dif=2, cluster="safety stuff")
-    setup_data(
-        "Percentage of people feeling safe walking alone (at night) (higher is better).csv", dif=2, cluster="safety stuff")
-    setup_data(
-        "Number of physicians by 10,000 population (higher is better).csv", cluster="safety stuff")
-    setup_data(
-        "Suicides per 100,000 population (lower is better).csv", ascending=True, dif=2, cluster="safety stuff")
-    setup_data(
-        "Homeless population by 10,000 population (lower is better).csv", ascending=True, cluster="safety stuff")
-    setup_data(
-        "Prostitutes per 10,000 inhabitants (lower is better).csv", dif=3, ascending=True, cluster="safety stuff")
-    setup_data(
-        "Global Terrorism Index (less incidents are better) (lower is better).csv", ascending=True, cluster="safety stuff")
-    setup_data("homicides per 100,000 population (lower is better).csv",
-               cluster="safety stuff")
-    setup_data("Number of police officers per 100,000 people (higher is better).csv",
-               cluster="safety stuff")
+    # # safety stuff
+    # setup_data(
+    #     "Believes crime increasing in 2010-2014 (lower is better).csv", ascending=True, dif=4, cluster="safety stuff")
+    # setup_data(
+    #     "Rapes per 100,000 population (lower is better).csv", ascending=True, dif=4, cluster="safety stuff")
+    # setup_data(
+    #     "Percentage of people being fully vaccinated against Covid (higher is better).csv", dif=2, cluster="safety stuff")
+    # setup_data(
+    #     "Percentage of people feeling safe walking alone (during the day) (higher is better).csv", dif=2, cluster="safety stuff")
+    # setup_data(
+    #     "Percentage of people feeling safe walking alone (at night) (higher is better).csv", dif=2, cluster="safety stuff")
+    # setup_data(
+    #     "Number of physicians by 10,000 population (higher is better).csv", cluster="safety stuff")
+    # setup_data(
+    #     "Suicides per 100,000 population (lower is better).csv", ascending=True, dif=2, cluster="safety stuff")
+    # setup_data(
+    #     "Homeless population by 10,000 population (lower is better).csv", ascending=True, cluster="safety stuff")
+    # setup_data(
+    #     "Prostitutes per 10,000 inhabitants (lower is better).csv", dif=3, ascending=True, cluster="safety stuff")
+    # setup_data(
+    #     "Global Terrorism Index (less incidents are better) (lower is better).csv", ascending=True, cluster="safety stuff")
+    # setup_data("homicides per 100,000 population (lower is better).csv",
+    #            cluster="safety stuff")
+    # setup_data("Number of police officers per 100,000 people (higher is better).csv",
+    #            cluster="safety stuff")
 
-    # # active categories
-    setup_data("Highest mountain of that country (higher is better).csv",
-               additional_information=True, additional_information_column_list=[2, 3, 4], cluster='active categories')
-    setup_data("Number of speakers of most spoken official language of that country (higher is better).csv",
-               additional_information=True, additional_information_column_list=[2], cluster='active categories')
-    setup_data("Population of the most populated city of that country (higher is better).csv",
-               additional_information=True, additional_information_column_list=[2, 3, 4], cluster='active categories')
-    setup_data("Population of the second most populated city of that country (higher is better).csv",
-               additional_information=True, additional_information_column_list=[2, 3, 4], cluster='active categories')
-    setup_data("Population of the third most populated city of that country (higher is better).csv",
-               additional_information=True, additional_information_column_list=[2, 3, 4], cluster='active categories')
-    setup_data("population of the capital (higher is better).csv",
-               additional_information=True, additional_information_column_list=[2, 3, 4], cluster='active categories')
-    setup_data("Amount of currencies one US$ can buy (higher is better).csv",
-               additional_information=True, additional_information_column_list=[2, 3, 4], cluster='active categories')
-    setup_data("Number of characters of official name of that country (higher is better).csv",
-               additional_information=True, cluster='active categories')
+    # # # active categories
+    # setup_data("Highest mountain of that country (higher is better).csv",
+    #            additional_information=True, additional_information_column_list=[2, 3, 4], cluster='active categories')
+    # setup_data("Number of speakers of most spoken official language of that country (higher is better).csv",
+    #            additional_information=True, additional_information_column_list=[2], cluster='active categories')
+    # setup_data("Population of the most populated city of that country (higher is better).csv",
+    #            additional_information=True, additional_information_column_list=[2, 3, 4], cluster='active categories')
+    # setup_data("Population of the second most populated city of that country (higher is better).csv",
+    #            additional_information=True, additional_information_column_list=[2, 3, 4], cluster='active categories')
+    # setup_data("Population of the third most populated city of that country (higher is better).csv",
+    #            additional_information=True, additional_information_column_list=[2, 3, 4], cluster='active categories')
+    # setup_data("population of the capital (higher is better).csv",
+    #            additional_information=True, additional_information_column_list=[2, 3, 4], cluster='active categories')
+    # setup_data("Amount of currencies one US$ can buy (higher is better).csv",
+    #            additional_information=True, additional_information_column_list=[2, 3, 4], cluster='active categories')
+    # setup_data("Number of characters of official name of that country (higher is better).csv",
+    #            additional_information=True, cluster='active categories')
 
-    # wiki-language stuff
-    setup_data("Number of wiki-languages of most famous person from that country (higher is better).csv",
-               dif=1, additional_information=True, additional_information_column_list=[2, 3, 4], treat_missing_data_as_bad=True, cluster="wiki-language stuff")
-    setup_data("Number of wiki-languages of most famous architect of that country (higher is better).csv",
-               dif=2, additional_information=True, additional_information_column_list=[2, 3, 4], treat_missing_data_as_bad=True, cluster="wiki-language stuff")
-    setup_data("Number of wiki-languages of head of state resp. head of government (higher is better).csv", dif=2,
-               additional_information=True, treat_missing_data_as_bad=True, additional_information_column_list=[2, 3, 4], cluster="wiki-language stuff")
-    setup_data("Number of wiki-languages of most famous band from that country (higher is better).csv", dif=3,
-               additional_information=True, treat_missing_data_as_bad=True, additional_information_column_list=[2, 3, 4], cluster="wiki-language stuff")
-    setup_data("Number of wiki-languages of most famous food from that country (higher is better).csv",
-               treat_missing_data_as_bad=True, dif=1, additional_information=True, additional_information_column_list=[2, 3, 4], cluster="wiki-language stuff")
-    setup_data("Number of wiki-languages of most famous actor from that country (higher is better).csv", dif=2,
-               treat_missing_data_as_bad=True, additional_information=True, additional_information_column_list=[2, 7, 8], cluster="wiki-language stuff")
-    setup_data("Number of wiki-languages of most famous singer of that country (higher is better).csv",
-               additional_information=True, additional_information_column_list=[2, 7, 8], treat_missing_data_as_bad=True, cluster="wiki-language stuff")
-    setup_data("Number of wiki-languages of most famous person from that country, who is still alive (higher is better).csv",
-               dif=2, treat_missing_data_as_bad=True, additional_information=True, additional_information_column_list=[2, 3, 4], cluster="wiki-language stuff")
-    setup_data("Number of wiki-languages of most famous touristic sight of that country (higher is better).csv",
-               treat_missing_data_as_bad=True, dif=1, additional_information=True, additional_information_column_list=[2, 3, 4], cluster="wiki-language stuff")
-    setup_data("Number of wiki-languages of most famous woman from that country (higher is better).csv",
-               treat_missing_data_as_bad=True, dif=3, additional_information=True, additional_information_column_list=[2, 3, 4], cluster="wiki-language stuff")
-    setup_data("Number of wiki-languages of most famous city with at most 5000 citizens (higher is better).csv",
-               additional_information=True, additional_information_column_list=[2, 3, 4], treat_missing_data_as_bad=True, cluster="wiki-language stuff")
-    setup_data("Number of wiki-languages of most famous city with at most 20,000 citizens (higher is better).csv",
-               additional_information=True, additional_information_column_list=[2, 3, 4], treat_missing_data_as_bad=True, cluster="wiki-language stuff")
-    setup_data("Number of wiki-languages of most famous city with at most 100,000 citizens (higher is better).csv",
-               additional_information=True, additional_information_column_list=[2, 3, 4], treat_missing_data_as_bad=True, cluster="wiki-language stuff")
-    setup_data("Number of wiki-languages of most famous historical person (at least 50 years dead) (higher is better).csv",
-               additional_information=True, additional_information_column_list=[2, 3, 4], treat_missing_data_as_bad=True, cluster="wiki-language stuff")
-    setup_data("Number of wiki-languages of most famous historical person (at least 100 years dead) (higher is better).csv",
-               additional_information=True, additional_information_column_list=[2, 3, 4], treat_missing_data_as_bad=True, cluster="wiki-language stuff")
-    setup_data("Number of wiki-languages of most famous historical person (at least 200 years dead) (higher is better).csv",
-               additional_information=True, additional_information_column_list=[2, 3, 4], treat_missing_data_as_bad=True, cluster="wiki-language stuff")
-    setup_data("Number of wiki-languages of most famous historical person (at least 500 years dead) (higher is better).csv",
-               additional_information=True, additional_information_column_list=[2, 3, 4], treat_missing_data_as_bad=True, cluster="wiki-language stuff")
-    setup_data("Number of wiki-languages of most famous one-day historic event at least 90 years ago (higher is better).csv",
-               additional_information=True, additional_information_column_list=[2, 3, 4], treat_missing_data_as_bad=True, cluster="wiki-language stuff")
-    setup_data("number of wiki-languages of most famous event of that country in the timeframe of WWII (1938-1945) (higher is better).csv",
-               additional_information=True, additional_information_column_list=[2, 3, 4], treat_missing_data_as_bad=True, cluster="wiki-language stuff")
-    setup_data("Highest building of that country in meter (higher is better).csv",
-               additional_information=True, additional_information_column_list=[2, 3, 4], dif=3, treat_missing_data_as_bad=True, cluster="wiki-language stuff")
-    setup_data("Number of wiki-languages of most famous scientist of that country (higher is better).csv",
-               additional_information=True, additional_information_column_list=[2, 3, 4], treat_missing_data_as_bad=True, cluster="wiki-language stuff")
-    setup_data("Number of wiki-languages of most famous writer of that country (higher is better).csv",
-               additional_information=True, additional_information_column_list=[2, 3, 4], treat_missing_data_as_bad=True, cluster="wiki-language stuff")
-    setup_data("Number of wiki-languages of most famous one-day historic event in the 21st century (higher is better).csv",
-               additional_information=True, additional_information_column_list=[2, 3, 4], treat_missing_data_as_bad=True, cluster="wiki-language stuff")
-    setup_data("Number of wiki-languages of most famous one-day historic event at least 200 years ago (higher is better).csv",
-               additional_information=True, additional_information_column_list=[2, 3, 4], treat_missing_data_as_bad=True, cluster="wiki-language stuff")
-    setup_data("Number of wiki-languages of most famous one-day historic event (higher is better).csv",
-               additional_information=True, additional_information_column_list=[2, 3, 4], treat_missing_data_as_bad=True, cluster="wiki-language stuff")
-    setup_data("Number of wiki-languages of the capital (higher is better).csv",
-               additional_information=True, additional_information_column_list=[2, 3, 4], treat_missing_data_as_bad=True, cluster="wiki-language stuff")
-    setup_data("Number of wiki-languages of most famous soccer player (higher is better).csv",
-               additional_information=True, additional_information_column_list=[2, 3, 4], treat_missing_data_as_bad=True, cluster="wiki-language stuff")
-    setup_data("Number of wiki-languages of most famous fashion person of that country (higher is better).csv",
-               additional_information=True, additional_information_column_list=[2, 3, 4], treat_missing_data_as_bad=True, cluster="wiki-language stuff")
-    setup_data("Number of wiki-languages of most famous geographical feature of that country (higher is better).csv",
-               additional_information=True, additional_information_column_list=[2, 3, 4], treat_missing_data_as_bad=True, cluster="wiki-language stuff")
-    setup_data("Number of wiki-languages of most famous one-day event between 1950 and 2000 (higher is better).csv",
-               additional_information=True, additional_information_column_list=[2, 3, 4], treat_missing_data_as_bad=True, cluster="wiki-language stuff")
-    setup_data("Number of wiki-languages of most famous city with at most 500,000 citizens (higher is better).csv",
-               additional_information=True, additional_information_column_list=[2, 3, 4], treat_missing_data_as_bad=True, cluster="wiki-language stuff")
-    setup_data("Number of wiki-languages of most famous city with at most 1,000,000 citizens (higher is better).csv",
-               additional_information=True, additional_information_column_list=[2, 3, 4], treat_missing_data_as_bad=True, cluster="wiki-language stuff")
-    setup_data("Number of wiki-languages of most famous (real) building of that country (higher is better).csv",
-               additional_information=True, additional_information_column_list=[2, 3, 4], treat_missing_data_as_bad=True, cluster="wiki-language stuff")
-    setup_data("Number of wiki-languages of most famous architectural structure of that country (higher is better).csv",
-               additional_information=True, additional_information_column_list=[2, 3, 4], treat_missing_data_as_bad=True, cluster="wiki-language stuff")
-    setup_data("Number of wiki-languages of most famous airline of that country (higher is better).csv",
-               additional_information=True, additional_information_column_list=[2, 3, 4], treat_missing_data_as_bad=True, cluster="wiki-language stuff")
-    setup_data("Number of wiki-languages of most famous newspaper of that country (higher is better).csv",
-               additional_information=True, additional_information_column_list=[2, 7, 8], treat_missing_data_as_bad=True, cluster="wiki-language stuff")
-    setup_data("Number of wiki-languages of most famous street - avenue - boulevard of that country (higher is better).csv",
-               additional_information=True, additional_information_column_list=[2, 7, 8], treat_missing_data_as_bad=True, cluster="wiki-language stuff")
-    setup_data("Number of wiki-languages of most famous road - highway - motor circuit of that country (higher is better).csv",
-               additional_information=True, additional_information_column_list=[2, 7, 8], treat_missing_data_as_bad=True, cluster="wiki-language stuff")
-    setup_data("Number of wiki-languages of most famous bridge of that country (higher is better).csv",
-               additional_information=True, additional_information_column_list=[2, 7, 8], treat_missing_data_as_bad=True, cluster="wiki-language stuff")
-    setup_data("Number of wiki-languages of most famous place of worship (church,mosque,temple etc.) of that country (higher is better).csv",
-               additional_information=True, additional_information_column_list=[2, 7, 8], treat_missing_data_as_bad=True, cluster="wiki-language stuff")
-    setup_data("Number of wiki-languages of most famous (real) museum of that country (higher is better).csv",
-               additional_information=True, additional_information_column_list=[2, 7, 8], treat_missing_data_as_bad=True, cluster="wiki-language stuff")
-    setup_data("Number of wiki-languages of most famous athlete of that country which is not a soccer player (higher is better).csv",
-               additional_information=True, additional_information_column_list=[2, 7, 8], treat_missing_data_as_bad=True, cluster="wiki-language stuff")
-    setup_data("Number of wiki-languages of most famous criminal of that country (higher is better).csv",
-               additional_information=True, additional_information_column_list=[2, 7, 8], treat_missing_data_as_bad=True, cluster="wiki-language stuff")
-    setup_data("Number of wiki-languages of most famous health scientist of that country (higher is better).csv",
-               additional_information=True, additional_information_column_list=[2, 7, 8], treat_missing_data_as_bad=True, cluster="wiki-language stuff")
-    setup_data("Number of wiki-languages of most famous movie director of that country (higher is better).csv",
-               additional_information=True, additional_information_column_list=[2, 7, 8], treat_missing_data_as_bad=True, cluster="wiki-language stuff")
-    setup_data("Number of wiki-languages of most famous person from that country born after 2000 (higher is better).csv",
-               additional_information=True, additional_information_column_list=[2, 7, 8], treat_missing_data_as_bad=True, cluster="wiki-language stuff")
-    setup_data("Number of wiki-languages of most famous social scientist humanities scholar of that country (higher is better).csv",
-               additional_information=True, additional_information_column_list=[2, 7, 8], treat_missing_data_as_bad=True, cluster="wiki-language stuff")
-    setup_data("Number of wiki-languages of most famous cleric of that country (higher is better).csv",
-               additional_information=True, treat_missing_data_as_bad=True, additional_information_column_list=[2, 3, 4], cluster="wiki-language stuff")
-    setup_data("Number of wiki-languages of most famous city of that country (higher is better).csv",
-               additional_information=True, additional_information_column_list=[2, 3, 4], treat_missing_data_as_bad=True, cluster="wiki-language stuff")
-    setup_data("Number of wiki-languages of second most famous city of that country (higher is better).csv",
-               additional_information=True, additional_information_column_list=[2, 3, 4], treat_missing_data_as_bad=True, cluster="wiki-language stuff")
-    setup_data("Number of wiki-languages of third most famous city of that country (higher is better).csv",
-               additional_information=True, additional_information_column_list=[2, 3, 4], treat_missing_data_as_bad=True, cluster="wiki-language stuff")
-    setup_data("Number of wiki-languages of most famous company which is neither an airline nor a national bank (higher is better).csv",
-               additional_information=True, additional_information_column_list=[2, 3, 4], treat_missing_data_as_bad=True, cluster="wiki-language stuff")
-    setup_data("Number of wiki-languages of most famous painter of that country (higher is better).csv",
-               additional_information=True, additional_information_column_list=[2, 3, 4], treat_missing_data_as_bad=True, cluster="wiki-language stuff")
-    setup_data("number of wiki-languages of most famous journalist of that country (higher is better).csv",
-               additional_information=True, additional_information_column_list=[2, 3, 4], treat_missing_data_as_bad=True, cluster="wiki-language stuff")
-    setup_data("Number of wiki-languages of most famous desert of that country (higher is better).csv", dif=2,
-               treat_missing_data_as_bad=True, additional_information=True, additional_information_column_list=[2, 7, 8], cluster="wiki-language stuff")
-    setup_data("number of wiki-languages of most famous movie from that country (higher is better).csv", dif=2,
-               treat_missing_data_as_bad=True, additional_information=True, additional_information_column_list=[2, 3, 4], cluster="wiki-language stuff")
-    setup_data("Number of wiki-languages of most famous airport of that country (higher is better).csv", dif=2,
-               treat_missing_data_as_bad=True, additional_information=True, additional_information_column_list=[2, 7, 8], cluster="wiki-language stuff")
-    setup_data("Number of wiki-languages of most famous national park - garden - zoo in that country (higher is better).csv",
-               dif=2, treat_missing_data_as_bad=True, additional_information=True, additional_information_column_list=[2, 7, 8], cluster="wiki-language stuff")
-    setup_data("Number of wiki-languages of most famous historical woman (at least 50 years dead) of that country (higher is better).csv",
-               dif=2, treat_missing_data_as_bad=True, additional_information=True, additional_information_column_list=[2, 7, 8], cluster="wiki-language stuff")
-    setup_data("Number of wiki-languages of most famous historical woman (at least 100 years dead) of that country (higher is better).csv",
-               dif=2, treat_missing_data_as_bad=True, additional_information=True, additional_information_column_list=[2, 7, 8], cluster="wiki-language stuff")
-    setup_data("Number of wiki-languages of most famous historical woman (at least 200 years dead) of that country (higher is better).csv",
-               dif=2, treat_missing_data_as_bad=True, additional_information=True, additional_information_column_list=[2, 7, 8], cluster="wiki-language stuff")
-    setup_data("Number of wiki-languages of most famous historical woman (at least 500 years dead) of that country (higher is better).csv",
-               dif=2, treat_missing_data_as_bad=True, additional_information=True, additional_information_column_list=[2, 7, 8], cluster="wiki-language stuff")
-    setup_data("Number of wiki-languages of most famous female scientist of that country (higher is better).csv",
-               dif=2, treat_missing_data_as_bad=True, additional_information=True, additional_information_column_list=[2, 7, 8], cluster="wiki-language stuff")
-    setup_data("Number of wiki-languages of most famous female athlete of that country (higher is better).csv",
-               dif=2, treat_missing_data_as_bad=True, additional_information=True, additional_information_column_list=[2, 7, 8], cluster="wiki-language stuff")
-    setup_data("Number of wiki-languages of most famous female actor of that country (higher is better).csv", dif=2,
-               treat_missing_data_as_bad=True, additional_information=True, additional_information_column_list=[2, 7, 8], cluster="wiki-language stuff")
-    setup_data("Number of wiki-languages of most famous battle which took place in that country (higher is better).csv",
-               dif=2, treat_missing_data_as_bad=True, additional_information=True, additional_information_column_list=[2, 7, 8], cluster="wiki-language stuff")
-    setup_data("Number of wiki-languages of most famous woman being born after 2000 (higher is better).csv", dif=2,
-               treat_missing_data_as_bad=True, additional_information=True, additional_information_column_list=[2, 7, 8], cluster="wiki-language stuff")
-    setup_data("Number of wiki-languages of most famous female singer of that country (higher is better).csv", dif=2,
-               treat_missing_data_as_bad=True, additional_information=True, additional_information_column_list=[2, 7, 8], cluster="wiki-language stuff")
-    setup_data(
-        "Sum of wiki-languages of the three most famous cities of that country (higher is better).csv", cluster="wiki-language stuff")
+    # # wiki-language stuff
+    # setup_data("Number of wiki-languages of most famous person from that country (higher is better).csv",
+    #            dif=1, additional_information=True, additional_information_column_list=[2, 3, 4], treat_missing_data_as_bad=True, cluster="wiki-language stuff")
+    # setup_data("Number of wiki-languages of most famous architect of that country (higher is better).csv",
+    #            dif=2, additional_information=True, additional_information_column_list=[2, 3, 4], treat_missing_data_as_bad=True, cluster="wiki-language stuff")
+    # setup_data("Number of wiki-languages of head of state resp. head of government (higher is better).csv", dif=2,
+    #            additional_information=True, treat_missing_data_as_bad=True, additional_information_column_list=[2, 3, 4], cluster="wiki-language stuff")
+    # setup_data("Number of wiki-languages of most famous band from that country (higher is better).csv", dif=3,
+    #            additional_information=True, treat_missing_data_as_bad=True, additional_information_column_list=[2, 3, 4], cluster="wiki-language stuff")
+    # setup_data("Number of wiki-languages of most famous food from that country (higher is better).csv",
+    #            treat_missing_data_as_bad=True, dif=1, additional_information=True, additional_information_column_list=[2, 3, 4], cluster="wiki-language stuff")
+    # setup_data("Number of wiki-languages of most famous actor from that country (higher is better).csv", dif=2,
+    #            treat_missing_data_as_bad=True, additional_information=True, additional_information_column_list=[2, 7, 8], cluster="wiki-language stuff")
+    # setup_data("Number of wiki-languages of most famous singer of that country (higher is better).csv",
+    #            additional_information=True, additional_information_column_list=[2, 7, 8], treat_missing_data_as_bad=True, cluster="wiki-language stuff")
+    # setup_data("Number of wiki-languages of most famous person from that country, who is still alive (higher is better).csv",
+    #            dif=2, treat_missing_data_as_bad=True, additional_information=True, additional_information_column_list=[2, 3, 4], cluster="wiki-language stuff")
+    # setup_data("Number of wiki-languages of most famous touristic sight of that country (higher is better).csv",
+    #            treat_missing_data_as_bad=True, dif=1, additional_information=True, additional_information_column_list=[2, 3, 4], cluster="wiki-language stuff")
+    # setup_data("Number of wiki-languages of most famous woman from that country (higher is better).csv",
+    #            treat_missing_data_as_bad=True, dif=3, additional_information=True, additional_information_column_list=[2, 3, 4], cluster="wiki-language stuff")
+    # setup_data("Number of wiki-languages of most famous city with at most 5000 citizens (higher is better).csv",
+    #            additional_information=True, additional_information_column_list=[2, 3, 4], treat_missing_data_as_bad=True, cluster="wiki-language stuff")
+    # setup_data("Number of wiki-languages of most famous city with at most 20,000 citizens (higher is better).csv",
+    #            additional_information=True, additional_information_column_list=[2, 3, 4], treat_missing_data_as_bad=True, cluster="wiki-language stuff")
+    # setup_data("Number of wiki-languages of most famous city with at most 100,000 citizens (higher is better).csv",
+    #            additional_information=True, additional_information_column_list=[2, 3, 4], treat_missing_data_as_bad=True, cluster="wiki-language stuff")
+    # setup_data("Number of wiki-languages of most famous historical person (at least 50 years dead) (higher is better).csv",
+    #            additional_information=True, additional_information_column_list=[2, 3, 4], treat_missing_data_as_bad=True, cluster="wiki-language stuff")
+    # setup_data("Number of wiki-languages of most famous historical person (at least 100 years dead) (higher is better).csv",
+    #            additional_information=True, additional_information_column_list=[2, 3, 4], treat_missing_data_as_bad=True, cluster="wiki-language stuff")
+    # setup_data("Number of wiki-languages of most famous historical person (at least 200 years dead) (higher is better).csv",
+    #            additional_information=True, additional_information_column_list=[2, 3, 4], treat_missing_data_as_bad=True, cluster="wiki-language stuff")
+    # setup_data("Number of wiki-languages of most famous historical person (at least 500 years dead) (higher is better).csv",
+    #            additional_information=True, additional_information_column_list=[2, 3, 4], treat_missing_data_as_bad=True, cluster="wiki-language stuff")
+    # setup_data("Number of wiki-languages of most famous one-day historic event at least 90 years ago (higher is better).csv",
+    #            additional_information=True, additional_information_column_list=[2, 3, 4], treat_missing_data_as_bad=True, cluster="wiki-language stuff")
+    # setup_data("number of wiki-languages of most famous event of that country in the timeframe of WWII (1938-1945) (higher is better).csv",
+    #            additional_information=True, additional_information_column_list=[2, 3, 4], treat_missing_data_as_bad=True, cluster="wiki-language stuff")
+    # setup_data("Highest building of that country in meter (higher is better).csv",
+    #            additional_information=True, additional_information_column_list=[2, 3, 4], dif=3, treat_missing_data_as_bad=True, cluster="wiki-language stuff")
+    # setup_data("Number of wiki-languages of most famous scientist of that country (higher is better).csv",
+    #            additional_information=True, additional_information_column_list=[2, 3, 4], treat_missing_data_as_bad=True, cluster="wiki-language stuff")
+    # setup_data("Number of wiki-languages of most famous writer of that country (higher is better).csv",
+    #            additional_information=True, additional_information_column_list=[2, 3, 4], treat_missing_data_as_bad=True, cluster="wiki-language stuff")
+    # setup_data("Number of wiki-languages of most famous one-day historic event in the 21st century (higher is better).csv",
+    #            additional_information=True, additional_information_column_list=[2, 3, 4], treat_missing_data_as_bad=True, cluster="wiki-language stuff")
+    # setup_data("Number of wiki-languages of most famous one-day historic event at least 200 years ago (higher is better).csv",
+    #            additional_information=True, additional_information_column_list=[2, 3, 4], treat_missing_data_as_bad=True, cluster="wiki-language stuff")
+    # setup_data("Number of wiki-languages of most famous one-day historic event (higher is better).csv",
+    #            additional_information=True, additional_information_column_list=[2, 3, 4], treat_missing_data_as_bad=True, cluster="wiki-language stuff")
+    # setup_data("Number of wiki-languages of the capital (higher is better).csv",
+    #            additional_information=True, additional_information_column_list=[2, 3, 4], treat_missing_data_as_bad=True, cluster="wiki-language stuff")
+    # setup_data("Number of wiki-languages of most famous soccer player (higher is better).csv",
+    #            additional_information=True, additional_information_column_list=[2, 3, 4], treat_missing_data_as_bad=True, cluster="wiki-language stuff")
+    # setup_data("Number of wiki-languages of most famous fashion person of that country (higher is better).csv",
+    #            additional_information=True, additional_information_column_list=[2, 3, 4], treat_missing_data_as_bad=True, cluster="wiki-language stuff")
+    # setup_data("Number of wiki-languages of most famous geographical feature of that country (higher is better).csv",
+    #            additional_information=True, additional_information_column_list=[2, 3, 4], treat_missing_data_as_bad=True, cluster="wiki-language stuff")
+    # setup_data("Number of wiki-languages of most famous one-day event between 1950 and 2000 (higher is better).csv",
+    #            additional_information=True, additional_information_column_list=[2, 3, 4], treat_missing_data_as_bad=True, cluster="wiki-language stuff")
+    # setup_data("Number of wiki-languages of most famous city with at most 500,000 citizens (higher is better).csv",
+    #            additional_information=True, additional_information_column_list=[2, 3, 4], treat_missing_data_as_bad=True, cluster="wiki-language stuff")
+    # setup_data("Number of wiki-languages of most famous city with at most 1,000,000 citizens (higher is better).csv",
+    #            additional_information=True, additional_information_column_list=[2, 3, 4], treat_missing_data_as_bad=True, cluster="wiki-language stuff")
+    # setup_data("Number of wiki-languages of most famous (real) building of that country (higher is better).csv",
+    #            additional_information=True, additional_information_column_list=[2, 3, 4], treat_missing_data_as_bad=True, cluster="wiki-language stuff")
+    # setup_data("Number of wiki-languages of most famous architectural structure of that country (higher is better).csv",
+    #            additional_information=True, additional_information_column_list=[2, 3, 4], treat_missing_data_as_bad=True, cluster="wiki-language stuff")
+    # setup_data("Number of wiki-languages of most famous airline of that country (higher is better).csv",
+    #            additional_information=True, additional_information_column_list=[2, 3, 4], treat_missing_data_as_bad=True, cluster="wiki-language stuff")
+    # setup_data("Number of wiki-languages of most famous newspaper of that country (higher is better).csv",
+    #            additional_information=True, additional_information_column_list=[2, 7, 8], treat_missing_data_as_bad=True, cluster="wiki-language stuff")
+    # setup_data("Number of wiki-languages of most famous street - avenue - boulevard of that country (higher is better).csv",
+    #            additional_information=True, additional_information_column_list=[2, 7, 8], treat_missing_data_as_bad=True, cluster="wiki-language stuff")
+    # setup_data("Number of wiki-languages of most famous road - highway - motor circuit of that country (higher is better).csv",
+    #            additional_information=True, additional_information_column_list=[2, 7, 8], treat_missing_data_as_bad=True, cluster="wiki-language stuff")
+    # setup_data("Number of wiki-languages of most famous bridge of that country (higher is better).csv",
+    #            additional_information=True, additional_information_column_list=[2, 7, 8], treat_missing_data_as_bad=True, cluster="wiki-language stuff")
+    # setup_data("Number of wiki-languages of most famous place of worship (church,mosque,temple etc.) of that country (higher is better).csv",
+    #            additional_information=True, additional_information_column_list=[2, 7, 8], treat_missing_data_as_bad=True, cluster="wiki-language stuff")
+    # setup_data("Number of wiki-languages of most famous (real) museum of that country (higher is better).csv",
+    #            additional_information=True, additional_information_column_list=[2, 7, 8], treat_missing_data_as_bad=True, cluster="wiki-language stuff")
+    # setup_data("Number of wiki-languages of most famous athlete of that country which is not a soccer player (higher is better).csv",
+    #            additional_information=True, additional_information_column_list=[2, 7, 8], treat_missing_data_as_bad=True, cluster="wiki-language stuff")
+    # setup_data("Number of wiki-languages of most famous criminal of that country (higher is better).csv",
+    #            additional_information=True, additional_information_column_list=[2, 7, 8], treat_missing_data_as_bad=True, cluster="wiki-language stuff")
+    # setup_data("Number of wiki-languages of most famous health scientist of that country (higher is better).csv",
+    #            additional_information=True, additional_information_column_list=[2, 7, 8], treat_missing_data_as_bad=True, cluster="wiki-language stuff")
+    # setup_data("Number of wiki-languages of most famous movie director of that country (higher is better).csv",
+    #            additional_information=True, additional_information_column_list=[2, 7, 8], treat_missing_data_as_bad=True, cluster="wiki-language stuff")
+    # setup_data("Number of wiki-languages of most famous person from that country born after 2000 (higher is better).csv",
+    #            additional_information=True, additional_information_column_list=[2, 7, 8], treat_missing_data_as_bad=True, cluster="wiki-language stuff")
+    # setup_data("Number of wiki-languages of most famous social scientist humanities scholar of that country (higher is better).csv",
+    #            additional_information=True, additional_information_column_list=[2, 7, 8], treat_missing_data_as_bad=True, cluster="wiki-language stuff")
+    # setup_data("Number of wiki-languages of most famous cleric of that country (higher is better).csv",
+    #            additional_information=True, treat_missing_data_as_bad=True, additional_information_column_list=[2, 3, 4], cluster="wiki-language stuff")
+    # setup_data("Number of wiki-languages of most famous city of that country (higher is better).csv",
+    #            additional_information=True, additional_information_column_list=[2, 3, 4], treat_missing_data_as_bad=True, cluster="wiki-language stuff")
+    # setup_data("Number of wiki-languages of second most famous city of that country (higher is better).csv",
+    #            additional_information=True, additional_information_column_list=[2, 3, 4], treat_missing_data_as_bad=True, cluster="wiki-language stuff")
+    # setup_data("Number of wiki-languages of third most famous city of that country (higher is better).csv",
+    #            additional_information=True, additional_information_column_list=[2, 3, 4], treat_missing_data_as_bad=True, cluster="wiki-language stuff")
+    # setup_data("Number of wiki-languages of most famous company which is neither an airline nor a national bank (higher is better).csv",
+    #            additional_information=True, additional_information_column_list=[2, 3, 4], treat_missing_data_as_bad=True, cluster="wiki-language stuff")
+    # setup_data("Number of wiki-languages of most famous painter of that country (higher is better).csv",
+    #            additional_information=True, additional_information_column_list=[2, 3, 4], treat_missing_data_as_bad=True, cluster="wiki-language stuff")
+    # setup_data("number of wiki-languages of most famous journalist of that country (higher is better).csv",
+    #            additional_information=True, additional_information_column_list=[2, 3, 4], treat_missing_data_as_bad=True, cluster="wiki-language stuff")
+    # setup_data("Number of wiki-languages of most famous desert of that country (higher is better).csv", dif=2,
+    #            treat_missing_data_as_bad=True, additional_information=True, additional_information_column_list=[2, 7, 8], cluster="wiki-language stuff")
+    # setup_data("number of wiki-languages of most famous movie from that country (higher is better).csv", dif=2,
+    #            treat_missing_data_as_bad=True, additional_information=True, additional_information_column_list=[2, 3, 4], cluster="wiki-language stuff")
+    # setup_data("Number of wiki-languages of most famous airport of that country (higher is better).csv", dif=2,
+    #            treat_missing_data_as_bad=True, additional_information=True, additional_information_column_list=[2, 7, 8], cluster="wiki-language stuff")
+    # setup_data("Number of wiki-languages of most famous national park - garden - zoo in that country (higher is better).csv",
+    #            dif=2, treat_missing_data_as_bad=True, additional_information=True, additional_information_column_list=[2, 7, 8], cluster="wiki-language stuff")
+    # setup_data("Number of wiki-languages of most famous historical woman (at least 50 years dead) of that country (higher is better).csv",
+    #            dif=2, treat_missing_data_as_bad=True, additional_information=True, additional_information_column_list=[2, 7, 8], cluster="wiki-language stuff")
+    # setup_data("Number of wiki-languages of most famous historical woman (at least 100 years dead) of that country (higher is better).csv",
+    #            dif=2, treat_missing_data_as_bad=True, additional_information=True, additional_information_column_list=[2, 7, 8], cluster="wiki-language stuff")
+    # setup_data("Number of wiki-languages of most famous historical woman (at least 200 years dead) of that country (higher is better).csv",
+    #            dif=2, treat_missing_data_as_bad=True, additional_information=True, additional_information_column_list=[2, 7, 8], cluster="wiki-language stuff")
+    # setup_data("Number of wiki-languages of most famous historical woman (at least 500 years dead) of that country (higher is better).csv",
+    #            dif=2, treat_missing_data_as_bad=True, additional_information=True, additional_information_column_list=[2, 7, 8], cluster="wiki-language stuff")
+    # setup_data("Number of wiki-languages of most famous female scientist of that country (higher is better).csv",
+    #            dif=2, treat_missing_data_as_bad=True, additional_information=True, additional_information_column_list=[2, 7, 8], cluster="wiki-language stuff")
+    # setup_data("Number of wiki-languages of most famous female athlete of that country (higher is better).csv",
+    #            dif=2, treat_missing_data_as_bad=True, additional_information=True, additional_information_column_list=[2, 7, 8], cluster="wiki-language stuff")
+    # setup_data("Number of wiki-languages of most famous female actor of that country (higher is better).csv", dif=2,
+    #            treat_missing_data_as_bad=True, additional_information=True, additional_information_column_list=[2, 7, 8], cluster="wiki-language stuff")
+    # setup_data("Number of wiki-languages of most famous battle which took place in that country (higher is better).csv",
+    #            dif=2, treat_missing_data_as_bad=True, additional_information=True, additional_information_column_list=[2, 7, 8], cluster="wiki-language stuff")
+    # setup_data("Number of wiki-languages of most famous woman being born after 2000 (higher is better).csv", dif=2,
+    #            treat_missing_data_as_bad=True, additional_information=True, additional_information_column_list=[2, 7, 8], cluster="wiki-language stuff")
+    # setup_data("Number of wiki-languages of most famous female singer of that country (higher is better).csv", dif=2,
+    #            treat_missing_data_as_bad=True, additional_information=True, additional_information_column_list=[2, 7, 8], cluster="wiki-language stuff")
+    # setup_data(
+    #     "Sum of wiki-languages of the three most famous cities of that country (higher is better).csv", cluster="wiki-language stuff")
 
-    # deaths by cause
-    setup_data("Number of covid deaths per capita (lower is better).csv",
-               cluster="death_by_cause_cluster", ascending=True)
-    setup_data("Annual HIV deaths (by 100,000 population) (lower is better).csv",
-               ascending=True, cluster="death_by_cause_cluster")
-    setup_data("Annual Malaria deaths (by 10,000 population) (lower is better).csv",
-               ascending=True, cluster="death_by_cause_cluster")
-    setup_data("Annual alcohol deaths (by 1,000,000 population) (lower is better).csv",
-               ascending=True, cluster="death_by_cause_cluster")
-    setup_data("Annual deaths by traffic related causes (by 10,000 population).csv",
-               ascending=True, cluster="death_by_cause_cluster")
-    setup_data("Annual Hepatitis deaths (by 1,000,000 population) (lower is better).csv",
-               ascending=True, cluster="death_by_cause_cluster")
-    setup_data("Annual deaths by fire and heat (by 100,000 population) (lower is better).csv",
-               ascending=True, cluster="death_by_cause_cluster")
-    setup_data("Annual deaths by digestive diseases (by 10,000 population) (lower is better).csv",
-               ascending=True, cluster="death_by_cause_cluster")
-    setup_data("Annual deaths by Cirrhosis and other chronic liver diseases (by 10,000 population) (lower is better).csv",
-               ascending=True, cluster="death_by_cause_cluster")
-    setup_data("Annual deaths by malnutrition (by 100,000 population) (lower is better).csv",
-               ascending=True, cluster="death_by_cause_cluster")
-    setup_data("Annual deaths by poisonings (by 1,000,000 population) (lower is better).csv",
-               ascending=True, cluster="death_by_cause_cluster")
-    setup_data("Annual deaths by chronic kidney diseases (by 10,000 population) (lower is better).csv",
-               ascending=True, cluster="death_by_cause_cluster")
-    setup_data("Annual deaths by Diabetes Mellitus (by 10,000 population) (lower is better).csv",
-               ascending=True, cluster="death_by_cause_cluster")
-    setup_data("Annual deaths by conflict and terrorism (by 10,000,000 population) (lower is better).csv",
-               ascending=True, cluster="death_by_cause_cluster")
-    setup_data("Annual deaths by neoplasms (by 1000 population) (lower is better) (lower is better).csv",
-               ascending=True, cluster="death_by_cause_cluster")
-    setup_data("Annual deaths by exposure to environmental cold or heat (by 1,000,000 population) (lower is better).csv",
-               ascending=True, cluster="death_by_cause_cluster")
-    setup_data("Annual deaths by exposure to force of nature (by 10,000,000 population) (lower is better).csv",
-               ascending=True, cluster="death_by_cause_cluster")
-    setup_data("Annual deaths by neonatal disorders (by 10,000 population) (lower is better).csv",
-               ascending=True, cluster="death_by_cause_cluster")
-    setup_data("Annual deaths by lower respiratory infections (by 10000 population) (lower is better).csv",
-               ascending=True, cluster="death_by_cause_cluster")
-    setup_data("Annual deaths by cardiovascular diseases (by 1000 population) (lower is better).csv",
-               ascending=True, cluster="death_by_cause_cluster")
-    setup_data("Annual deaths by Tuberculosis (by 100,000 population) (lower is better).csv",
-               ascending=True, cluster="death_by_cause_cluster")
-    setup_data("Annual deaths by maternal disorders (by 100,000 population) (lower is better).csv",
-               ascending=True, cluster="death_by_cause_cluster")
-    setup_data("Annual deaths by drowning (by 100,000 population) (lower is better).csv",
-               ascending=True, cluster="death_by_cause_cluster")
-    setup_data("Annual deaths by nutritional deficiencies (by 100,000 population).csv",
-               ascending=True, cluster="death_by_cause_cluster")
-    setup_data("Annual deaths by Parkinson's disease (by 100,000 population) (lower is better).csv",
-               ascending=True, cluster="death_by_cause_cluster")
-    setup_data("Annual deaths by Alzheimer's disease and other dementias (by 10,000 population).csv",
-               ascending=True, cluster="death_by_cause_cluster")
-    setup_data("Annual deaths by Meningitis (by 1,000,000 population) (lower is better).csv",
-               ascending=True, cluster="death_by_cause_cluster")
-    setup_data(
-        "Maternal deaths by 100,000 births (lower is better).csv", ascending=True, cluster="death_by_cause_cluster")
-    setup_data(
-        "Neonatal deaths by 1000 births (lower is better).csv", ascending=True, cluster="death_by_cause_cluster")
+    # # deaths by cause
+    # setup_data("Number of covid deaths per capita (lower is better).csv",
+    #            cluster="death_by_cause_cluster", ascending=True)
+    # setup_data("Annual HIV deaths (by 100,000 population) (lower is better).csv",
+    #            ascending=True, cluster="death_by_cause_cluster")
+    # setup_data("Annual Malaria deaths (by 10,000 population) (lower is better).csv",
+    #            ascending=True, cluster="death_by_cause_cluster")
+    # setup_data("Annual alcohol deaths (by 1,000,000 population) (lower is better).csv",
+    #            ascending=True, cluster="death_by_cause_cluster")
+    # setup_data("Annual deaths by traffic related causes (by 10,000 population).csv",
+    #            ascending=True, cluster="death_by_cause_cluster")
+    # setup_data("Annual Hepatitis deaths (by 1,000,000 population) (lower is better).csv",
+    #            ascending=True, cluster="death_by_cause_cluster")
+    # setup_data("Annual deaths by fire and heat (by 100,000 population) (lower is better).csv",
+    #            ascending=True, cluster="death_by_cause_cluster")
+    # setup_data("Annual deaths by digestive diseases (by 10,000 population) (lower is better).csv",
+    #            ascending=True, cluster="death_by_cause_cluster")
+    # setup_data("Annual deaths by Cirrhosis and other chronic liver diseases (by 10,000 population) (lower is better).csv",
+    #            ascending=True, cluster="death_by_cause_cluster")
+    # setup_data("Annual deaths by malnutrition (by 100,000 population) (lower is better).csv",
+    #            ascending=True, cluster="death_by_cause_cluster")
+    # setup_data("Annual deaths by poisonings (by 1,000,000 population) (lower is better).csv",
+    #            ascending=True, cluster="death_by_cause_cluster")
+    # setup_data("Annual deaths by chronic kidney diseases (by 10,000 population) (lower is better).csv",
+    #            ascending=True, cluster="death_by_cause_cluster")
+    # setup_data("Annual deaths by Diabetes Mellitus (by 10,000 population) (lower is better).csv",
+    #            ascending=True, cluster="death_by_cause_cluster")
+    # setup_data("Annual deaths by conflict and terrorism (by 10,000,000 population) (lower is better).csv",
+    #            ascending=True, cluster="death_by_cause_cluster")
+    # setup_data("Annual deaths by neoplasms (by 1000 population) (lower is better) (lower is better).csv",
+    #            ascending=True, cluster="death_by_cause_cluster")
+    # setup_data("Annual deaths by exposure to environmental cold or heat (by 1,000,000 population) (lower is better).csv",
+    #            ascending=True, cluster="death_by_cause_cluster")
+    # setup_data("Annual deaths by exposure to force of nature (by 10,000,000 population) (lower is better).csv",
+    #            ascending=True, cluster="death_by_cause_cluster")
+    # setup_data("Annual deaths by neonatal disorders (by 10,000 population) (lower is better).csv",
+    #            ascending=True, cluster="death_by_cause_cluster")
+    # setup_data("Annual deaths by lower respiratory infections (by 10000 population) (lower is better).csv",
+    #            ascending=True, cluster="death_by_cause_cluster")
+    # setup_data("Annual deaths by cardiovascular diseases (by 1000 population) (lower is better).csv",
+    #            ascending=True, cluster="death_by_cause_cluster")
+    # setup_data("Annual deaths by Tuberculosis (by 100,000 population) (lower is better).csv",
+    #            ascending=True, cluster="death_by_cause_cluster")
+    # setup_data("Annual deaths by maternal disorders (by 100,000 population) (lower is better).csv",
+    #            ascending=True, cluster="death_by_cause_cluster")
+    # setup_data("Annual deaths by drowning (by 100,000 population) (lower is better).csv",
+    #            ascending=True, cluster="death_by_cause_cluster")
+    # setup_data("Annual deaths by nutritional deficiencies (by 100,000 population).csv",
+    #            ascending=True, cluster="death_by_cause_cluster")
+    # setup_data("Annual deaths by Parkinson's disease (by 100,000 population) (lower is better).csv",
+    #            ascending=True, cluster="death_by_cause_cluster")
+    # setup_data("Annual deaths by Alzheimer's disease and other dementias (by 10,000 population).csv",
+    #            ascending=True, cluster="death_by_cause_cluster")
+    # setup_data("Annual deaths by Meningitis (by 1,000,000 population) (lower is better).csv",
+    #            ascending=True, cluster="death_by_cause_cluster")
+    # setup_data(
+    #     "Maternal deaths by 100,000 births (lower is better).csv", ascending=True, cluster="death_by_cause_cluster")
+    # setup_data(
+    #     "Neonatal deaths by 1000 births (lower is better).csv", ascending=True, cluster="death_by_cause_cluster")
 
-    # end only
-    setup_data("Country size (higher is better).csv",
-               is_end_only=True, cluster="end only")
-    setup_data("Population (higher is better).csv",
-               is_end_only=True, cluster="end only")
-    setup_data(
-        "Latitude of northernmost point of that country (northern is better) (higher is better).csv", is_end_only=True, cluster="end only")
-    setup_data(
-        "Latitude of southernmost point of that country (southern is better) (lower is better).csv", is_end_only=True, cluster="end only")
+    # # end only
+    # setup_data("Country size (higher is better).csv",
+    #            is_end_only=True, cluster="end only")
+    # setup_data("Population (higher is better).csv",
+    #            is_end_only=True, cluster="end only")
+    # setup_data(
+    #     "Latitude of northernmost point of that country (northern is better) (higher is better).csv", is_end_only=True, cluster="end only")
+    # setup_data(
+    #     "Latitude of southernmost point of that country (southern is better) (lower is better).csv", is_end_only=True, cluster="end only")

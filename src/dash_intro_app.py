@@ -9,8 +9,6 @@ import datetime
 from backend_game import BackendGame
 import game_state  # Import shared state module
 
-# Remove the global BACKEND_GAME variable since it's now in game_state.py
-
 # Initialize the Dash app with a Bootstrap theme
 app = dash.Dash(__name__, 
                 external_stylesheets=[dbc.themes.FLATLY],
@@ -195,7 +193,8 @@ app.layout = html.Div([
 @callback(
     Output('page-content', 'children'),
     Input('url', 'pathname'),
-    State('game-state', 'data')
+    State('game-state', 'data'),
+    prevent_initial_call=True
 )
 def display_page(pathname, game_state):
     if pathname == '/game':
