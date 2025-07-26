@@ -11,10 +11,10 @@ def set_backend_game(backend_game: BackendGame) -> None:
     global BACKEND_GAME
     BACKEND_GAME = backend_game
 
-# def get_backend_game() -> BackendGame:
-#     """Get the global backend game instance"""
-#     global BACKEND_GAME
-#     return BACKEND_GAME
+def get_backend_game() -> BackendGame:
+    """Get the global backend game instance"""
+    global BACKEND_GAME
+    return BACKEND_GAME
 
 def reset_backend_game() -> None:
     """Reset the backend game instance"""

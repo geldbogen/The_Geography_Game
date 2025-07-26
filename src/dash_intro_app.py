@@ -368,6 +368,7 @@ def start_game(n_clicks, players, number_of_rounds, start_country, winning_condi
         
     except Exception as e:
         print(f"Error creating BackendGame: {e}")
+        raise e
         return no_update, no_update
     
     # Create comprehensive game data for frontend

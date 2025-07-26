@@ -59,6 +59,7 @@ class BackendGame():
         # Attribute and scoring system
         self.pred_attribute_name = pred_attribute
         self.current_attribute: Category = None
+        
         self.end_attribute: Category = None
         self.reversed_end_attribute = reversed_end_attribute
         self.list_of_clusters = all_categories_names_and_clusters.copy()
@@ -85,6 +86,10 @@ class BackendGame():
         
         # Initialize game state
         self._get_starting_countries()
+
+        # get the first attribute
+        self.roll_a_new_attribute(
+            activating_player=self.active_player, pressed_reroll_button=False)
 
     def _get_starting_countries(self) -> None:
         for player in self.list_of_players:

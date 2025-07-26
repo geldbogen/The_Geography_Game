@@ -1,6 +1,5 @@
-import dash_html_components as html
 import dash_leaflet as dl
-from dash import Dash, State, callback
+from dash import Dash, State, html, callback
 from dash.dependencies import Output, Input
 from dash_extensions.javascript import Namespace, assign
 
