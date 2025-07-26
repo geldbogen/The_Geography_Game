@@ -11,6 +11,9 @@ window.myNamespace = Object.assign({}, window.myNamespace, {
 
             if(Object.keys(country_owner_dict).includes(country_name)){
                 const country_owner = country_owner_dict[country_name];
+                if (country_owner == 'Nobody') {
+                    return {fillColor: 'grey', color: 'grey'}
+                }
                 return {fillColor: player_color_dict[country_owner], color: 'grey'}
             }
             return {fillColor: 'grey', color: 'grey'}  

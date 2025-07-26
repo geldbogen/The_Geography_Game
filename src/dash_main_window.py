@@ -90,7 +90,8 @@ def click_on_map(_, feature, hideout):
                 to_display_string = f'It\'s {BACKEND_GAME.active_player.name}\'s turn to attack'
 
     
-    if BACKEND_GAME.chosen_country_1 is not None:
+    hideout = BACKEND_GAME.hideout_dict_for_dash
+    if BACKEND_GAME.chosen_country_1:
         hideout["selected"] = [BACKEND_GAME.chosen_country_1.name, BACKEND_GAME.chosen_country_2.name] if BACKEND_GAME.chosen_country_2 else [BACKEND_GAME.chosen_country_1.name]
     else:
         hideout["selected"] = []

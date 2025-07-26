@@ -17,7 +17,7 @@ from country import Country, Unknown_country
 class BackendGame():
 
     def __init__(self,
-                 list_of_players: list[Player] = [],
+                 list_of_players: list[Player] = [No_Data_Body],
                  wormhole_mode: str = '',
                  starting_countries_preferences: str = "random",
                  number_of_rounds: int = 99999999999,
@@ -80,6 +80,12 @@ class BackendGame():
         
         # for the chosen already categories
         self.list_of_clusters = all_categories_names_and_clusters.copy()
+
+        self.hideout_dict_for_dash = {
+            "selected": [],
+            "player_color_dict": {player.name: player.color for player in self.list_of_players},
+            "country_owner_dict": {country.name: country.owner.name for country in all_countries_in_game}
+        }
 
     def get_starting_attribute(self):
         pass
@@ -224,6 +230,7 @@ class BackendGame():
 
         win_player.list_of_possessed_countries.append(country)
         country.owner = win_player
+        self.hideout_dict_for_dash["country_owner_dict"][country.name] = win_player.name
 
         if loose_player.name != "Nobody":
             loose_player.list_of_possessed_countries.remove(
@@ -423,8 +430,14 @@ class BackendGame():
             result = self.active_player.check_if_attack_is_succesful(self.current_attribute,
                                                                             self.chosen_country_1, self.chosen_country_2)
         else:
-            raise ValueError("There was an invalid attack, with one of the countries being none")
-        
+            raise ValueError("There was an invalid attack, with one of the countries being None")
+        match result:
+            case 'win':
+                self.claim_country_backend(self.chosen_country_2.owner, self.active_player, self.chosen_country_2)
+            case 'loose':
+                if self.chosen_country_1.owner.name != "Nobody":
+                    self.claim_country_backend(self.active_player, self.chosen_country_1.owner, self.chosen_country_1)
+
         self.chosen_country_1 = None
         self.chosen_country_2 = None
 
