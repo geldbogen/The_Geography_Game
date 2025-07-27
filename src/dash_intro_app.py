@@ -7,7 +7,7 @@ import dash_main_window
 import datetime
 from backend_game import BackendGame
 import game_state  # Import shared state module
-
+from game_state import get_backend_game
 import dash_bootstrap_components as dbc
 import dash_mantine_components as dmc
 
@@ -199,8 +199,9 @@ app.layout = dmc.MantineProvider(html.Div([
     prevent_initial_call=True
 )
 def display_page(pathname, game_state):
+    backend_game = get_backend_game()
     if pathname == '/game':
-        return dash_main_window.create_main_window_layout()
+        return dash_main_window.create_main_window_layout(backend_game.list_of_players)
     else:  # Default to setup page
         return create_setup_layout()
 

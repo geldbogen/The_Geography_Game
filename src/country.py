@@ -15,7 +15,7 @@ if TYPE_CHECKING:
 
 class Country:
 
-    def __init__(self, xcoordinate : list[int], ycoordinate: list[int], name : str, continent: str ="None"):
+    def __init__(self, xcoordinate : list[int], ycoordinate: list[int], name : str, continent: str ="None", is_in_game: bool = True):
 
         self.coordinate_list : list[tuple[int,int]]= []
 
@@ -41,7 +41,8 @@ class Country:
         # the name of the continent, which the country belongs to
         self.continent_name: str = continent
 
-        all_countries_available.append(self)
+        if is_in_game:
+            all_countries_available.append(self)
 
         self.save_location = "data/npdata/" + self.name + "-nparray.npy"
 

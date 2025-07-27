@@ -9,7 +9,7 @@ def get_popup_extra_information_window_card(image_path : str, wiki_title : str, 
             dmc.CardSection(
                 [
                     dmc.Image(src=image_path, fallbackSrc='assets/pictures/no_image_available.png'),
-                    html.H4(wiki_title),
+                    dmc.Title(order=4, children=wiki_title),
                     dmc.Text(
                         wiki_description,
                     ),
@@ -21,7 +21,7 @@ def get_popup_extra_information_window_card(image_path : str, wiki_title : str, 
     withBorder=True,
     shadow="sm",
     radius="md",
-    w=350,
+    w=700,
     h=500,
     
     )
@@ -35,4 +35,7 @@ def get_two_popup_extra_information_window_cards(
     return dmc.Group([
         get_popup_extra_information_window_card(image_path_1, wiki_title_1, wiki_description_1, wiki_link_1),
         get_popup_extra_information_window_card(image_path_2, wiki_title_2, wiki_description_2, wiki_link_2),
-    ], justify='space-around')
+    ], 
+    justify='space-around',
+    grow=True
+    )

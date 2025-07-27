@@ -114,11 +114,16 @@ pop_up_window_content = html.Div([
     html.Div(id='extra-information-cards'),
 
     # Modal Footer with close button
-  
-    dmc.Button(
-        "Continue Game", 
-        id="close-button",
-        size="lg",
+    dmc.Container([
+    
+        dmc.Button(
+            "Continue Game", 
+            id="close-button",
+            size="lg",
+            
+        ),        
+    ],
+    style={'padding': '20px', 'textAlign': 'center', 'background': 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)', 'borderRadius': '0 0 15px 15px', 'border': 'none'}
     )
 ])
 
@@ -231,6 +236,7 @@ def populate_popup_content(is_open):
 @callback(
     Output("popup-window", "opened", allow_duplicate=True),
     Output("main-window-geojson", "hideout", allow_duplicate=True),
+    Output('player-order-segmented-control', 'value', allow_duplicate=True),
     Input("close-button", "n_clicks"),
     State("popup-window", "opened"),
     State("main-window-geojson", "hideout"),
@@ -248,5 +254,5 @@ def close_popup(n_clicks, is_open, hideout):
             pass
             # do endscreen later
 
-        return False, hideout
-    return is_open, hideout
+        return False, hideout, backend_game.active_player.name if backend_game.active_player else None
+    return is_open, hideout, None

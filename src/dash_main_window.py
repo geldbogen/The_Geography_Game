@@ -1,44 +1,47 @@
 import dash_leaflet as dl
 from dash import Dash, State, html, callback
 from dash.dependencies import Output, Input
-from dash_extensions.javascript import Namespace, assign
+from dash_extensions.javascript import Namespace, assign, arrow_function
 
 from country import call_country_by_name
 from game_state import BACKEND_GAME, get_backend_game
+from player import Player
 
 import dash_popup_window
 import dash_mantine_components as dmc
+
+from dash_iconify import DashIconify
 
 class MainWindow():
 
     def __init__(self):
         pass
 
-def create_main_window_layout():
+def create_main_window_layout(list_of_players : list[Player]):
 
     ns = Namespace("myNamespace", "mySubNamespace")
     style_handle = ns('my_style')
 
     backend_game = get_backend_game()
 
-    return html.Div([
+    return dmc.AppShell([
         # Beautiful header section
-        html.Div([
+        dmc.AppShellHeader([
             html.H1(
                 "🌍 Geography Game 🗺️", 
                 style={
                     'textAlign': 'center',
-                    'color': '#2c3e50',
-                    'fontSize': '3.5rem',
-                    'fontWeight': 'bold',
-                    'margin': '20px 0',
-                    'textShadow': '2px 2px 4px rgba(0,0,0,0.3)',
-                    'background': 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                    'backgroundClip': 'text',
-                    'webkitBackgroundClip': 'text',
-                    'webkitTextFillColor': 'transparent',
-                    'fontFamily': '"Trebuchet MS", "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Tahoma, sans-serif',
-                    'letterSpacing': '2px'
+                #     'color': '#2c3e50',
+                #     'fontSize': '3.5rem',
+                #     'fontWeight': 'bold',
+                #     'margin': '20px 0',
+                #     'textShadow': '2px 2px 4px rgba(0,0,0,0.3)',
+                #     'background': 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                #     'backgroundClip': 'text',
+                #     'webkitBackgroundClip': 'text',
+                #     'webkitTextFillColor': 'transparent',
+                #     'fontFamily': '"Trebuchet MS", "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Tahoma, sans-serif',
+                #     'letterSpacing': '2px'
                 },
                 id = 'attribute-show-header',
             ),
@@ -58,14 +61,15 @@ def create_main_window_layout():
             'boxShadow': '0 8px 32px rgba(0,0,0,0.1)',
             'border': '1px solid rgba(255,255,255,0.2)'
         }),
-        
+        dmc.AppShellMain([
         dl.Map(center=[39, -98], zoom=4, children=[
             dl.TileLayer(),
             dl.GeoJSON(url='/assets/world_map.geojson', id="main-window-geojson",
                     options=dict(style=style_handle), 
                     hideout=backend_game.hideout_dict_for_dash,
+                    hoverStyle=arrow_function(dict(weight=5, color="#666", dashArray="")),
                     ),
-        ], style={'width': '100%', 'height': '75vh', 'borderRadius': '10px', 'overflow': 'hidden'}, id="map"),
+        ], style={'width': '100%', 'height': '100vh', 'borderRadius': '10px', 'overflow': 'hidden'}, id="map"),
         
         html.Div(id="info", style={
             'marginTop': '20px',
@@ -92,7 +96,35 @@ def create_main_window_layout():
         'backgroundColor': '#ffffff',
         'minHeight': '100vh',
         'fontFamily': 'Arial, sans-serif'
-    })
+    }),
+    dmc.Affix([
+        dmc.Button(
+            'Reroll',
+            id='reroll-button',
+            leftSection=DashIconify(icon="tabler:dice", width=20),
+            size="lg",
+        ),
+    ],
+        position={"bottom": 50, "left": 50}
+    ),
+    dmc.Affix(
+        dmc.SegmentedControl(
+            id='player-order-segmented-control',
+            disabled=True,
+            data = [player.name for player in list_of_players],
+            value = list_of_players[0].name if list_of_players else None,
+            color='blue',
+            size="lg",
+            orientation='vertical',
+        )
+    , position={"bottom": 50, "right": 50}
+    ),
+
+    dmc.AppShellFooter([
+        dmc.Text("© 2025 Julius Niemeyer. All rights reserved. Built with ❤️ using Dash and Mantine.",
+                  style={'textAlign': 'center', 'fontSize': '0.8rem'})
+    ])
+])
 
 
 @callback(
@@ -108,7 +140,7 @@ def create_main_window_layout():
 )
 def click_on_map(_, feature, hideout):
     backend_game = get_backend_game()
-    country = call_country_by_name(feature["properties"]["name"])
+    country = call_country_by_name(feature["properties"]["sovereignt"])
     owner = country.owner
 
     to_display_string_header = 'Error'
