@@ -7,7 +7,7 @@ from country import call_country_by_name
 from game_state import BACKEND_GAME, get_backend_game
 
 import dash_popup_window
-
+import dash_mantine_components as dmc
 
 class MainWindow():
 
@@ -39,7 +39,8 @@ def create_main_window_layout():
                     'webkitTextFillColor': 'transparent',
                     'fontFamily': '"Trebuchet MS", "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Tahoma, sans-serif',
                     'letterSpacing': '2px'
-                }
+                },
+                id = 'attribute-show-header',
             ),
             html.Hr(style={
                 'border': 'none',
@@ -95,9 +96,10 @@ def create_main_window_layout():
 
 
 @callback(
-    [Output("main-window-geojson", "hideout", allow_duplicate=True),
+    [Output("attribute-show-header", "children"),
+     Output("main-window-geojson", "hideout", allow_duplicate=True),
      Output("info", "children"),
-     Output("popup-window", "is_open", allow_duplicate=True),
+     Output("popup-window", "opened", allow_duplicate=True),
      Output("win_or_lose_title", "children"),],
     Input("main-window-geojson", "n_clicks"),
     State("main-window-geojson", "clickData"),
@@ -109,6 +111,7 @@ def click_on_map(_, feature, hideout):
     country = call_country_by_name(feature["properties"]["name"])
     owner = country.owner
 
+    to_display_string_header = 'Error'
     to_display_string = 'ERROR'
     popup_window_is_open = False
     win_or_lose = 'ERROR'
@@ -192,7 +195,8 @@ def click_on_map(_, feature, hideout):
                 to_display_string = f'It\'s {backend_game.active_player.name}\'s turn to attack'
                 backend_game.chosen_country_1 = None
                 backend_game.chosen_country_2 = None
-
+    
+    
     
     hideout = backend_game.hideout_dict_for_dash
     if backend_game.chosen_country_1:
@@ -200,7 +204,7 @@ def click_on_map(_, feature, hideout):
     else:
         hideout["selected"] = []
 
-    return hideout, html.H1(to_display_string), popup_window_is_open, win_or_lose
+    return backend_game.get_replaced_A_and_B_category_string_for_current_attribute(), hideout, html.H1(to_display_string), popup_window_is_open, win_or_lose
 
 if __name__ == "__main__":
     app = Dash(__name__)

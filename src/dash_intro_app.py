@@ -1,6 +1,5 @@
 import dash
 from dash import dcc, html, Input, Output, State, callback, no_update
-import dash_bootstrap_components as dbc
 import random
 from player import Player
 from global_definitions import all_categories
@@ -9,9 +8,12 @@ import datetime
 from backend_game import BackendGame
 import game_state  # Import shared state module
 
+import dash_bootstrap_components as dbc
+import dash_mantine_components as dmc
+
 # Initialize the Dash app with a Bootstrap theme
 app = dash.Dash(__name__, 
-                external_stylesheets=[dbc.themes.FLATLY],
+                external_stylesheets=[dbc.themes.FLATLY, "https://cdn.tailwindcss.com"],
                 assets_folder="./assets",
                 meta_tags=[{'name': 'viewport', 'content': 'width=device-width, initial-scale=1'}])
 
@@ -182,13 +184,13 @@ def create_setup_layout():
     ], fluid=True, className="p-5")
 
 # Layout the application with URL routing
-app.layout = html.Div([
+app.layout = dmc.MantineProvider(html.Div([
     dcc.Location(id='url', refresh=False),
     dcc.Store(id="player-list-store", data=[]),
     dcc.Store(id="game-state", data={}),
     html.Div(id='page-content')
 ])
-
+)
 # Page routing callback
 @callback(
     Output('page-content', 'children'),
@@ -423,7 +425,7 @@ def initialize_game(n_intervals, game_data):
         player = Player(color=tuple(player_dict["color"]), name=player_dict["name"])
         player_objects.append(player)
     
-    app.layout = dash_main_window.create_main_window_layout()
+    app.layout = dmc.MantineProvider(dash_main_window.create_main_window_layout())
     
 
 # Add callback to go back to setup

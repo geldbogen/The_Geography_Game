@@ -3,7 +3,9 @@ from dash import Dash, State, html, callback
 from dash.dependencies import Output, Input
 from dash_extensions.javascript import Namespace, assign
 
+
 import dash_bootstrap_components as dbc
+import dash_mantine_components as dmc
 
 from game_state import get_backend_game
 from dash_popup_extra_information_card import get_two_popup_extra_information_window_cards
@@ -11,7 +13,7 @@ from dash_popup_extra_information_card import get_two_popup_extra_information_wi
 
 pop_up_window_content = html.Div([
     # Modal Header with beautiful styling
-    dbc.ModalHeader([
+    html.Div([
         html.H2("", id='win_or_lose_title', style={
             'textAlign': 'center',
             'color': '#2c3e50',
@@ -34,7 +36,7 @@ pop_up_window_content = html.Div([
     }),
     
     # Modal Body with country information and battle details
-    dbc.ModalBody([
+    html.Div([
         # Country vs Country display
         html.Div([
             html.Div([
@@ -109,45 +111,24 @@ pop_up_window_content = html.Div([
         'background': 'linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%)'
     }),
 
-    dbc.ModalBody(id='extra-information-cards'),
+    html.Div(id='extra-information-cards'),
 
     # Modal Footer with close button
-    dbc.ModalFooter([
-        dbc.Button(
-            "Continue Game", 
-            id="close-button",
-            color="primary",
-            size="lg",
-            style={
-                'background': 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                'border': 'none',
-                'borderRadius': '10px',
-                'padding': '12px 30px',
-                'fontWeight': 'bold',
-                'fontSize': '1.1rem',
-                'boxShadow': '0 4px 15px rgba(102, 126, 234, 0.3)',
-                'letterSpacing': '1px'
-            }
-        )
-    ], style={
-        'background': 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)',
-        'borderRadius': '0 0 15px 15px',
-        'padding': '20px',
-        'border': 'none'
-    })
+  
+    dmc.Button(
+        "Continue Game", 
+        id="close-button",
+        size="lg",
+    )
 ])
 
-popup_window = dbc.Modal(
+
+popup_window = dmc.Modal(
     children=pop_up_window_content,
     id="popup-window",
-    is_open=False,
     size="lg",
-    backdrop="static",
-    style={
-        'borderRadius': '15px',
-        'overflow': 'hidden',
-        'boxShadow': '0 20px 60px rgba(0,0,0,0.3)'
-    }
+    centered=True,
+    opened=False,
 )
 
 # Callback to populate popup content when it opens
@@ -156,7 +137,7 @@ popup_window = dbc.Modal(
      Output("country-b-info", "children"),
      Output("attribute-info", "children"),
      Output("extra-information-cards", "children")],
-    Input("popup-window", "is_open", ),
+    Input("popup-window", "opened", ),
     prevent_initial_call=True
 )
 def populate_popup_content(is_open):
@@ -248,10 +229,10 @@ def populate_popup_content(is_open):
 
 # Callback to close popup
 @callback(
-    Output("popup-window", "is_open", allow_duplicate=True),
+    Output("popup-window", "opened", allow_duplicate=True),
     Output("main-window-geojson", "hideout", allow_duplicate=True),
     Input("close-button", "n_clicks"),
-    State("popup-window", "is_open"),
+    State("popup-window", "opened"),
     State("main-window-geojson", "hideout"),
     prevent_initial_call=True
 )
