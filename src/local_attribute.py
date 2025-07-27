@@ -8,6 +8,6 @@ class LocalAttribute():
     number_of_countries_ranked : int = 1
     additional_information_name : str = ''
     additional_information: str = ''
-    wikipedia_link: str = ''
+    additional_information_link: str = ''
 
     

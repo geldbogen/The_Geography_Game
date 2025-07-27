@@ -40,6 +40,7 @@ class BackendGame():
         self.number_of_rounds = number_of_rounds
         self.index = 0
         self.choosing_index = -1
+        self.which_round_counter = 0
         
         # Player management
         self.active_player_counter = 0
@@ -490,16 +491,16 @@ class BackendGame():
                 if self.chosen_country_1.owner.name != "Nobody":
                     self.claim_country_backend(self.active_player, self.chosen_country_1.owner, self.chosen_country_1)
 
-        self.chosen_country_1 = None
-        self.chosen_country_2 = None
-
         return result
 
-    def transition_backend(self, same_player_again: bool = False) -> Tuple[bool, Category | None]:
+    def go_to_next_turn_and_check_if_game_should_end(self, same_player_again: bool = False) -> bool:
 
+        self.chosen_country_1 = None
+        self.chosen_country_2 = None
+        
         if not same_player_again:
             if self.check_if_game_should_end():
-                return True, None
+                return True
 
             self.active_player_counter = self.active_player_counter + 1
 
@@ -508,20 +509,11 @@ class BackendGame():
 
         if not same_player_again:
             if self.index == 0:
-                self.turn_counter += 1
+                self.which_round_counter += 1
 
-        # # update the interface
-        # self.turn_counter_label["text"] = str(self.turn_counter)
-        # self.flagframe_dict[self.active_player.name].pack_forget()
-        # self.active_player = self.list_of_players[self.index]
-        # self.showing_country_label[
-        #     "text"] = f"It's {self.active_player.name}'s turn. \n \
-        #         You have not chosen any country yet"
-
-        # roll a new attribute
         self.roll_a_new_attribute(activating_player=self.active_player,
                                           pressed_reroll_button=False
                                           )
-        
-        
+
+        return False
 

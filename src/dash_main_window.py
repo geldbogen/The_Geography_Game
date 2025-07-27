@@ -6,7 +6,7 @@ from dash_extensions.javascript import Namespace, assign
 from country import call_country_by_name
 from game_state import BACKEND_GAME, get_backend_game
 
-import popup_window
+import dash_popup_window
 
 
 class MainWindow():
@@ -85,7 +85,7 @@ def create_main_window_layout():
             'alignItems': 'center',
             'justifyContent': 'center'
         }),
-        popup_window.popup_window,
+        dash_popup_window.popup_window,
     ], style={
         'padding': '20px',
         'backgroundColor': '#ffffff',
@@ -98,8 +98,7 @@ def create_main_window_layout():
     [Output("main-window-geojson", "hideout"),
      Output("info", "children"),
      Output("popup-window", "is_open", allow_duplicate=True),
-     Output("win_or_lose_title", "children"),
-     Output("battle-result", "children", allow_duplicate=True)],
+     Output("win_or_lose_title", "children"),],
     Input("main-window-geojson", "n_clicks"),
     State("main-window-geojson", "clickData"),
     State("main-window-geojson", "hideout"),
@@ -129,16 +128,16 @@ def click_on_map(_, feature, hideout):
 
         case a, b if a is not None and b is not None:
             if b == country:
+                country_a_name = a.name if a else "Unknown"
+                country_b_name = b.name if b else "Unknown"
                 result = backend_game.attack_backend()
                 popup_window_is_open = True
                 
                 # Map result strings to display messages and styling
-                country_a_name = a.name if a else "Unknown"
-                country_b_name = b.name if b else "Unknown"
                 
                 result_styling = {
-                    "you win!": {
-                        'title': "🎉 VICTORY! 🎉",
+                    "win": {
+                        'title': "VICTORY!",
                         'message': f"{country_a_name} successfully conquered {country_b_name}!",
                         'style': {
                             'background': 'linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%)',
@@ -146,8 +145,8 @@ def click_on_map(_, feature, hideout):
                             'color': '#155724'
                         }
                     },
-                    "you loose!": {
-                        'title': "💔 DEFEAT 💔",
+                    "loose": {
+                        'title': "DEFEAT",
                         'message': f"{country_b_name} successfully defended against {country_a_name}!",
                         'style': {
                             'background': 'linear-gradient(135deg, #f8d7da 0%, #f5c6cb 100%)',
@@ -156,7 +155,7 @@ def click_on_map(_, feature, hideout):
                         }
                     },
                     "hard defeat": {
-                        'title': "🏆 CRUSHING VICTORY! 🏆",
+                        'title': "CRUSHING VICTORY!",
                         'message': f"{country_a_name} completely dominated {country_b_name}!",
                         'style': {
                             'background': 'linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%)',
@@ -165,7 +164,7 @@ def click_on_map(_, feature, hideout):
                         }
                     },
                     "no data": {
-                        'title': "📊 NO DATA AVAILABLE",
+                        'title': "NO DATA AVAILABLE",
                         'message': "Battle cannot be resolved due to missing data for this attribute.",
                         'style': {
                             'background': 'linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%)',
@@ -174,7 +173,7 @@ def click_on_map(_, feature, hideout):
                         }
                     },
                     "draw": {
-                        'title': "🤝 DRAW",
+                        'title': "DRAW",
                         'message': f"Both {country_a_name} and {country_b_name} are evenly matched!",
                         'style': {
                             'background': 'linear-gradient(135deg, #e2e3e5 0%, #d6d8db 100%)',
@@ -184,47 +183,27 @@ def click_on_map(_, feature, hideout):
                     }
                 }
                 
-                result_info = result_styling.get(result, result_styling["no data"])
+                result_info = result_styling[result]
                 win_or_lose = result_info['title']
                 
-                battle_result_content = html.Div([
-                    html.H3(result_info['message'], style={
-                        'textAlign': 'center',
-                        'margin': '0',
-                        'fontSize': '1.3rem',
-                        'fontWeight': 'bold'
-                    })
-                ], style=result_info['style'])
-
                 to_display_string = f'It\'s {backend_game.active_player.name}\'s turn to attack'
                 
             else:
+                to_display_string = f'It\'s {backend_game.active_player.name}\'s turn to attack'
                 backend_game.chosen_country_1 = None
                 backend_game.chosen_country_2 = None
-                to_display_string = f'It\'s {backend_game.active_player.name}\'s turn to attack'
 
     
     hideout = backend_game.hideout_dict_for_dash
-    print(f"hideout: {hideout}")
     if backend_game.chosen_country_1:
         hideout["selected"] = [backend_game.chosen_country_1.name, backend_game.chosen_country_2.name] if backend_game.chosen_country_2 else [backend_game.chosen_country_1.name]
     else:
         hideout["selected"] = []
 
-    return hideout, html.H1(to_display_string), popup_window_is_open, win_or_lose, battle_result_content
+    return hideout, html.H1(to_display_string), popup_window_is_open, win_or_lose
 
 if __name__ == "__main__":
     app = Dash(__name__)
     app.layout = create_main_window_layout()
-    
-    # # Register the callback
-    # app.callback(
-    #     [Output("main-window-geojson", "hideout"),
-    #      Output("info", "children")],
-    #     Input("main-window-geojson", "n_clicks"),
-    #     State("main-window-geojson", "clickData"),
-    #     State("main-window-geojson", "hideout"),
-    #     prevent_initial_call=True,
-    # )(toggle_select)
     
     app.run(debug=True)

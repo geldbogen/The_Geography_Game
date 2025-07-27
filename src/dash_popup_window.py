@@ -6,6 +6,7 @@ from dash_extensions.javascript import Namespace, assign
 import dash_bootstrap_components as dbc
 
 from game_state import get_backend_game
+from dash_popup_extra_information_card import get_two_popup_extra_information_window_cards
 
 
 pop_up_window_content = html.Div([
@@ -103,33 +104,13 @@ pop_up_window_content = html.Div([
             })
         ], style={'marginBottom': '20px'}),
         
-        # Battle result
-        html.Div([
-            html.H4("Battle Result", style={
-                'textAlign': 'center',
-                'color': '#2c3e50',
-                'fontWeight': 'bold',
-                'marginBottom': '15px'
-            }),
-            html.Div(id="battle-result", style={
-                'padding': '20px',
-                'background': 'linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%)',
-                'borderRadius': '10px',
-                'border': '2px solid #6c757d',
-                'textAlign': 'center',
-                'fontWeight': 'bold',
-                'fontSize': '1.4rem',
-                'minHeight': '60px',
-                'display': 'flex',
-                'alignItems': 'center',
-                'justifyContent': 'center'
-            })
-        ])
     ], style={
         'padding': '20px',
         'background': 'linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%)'
     }),
-    
+
+    dbc.ModalBody(id='extra-information-cards'),
+
     # Modal Footer with close button
     dbc.ModalFooter([
         dbc.Button(
@@ -174,7 +155,7 @@ popup_window = dbc.Modal(
     [Output("country-a-info", "children"),
      Output("country-b-info", "children"),
      Output("attribute-info", "children"),
-     Output("battle-result", "children")],
+     Output("extra-information-cards", "children")],
     Input("popup-window", "is_open", ),
     prevent_initial_call=True
 )
@@ -186,7 +167,7 @@ def populate_popup_content(is_open):
     
     if not backend_game.chosen_country_1 or not backend_game.chosen_country_2:
         return "", "", "", ""
-    
+
     country_a = backend_game.chosen_country_1
     country_b = backend_game.chosen_country_2
     current_attribute = backend_game.current_attribute
@@ -238,23 +219,53 @@ def populate_popup_content(is_open):
     # Attribute information
     attribute_info = current_attribute.name.replace(".csv", "")
     
-    # Battle result (this will be populated by the main window callback)
-    battle_result = "Battle in progress..."
-    
-    return country_a_info, country_b_info, attribute_info, battle_result
+    # get maybe the extra information
+    first_wiki_info_name = country_a.dict_of_attributes[current_attribute.name].additional_information_name
+    second_wiki_info_name = country_b.dict_of_attributes[current_attribute.name].additional_information_name
+
+    first_wiki_info = country_a.dict_of_attributes[current_attribute.name].additional_information
+    second_wiki_info = country_b.dict_of_attributes[current_attribute.name].additional_information
+
+    first_wiki_link = country_a.dict_of_attributes[current_attribute.name].additional_information_link
+    second_wiki_link = country_b.dict_of_attributes[current_attribute.name].additional_information_link
+
+    first_image_path = "assets/pictures/attribute_pictures/" + current_attribute.name.replace(
+                    ".csv", "") + "/" + country_a.dict_of_attributes[
+                        current_attribute.name].additional_information_name + ".jpg"
+
+    second_image_path = "assets/pictures/attribute_pictures/" + current_attribute.name.replace(
+                    ".csv", "") + "/" + country_b.dict_of_attributes[
+                        current_attribute.name].additional_information_name + ".jpg"
+
+    extra_information_two_window_content = get_two_popup_extra_information_window_cards(
+        first_image_path, first_wiki_info_name, first_wiki_info, first_wiki_link,
+        second_image_path, second_wiki_info_name, second_wiki_info, second_wiki_link
+    )
+
+    if first_wiki_info_name == '' and second_wiki_info_name == '':
+        extra_information_two_window_content = ""
+    return country_a_info, country_b_info, attribute_info, extra_information_two_window_content
 
 # Callback to close popup
 @callback(
     Output("popup-window", "is_open", allow_duplicate=True),
+    Output("main-window-geojson", "hideout"),
     Input("close-button", "n_clicks"),
     State("popup-window", "is_open"),
+    State("main-window-geojson", "hideout")
     prevent_initial_call=True
 )
-def close_popup(n_clicks, is_open):
+def close_popup(n_clicks, is_open, hideout):
     if n_clicks:
+        hideout['selected'] = []
         backend_game = get_backend_game()
         # Reset the chosen countries after battle
-        backend_game.chosen_country_1 = None
-        backend_game.chosen_country_2 = None
-        return False
-    return is_open
+        # do transition
+        
+        game_should_end = backend_game.go_to_next_turn_and_check_if_game_should_end()
+        if game_should_end:
+            pass
+            # do endscreen later
+
+        return False, hideout
+    return is_open, hideout

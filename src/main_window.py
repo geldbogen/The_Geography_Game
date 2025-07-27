@@ -963,8 +963,8 @@ class MainWindow():
                     property.name].additional_information
                 wiki_summary_B_extra = country_b.dict_of_attributes[
                     property.name].additional_information
-                wikiurl_A = country_a.dict_of_attributes[property.name].wikipedia_link
-                wikiurl_B = country_b.dict_of_attributes[property.name].wikipedia_link
+                wikiurl_A = country_a.dict_of_attributes[property.name].additional_information_link
+                wikiurl_B = country_b.dict_of_attributes[property.name].additional_information_link
             except:
                 traceback.print_exc()
                 wiki_summary_A_extra = ""
@@ -980,7 +980,7 @@ class MainWindow():
                 try:
                     imgA = Image.open(urlA)
                 except FileNotFoundError:
-                    imgA = Image.open("pictures/no_image_available.png")
+                    imgA = Image.open("assets/pictures/no_image_available.png")
                 w = float(imgA.width)
                 h = float(imgA.height)
                 imgA = ImageTk.PhotoImage(
