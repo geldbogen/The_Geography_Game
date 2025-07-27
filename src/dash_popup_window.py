@@ -249,7 +249,7 @@ def populate_popup_content(is_open):
 # Callback to close popup
 @callback(
     Output("popup-window", "is_open", allow_duplicate=True),
-    Output("main-window-geojson", "hideout"),
+    Output("main-window-geojson", "hideout", allow_duplicate=True),
     Input("close-button", "n_clicks"),
     State("popup-window", "is_open"),
     State("main-window-geojson", "hideout"),

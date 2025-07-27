@@ -95,7 +95,7 @@ def create_main_window_layout():
 
 
 @callback(
-    [Output("main-window-geojson", "hideout"),
+    [Output("main-window-geojson", "hideout", allow_duplicate=True),
      Output("info", "children"),
      Output("popup-window", "is_open", allow_duplicate=True),
      Output("win_or_lose_title", "children"),],

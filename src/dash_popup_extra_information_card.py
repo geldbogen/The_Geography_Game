@@ -29,6 +29,6 @@ def get_two_popup_extra_information_window_cards(
     image_path_2: str, wiki_title_2: str, wiki_description_2: str, wiki_link_2: str
 ):
     return dbc.Row([
-        dbc.Col(get_popup_extra_information_window_card(image_path_1, wiki_title_1, wiki_description_1, wiki_link_1), width=10),
-        dbc.Col(get_popup_extra_information_window_card(image_path_2, wiki_title_2, wiki_description_2, wiki_link_2), width=10)
+        dbc.Col(get_popup_extra_information_window_card(image_path_1, wiki_title_1, wiki_description_1, wiki_link_1), width=6),
+        dbc.Col(get_popup_extra_information_window_card(image_path_2, wiki_title_2, wiki_description_2, wiki_link_2), width=6)
     ])
