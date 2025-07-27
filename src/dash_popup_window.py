@@ -252,7 +252,7 @@ def populate_popup_content(is_open):
     Output("main-window-geojson", "hideout"),
     Input("close-button", "n_clicks"),
     State("popup-window", "is_open"),
-    State("main-window-geojson", "hideout")
+    State("main-window-geojson", "hideout"),
     prevent_initial_call=True
 )
 def close_popup(n_clicks, is_open, hideout):
