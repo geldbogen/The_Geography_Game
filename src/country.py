@@ -97,7 +97,7 @@ class Country:
         number_of_draws = 0
         number_of_loose = 0
         for country_name in self.neighboring_countries:
-            if peacemode and (call_country_by_name(country_name).owner) != player.mr_nobody:
+            if peacemode and (call_country_by_name(country_name).owner.name) != 'Nobody':
                 continue
             
             if self.owner == call_country_by_name(country_name).owner:

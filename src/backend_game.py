@@ -10,7 +10,7 @@ if TYPE_CHECKING:
     from category import Category
 from player import No_Data_Body, mr_nobody
 
-from global_definitions import all_categories, all_countries_in_game, all_categories_names_and_clusters, all_countries_available
+from global_definitions import all_countries_in_game, all_categories_names_and_clusters, all_countries_available, neighboring_countries_data
 from country import Country, Unknown_country
 
 
@@ -48,6 +48,10 @@ class BackendGame():
         # Country and territory management
         self.starting_countries = starting_countries_preferences
         self.countries_in_game = countries_in_game
+        self.countries_name_list : list[str] = []
+
+        self._setup_country_connections()
+
         self.chosen_country_1: Country | None = None
         self.chosen_country_2: Country | None = None
         
@@ -90,6 +94,40 @@ class BackendGame():
         # get the first attribute
         self.roll_a_new_attribute(
             activating_player=self.active_player, pressed_reroll_button=False)
+
+    def _setup_country_connections(self):
+
+        self.countries_in_game.append(Unknown_country)
+
+        for country in self.countries_in_game:
+            self.countries_name_list.append(country.name)
+
+        # TODO: this is quite ugly
+        for country_1 in self.countries_in_game:
+            if country_1 == Unknown_country:
+                continue
+            data = neighboring_countries_data[neighboring_countries_data[0] ==
+                                        country_1.name]
+            for country_2 in self.countries_in_game:
+                if country_2 == Unknown_country:
+                    continue
+                if not data.empty:
+                    if country_2.name in str(data.iat[0, 5]):
+                        country_2.neighboring_countries.append(country_1.name)
+
+        # remove self-connectedness
+        for country in all_countries_available:
+            if country.name in country.neighboring_countries:
+                country.neighboring_countries.remove(country.name)
+
+        for country1 in all_countries_available:
+            print(country1.name)
+            for country2 in all_countries_available:
+                if country1 == country2:
+                    continue
+                if country1.name in country2.neighboring_countries and not country2.name in country1.neighboring_countries:
+                    country1.neighboring_countries.append(country2.name)
+        
 
     def _get_starting_countries(self) -> None:
         for player in self.list_of_players:
@@ -250,7 +288,6 @@ class BackendGame():
         if loose_player.name != "Nobody":
             loose_player.list_of_possessed_countries.remove(
                 country)
-            loose_player.labeldict[country].destroy()
 
         if self.winning_condition == "get gold":
             if win_player.name != "Nobody":

@@ -440,7 +440,7 @@ def back_to_setup(n_clicks):
     return {"display": "block"}, {"display": "none"}
 
 def run_dash_app():
-    app.run(debug=True)
+    app.run(debug=True, use_reloader=False)
 
 if __name__ == "__main__":
     run_dash_app()

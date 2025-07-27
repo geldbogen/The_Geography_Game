@@ -5,26 +5,256 @@ from dash_extensions.javascript import Namespace, assign
 
 import dash_bootstrap_components as dbc
 
+from game_state import get_backend_game
+
 
 pop_up_window_content = html.Div([
-    html.H2("", id='win_or_lose_title'),
-    html.Div(id="country-info"),
-    dbc.Button("Close", id="close-button")
+    # Modal Header with beautiful styling
+    dbc.ModalHeader([
+        html.H2("", id='win_or_lose_title', style={
+            'textAlign': 'center',
+            'color': '#2c3e50',
+            'fontSize': '2.5rem',
+            'fontWeight': 'bold',
+            'margin': '0',
+            'textShadow': '2px 2px 4px rgba(0,0,0,0.3)',
+            'background': 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+            'backgroundClip': 'text',
+            'webkitBackgroundClip': 'text',
+            'webkitTextFillColor': 'transparent',
+            'fontFamily': '"Trebuchet MS", "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Tahoma, sans-serif',
+            'letterSpacing': '2px'
+        })
+    ], style={
+        'background': 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)',
+        'borderRadius': '15px 15px 0 0',
+        'padding': '20px',
+        'border': 'none'
+    }),
+    
+    # Modal Body with country information and battle details
+    dbc.ModalBody([
+        # Country vs Country display
+        html.Div([
+            html.Div([
+                html.H4("Attacking Country", style={
+                    'textAlign': 'center',
+                    'color': '#e74c3c',
+                    'fontWeight': 'bold',
+                    'marginBottom': '10px'
+                }),
+                html.Div(id="country-a-info", style={
+                    'padding': '15px',
+                    'background': 'linear-gradient(135deg, #ffecec 0%, #ffd6d6 100%)',
+                    'borderRadius': '10px',
+                    'border': '2px solid #e74c3c',
+                    'textAlign': 'center'
+                })
+            ], style={'width': '45%'}),
+            
+            html.Div([
+                html.H3("VS", style={
+                    'textAlign': 'center',
+                    'color': '#34495e',
+                    'fontWeight': 'bold',
+                    'fontSize': '2rem',
+                    'margin': '20px 0'
+                })
+            ], style={'width': '10%', 'display': 'flex', 'alignItems': 'center', 'justifyContent': 'center'}),
+            
+            html.Div([
+                html.H4("Defending Country", style={
+                    'textAlign': 'center',
+                    'color': '#3498db',
+                    'fontWeight': 'bold',
+                    'marginBottom': '10px'
+                }),
+                html.Div(id="country-b-info", style={
+                    'padding': '15px',
+                    'background': 'linear-gradient(135deg, #ebf4ff 0%, #d6e9ff 100%)',
+                    'borderRadius': '10px',
+                    'border': '2px solid #3498db',
+                    'textAlign': 'center'
+                })
+            ], style={'width': '45%'})
+        ], style={
+            'display': 'flex',
+            'justifyContent': 'space-between',
+            'alignItems': 'flex-start',
+            'marginBottom': '20px'
+        }),
+        
+        # Attribute information
+        html.Div([
+            html.H4("Battle Attribute", style={
+                'textAlign': 'center',
+                'color': '#8e44ad',
+                'fontWeight': 'bold',
+                'marginBottom': '15px'
+            }),
+            html.Div(id="attribute-info", style={
+                'padding': '15px',
+                'background': 'linear-gradient(135deg, #f3e7ff 0%, #e7d6ff 100%)',
+                'borderRadius': '10px',
+                'border': '2px solid #8e44ad',
+                'textAlign': 'center',
+                'fontWeight': 'bold',
+                'fontSize': '1.2rem'
+            })
+        ], style={'marginBottom': '20px'}),
+        
+        # Battle result
+        html.Div([
+            html.H4("Battle Result", style={
+                'textAlign': 'center',
+                'color': '#2c3e50',
+                'fontWeight': 'bold',
+                'marginBottom': '15px'
+            }),
+            html.Div(id="battle-result", style={
+                'padding': '20px',
+                'background': 'linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%)',
+                'borderRadius': '10px',
+                'border': '2px solid #6c757d',
+                'textAlign': 'center',
+                'fontWeight': 'bold',
+                'fontSize': '1.4rem',
+                'minHeight': '60px',
+                'display': 'flex',
+                'alignItems': 'center',
+                'justifyContent': 'center'
+            })
+        ])
+    ], style={
+        'padding': '20px',
+        'background': 'linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%)'
+    }),
+    
+    # Modal Footer with close button
+    dbc.ModalFooter([
+        dbc.Button(
+            "Continue Game", 
+            id="close-button",
+            color="primary",
+            size="lg",
+            style={
+                'background': 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                'border': 'none',
+                'borderRadius': '10px',
+                'padding': '12px 30px',
+                'fontWeight': 'bold',
+                'fontSize': '1.1rem',
+                'boxShadow': '0 4px 15px rgba(102, 126, 234, 0.3)',
+                'letterSpacing': '1px'
+            }
+        )
+    ], style={
+        'background': 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)',
+        'borderRadius': '0 0 15px 15px',
+        'padding': '20px',
+        'border': 'none'
+    })
 ])
 
 popup_window = dbc.Modal(
     children=pop_up_window_content,
     id="popup-window",
     is_open=False,
+    size="lg",
+    backdrop="static",
+    style={
+        'borderRadius': '15px',
+        'overflow': 'hidden',
+        'boxShadow': '0 20px 60px rgba(0,0,0,0.3)'
+    }
 )
 
+# Callback to populate popup content when it opens
+@callback(
+    [Output("country-a-info", "children"),
+     Output("country-b-info", "children"),
+     Output("attribute-info", "children"),
+     Output("battle-result", "children")],
+    Input("popup-window", "is_open", ),
+    prevent_initial_call=True
+)
+def populate_popup_content(is_open):
+    if not is_open:
+        return "", "", "", ""
+    
+    backend_game = get_backend_game()
+    
+    if not backend_game.chosen_country_1 or not backend_game.chosen_country_2:
+        return "", "", "", ""
+    
+    country_a = backend_game.chosen_country_1
+    country_b = backend_game.chosen_country_2
+    current_attribute = backend_game.current_attribute
+    
+    # Country A information
+    try:
+        displayed_world_rank_a = str(
+            country_a.dict_of_attributes[current_attribute.name].rank) if country_a.dict_of_attributes[current_attribute.name].rank != 0 else "--"
+        displayed_how_many_ranked_a = str(
+            country_a.dict_of_attributes[current_attribute.name].number_of_countries_ranked) if country_a.dict_of_attributes[current_attribute.name].number_of_countries_ranked != 1 else "--"
+        
+        value_a = country_a.dict_of_attributes[current_attribute.name].value
+        formatted_value_a = format(value_a, ",") if value_a != -1.0 else "--"
+        
+        country_a_info = html.Div([
+            html.H5(country_a.name, style={'fontWeight': 'bold', 'marginBottom': '10px'}),
+            html.P(f"Value: {formatted_value_a}", style={'margin': '5px 0'}),
+            html.P(f"World Rank: {displayed_world_rank_a}", style={'margin': '5px 0'}),
+            html.P(f"(of {displayed_how_many_ranked_a} ranked)", style={'margin': '5px 0', 'fontSize': '0.9rem'})
+        ])
+    except:
+        country_a_info = html.Div([
+            html.H5(country_a.name, style={'fontWeight': 'bold', 'marginBottom': '10px'}),
+            html.P("No data available", style={'margin': '5px 0'})
+        ])
+    
+    # Country B information
+    try:
+        displayed_world_rank_b = str(
+            country_b.dict_of_attributes[current_attribute.name].rank) if country_b.dict_of_attributes[current_attribute.name].rank != 0 else "--"
+        displayed_how_many_ranked_b = str(
+            country_b.dict_of_attributes[current_attribute.name].number_of_countries_ranked) if country_b.dict_of_attributes[current_attribute.name].number_of_countries_ranked != 1 else "--"
+        
+        value_b = country_b.dict_of_attributes[current_attribute.name].value
+        formatted_value_b = format(value_b, ",") if value_b != -1.0 else "--"
+        
+        country_b_info = html.Div([
+            html.H5(country_b.name, style={'fontWeight': 'bold', 'marginBottom': '10px'}),
+            html.P(f"Value: {formatted_value_b}", style={'margin': '5px 0'}),
+            html.P(f"World Rank: {displayed_world_rank_b}", style={'margin': '5px 0'}),
+            html.P(f"(of {displayed_how_many_ranked_b} ranked)", style={'margin': '5px 0', 'fontSize': '0.9rem'})
+        ])
+    except:
+        country_b_info = html.Div([
+            html.H5(country_b.name, style={'fontWeight': 'bold', 'marginBottom': '10px'}),
+            html.P("No data available", style={'margin': '5px 0'})
+        ])
+    
+    # Attribute information
+    attribute_info = current_attribute.name.replace(".csv", "")
+    
+    # Battle result (this will be populated by the main window callback)
+    battle_result = "Battle in progress..."
+    
+    return country_a_info, country_b_info, attribute_info, battle_result
+
+# Callback to close popup
 @callback(
     Output("popup-window", "is_open", allow_duplicate=True),
     Input("close-button", "n_clicks"),
     State("popup-window", "is_open"),
     prevent_initial_call=True
 )
-def toggle_popup(n_clicks, is_open):
+def close_popup(n_clicks, is_open):
     if n_clicks:
-        return not is_open
+        backend_game = get_backend_game()
+        # Reset the chosen countries after battle
+        backend_game.chosen_country_1 = None
+        backend_game.chosen_country_2 = None
+        return False
     return is_open
