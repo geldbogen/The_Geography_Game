@@ -513,6 +513,8 @@ class BackendGame():
         if not same_player_again:
             if self.index == 0:
                 self.which_round_counter += 1
+        
+        self.active_player = self.list_of_players[self.index]
 
         self.roll_a_new_attribute(activating_player=self.active_player,
                                           pressed_reroll_button=False

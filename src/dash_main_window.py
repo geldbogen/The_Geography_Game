@@ -27,7 +27,7 @@ def create_main_window_layout(list_of_players : list[Player]):
     return dmc.AppShell([
         # Beautiful header section
         dmc.AppShellHeader([
-            html.H1(
+            dmc.Title(
                 "🌍 Geography Game 🗺️", 
                 style={
                     'textAlign': 'center',
@@ -238,8 +238,3 @@ def click_on_map(_, feature, hideout):
 
     return backend_game.get_replaced_A_and_B_category_string_for_current_attribute(), hideout, html.H1(to_display_string), popup_window_is_open, win_or_lose
 
-if __name__ == "__main__":
-    app = Dash(__name__)
-    app.layout = create_main_window_layout()
-    
-    app.run(debug=True)

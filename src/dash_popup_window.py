@@ -1,3 +1,4 @@
+import dash
 import dash_leaflet as dl
 from dash import Dash, State, html, callback
 from dash.dependencies import Output, Input
@@ -237,6 +238,7 @@ def populate_popup_content(is_open):
     Output("popup-window", "opened", allow_duplicate=True),
     Output("main-window-geojson", "hideout", allow_duplicate=True),
     Output('player-order-segmented-control', 'value', allow_duplicate=True),
+    Output('attribute-show-header', 'children', allow_duplicate=True),
     Input("close-button", "n_clicks"),
     State("popup-window", "opened"),
     State("main-window-geojson", "hideout"),
@@ -254,5 +256,7 @@ def close_popup(n_clicks, is_open, hideout):
             pass
             # do endscreen later
 
-        return False, hideout, backend_game.active_player.name if backend_game.active_player else None
-    return is_open, hideout, None
+        to_display_string = backend_game.get_replaced_A_and_B_category_string_for_current_attribute()
+
+        return False, hideout, backend_game.active_player.name if backend_game.active_player else None, to_display_string
+    return is_open, hideout, dash.no_update, dash.no_update
