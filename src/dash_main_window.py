@@ -134,6 +134,7 @@ def create_main_window_layout(list_of_players : list[Player]):
 )
 def click_on_map(_, feature, hideout):
     backend_game = get_backend_game()
+    print(f'countryname clicked: {feature["properties"]["sovereignt"]}')
     country = call_country_by_name(feature["properties"]["sovereignt"])
     owner = country.owner
 

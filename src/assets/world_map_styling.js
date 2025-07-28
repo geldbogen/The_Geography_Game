@@ -4,7 +4,7 @@ window.myNamespace = Object.assign({}, window.myNamespace, {
             const player_color_dict = context.hideout.player_color_dict;
             const country_owner_dict = context.hideout.country_owner_dict;
             const selected = context.hideout.selected;
-            const country_name = feature.properties.name;
+            const country_name = feature.properties.sovereignt;
             var ans = {};
             if(selected.includes(country_name)){
                 ans['className'] = 'pulsing-country';
