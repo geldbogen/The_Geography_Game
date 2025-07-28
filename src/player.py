@@ -190,49 +190,6 @@ class Player:
         
         return current_attribute
 
-        # # if the attribute is end only it should not be a valid attribute
-        # if self.current_attribute.is_end_only:
-        #     self.get_good_attribute()
-
-        # for country in self.list_of_possessed_countries:
-        #     # TODO: make it better if just some continents are chosen
-
-        #     # simulate attacks in order to get an attribute, with which one can actually do something (to not frustrate players)
-        #     for neighboring_country_string in list(
-        #             set(country.neighboring_countries)):
-        #         i += 1
-
-        #         if self.check_if_attack_is_succesful(
-        #                 self.current_attribute.name, country,
-        #                 call_country_by_name(
-        #                     neighboring_country_string)) == "no data":
-        #             counter = counter + 1
-        #             print(neighboring_country_string + " \n" + country.name)
-
-        #         if self.check_if_attack_is_succesful(
-        #                 self.current_attribute.name, country,
-        #                 call_country_by_name(neighboring_country_string)) in [
-        #                     "draw", "win"
-        #         ]:
-        #             if not call_country_by_name(
-        #                     neighboring_country_string
-        #             ) in self.list_of_possessed_countries:
-        #                 at_least_one = True
-
-        # print(float(counter) / float(i))
-        # if float(counter) / float(i) > 0.25 or not at_least_one:
-        #     print(self.current_attribute.name)
-        #     print(
-        #         "doesn't work because of the missing above we get a new attribute!"
-        #     )
-        #     self.get_good_attribute()
-        # else:
-        #     if self.current_attribute.number_of_chosen_already == 1:
-        #         self.current_attribute.number_of_chosen_already = 0
-        #         self.get_good_attribute()
-        #     else:
-        #         self.current_attribute.number_of_chosen_already += 1
-
 
 def call_player_by_name(name: str) -> Player:
     """
