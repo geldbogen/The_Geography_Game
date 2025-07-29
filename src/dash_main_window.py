@@ -18,7 +18,7 @@ class MainWindow():
     def __init__(self):
         pass
 
-def create_main_window_layout(list_of_players : list[Player]):
+def create_main_window_layout(list_of_players : list[Player], number_of_rounds : int = 10):
 
     ns = Namespace("myNamespace", "mySubNamespace")
     style_handle = ns('my_style')
@@ -95,11 +95,10 @@ def create_main_window_layout(list_of_players : list[Player]):
         dmc.SegmentedControl(
             id='player-order-segmented-control',
             disabled=True,
-            data = [player.name for player in list_of_players],
+            data = [f'Round: 1 / {number_of_rounds}'] + [player.name for player in list_of_players],
             value = list_of_players[0].name if list_of_players else None,
             color='blue',
             size="lg",
-            orientation='vertical',
         )
     , position={"bottom": 50, "right": 50}
     ),

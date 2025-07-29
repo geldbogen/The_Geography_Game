@@ -238,13 +238,15 @@ def populate_popup_content(is_open):
     Output("popup-window", "opened", allow_duplicate=True),
     Output("main-window-geojson", "hideout", allow_duplicate=True),
     Output('player-order-segmented-control', 'value', allow_duplicate=True),
+    Output('player-order-segmented-control', 'data', allow_duplicate=True),
     Output('attribute-show-header', 'children', allow_duplicate=True),
     Input("close-button", "n_clicks"),
+    Input('player-order-segmented-control', 'data'),
     State("popup-window", "opened"),
     State("main-window-geojson", "hideout"),
     prevent_initial_call=True
 )
-def close_popup(n_clicks, is_open, hideout):
+def close_popup(n_clicks, segmented_control_data, is_open, hideout):
     if n_clicks:
         hideout['selected'] = []
         backend_game = get_backend_game()
@@ -256,7 +258,8 @@ def close_popup(n_clicks, is_open, hideout):
             pass
             # do endscreen later
 
+        segmented_control_data[0] = f'Round: {backend_game.which_round_counter + 1} / {backend_game.number_of_rounds}' 
         to_display_string = backend_game.get_replaced_A_and_B_category_string_for_current_attribute()
 
-        return False, hideout, backend_game.active_player.name if backend_game.active_player else None, to_display_string
-    return is_open, hideout, dash.no_update, dash.no_update
+        return False, hideout, backend_game.active_player.name, segmented_control_data, to_display_string
+    return is_open, hideout, dash.no_update, dash.no_update, dash.no_update

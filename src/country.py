@@ -885,35 +885,12 @@ Uruguay = Country(xcoordinate=[3476],
                   name="Uruguay",
                   continent="South America")
 
-# for country in preallCountries:
-#     print(country.name)
-#     mycounter=mycounter+1
-#     for coordinate in country.coordinatelist:
-
-#         image2=pngim
-#         seed=(coordinate[0],coordinate[1])
-#         ImageDraw.floodfill(image2,seed,(0,255,0),thresh=400)
-#         npimage=np.array(image2)
-#         print(npimage.shape)
-#         green=np.array([0,255,0],dtype=np.uint8)
-#         greens=list(zip(*np.where(np.all((npimage==green),axis=-1))))
-
-#         for tuplen in greens:
-#             finalimage.putpixel((tuplen[1],tuplen[0]),(0,50+mycounter,0))
-#         whichcountrydict[(0,50+mycounter,0)]=country.name
-
-# with open("whichcountrydict_NEW","wb") as f:
-#     pickle.dump(whichcountrydict,f)
-
-# finalimage.save("hahah_NEW.png")
-# print("done")
-
 # eventuell nur dann appenden wenn Kontinente ausgewählt wurden
 Iceland.neighboring_countries.append("United Kingdom")
 Iceland.neighboring_countries.append("Norway")
 Iceland.neighboring_countries.append("Denmark")
 United_Kingdom.neighboring_countries.append("France")
-# United_Kingdom.neighboring_countries.append("Netherlands")
+United_Kingdom.neighboring_countries.append("Netherlands")
 Norway.neighboring_countries.append("Netherlands")
 Norway.neighboring_countries.append("Iceland")
 Japan.neighboring_countries.append("Russia")

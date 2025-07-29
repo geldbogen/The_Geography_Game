@@ -201,7 +201,7 @@ app.layout = dmc.MantineProvider(html.Div([
 def display_page(pathname, game_state):
     backend_game = get_backend_game()
     if pathname == '/game':
-        return dash_main_window.create_main_window_layout(backend_game.list_of_players)
+        return dash_main_window.create_main_window_layout(backend_game.list_of_players, backend_game.number_of_rounds)
     else:  # Default to setup page
         return create_setup_layout()
 

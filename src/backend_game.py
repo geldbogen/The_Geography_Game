@@ -2,7 +2,8 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Literal, Optional, Tuple
 import random
 
-import tkinter as tk
+import dash_mantine_components as dmc
+
 
 if TYPE_CHECKING:
     from player import Player, No_Data_Body
