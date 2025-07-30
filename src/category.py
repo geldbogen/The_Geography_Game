@@ -1,4 +1,5 @@
-import tkinter as tk
+import dash_mantine_components as dmc
+import flag
 
 from global_definitions import (
     all_categories, all_categories_names_and_clusters,
@@ -123,7 +124,7 @@ class Category:
         return sum(no_data_list)
 
     def replace_A_and_B_in_category_name(self, first_country: Country | None = None,
-                                         second_country: Country | None = None) -> str:
+                                         second_country: Country | None = None) -> dmc.Highlight:
         """
         Replace placeholders in category name with actual country names for display.
         This method customizes the display text for a category by replacing 'CountryA' and 'CountryB' 
@@ -155,38 +156,69 @@ class Category:
 
         categoryname = self.name.rstrip(".csv")
         try:
-            displaystring = category_to_displayed_name_dict[categoryname]
-            if (displaystring in ["", "TODO"]):
-                displaystring = categoryname + " (TODO)"
+            formatted_category_string = category_to_displayed_name_dict[categoryname]
+            if (formatted_category_string in ["", "TODO"]):
+                formatted_category_string = dmc.Highlight(categoryname + " (TODO)", highlight=[])
+                return formatted_category_string
         except KeyError:
-            displaystring = categoryname + " (ERROR)"
+            formatted_category_string = dmc.Highlight(categoryname + " (ERROR)", highlight=[])
+            return formatted_category_string
 
-        if (second_country is None):
-            displaystring = displaystring.replace(
-                "CountryB", " (target country) ")
-        else:
-            displaystring = displaystring.replace(
-                "CountryB", second_country.name)
+        # assert isinstance(formatted_category_label.children, str)
 
-        if (first_country is None):
-            displaystring = displaystring.replace(
-                "CountryA", " (your country) ")
-        else:
-            displaystring = displaystring.replace(
-                "CountryA", first_country.name)
+        match first_country, second_country:
+            case None, None:
+                ans = dmc.Highlight(formatted_category_string.replace("CountryA", f"(your country) 🇬🇶").replace("CountryB", "(target country)"), highlight=[])
+            case _, None:
+                ans = dmc.Highlight(formatted_category_string.replace("CountryA", first_country.name).replace("CountryB", "(target country)"),
+                                     highlight=[first_country.name],
+                                         highlightStyles={"backgroundImage": "linear-gradient(45deg, var(--mantine-color-cyan-5), var(--mantine-color-indigo-5))",
+                                            "fontWeight": 500,
+                                            "WebkitBackgroundClip": "text",
+                                            "WebkitTextFillColor": "transparent",
+                                                }) # type: ignore
+            case None, _:
+                ans = dmc.Highlight(formatted_category_string.replace("CountryA", "(your country)").replace("CountryB", second_country.name),
+                                     highlight=[second_country.name]) # (this should never happen though)
+            case _, _:
+                ans = dmc.Highlight(formatted_category_string.replace("CountryA", first_country.name).replace("CountryB", second_country.name),
+                                     highlight=[first_country.name, second_country.name], highlightStyles={
+                                         "backgroundImage": "linear-gradient(45deg, var(--mantine-color-cyan-5), var(--mantine-color-indigo-5))",
+                                            "fontWeight": 500,
+                                            "WebkitBackgroundClip": "text",
+                                            "WebkitTextFillColor": "transparent",
+                                                }) # type: ignore
+        
+        return ans
 
-        extra_information_displayed = ""
 
-        try:
-            if (category_to_displayed_extra_information_category[categoryname] ==
-                    "person"):
-                extra_information_displayed = "\n (citizenship or birthplace in the current territory of the country)"
-            if (category_to_displayed_extra_information_category[categoryname] ==
-                    "historical event"):
-                extra_information_displayed = "\n (took place in the current territory of the country)"
-        except KeyError:
-            pass
+        #  if (second_country is None):
+        #     formatted_category_string.children = formatted_category_string.children.replace(
+        #         "CountryB", " (target country) ")
+        # else:
+        #     formatted_category_string.children = formatted_category_string.children.replace(
+        #         "CountryB", second_country.name)
+        #     formatted_category_string.highlight.append()
 
-        displaystring += extra_information_displayed
+        # if (first_country is None):
+        #     formatted_category_string.children = formatted_category_string.children.replace(
+        #         "CountryA", " (your country) ")
+        # else:
+        #     formatted_category_string.children = formatted_category_string.children.replace(
+        #         "CountryA", first_country.name)
 
-        return displaystring
+        # extra_information_displayed = ""
+
+        # try:
+        #     if (category_to_displayed_extra_information_category[categoryname] ==
+        #             "person"):
+        #         extra_information_displayed = "\n (citizenship or birthplace in the current territory of the country)"
+        #     if (category_to_displayed_extra_information_category[categoryname] ==
+        #             "historical event"):
+        #         extra_information_displayed = "\n (took place in the current territory of the country)"
+        # except KeyError:
+        #     pass
+
+        # formatted_category_string += extra_information_displayed
+
+        # return formatted_category_string

@@ -205,7 +205,7 @@ def display_page(pathname, game_state):
     else:  # Default to setup page
         return create_setup_layout()
 
-# Callback for showing attribute selector when attribute condition is selected
+# Callback for showing attribute selector when attribute condition is selected   
 @callback(
     Output("attribute-selector-container", "children"),
     Input("winning-condition", "value"),

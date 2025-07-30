@@ -82,7 +82,7 @@ def create_main_window_layout(list_of_players : list[Player], number_of_rounds :
     
     dmc.Affix([
         dmc.Button(
-            'Reroll',
+            f'Rerolls left: {number_of_rounds // 3}',
             id='reroll-button',
             leftSection=DashIconify(icon="tabler:dice", width=20),
             size="lg",
@@ -249,4 +249,23 @@ def click_on_map(_, feature, hideout):
         hideout["selected"] = []
 
     return backend_game.get_replaced_A_and_B_category_string_for_current_attribute(), hideout, popup_window_is_open, win_or_lose, []
+
+
+
+@callback(
+    Output("attribute-show-header", "children", allow_duplicate=True),
+    Output("reroll-button", "children", allow_duplicate=True),
+    Input("reroll-button", "n_clicks"),
+    prevent_initial_call=True,
+)
+def click_reroll_button(n_clicks):
+    backend_game = get_backend_game()
+    if n_clicks:
+        if backend_game.active_player.rerolls_left == 0:
+            return dash.no_update, dash.no_update
+        else:
+            backend_game.roll_a_new_attribute(backend_game.active_player, pressed_reroll_button=True)
+            return backend_game.get_replaced_A_and_B_category_string_for_current_attribute(), f'Rerolls left: {backend_game.active_player.rerolls_left}'
+
+
 
