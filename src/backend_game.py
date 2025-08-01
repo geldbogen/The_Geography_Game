@@ -1,24 +1,25 @@
 from __future__ import annotations
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Literal, Optional, Tuple
 import random
 
-import tkinter as tk
+import dash_mantine_components as dmc
+
 
 if TYPE_CHECKING:
     from player import Player, No_Data_Body
 
     from category import Category
-from player import No_Data_Body
+from player import No_Data_Body, mr_nobody
 
-from global_definitions import all_categories, all_countries_in_game, all_categories_names_and_clusters
+from global_definitions import all_countries_in_game, all_categories_names_and_clusters, all_countries_available, neighboring_countries_data
 from country import Country, Unknown_country
 
 
 class BackendGame():
 
     def __init__(self,
-                 list_of_players: list[Player],
-                 wormhole_mode: str,
+                 list_of_players: list[Player] = [No_Data_Body],
+                 wormhole_mode: str = '',
                  starting_countries_preferences: str = "random",
                  number_of_rounds: int = 99999999999,
                  winning_condition: str = "number of countries",
@@ -26,59 +27,120 @@ class BackendGame():
                  pred_attribute: str = "random",
                  peacemode: bool = False,
                  reversed_end_attribute: int = 0,
+                 player_name_color_dict: dict[str, str] = dict(),
+                 countries_in_game: list[Country] = all_countries_available
                  ):
-
+        
+        # Core game configuration
         self.list_of_players: list[Player] = list_of_players
+        self.number_of_players = len(self.list_of_players)
         self.winning_condition: str = winning_condition
-        self.rerolls: int = 3
-
-        self.number_of_targets = 2
-
-        self.pred_attribute_name = pred_attribute
-
-        # for the rounds
+        self.peacemode: bool = peacemode
+        
+        # Game progression and rounds
         self.number_of_rounds = number_of_rounds
         self.index = 0
-        self.goldlist: list[Country] = list()
         self.choosing_index = -1
-        self.starting_countries = starting_countries_preferences
-        self.reversed_end_attribute = reversed_end_attribute
-
-        # for the players
+        self.which_round_counter = 0
+        
+        # Player management
         self.active_player_counter = 0
-        self.list_of_players = list_of_players
-        print(self.list_of_players)
-        print(len(list_of_players))
         self.active_player = self.list_of_players[self.active_player_counter]
-        self.number_of_players = len(self.list_of_players)
-        self.end_attribute: Category = None
+        
+        # Country and territory management
+        self.starting_countries = starting_countries_preferences
+        self.countries_in_game = countries_in_game
+        self.countries_name_list : list[str] = []
+
+        self._setup_country_connections()
+
+        self.chosen_country_1: Country | None = None
+        self.chosen_country_2: Country | None = None
+        
+        # Wormhole system
         self.wormhole_mode: str = wormhole_mode
-        self.wormholed_countries: list[list[Country]] = list()
         self.number_of_wormholes = number_of_wormholes
-        print(self.winning_condition)
-
-        self.peacemode: bool = peacemode
-
-        self.current_attribute: Category = all_categories[0]
-
-        # just declaration
-
-        # for claimtwo countries
+        self.wormholed_countries: list[list[Country]] = list()
+        
+        # Attribute and scoring system
+        self.pred_attribute_name = pred_attribute
+        self.current_attribute: Category = None
+        
+        self.end_attribute: Category = None
+        self.reversed_end_attribute = reversed_end_attribute
+        self.list_of_clusters = all_categories_names_and_clusters.copy()
+        
+        # Game mechanics and resources
+        self.rerolls: int = 3
+        self.number_of_targets = 2
+        self.goldlist: list[Country] = list()
+        
+        # Winning condition specific attributes
         self.targetcountry1: Country
         self.targetcountry2: Country
-
-        # for end attribute
-        self.end_attribute: Category
-
-        # for secret targets
         self.dict_of_targets: dict[Player, list[Country]] = dict()
-
-        # for secret attribute
         self.dict_of_target_attribute_name: dict[Player, str] = dict()
         self.winning_country: Country = Unknown_country
         
-        # for the chosen already categories
-        self.list_of_clusters = all_categories_names_and_clusters.copy()
+        # UI and display management
+        self.player_name_color_dict: dict[str, str] = player_name_color_dict
+        self.hideout_dict_for_dash = {
+            "selected": [],
+            "player_color_dict": self.player_name_color_dict,
+            "country_owner_dict": {country.name: country.owner.name for country in self.countries_in_game}
+        }
+        
+        # Initialize game state
+        self._get_starting_countries()
+
+        # get the first attribute
+        self.roll_a_new_attribute(
+            activating_player=self.active_player, pressed_reroll_button=False)
+
+    def _setup_country_connections(self):
+
+        self.countries_in_game.append(Unknown_country)
+
+        for country in self.countries_in_game:
+            self.countries_name_list.append(country.name)
+
+        # TODO: this is quite ugly
+        for country_1 in self.countries_in_game:
+            if country_1 == Unknown_country:
+                continue
+            data = neighboring_countries_data[neighboring_countries_data[0] ==
+                                        country_1.name]
+            for country_2 in self.countries_in_game:
+                if country_2 == Unknown_country:
+                    continue
+                if not data.empty:
+                    if country_2.name in str(data.iat[0, 5]):
+                        country_2.neighboring_countries.append(country_1.name)
+
+        # remove self-connectedness
+        for country in all_countries_available:
+            if country.name in country.neighboring_countries:
+                country.neighboring_countries.remove(country.name)
+
+        for country1 in all_countries_available:
+            print(country1.name)
+            for country2 in all_countries_available:
+                if country1 == country2:
+                    continue
+                if country1.name in country2.neighboring_countries and not country2.name in country1.neighboring_countries:
+                    country1.neighboring_countries.append(country2.name)
+        
+
+    def _get_starting_countries(self) -> None:
+        for player in self.list_of_players:
+            random_country = random.choice(self.countries_in_game)
+            while random_country.owner.name != 'Nobody':
+                random_country = random.choice(self.countries_in_game)
+            self.claim_country_backend(
+                loose_player=mr_nobody,
+                win_player=player,
+                country=random_country
+            )
 
     def get_starting_attribute(self):
         pass
@@ -103,8 +165,7 @@ class BackendGame():
             key=lambda x: x.dict_of_attributes[attribute_name].rank)
         return all_countries_with_data[:n]
 
-    def roll_a_new_attribute(self, activating_player: Player, to_update_category_label: tk.Label,
-               to_update_reroll_button: tk.Button, pressed_reroll_button : bool = False) -> None:
+    def roll_a_new_attribute(self, activating_player: Player, pressed_reroll_button : bool = False) -> None:
         """
         Roll a new attribute (category) for the current game round.
         This method selects a new attribute for the current game round, updates the display,
@@ -120,8 +181,8 @@ class BackendGame():
         pressed_reroll_button : bool, optional
             Indicates whether this roll was triggered by pressing the reroll button (default is False).
         Returns:
-        -------
         None
+
         Notes:
         -----
         - If pressed_reroll_button is True, it decrements the player's remaining rerolls.
@@ -135,15 +196,10 @@ class BackendGame():
                 return None
             activating_player.rerolls_left -= 1
             
-            to_update_reroll_button.configure(
-                text="rerolls left:\n " + str(activating_player.rerolls_left))
 
         # roll a new attribute
         self.current_attribute = activating_player.get_good_attribute(list_of_clusters=self.list_of_clusters, peacemode=self.peacemode)
 
-        # update the label with the new category name
-        self.current_attribute.replace_A_and_B_in_category_name(to_update_category_label)
-        
         # replenish the list of clusters if it is too small
         if len(self.list_of_clusters) <= 3:
             self.list_of_clusters = all_categories_names_and_clusters.copy()
@@ -203,6 +259,9 @@ class BackendGame():
                 print('illegal winning condition will never end')
                 return False
 
+    def get_replaced_A_and_B_category_string_for_current_attribute(self) -> str:
+        return self.current_attribute.replace_A_and_B_in_category_name(self.chosen_country_1, self.chosen_country_2)
+
     def claim_country_backend(self, loose_player: Player, win_player: Player, country: Country):
         """
         Transfers ownership of a country from one player to another.
@@ -229,11 +288,11 @@ class BackendGame():
 
         win_player.list_of_possessed_countries.append(country)
         country.owner = win_player
+        self.hideout_dict_for_dash["country_owner_dict"][country.name] = win_player.name
 
         if loose_player.name != "Nobody":
             loose_player.list_of_possessed_countries.remove(
                 country)
-            loose_player.labeldict[country].destroy()
 
         if self.winning_condition == "get gold":
             if win_player.name != "Nobody":
@@ -421,3 +480,46 @@ class BackendGame():
                 country1 = random.choice(player.list_of_possessed_countries)
                 country2 = random.choice(all_countries_in_game)
         return country1, country2
+
+    def attack_backend(self) -> Literal['no data', 'draw', 'win', 'loose', 'hard defeat']:
+        
+        if self.chosen_country_1 is not None and self.chosen_country_2 is not None:
+            result = self.active_player.check_if_attack_is_succesful(self.current_attribute,
+                                                                            self.chosen_country_1, self.chosen_country_2)
+        else:
+            raise ValueError("There was an invalid attack, with one of the countries being None")
+        match result:
+            case 'win':
+                self.claim_country_backend(self.chosen_country_2.owner, self.active_player, self.chosen_country_2)
+            case 'loose':
+                if self.chosen_country_1.owner.name != "Nobody":
+                    self.claim_country_backend(self.active_player, self.chosen_country_1.owner, self.chosen_country_1)
+
+        return result
+
+    def go_to_next_turn_and_check_if_game_should_end(self, same_player_again: bool = False) -> bool:
+
+        self.chosen_country_1 = None
+        self.chosen_country_2 = None
+        
+        if not same_player_again:
+            if self.check_if_game_should_end():
+                return True
+
+            self.active_player_counter = self.active_player_counter + 1
+
+        self.index = self.active_player_counter % len(
+            self.list_of_players)
+
+        if not same_player_again:
+            if self.index == 0:
+                self.which_round_counter += 1
+        
+        self.active_player = self.list_of_players[self.index]
+
+        self.roll_a_new_attribute(activating_player=self.active_player,
+                                          pressed_reroll_button=False
+                                          )
+
+        return False
+

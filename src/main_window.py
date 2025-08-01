@@ -9,10 +9,9 @@ import numpy as np
 import wikipedia
 import webbrowser
 
-from country import Country, get_country_by_position, Unknown_country, Germany, France
+from country import Country, Unknown_country, Germany, France
 from category import Category
 from player import Player, call_player_by_name, No_Data_Body, mr_nobody
-from image import greencountrydict, green_image
 from global_definitions import all_categories, all_countries_in_game, dictionary_attribute_name_to_attribute, gold, realgrey, all_categories_names_and_clusters
 from backend_game import BackendGame
 from endscreen import endscreen
@@ -307,56 +306,56 @@ class MainWindow():
                 self.backend.current_attribute.replace_A_and_B_in_category_name(self.showing_current_attribute_text_label)
 
 
-    def attack(self, country_a: Country, country_b: Country):
+    # def attack(self, country_a: Country, country_b: Country):
 
-        self.buttonframe.pack_forget()
-        self.d = ""
-        self.showing_country_label["text"] = ""
-        self.chosen_country_a = None
-        result = self.backend.active_player.check_if_attack_is_succesful(self.backend.current_attribute,
-                                                                         country_a, country_b)
-        if result == "no data":
-            self.popup_win_or_loose(country_a,
-                                    country_b,
-                                    self.backend.current_attribute,
-                                    wl="no data")
-            self.backend.current_attribute = self.backend.active_player.get_good_attribute()
-            self.backend.current_attribute.replace_A_and_B_in_category_name(
-                self.showing_current_attribute_text_label,
-            )
-            return None
-        if result == "draw":
-            self.popup_win_or_loose(country_a,
-                                    country_b,
-                                    self.backend.current_attribute,
-                                    wl="draw")
-            self.backend.current_attribute = self.backend.active_player.get_good_attribute()
-            self.backend.current_attribute.replace_A_and_B_in_category_name(
-                self.showing_current_attribute_text_label,
-            )
-            return None
-        if result == "hard defeat":
-            self.claim_country(self.backend.active_player, country_b)
-            self.popup_win_or_loose(country_a,
-                                    country_b,
-                                    self.backend.current_attribute,
-                                    wl="hard defeat")
-            return None
-        if result == "win":
-            self.claim_country(self.backend.active_player, country_b)
-            self.popup_win_or_loose(country_a,
-                                    country_b,
-                                    self.backend.current_attribute,
-                                    wl="you win!")
+    #     self.buttonframe.pack_forget()
+    #     self.d = ""
+    #     self.showing_country_label["text"] = ""
+    #     self.chosen_country_a = None
+    #     result = self.backend.active_player.check_if_attack_is_succesful(self.backend.current_attribute,
+    #                                                                      country_a, country_b)
+    #     if result == "no data":
+    #         self.popup_win_or_loose(country_a,
+    #                                 country_b,
+    #                                 self.backend.current_attribute,
+    #                                 wl="no data")
+    #         self.backend.current_attribute = self.backend.active_player.get_good_attribute()
+    #         self.backend.current_attribute.replace_A_and_B_in_category_name(
+    #             self.showing_current_attribute_text_label,
+    #         )
+    #         return None
+    #     if result == "draw":
+    #         self.popup_win_or_loose(country_a,
+    #                                 country_b,
+    #                                 self.backend.current_attribute,
+    #                                 wl="draw")
+    #         self.backend.current_attribute = self.backend.active_player.get_good_attribute()
+    #         self.backend.current_attribute.replace_A_and_B_in_category_name(
+    #             self.showing_current_attribute_text_label,
+    #         )
+    #         return None
+    #     if result == "hard defeat":
+    #         self.claim_country(self.backend.active_player, country_b)
+    #         self.popup_win_or_loose(country_a,
+    #                                 country_b,
+    #                                 self.backend.current_attribute,
+    #                                 wl="hard defeat")
+    #         return None
+    #     if result == "win":
+    #         self.claim_country(self.backend.active_player, country_b)
+    #         self.popup_win_or_loose(country_a,
+    #                                 country_b,
+    #                                 self.backend.current_attribute,
+    #                                 wl="you win!")
 
-        else:
-            self.popup_win_or_loose(country_a,
-                                    country_b,
-                                    self.backend.current_attribute,
-                                    wl="you loose!")
-            if country_b.owner.name != "Nobody":
-                self.claim_country(country_b.owner,
-                                   country_a)
+    #     else:
+    #         self.popup_win_or_loose(country_a,
+    #                                 country_b,
+    #                                 self.backend.current_attribute,
+    #                                 wl="you loose!")
+    #         if country_b.owner.name != "Nobody":
+    #             self.claim_country(country_b.owner,
+    #                                country_a)
 
     def transition(self, same_player_again: bool = False):
 
@@ -964,8 +963,8 @@ class MainWindow():
                     property.name].additional_information
                 wiki_summary_B_extra = country_b.dict_of_attributes[
                     property.name].additional_information
-                wikiurl_A = country_a.dict_of_attributes[property.name].wikipedia_link
-                wikiurl_B = country_b.dict_of_attributes[property.name].wikipedia_link
+                wikiurl_A = country_a.dict_of_attributes[property.name].additional_information_link
+                wikiurl_B = country_b.dict_of_attributes[property.name].additional_information_link
             except:
                 traceback.print_exc()
                 wiki_summary_A_extra = ""
@@ -981,7 +980,7 @@ class MainWindow():
                 try:
                     imgA = Image.open(urlA)
                 except FileNotFoundError:
-                    imgA = Image.open("pictures/no_image_available.png")
+                    imgA = Image.open("assets/pictures/no_image_available.png")
                 w = float(imgA.width)
                 h = float(imgA.height)
                 imgA = ImageTk.PhotoImage(

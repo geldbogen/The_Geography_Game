@@ -1,21 +1,19 @@
 import dash
-from dash import dcc, html, Input, Output, State, callback
-import dash_bootstrap_components as dbc
+from dash import dcc, html, Input, Output, State, callback, no_update
 import random
-import pandas as pd
-import os
 from player import Player
 from global_definitions import all_categories
-from setup_game import setup_the_game
-from PIL import Image
-import numpy as np
-import io
-import base64
-from main_window import MainWindow
+import dash_main_window
+import datetime
+from backend_game import BackendGame
+import game_state  # Import shared state module
+from game_state import get_backend_game
+import dash_bootstrap_components as dbc
+import dash_mantine_components as dmc
 
 # Initialize the Dash app with a Bootstrap theme
 app = dash.Dash(__name__, 
-                external_stylesheets=[dbc.themes.FLATLY],
+                external_stylesheets=[dbc.themes.FLATLY, "https://cdn.tailwindcss.com"],
                 assets_folder="./assets",
                 meta_tags=[{'name': 'viewport', 'content': 'width=device-width, initial-scale=1'}])
 
@@ -167,30 +165,47 @@ start_game_button = dbc.Button("Start Game",
 # Add a new component to the layout to display the game
 game_container = html.Div(id="game-container", style={"display": "none"})
 
-# Layout the application with all components
-app.layout = dbc.Container([
-    header,
-    html.Div(id="setup-container", children=[
-        player_setup,
-        dbc.Row([
-            dbc.Col(game_settings, width=6),
-            dbc.Col(winning_conditions, width=6)
+# Create setup layout as a function
+def create_setup_layout():
+    return dbc.Container([
+        header,
+        html.Div(id="setup-container", children=[
+            player_setup,
+            dbc.Row([
+                dbc.Col(game_settings, width=6),
+                dbc.Col(winning_conditions, width=6)
+            ]),
+            dbc.Row([
+                dbc.Col(wormhole_options, width=6),
+                dbc.Col(continent_selection, width=6)
+            ]),
+            start_game_button,
         ]),
-        dbc.Row([
-            dbc.Col(wormhole_options, width=6),
-            dbc.Col(continent_selection, width=6)
-        ]),
-        start_game_button,
-    ]),
-    game_container,
-    
-    # Store components to track state
+    ], fluid=True, className="p-5")
+
+# Layout the application with URL routing
+app.layout = dmc.MantineProvider(html.Div([
+    dcc.Location(id='url', refresh=False),
     dcc.Store(id="player-list-store", data=[]),
     dcc.Store(id="game-state", data={}),
-    html.Div(id="redirect", style={"display": "none"})
-], fluid=True, className="p-5")
+    html.Div(id='page-content')
+])
+)
+# Page routing callback
+@callback(
+    Output('page-content', 'children'),
+    Input('url', 'pathname'),
+    State('game-state', 'data'),
+    prevent_initial_call=True
+)
+def display_page(pathname, game_state):
+    backend_game = get_backend_game()
+    if pathname == '/game':
+        return dash_main_window.create_main_window_layout(backend_game.list_of_players, backend_game.number_of_rounds)
+    else:  # Default to setup page
+        return create_setup_layout()
 
-# Callback for showing attribute selector when attribute condition is selected
+# Callback for showing attribute selector when attribute condition is selected   
 @callback(
     Output("attribute-selector-container", "children"),
     Input("winning-condition", "value"),
@@ -215,9 +230,10 @@ def show_attribute_selector(winning_condition):
                         id="end-attribute",
                         options=options,
                         value=displayed_list[0],
-                        clearable=False
+                        clearable=False,
+                        className="custom-dropdown"
                     ),
-                ], width=8),
+                ], width=12),
                 dbc.Col([
                     dbc.Label("Reverse?"),
                     dbc.Checklist(
@@ -242,13 +258,14 @@ def show_attribute_selector(winning_condition):
 )
 def randomize_attribute(n_clicks, options):
     if not n_clicks:
-        return dash.no_update, dash.no_update
+        return no_update, no_update
     
     # Skip first option which is "Surprise Me!"
     rng = random.randrange(1, len(options))
     reverse = [1] if random.random() <= 0.5 else []
     
-    return options[rng]['value'], reverse
+
+    return list(options.keys())[rng], reverse
 
 # Callback to add players and update player list
 @callback(
@@ -264,7 +281,7 @@ def randomize_attribute(n_clicks, options):
 )
 def add_player(n_clicks, name, color, current_players):
     if not n_clicks or not name or not color:
-        return dash.no_update, dash.no_update, dash.no_update, dash.no_update
+        return no_update, no_update, no_update, no_update
     
     # Add new player to list
     current_players.append({"name": name, "color": color})
@@ -283,12 +300,10 @@ def add_player(n_clicks, name, color, current_players):
     
     return table, current_players, "", None
 
-# Modify the start_game callback to set up the game but not launch it
+# Modify the start_game callback to use URL routing
 @callback(
-    [Output("setup-container", "style"),
-     Output("game-container", "style"),
-     Output("game-container", "children"),
-     Output("game-state", "data")],
+    [Output('url', 'pathname'),
+     Output('game-state', 'data')],  # Also output game state
     Input("start-game", "n_clicks"),
     [State("player-list-store", "data"),
      State("number-of-rounds", "value"),
@@ -302,31 +317,68 @@ def add_player(n_clicks, name, color, current_players):
 def start_game(n_clicks, players, number_of_rounds, start_country, winning_condition, continents, wormhole_option, peace_mode):
     print(f"Start game clicked, players: {players}")
     if not n_clicks or not players:
-        return dash.no_update, dash.no_update, dash.no_update, dash.no_update
+        print(f'not starting the game')
+        return no_update, no_update
     
-    # If attribute is chosen, also get the attribute value and reverse setting
+    # Process game setup data
     end_attribute = "Random.csv"
     reversed_attribute = 0
     
     if winning_condition == "attribute":
         try:
-            end_attribute = dash.callback_context.states["end-attribute.value"] + ".csv"
-            reversed_attribute = 1 if dash.callback_context.states["reverse-attribute.value"] else 0
+            ctx = dash.callback_context
+            end_attribute = ctx.states.get("end-attribute.value", "Random") + ".csv"
+            reversed_attribute = 1 if ctx.states.get("reverse-attribute.value") else 0
         except:
             pass
-
-    # Convert the players data to Player objects
-    player_objects = []
-    for player in players:
-        # Convert color from string to RGB tuple
-        color_str = player["color"].strip("rgb(").strip(")").split(",")
-        color = tuple(int(c.strip()) for c in color_str)
-        player_objects.append(Player(color=color, name=player["name"]))
     
-    # Setup the game but don't start it yet
+    # Convert players to Player objects for BackendGame
+    player_objects = []
+    player_name_color_dict = {}
+    
+    for i, player in enumerate(players):
+        player_name = player["name"]
+        player_color = player["color"]
+        
+        # Convert color from string to RGB tuple for Player object
+        color_str = player_color.strip("rgb(").strip(")").split(",")
+        color_tuple = tuple(int(c.strip()) for c in color_str)
+        
+        # Create Player object
+        player_obj = Player(color=color_tuple, name=player_name)
+        player_objects.append(player_obj)
+        
+        # Store color mapping for frontend
+        player_name_color_dict[player_name] = player_color
+    
+    # Create BackendGame instance with proper parameters
+    try:
+        backend_game = BackendGame(
+            list_of_players=player_objects,
+            wormhole_mode=wormhole_option,
+            starting_countries_preferences=start_country,
+            number_of_rounds=number_of_rounds,
+            winning_condition=winning_condition,
+            pred_attribute=end_attribute.replace(".csv", ""),
+            peacemode=bool(peace_mode),
+            reversed_end_attribute=reversed_attribute,
+            player_name_color_dict=player_name_color_dict
+        )
+        
+        # Set the backend game in shared state
+        game_state.set_backend_game(backend_game)
+        print(f"BackendGame created successfully with {len(player_objects)} players")
+        
+    except Exception as e:
+        print(f"Error creating BackendGame: {e}")
+        raise e
+        return no_update, no_update
+    
+    # Create comprehensive game data for frontend
     game_data = {
-        "continent_list": continents,
-        "list_of_players": [p.to_dict() for p in player_objects],
+        "players": players,
+        "player_color_dict": player_name_color_dict,
+        "country_owner_dict": {},  # Will be populated during game
         "number_of_rounds": number_of_rounds,
         "number_of_rerolls": number_of_rounds // 3,
         "starting_countries_preferences": start_country,
@@ -335,47 +387,27 @@ def start_game(n_clicks, players, number_of_rounds, start_country, winning_condi
         "peacemode": bool(peace_mode),
         "wormhole_mode": wormhole_option,
         "reversed_end_attribute": reversed_attribute,
+        "continents": continents,
+        "game_started_at": datetime.datetime.now().isoformat(),
+        "backend_game_initialized": True,
     }
     
-    # Create the game layout
-    game_layout = create_game_layout()
-    
-    # Hide setup container and show game container
-    return {"display": "none"}, {"display": "block"}, game_layout, game_data
+    return '/game', game_data
 
-def create_game_layout():
-    """Create the layout for the game interface."""
-    return html.Div([
-        dbc.Row([
-            dbc.Col([
-                html.H2("The Geography Game", className="text-center mb-3"),
-                html.Div(id="game-map-container", className="mb-3", style={"height": "600px", "position": "relative"}),
-                html.Img(id="game-map", style={"width": "100%", "height": "100%"}),
-                html.Div(id="game-overlay", style={"position": "absolute", "top": 0, "left": 0, "width": "100%", "height": "100%", "pointerEvents": "none"}),
-            ], width=8),
-            dbc.Col([
-                html.Div(id="game-status", className="mb-3"),
-                html.Div(id="game-controls", className="mb-3"),
-                html.Div(id="player-info", className="mb-3"),
-                dbc.Button("End Turn", id="end-turn-button", color="primary", className="mb-3"),
-                dbc.Button("Back to Setup", id="back-to-setup", color="secondary"),
-            ], width=4),
-        ]),
-        # Add modals for attacks, country information, etc.
-        dbc.Modal(
-            [
-                dbc.ModalHeader("Country Information"),
-                dbc.ModalBody(id="country-modal-body"),
-                dbc.ModalFooter(
-                    dbc.Button("Close", id="close-country-modal", className="ml-auto")
-                ),
-            ],
-            id="country-info-modal",
-            size="lg",
-        ),
-        # Initialize the game when the layout is first loaded
-        dcc.Interval(id="game-initialization", interval=1000, n_intervals=0, max_intervals=1),
-    ])
+# Add callback to handle navigation back from game
+@callback(
+    Output('url', 'pathname', allow_duplicate=True),
+    Input('back-to-setup-btn', 'n_clicks'),
+    prevent_initial_call=True
+)
+def navigate_back_to_setup(n_clicks):
+    if n_clicks:
+        # Reset backend game when going back to setup
+        game_state.reset_backend_game()
+        return '/'
+    return no_update
+
+
 
 # Add a callback to initialize the game
 @callback(
@@ -386,7 +418,7 @@ def create_game_layout():
 )
 def initialize_game(n_intervals, game_data):
     if not game_data:
-        return dash.no_update
+        return no_update
     
     # Convert player dictionaries back to Player objects
     player_objects = []
@@ -394,33 +426,8 @@ def initialize_game(n_intervals, game_data):
         player = Player(color=tuple(player_dict["color"]), name=player_dict["name"])
         player_objects.append(player)
     
-    # Load the map image
-    map_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 
-                           "pictures", "map.png")
-    map_image = Image.open(map_path)
+    app.layout = dmc.MantineProvider(dash_main_window.create_main_window_layout())
     
-    # Initialize the main window with the map, but don't start the tkinter mainloop
-    game_window = MainWindow(
-        bild=map_image,
-        list_of_players=player_objects,
-        wormhole_mode=game_data["wormhole_mode"],
-        starting_countries_preferences=game_data["starting_countries_preferences"],
-        number_of_rounds=game_data["number_of_rounds"],
-        winning_condition=game_data["winning_condition"],
-        pred_attribute=game_data["end_attribute_path"].replace(".csv", ""),
-        peacemode=game_data["peacemode"],
-        reversed_end_attribute=game_data["reversed_end_attribute"]
-    )
-    
-    # Setup the game but don't run the mainloop
-    game_window.setupgame()
-    
-    # Convert the image to a data URL for display
-    buffered = io.BytesIO()
-    game_window.bild.save(buffered, format="PNG")
-    img_str = base64.b64encode(buffered.getvalue()).decode()
-    
-    return f"data:image/png;base64,{img_str}"
 
 # Add callback to go back to setup
 @callback(
@@ -431,12 +438,12 @@ def initialize_game(n_intervals, game_data):
 )
 def back_to_setup(n_clicks):
     if not n_clicks:
-        return dash.no_update, dash.no_update
+        return no_update, no_update
     
     return {"display": "block"}, {"display": "none"}
 
 def run_dash_app():
-    app.run(debug=True)
+    app.run(debug=True, use_reloader=False)
 
 if __name__ == "__main__":
     run_dash_app()

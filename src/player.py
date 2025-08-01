@@ -7,7 +7,7 @@ from global_definitions import all_players, realgrey, white, dictionary_attribut
 
 
 
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Literal
 if TYPE_CHECKING:
     from category import Category
     from country import Country
@@ -47,7 +47,7 @@ class Player:
                                      category: Category,
                                      country_a: Country,
                                      country_b: Country,
-                                     ) -> str:
+                                     ) -> Literal['no data', 'draw', 'win', 'loose', 'hard defeat']:
         """
         Determines if an attack is successful based on comparing attributes of two countries.
         This method compares the specified category attribute between country_a and country_b
@@ -190,49 +190,6 @@ class Player:
         
         return current_attribute
 
-        # # if the attribute is end only it should not be a valid attribute
-        # if self.current_attribute.is_end_only:
-        #     self.get_good_attribute()
-
-        # for country in self.list_of_possessed_countries:
-        #     # TODO: make it better if just some continents are chosen
-
-        #     # simulate attacks in order to get an attribute, with which one can actually do something (to not frustrate players)
-        #     for neighboring_country_string in list(
-        #             set(country.neighboring_countries)):
-        #         i += 1
-
-        #         if self.check_if_attack_is_succesful(
-        #                 self.current_attribute.name, country,
-        #                 call_country_by_name(
-        #                     neighboring_country_string)) == "no data":
-        #             counter = counter + 1
-        #             print(neighboring_country_string + " \n" + country.name)
-
-        #         if self.check_if_attack_is_succesful(
-        #                 self.current_attribute.name, country,
-        #                 call_country_by_name(neighboring_country_string)) in [
-        #                     "draw", "win"
-        #         ]:
-        #             if not call_country_by_name(
-        #                     neighboring_country_string
-        #             ) in self.list_of_possessed_countries:
-        #                 at_least_one = True
-
-        # print(float(counter) / float(i))
-        # if float(counter) / float(i) > 0.25 or not at_least_one:
-        #     print(self.current_attribute.name)
-        #     print(
-        #         "doesn't work because of the missing above we get a new attribute!"
-        #     )
-        #     self.get_good_attribute()
-        # else:
-        #     if self.current_attribute.number_of_chosen_already == 1:
-        #         self.current_attribute.number_of_chosen_already = 0
-        #         self.get_good_attribute()
-        #     else:
-        #         self.current_attribute.number_of_chosen_already += 1
-
 
 def call_player_by_name(name: str) -> Player:
     """
@@ -248,10 +205,7 @@ def call_player_by_name(name: str) -> Player:
     Returns:
         Player: The player object if found, otherwise returns 'mr_nobody'.
     """
-    for playername in all_players.keys():
-        if playername == name:
-            return all_players[playername]
-    return mr_nobody
+    return all_players.get(name, mr_nobody)
 
 
 mr_nobody = Player(color = white, name="Nobody")

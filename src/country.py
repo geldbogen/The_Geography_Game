@@ -3,9 +3,7 @@ from PIL import ImageDraw, Image, ImageTk
 import numpy as np
 
 from global_definitions import resize_ratio, all_countries_available, countries_for_language_en, all_countries_in_game, country_name_list, countrynames_to_ignore_because_not_in_game
-from image import png_image
 from local_attribute import LocalAttribute
-from image import green_image_2, greencountrydict
 import player
 
 from typing import TYPE_CHECKING
@@ -17,7 +15,7 @@ if TYPE_CHECKING:
 
 class Country:
 
-    def __init__(self, xcoordinate : list[int], ycoordinate: list[int], name : str, continent: str ="None"):
+    def __init__(self, xcoordinate : list[int], ycoordinate: list[int], name : str, continent: str ="None", is_in_game: bool = True):
 
         self.coordinate_list : list[tuple[int,int]]= []
 
@@ -43,7 +41,8 @@ class Country:
         # the name of the continent, which the country belongs to
         self.continent_name: str = continent
 
-        all_countries_available.append(self)
+        if is_in_game:
+            all_countries_available.append(self)
 
         self.save_location = "data/npdata/" + self.name + "-nparray.npy"
 
@@ -51,12 +50,6 @@ class Country:
         self.wormhole_coordinates = [
             resize_ratio[0] * xcoordinate[0], resize_ratio[1] * ycoordinate[0]
         ]
-
-    def get_color(self, image):
-        output = []
-        for coordinates in self.coordinate_list:
-            output.append(image.getpixel(coordinates))
-        return output
 
     def get_two_country_code(self) -> str:
         if self.name == "Ivory Coast":
@@ -76,26 +69,6 @@ class Country:
                 return item[0]
         return "noflag"
 
-    def set_pixels(self, image):
-        if self.name == "Unknown Country":
-            return None
-        print(self.name)
-        save_array = np.zeros(shape=(1, 2))
-        for coordinate in self.coordinate_list:
-            image2 = image
-            seed = (coordinate[0], coordinate[1])
-            ImageDraw.floodfill(image2, seed, (0, 255, 0), thresh=200)
-            npImage  = np.array(image2)
-            print(npImage.shape)
-            green = np.array([0, 255, 0], dtype=np.uint8)
-            greens = list(zip(*np.where(np.all((npImage == green), axis=-1))))
-            s_array = np.array([*greens])
-            save_array = np.append(save_array, s_array, axis=0)
-            print(s_array)
-            print(s_array.shape)
-            print(save_array.shape)
-        with open(self.save_location, "wb") as f:
-            np.save(f, save_array)
 
     def get_resized_flag(self, height : int):
         country_url = "pictures/flag_pictures/w1280/" + self.get_two_country_code(
@@ -106,25 +79,6 @@ class Country:
         return ImageTk.PhotoImage(
             flag_image.resize((int(height * w / h), int(height)),
                               Image.LANCZOS))
-
-    def load_pixels(self):
-        global all_countries_in_game
-        global country_name_list
-        if self.name == "Unknown Country":
-            self.set_of_pixels = set()
-            all_countries_in_game.append(self)
-            country_name_list.append(self.name)
-            return None
-        try:
-            print(self.name)
-            marray = np.load(self.save_location, allow_pickle=True)
-            marray = marray.T
-            self.set_of_pixels = set(zip(marray[0], marray[1]))
-        except Exception as e:
-            print(str(e))
-            self.set_pixels(png_image)
-        all_countries_in_game.append(self)
-        country_name_list.append(self.name)
 
     def is_connected_with(self, other_country : Country) -> bool:
         """ 
@@ -144,7 +98,7 @@ class Country:
         number_of_draws = 0
         number_of_loose = 0
         for country_name in self.neighboring_countries:
-            if peacemode and (call_country_by_name(country_name).owner) != player.mr_nobody:
+            if peacemode and (call_country_by_name(country_name).owner.name) != 'Nobody':
                 continue
             
             if self.owner == call_country_by_name(country_name).owner:
@@ -177,24 +131,10 @@ def call_country_by_name(name: str) -> Country:
         if country.name == name:
             return country
     if name not in countrynames_to_ignore_because_not_in_game:
-        print(str(name))
+        # print(str(name))
         countrynames_to_ignore_because_not_in_game.append(name)
     
     return Unknown_country
-
-
-def get_country_by_position(xcoordinate, ycoordinate) -> Country:
-    # if bild.getpixel((xcoordinate,ycoordinate))==oceanblue:
-    #     return Unknown_country
-    x = xcoordinate
-    y = ycoordinate
-
-    color = green_image_2[x, y]
-    try:
-        result = call_country_by_name(greencountrydict[color])
-    except KeyError:
-        result = Unknown_country
-    return result
 
 
 Unknown_country = Country(
@@ -945,35 +885,12 @@ Uruguay = Country(xcoordinate=[3476],
                   name="Uruguay",
                   continent="South America")
 
-# for country in preallCountries:
-#     print(country.name)
-#     mycounter=mycounter+1
-#     for coordinate in country.coordinatelist:
-
-#         image2=pngim
-#         seed=(coordinate[0],coordinate[1])
-#         ImageDraw.floodfill(image2,seed,(0,255,0),thresh=400)
-#         npimage=np.array(image2)
-#         print(npimage.shape)
-#         green=np.array([0,255,0],dtype=np.uint8)
-#         greens=list(zip(*np.where(np.all((npimage==green),axis=-1))))
-
-#         for tuplen in greens:
-#             finalimage.putpixel((tuplen[1],tuplen[0]),(0,50+mycounter,0))
-#         whichcountrydict[(0,50+mycounter,0)]=country.name
-
-# with open("whichcountrydict_NEW","wb") as f:
-#     pickle.dump(whichcountrydict,f)
-
-# finalimage.save("hahah_NEW.png")
-# print("done")
-
 # eventuell nur dann appenden wenn Kontinente ausgewählt wurden
 Iceland.neighboring_countries.append("United Kingdom")
 Iceland.neighboring_countries.append("Norway")
 Iceland.neighboring_countries.append("Denmark")
 United_Kingdom.neighboring_countries.append("France")
-# United_Kingdom.neighboring_countries.append("Netherlands")
+United_Kingdom.neighboring_countries.append("Netherlands")
 Norway.neighboring_countries.append("Netherlands")
 Norway.neighboring_countries.append("Iceland")
 Japan.neighboring_countries.append("Russia")

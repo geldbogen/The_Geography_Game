@@ -256,7 +256,6 @@ class IntroWindow:
 
         def roll_attribute():
             rng = random.randrange(1, len(self.displayed_list))
-            print(rng)
             self.choose_pred_attribute.current(rng)
             if random.random() <= 0.5:
                 self.reverse_yes_or_no.select()

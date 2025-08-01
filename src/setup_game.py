@@ -1,24 +1,10 @@
-from global_definitions import (all_countries_available, all_countries_in_game,
-                                country_name_list, neighboring_countries,
-                                my_property_dict, all_players)
-from country import *
-from main_window import MainWindow
-from player import Player
 
-from image import im
 
 
 def setup_the_game(continent_list: list[str] = [],
                    list_of_players: list[Player] = [],
                    number_of_rounds: int = -1,
                    number_of_rerolls: int = 0,
-                   starting_countries_preferences: str = '',
-                   winning_condition: str = '',
-                   end_attribute_path: str = '',
-                   peacemode: bool = False,
-                   wormhole_mode: str = '',
-                   reversed_end_attribute: int = 0,
-                   start_the_game: bool = False
                    ):
     
     for country in all_countries_available:
@@ -61,23 +47,11 @@ def setup_the_game(continent_list: list[str] = [],
                 country1.neighboring_countries.append(country2.name)
     
     # assigns the countries all the local attributes
-    for country in all_countries_in_game:
-        country.dict_of_attributes = my_property_dict[country.name]
+    # for country in all_countries_in_game:
+    #     country.dict_of_attributes = my_property_dict[country.name]
 
     if list_of_players == []:
         return None
 
     for player in all_players.values():
         player.rerolls_left = number_of_rerolls
-
-    if start_the_game:
-        my_main_window = MainWindow(bild=im,
-                                    list_of_players=list_of_players,
-                                    starting_countries_preferences=starting_countries_preferences,
-                                    number_of_rounds=number_of_rounds,
-                                    winning_condition=winning_condition,
-                                    pred_attribute=end_attribute_path,
-                                    wormhole_mode=wormhole_mode,
-                                    peacemode=peacemode,
-                                    reversed_end_attribute=reversed_end_attribute)
-        my_main_window.start()

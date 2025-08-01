@@ -22,3 +22,52 @@
         transform: scale(1);
     }
 }
+
+.pulsing-country {
+    animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0% {
+        fill-opacity: 0.2;
+        stroke-width: 4;
+    }
+    50% {
+        fill-opacity: 0.6;
+        stroke-width: 6;
+        filter: brightness(1.2);
+    }
+    100% {
+        fill-opacity: 0.2;
+        stroke-width: 4;
+    }
+}
+
+/* Existing styles... */
+
+/* Fix modal z-index to appear above Leaflet map */
+.mantine-Modal-root {
+    z-index: 9999 !important;
+}
+
+.mantine-Modal-inner {
+    z-index: 9999 !important;
+}
+
+.mantine-Modal-modal {
+    z-index: 9999 !important;
+}
+
+/* Ensure modal overlay appears above map */
+.mantine-Modal-overlay {
+    z-index: 9998 !important;
+}
+
+/* Leaflet map container - ensure it doesn't interfere */
+.leaflet-container {
+    z-index: 1 !important;
+}
+
+.leaflet-control-container {
+    z-index: 1000 !important;
+}
