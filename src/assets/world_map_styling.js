@@ -21,8 +21,5 @@ window.myNamespace = Object.assign({}, window.myNamespace, {
             }
             return ans;
         },
-        doubleclick: function(e, ctx) {
-                console.log(`You double-clicked at ${e.latlng}.`);
-            }
     }
 });
