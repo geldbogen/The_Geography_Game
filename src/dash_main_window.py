@@ -66,7 +66,9 @@ def create_main_window_layout(list_of_players : list[Player], number_of_rounds :
         }),
         dmc.AppShellMain([
         dl.Map(center=[39, -98], zoom=4, children=[
-            dl.TileLayer(),
+            dl.TileLayer(url='https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}',
+            attribution='Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ',
+            noWrap=True),
             dl.GeoJSON(url='/assets/world_map.geojson', id="main-window-geojson",
                     options=dict(style=style_handle), 
                     hideout=backend_game.hideout_dict_for_dash,
