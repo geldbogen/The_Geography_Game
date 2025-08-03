@@ -259,7 +259,7 @@ class BackendGame():
                 print('illegal winning condition will never end')
                 return False
 
-    def get_replaced_A_and_B_category_string_for_current_attribute(self) -> str:
+    def get_replaced_A_and_B_category_string_for_current_attribute(self) -> dmc.Highlight:
         return self.current_attribute.replace_A_and_B_in_category_name(self.chosen_country_1, self.chosen_country_2)
 
     def claim_country_backend(self, loose_player: Player, win_player: Player, country: Country):

@@ -37,10 +37,10 @@ pop_up_window_content = html.Div([
     }),
     
     # Modal Body with country information and battle details
-    html.Div([
+    dmc.Grid([
         # Country vs Country display
-        html.Div([
-            html.Div([
+        dmc.GridCol(id='country-vs-popup-left-column', children=[
+            dmc.Container([
                 html.H4("Attacking Country", style={
                     'textAlign': 'center',
                     'color': '#e74c3c',
@@ -55,8 +55,8 @@ pop_up_window_content = html.Div([
                     'textAlign': 'center'
                 })
             ], style={'width': '45%'}),
-            
-            html.Div([
+
+            dmc.Container([
                 html.H3("VS", style={
                     'textAlign': 'center',
                     'color': '#34495e',
@@ -65,8 +65,8 @@ pop_up_window_content = html.Div([
                     'margin': '20px 0'
                 })
             ], style={'width': '10%', 'display': 'flex', 'alignItems': 'center', 'justifyContent': 'center'}),
-            
-            html.Div([
+
+            dmc.Container([
                 html.H4("Defending Country", style={
                     'textAlign': 'center',
                     'color': '#3498db',
@@ -89,7 +89,7 @@ pop_up_window_content = html.Div([
         }),
         
         # Attribute information
-        html.Div([
+        dmc.GridCol([
             html.H4("Battle Attribute", style={
                 'textAlign': 'center',
                 'color': '#8e44ad',
@@ -107,16 +107,11 @@ pop_up_window_content = html.Div([
             })
         ], style={'marginBottom': '20px'}),
         
-    ], style={
-        'padding': '20px',
-        'background': 'linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%)'
-    }),
 
-    html.Div(id='extra-information-cards'),
+    dmc.GridCol(id='extra-information-cards', children=[]),
 
     # Modal Footer with close button
-    dmc.Container([
-    
+    dmc.GridCol([
         dmc.Button(
             "Continue Game", 
             id="close-button",
@@ -126,13 +121,18 @@ pop_up_window_content = html.Div([
     ],
     style={'padding': '20px', 'textAlign': 'center', 'background': 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)', 'borderRadius': '0 0 15px 15px', 'border': 'none'}
     )
+    
+    ], style={
+        'padding': '20px',
+        'background': 'linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%)'
+    }),
 ])
 
 
 popup_window = dmc.Modal(
     children=pop_up_window_content,
     id="popup-window",
-    size="lg",
+    size="60%",
     centered=True,
     opened=False,
 )

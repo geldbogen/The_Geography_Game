@@ -21,7 +21,7 @@ def get_popup_extra_information_window_card(image_path : str, wiki_title : str, 
     withBorder=True,
     shadow="sm",
     radius="md",
-    w=700,
+    w=400,
     h=500,
     
     )
@@ -32,10 +32,7 @@ def get_two_popup_extra_information_window_cards(
     image_path_1: str, wiki_title_1: str, wiki_description_1: str, wiki_link_1: str,
     image_path_2: str, wiki_title_2: str, wiki_description_2: str, wiki_link_2: str
 ):
-    return dmc.Group([
+    return [
         get_popup_extra_information_window_card(image_path_1, wiki_title_1, wiki_description_1, wiki_link_1),
         get_popup_extra_information_window_card(image_path_2, wiki_title_2, wiki_description_2, wiki_link_2),
-    ], 
-    justify='space-around',
-    grow=True
-    )
+    ]
