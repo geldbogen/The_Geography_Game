@@ -37,9 +37,9 @@ pop_up_window_content = html.Div([
     }),
     
     # Modal Body with country information and battle details
-    dmc.Grid([
+    dmc.Container([
         # Country vs Country display
-        dmc.GridCol(id='country-vs-popup-left-column', children=[
+        dmc.Group( children=[
             dmc.Container([
                 html.H4("Attacking Country", style={
                     'textAlign': 'center',
@@ -89,7 +89,7 @@ pop_up_window_content = html.Div([
         }),
         
         # Attribute information
-        dmc.GridCol([
+        dmc.Group([
             html.H4("Battle Attribute", style={
                 'textAlign': 'center',
                 'color': '#8e44ad',
@@ -108,10 +108,10 @@ pop_up_window_content = html.Div([
         ], style={'marginBottom': '20px'}),
         
 
-    dmc.GridCol(id='extra-information-cards', children=[]),
+    dmc.Group(id='extra-information-cards', children=[]),
 
     # Modal Footer with close button
-    dmc.GridCol([
+    dmc.Group([
         dmc.Button(
             "Continue Game", 
             id="close-button",
