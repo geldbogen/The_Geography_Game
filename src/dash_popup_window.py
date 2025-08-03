@@ -39,6 +39,26 @@ pop_up_window_content = html.Div([
     # Modal Body with country information and battle details
     dmc.Container([
         # Country vs Country display
+        
+        # Attribute information
+        html.Div([
+            html.H4("Battle Attribute", style={
+                'textAlign': 'center',
+                'color': '#8e44ad',
+                'fontWeight': 'bold',
+                'marginBottom': '15px'
+            }),
+            html.Div(id="attribute-info", style={
+                'padding': '15px',
+                'background': 'linear-gradient(135deg, #f3e7ff 0%, #e7d6ff 100%)',
+                'borderRadius': '10px',
+                'border': '2px solid #8e44ad',
+                'textAlign': 'center',
+                'fontWeight': 'bold',
+                'fontSize': '1.2rem'
+            })
+        ], style={'marginBottom': '20px'}),
+        
         dmc.Group( children=[
             dmc.Container([
                 html.H4("Attacking Country", style={
@@ -88,24 +108,6 @@ pop_up_window_content = html.Div([
             'marginBottom': '20px'
         }),
         
-        # Attribute information
-        dmc.Group([
-            html.H4("Battle Attribute", style={
-                'textAlign': 'center',
-                'color': '#8e44ad',
-                'fontWeight': 'bold',
-                'marginBottom': '15px'
-            }),
-            html.Div(id="attribute-info", style={
-                'padding': '15px',
-                'background': 'linear-gradient(135deg, #f3e7ff 0%, #e7d6ff 100%)',
-                'borderRadius': '10px',
-                'border': '2px solid #8e44ad',
-                'textAlign': 'center',
-                'fontWeight': 'bold',
-                'fontSize': '1.2rem'
-            })
-        ], style={'marginBottom': '20px'}),
         
 
     dmc.Group(id='extra-information-cards', children=[]),
