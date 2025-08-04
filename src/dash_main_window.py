@@ -47,14 +47,6 @@ def create_main_window_layout(list_of_players : list[Player], number_of_rounds :
                 id = 'attribute-show-header',
             ),
             dmc.Divider(
-                # style={
-                # 'border': 'none',
-                # 'height': '3px',
-                # 'background': 'linear-gradient(to right, #667eea, #764ba2)',
-                # 'margin': '0 auto 20px auto',
-                # 'width': '60%',
-                # 'borderRadius': '5px'
-                # }
             )
         ], style={
             'background': 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)',
@@ -148,9 +140,20 @@ def click_on_map(_, feature, hideout):
     match backend_game.chosen_country_1, backend_game.chosen_country_2:
         case None, None:
             if country.owner == backend_game.active_player:
-                backend_game.chosen_country_1 = country
+
+                if country.dict_of_attributes[backend_game.current_attribute.name].rank != 0:
+                    backend_game.chosen_country_1 = country
+                else:
+                    error_popup = dict(
+                        title="Whoops!",
+                        id="show-notify",
+                        action="show",
+                        message="Uh-oh! This country has no data for the current attribute!",
+                        icon=DashIconify(icon="tabler:face-id-error"),
+                    )
+                    return dash.no_update, dash.no_update, dash.no_update, dash.no_update, [error_popup]
             else:
-                error_popup =dict(
+                error_popup = dict(
                     title="Whoops!",
                     id="show-notify",
                     action="show",
@@ -162,10 +165,20 @@ def click_on_map(_, feature, hideout):
 
         case _, None:
             if country.is_connected_with(backend_game.chosen_country_1):
-                backend_game.chosen_country_2 = country
+                if country.dict_of_attributes[backend_game.current_attribute.name].rank != 0:
+                    backend_game.chosen_country_2 = country
+                else:
+                    error_popup = dict(
+                        title="Whoops!",
+                        id="show-notify",
+                        action="show",
+                        message="Uh-oh! This country has no data for the current attribute!",
+                        icon=DashIconify(icon="tabler:face-id-error"),
+                    )
+                    return dash.no_update, dash.no_update, dash.no_update, dash.no_update, [error_popup]
             else:
                 # this doesnt work
-                error_popup =dict(
+                error_popup = dict(
                     title="Whoops!",
                     id="show-notify",
                     action="show",

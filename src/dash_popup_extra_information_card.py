@@ -13,17 +13,15 @@ def get_popup_extra_information_window_card(image_path : str, wiki_title : str, 
                     dmc.Text(
                         wiki_description,
                     ),
+                    dmc.Button("See more on Wikipedia", justify="center", size={'padding': '20px'}),
                 ],
                 className='overflow-auto'
             ),
-        dmc.Button("See more on Wikipedia", justify="center",),
         ],
     withBorder=True,
     shadow="sm",
     radius="md",
-    # w=300,
-    # h=500,
-    
+    h=500,
     )
 
     return card

@@ -10,7 +10,7 @@ import dash_mantine_components as dmc
 
 from game_state import get_backend_game
 from dash_popup_extra_information_card import get_two_popup_extra_information_window_cards
-
+from dash_iconify import DashIconify
 
 pop_up_window_content = html.Div([
     # Modal Header with beautiful styling
@@ -61,54 +61,28 @@ pop_up_window_content = html.Div([
 
         dmc.Grid([
             dmc.GridCol([
-                html.H4("Attacking Country", style={
-                    'textAlign': 'center',
-                    'color': '#e74c3c',
-                    'fontWeight': 'bold',
-                    'marginBottom': '10px'
-                }),
                 html.Div(id="country-a-info", style={
                     'padding': '15px',
-                    'background': 'linear-gradient(135deg, #ffecec 0%, #ffd6d6 100%)',
                     'borderRadius': '10px',
                     'border': '2px solid #e74c3c',
                     'textAlign': 'center'
                 }),
                 html.Div(id="country-a-info-card",)
-            ],),
-
-            # dmc.GridCol([
-            #     html.H3("VS", style={
-            #         'textAlign': 'center',
-            #         'color': '#34495e',
-            #         'fontWeight': 'bold',
-            #         'fontSize': '2rem',
-            #         'margin': '20px 0'
-            #     })
-            # ], style={'width': '10%', 'display': 'flex', 'alignItems': 'center', 'justifyContent': 'center'}),
+            ],
+            span=6),
 
             dmc.GridCol([
-                html.H4("Defending Country", style={
-                    'textAlign': 'center',
-                    'color': '#3498db',
-                    'fontWeight': 'bold',
-                    'marginBottom': '10px'
-                }),
                 html.Div(id="country-b-info", style={
                     'padding': '15px',
-                    'background': 'linear-gradient(135deg, #ebf4ff 0%, #d6e9ff 100%)',
                     'borderRadius': '10px',
                     'border': '2px solid #3498db',
                     'textAlign': 'center'
                 }),
                 html.Div(id="country-b-info-card",)
-            ],)
-        ], style={
-            'display': 'flex',
-            'justifyContent': 'space-between',
-            'alignItems': 'flex-start',
-            'marginBottom': '20px'
-        }),
+            ],
+            span=6)
+        ],
+        ),
         
         
 
@@ -133,14 +107,14 @@ pop_up_window_content = html.Div([
 ])
 
 
-popup_window = dmc.Modal(
+popup_window = dmc.MantineProvider(dmc.Modal(
     children=pop_up_window_content,
     id="popup-window",
     size="60%",
     centered=True,
     opened=False,
 )
-
+)
 # Callback to populate popup content when it opens
 @callback(
     [Output("country-a-info", "children"),
@@ -178,8 +152,7 @@ def populate_popup_content(is_open):
         country_a_info = html.Div([
             html.H5(country_a.name, style={'fontWeight': 'bold', 'marginBottom': '10px'}),
             html.P(f"Value: {formatted_value_a}", style={'margin': '5px 0'}),
-            html.P(f"World Rank: {displayed_world_rank_a}", style={'margin': '5px 0'}),
-            html.P(f"(of {displayed_how_many_ranked_a} ranked)", style={'margin': '5px 0', 'fontSize': '0.9rem'})
+            html.P(f"World Rank: #{displayed_world_rank_a} / {displayed_how_many_ranked_a}", style={'margin': '5px 0'}),
         ])
     except:
         country_a_info = html.Div([
@@ -198,11 +171,12 @@ def populate_popup_content(is_open):
         formatted_value_b = format(value_b, ",") if value_b != -1.0 else "--"
         
         country_b_info = html.Div([
+            html.Div(DashIconify(icon=f"circle-flags:{country_b.get_two_country_code()}")),
             html.H5(country_b.name, style={'fontWeight': 'bold', 'marginBottom': '10px'}),
             html.P(f"Value: {formatted_value_b}", style={'margin': '5px 0'}),
-            html.P(f"World Rank: {displayed_world_rank_b}", style={'margin': '5px 0'}),
-            html.P(f"(of {displayed_how_many_ranked_b} ranked)", style={'margin': '5px 0', 'fontSize': '0.9rem'})
-        ])
+            html.P(f"World Rank: #{displayed_world_rank_b} / {displayed_how_many_ranked_b}", style={'margin': '5px 0'}),
+            # html.P(f"(of {displayed_how_many_ranked_b} ranked)", style={'margin': '5px 0', 'fontSize': '0.9rem'}),
+        ], style={'backgroundColor': "#b4d2bd"})  # Light green background equivalent to bg-green-50
     except:
         country_b_info = html.Div([
             html.H5(country_b.name, style={'fontWeight': 'bold', 'marginBottom': '10px'}),
