@@ -169,14 +169,14 @@ def populate_popup_content(is_open):
         
         value_b = country_b.dict_of_attributes[current_attribute.name].value
         formatted_value_b = format(value_b, ",") if value_b != -1.0 else "--"
-        
+        print('This is the country code: ')
+        print(country_b.get_two_country_code())
         country_b_info = html.Div([
-            html.Div(DashIconify(icon=f"circle-flags:{country_b.get_two_country_code()}")),
+            dmc.Image(src=f'assets/pictures/flag_pictures/w1280/{country_b.get_two_country_code()}.png', radius='50%', ),
             html.H5(country_b.name, style={'fontWeight': 'bold', 'marginBottom': '10px'}),
             html.P(f"Value: {formatted_value_b}", style={'margin': '5px 0'}),
             html.P(f"World Rank: #{displayed_world_rank_b} / {displayed_how_many_ranked_b}", style={'margin': '5px 0'}),
-            # html.P(f"(of {displayed_how_many_ranked_b} ranked)", style={'margin': '5px 0', 'fontSize': '0.9rem'}),
-        ], style={'backgroundColor': "#b4d2bd"})  # Light green background equivalent to bg-green-50
+        ])
     except:
         country_b_info = html.Div([
             html.H5(country_b.name, style={'fontWeight': 'bold', 'marginBottom': '10px'}),

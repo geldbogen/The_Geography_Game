@@ -66,7 +66,7 @@ class Country:
             return "cg"
         for item in countries_for_language_en:
             if item[1] == self.name:
-                return item[0]
+                return item[0].lower()
         return "noflag"
 
 
