@@ -21,8 +21,8 @@ def get_popup_extra_information_window_card(image_path : str, wiki_title : str, 
     withBorder=True,
     shadow="sm",
     radius="md",
-    w=400,
-    h=500,
+    # w=300,
+    # h=500,
     
     )
 

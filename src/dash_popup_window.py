@@ -58,9 +58,9 @@ pop_up_window_content = html.Div([
                 'fontSize': '1.2rem'
             })
         ], style={'marginBottom': '20px'}),
-        
-        dmc.Group( children=[
-            dmc.Container([
+
+        dmc.Grid([
+            dmc.GridCol([
                 html.H4("Attacking Country", style={
                     'textAlign': 'center',
                     'color': '#e74c3c',
@@ -73,20 +73,21 @@ pop_up_window_content = html.Div([
                     'borderRadius': '10px',
                     'border': '2px solid #e74c3c',
                     'textAlign': 'center'
-                })
-            ], style={'width': '45%'}),
+                }),
+                html.Div(id="country-a-info-card",)
+            ],),
 
-            dmc.Container([
-                html.H3("VS", style={
-                    'textAlign': 'center',
-                    'color': '#34495e',
-                    'fontWeight': 'bold',
-                    'fontSize': '2rem',
-                    'margin': '20px 0'
-                })
-            ], style={'width': '10%', 'display': 'flex', 'alignItems': 'center', 'justifyContent': 'center'}),
+            # dmc.GridCol([
+            #     html.H3("VS", style={
+            #         'textAlign': 'center',
+            #         'color': '#34495e',
+            #         'fontWeight': 'bold',
+            #         'fontSize': '2rem',
+            #         'margin': '20px 0'
+            #     })
+            # ], style={'width': '10%', 'display': 'flex', 'alignItems': 'center', 'justifyContent': 'center'}),
 
-            dmc.Container([
+            dmc.GridCol([
                 html.H4("Defending Country", style={
                     'textAlign': 'center',
                     'color': '#3498db',
@@ -99,8 +100,9 @@ pop_up_window_content = html.Div([
                     'borderRadius': '10px',
                     'border': '2px solid #3498db',
                     'textAlign': 'center'
-                })
-            ], style={'width': '45%'})
+                }),
+                html.Div(id="country-b-info-card",)
+            ],)
         ], style={
             'display': 'flex',
             'justifyContent': 'space-between',
@@ -110,7 +112,7 @@ pop_up_window_content = html.Div([
         
         
 
-    dmc.Group(id='extra-information-cards', children=[]),
+    # dmc.Group(id='extra-information-cards', children=[]),
 
     # Modal Footer with close button
     dmc.Group([
@@ -144,18 +146,20 @@ popup_window = dmc.Modal(
     [Output("country-a-info", "children"),
      Output("country-b-info", "children"),
      Output("attribute-info", "children"),
-     Output("extra-information-cards", "children")],
+     Output("country-a-info-card", "children"),
+     Output("country-b-info-card", "children")
+    ],
     Input("popup-window", "opened", ),
     prevent_initial_call=True
 )
 def populate_popup_content(is_open):
     if not is_open:
-        return "", "", "", ""
+        return "", "", "", "", ''
     
     backend_game = get_backend_game()
     
     if not backend_game.chosen_country_1 or not backend_game.chosen_country_2:
-        return "", "", "", ""
+        return "", "", "", "", ""
 
     country_a = backend_game.chosen_country_1
     country_b = backend_game.chosen_country_2
@@ -232,8 +236,8 @@ def populate_popup_content(is_open):
     )
 
     if first_wiki_info_name == '' and second_wiki_info_name == '':
-        extra_information_two_window_content = ""
-    return country_a_info, country_b_info, attribute_info, extra_information_two_window_content
+        extra_information_two_window_content = ["", ""]
+    return country_a_info, country_b_info, attribute_info, extra_information_two_window_content[0], extra_information_two_window_content[1]
 
 # Callback to close popup
 @callback(
