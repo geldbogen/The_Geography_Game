@@ -1,6 +1,7 @@
+import json
 import dash
 import dash_leaflet as dl
-from dash import Dash, State, html, callback
+from dash import Dash, State, html, callback, ALL, callback_context
 from dash.dependencies import Output, Input
 from dash_extensions.javascript import Namespace, assign
 
@@ -84,17 +85,15 @@ pop_up_window_content = html.Div([
         ],
         ),
         
-        
-
-    # dmc.Group(id='extra-information-cards', children=[]),
 
     # Modal Footer with close button
-    dmc.Group([
+    dmc.Group(id='footer-buttons', children=[
         dmc.Button(
             "Continue Game", 
-            id="close-button",
+            id={"type": "close-button", "is_guessed_correct_or_not": "not_guessed_correct"},
             size="lg",
-            
+            justify="flex-end",
+
         ),        
     ],
     style={'padding': '20px', 'textAlign': 'center', 'background': 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)', 'borderRadius': '0 0 15px 15px', 'border': 'none'}
@@ -121,19 +120,21 @@ popup_window = dmc.MantineProvider(dmc.Modal(
      Output("country-b-info", "children"),
      Output("attribute-info", "children"),
      Output("country-a-info-card", "children"),
-     Output("country-b-info-card", "children")
+     Output("country-b-info-card", "children"),
+     Output('footer-buttons', 'children')
     ],
     Input("popup-window", "opened", ),
+    State('footer-buttons', 'children'),
     prevent_initial_call=True
 )
-def populate_popup_content(is_open):
+def populate_popup_content(is_open, footer_buttons_content):
     if not is_open:
-        return "", "", "", "", ''
-    
+        return "", "", "", "", '', footer_buttons_content
+
     backend_game = get_backend_game()
     
     if not backend_game.chosen_country_1 or not backend_game.chosen_country_2:
-        return "", "", "", "", ""
+        return "", "", "", "", "", footer_buttons_content
 
     country_a = backend_game.chosen_country_1
     country_b = backend_game.chosen_country_2
@@ -208,10 +209,15 @@ def populate_popup_content(is_open):
         first_image_path, first_wiki_info_name, first_wiki_info, first_wiki_link,
         second_image_path, second_wiki_info_name, second_wiki_info, second_wiki_link
     )
+    if backend_game.current_attribute.is_active:
+        guessed_correct_button = dmc.Button(
+            id = {"type": "close-button", "is_guessed_correct_or_not": "guessed_correct"},
+        )
+        footer_buttons_content = [guessed_correct_button]
 
     if first_wiki_info_name == '' and second_wiki_info_name == '':
         extra_information_two_window_content = ["", ""]
-    return country_a_info, country_b_info, attribute_info, extra_information_two_window_content[0], extra_information_two_window_content[1]
+    return country_a_info, country_b_info, attribute_info, extra_information_two_window_content[0], extra_information_two_window_content[1], footer_buttons_content
 
 # Callback to close popup
 @callback(
@@ -220,20 +226,30 @@ def populate_popup_content(is_open):
     Output('player-order-segmented-control', 'value', allow_duplicate=True),
     Output('player-order-segmented-control', 'data', allow_duplicate=True),
     Output('attribute-show-header', 'children', allow_duplicate=True),
-    Input("close-button", "n_clicks"),
-    Input('player-order-segmented-control', 'data'),
+    Input({"type": "close-button", "is_guessed_correct_or_not": ALL}, "n_clicks"),
+    State('player-order-segmented-control', 'data'),
     State("popup-window", "opened"),
     State("main-window-geojson", "hideout"),
     prevent_initial_call=True
 )
 def close_popup(n_clicks, segmented_control_data, is_open, hideout):
+
+    triggered_prop_id = callback_context.triggered[0]['prop_id']
+    button_id_string = triggered_prop_id.split('.')[0]
+    
+    # Convert string back to dictionary
+    button_id = json.loads(button_id_string)
+    
+    # Get which country was guessed
+    same_player_again = (button_id["is_guessed_correct_or_not"] == 'guessed_correct')  # Will be "a" or "b"
+
     if n_clicks:
         hideout['selected'] = []
         backend_game = get_backend_game()
         # Reset the chosen countries after battle
         # do transition
-        
-        game_should_end = backend_game.go_to_next_turn_and_check_if_game_should_end()
+
+        game_should_end = backend_game.go_to_next_turn_and_check_if_game_should_end(same_player_again=same_player_again)
         if game_should_end:
             pass
             # do endscreen later
