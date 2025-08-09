@@ -234,16 +234,17 @@ def populate_popup_content(is_open, footer_buttons_content):
 )
 def close_popup(n_clicks, segmented_control_data, is_open, hideout):
 
-    triggered_prop_id = callback_context.triggered[0]['prop_id']
-    button_id_string = triggered_prop_id.split('.')[0]
-    
-    # Convert string back to dictionary
-    button_id = json.loads(button_id_string)
-    
-    # Get which country was guessed
-    same_player_again = (button_id["is_guessed_correct_or_not"] == 'guessed_correct')  # Will be "a" or "b"
-
-    if n_clicks:
+    print(f"Close popup called with n_clicks: {n_clicks}")
+    if callback_context.triggered and callback_context.triggered[0]['value']:
+        triggered_prop_id = callback_context.triggered[0]['prop_id']
+        button_id_string = triggered_prop_id.split('.')[0]
+        
+        # Convert string back to dictionary
+        button_id = json.loads(button_id_string)
+        
+        # Get which country was guessed
+        same_player_again = (button_id["is_guessed_correct_or_not"] == 'guessed_correct')  
+        
         hideout['selected'] = []
         backend_game = get_backend_game()
         # Reset the chosen countries after battle

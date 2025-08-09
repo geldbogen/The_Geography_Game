@@ -136,6 +136,7 @@ class BackendGame():
             random_country = random.choice(self.countries_in_game)
             while random_country.owner.name != 'Nobody':
                 random_country = random.choice(self.countries_in_game)
+            print(f"Assigning {random_country.name} to {player.name}")
             self.claim_country_backend(
                 loose_player=mr_nobody,
                 win_player=player,
