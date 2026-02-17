@@ -417,19 +417,19 @@ def setup_all_data():
     # setup_data("GDP growth in 2020 (higher is better).csv",
     #            cluster="GDP as percentage stuff")
 
-    # # taxes and duties stuff
-    # setup_data(
-    #     "Corporate tax in percent (lower is better).csv", ascending=True, cluster="taxes and duties stuff")
-    # setup_data(
-    #     "Highest possible individual income tax in percent (lower is better).csv", ascending=True, cluster="taxes and duties stuff")
-    # setup_data(
-    #     "VAT resp. GST in percent (lower is better).csv", ascending=True, cluster="taxes and duties stuff")
-    # setup_data(
-    #     "Infant mortality (deaths in the first 5 years by 1000 births) (lower is better).csv", ascending=True, cluster="taxes and duties stuff")
-    # setup_data(
-    #     "Average import duty in % (lower is better).csv", ascending=True, cluster="taxes and duties stuff")
-    # setup_data(
-    #     "Number of different taxes (lower is better).csv", ascending=True, cluster="taxes and duties stuff")
+    # taxes and duties stuff
+    setup_data(
+        "Corporate tax in percent (lower is better).csv", ascending=True, cluster="taxes and duties stuff")
+    setup_data(
+        "Highest possible individual income tax in percent (lower is better).csv", ascending=True, cluster="taxes and duties stuff")
+    setup_data(
+        "VAT resp. GST in percent (lower is better).csv", ascending=True, cluster="taxes and duties stuff")
+    setup_data(
+        "Infant mortality (deaths in the first 5 years by 1000 births) (lower is better).csv", ascending=True, cluster="taxes and duties stuff")
+    setup_data(
+        "Average import duty in % (lower is better).csv", ascending=True, cluster="taxes and duties stuff")
+    setup_data(
+        "Number of different taxes (lower is better).csv", ascending=True, cluster="taxes and duties stuff")
 
     # # general economic stuff
     # setup_data("Export to import ratio (higher is better).csv",
