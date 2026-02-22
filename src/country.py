@@ -2,7 +2,8 @@ from __future__ import annotations
 from PIL import ImageDraw, Image, ImageTk
 import numpy as np
 
-from global_definitions import resize_ratio, all_countries_available, countries_for_language_en, all_countries_in_game, country_name_list, countrynames_to_ignore_because_not_in_game
+from global_definitions import (resize_ratio, all_countries_available, 
+countries_for_language_en, all_countries_in_game, country_name_list, countrynames_to_ignore_because_not_in_game, country_name_to_country_dict) 
 from local_attribute import LocalAttribute
 import player
 
@@ -43,6 +44,7 @@ class Country:
 
         if is_in_game:
             all_countries_available.append(self)
+            country_name_to_country_dict.update({self.name: self})
 
         self.save_location = "data/npdata/" + self.name + "-nparray.npy"
 
@@ -127,14 +129,10 @@ def call_country_by_name(name: str) -> Country:
     """
     Takes the country name as input (e.g. "Nigeria") and returns the corresponding Country Object Nigeria
     """
-    for country in all_countries_available:
-        if country.name == name:
-            return country
-    if name not in countrynames_to_ignore_because_not_in_game:
-        # print(str(name))
-        countrynames_to_ignore_because_not_in_game.append(name)
-    
-    return Unknown_country
+    try:
+        return country_name_to_country_dict[name]
+    except KeyError:
+        return Unknown_country
 
 
 Unknown_country = Country(

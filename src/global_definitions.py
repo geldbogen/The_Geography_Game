@@ -56,6 +56,9 @@ category_to_displayed_extra_information_category : dict[str,str] = categoryname_
 
 countries_alternative_names = alternative_names.countries_alternative_names
 
+country_name_to_country_dict : dict[str, Country] = {}
+
+
 for item in countries_alternative_names.keys():
     countries_alternative_names[item].append(item)
 

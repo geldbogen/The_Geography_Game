@@ -1,5 +1,5 @@
 from global_definitions import (all_countries_available, all_countries_in_game,
-                                country_name_list, all_players)
+                                country_name_list, all_players, neighboring_countries_data)
 from country import *
 from main_window import MainWindow
 from player import Player
@@ -25,7 +25,7 @@ def setup_the_game(continent_list: list[str] = [],
     for country_1 in all_countries_in_game:
         if country_1 == Unknown_country:
             continue
-        data = neighboring_countries[neighboring_countries[0] ==
+        data = neighboring_countries_data[neighboring_countries_data[0] ==
                                      country_1.name]
         for country_2 in all_countries_in_game:
             if country_2 == Unknown_country:

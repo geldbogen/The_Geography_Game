@@ -1,91 +1,108 @@
+from typing import List
 from local_attribute import LocalAttribute
 from help_functions import normalize_country_name
 from country import all_countries_available, call_country_by_name
 import category
 import additional_explanations
 import pandas as pd
-pd.set_option('display.max_columns', None)
-pd.set_option('display.max_rows', None)
 
+"""
+Core data loading and processing module
+Handles CSV data ingestion, country attribute mapping, and category creation.
+"""
 
-def extract_data_from_series(series: pd.DataFrame, nameofattribute,
-                             numberofranked, additional_information,
-                             additional_information_column_list):
+def extract_data_from_record(record: dict, name_of_attribute: str,
+                             number_of_ranked: int, additional_information: bool) -> None:
+    """
+    Extracts attribute data from a single record (row) and updates the corresponding country object.
 
-    countryname = series.iloc[0]
+    Args:
+        record (dict): A dictionary representing a single row of the DataFrame. 
+        In the form of {"name": str, "value": float, "ranking": int,}
+        can also handle the additional values {"additional_information_name": str, "additional_information": str, "additional_information_link": str} in the record
+        name_of_attribute (str): The name of the attribute (e.g., "Gini wealth index").
+        number_of_ranked (int): Total number of countries ranked in this category.
+        additional_information (bool): Whether to include extra info (name, wikipedia summary, link).
+    """
+
+    country_name = record['name']
 
     # if the country is not in the game, we don't need to proceed
-    if not call_country_by_name(countryname) in all_countries_available:
+    if not call_country_by_name(country_name) in all_countries_available:
         return None
 
     # the value of the attribute
-    value = series.iloc[1]
+    value = record['value']
 
-    my_local_attribute = LocalAttribute()
+    local_attribute_for_the_country = LocalAttribute()
 
-    try:
-        my_local_attribute.value = float(value)
-    except ValueError:
-        pass
-        # print(nameofattribute)
-        # print(value)
+    local_attribute_for_the_country.value = float(value)
 
-    my_local_attribute.rank = series.loc["ranking"]
+    local_attribute_for_the_country.rank = record['ranking']
 
-    my_local_attribute.number_of_countries_ranked = numberofranked
+    local_attribute_for_the_country.number_of_countries_ranked = number_of_ranked
 
-    # extract the additional information
     if additional_information:
-
-        for index, column_index in enumerate(
-                additional_information_column_list):
-            value = series.iloc[column_index]
-
-            if index == 0:
-                my_local_attribute.additional_information_name = value
-
-            if index == 1:
-                my_local_attribute.additional_information = value
-
-            if index == 2:
-                my_local_attribute.additional_information_link = value
+        for index, name in enumerate(["additional_information_name", "additional_information", "additional_information_link"]):
+            if name in record.keys():
+                match index:
+                    case 0:
+                        local_attribute_for_the_country.additional_information_name = record[name]
+                    case 1:
+                        local_attribute_for_the_country.additional_information = record[name]
+                    case 2:
+                        local_attribute_for_the_country.additional_information_link = record[name]
 
     call_country_by_name(
-        countryname).dict_of_attributes[nameofattribute] = my_local_attribute
+        country_name).dict_of_attributes[name_of_attribute] = local_attribute_for_the_country
 
 
-def setup_data(name,
-               column=1,
-               namecolumn=0,
-               ascending=False,
-               treat_missing_data_as_bad=False,
-               apply_frac=False,
-               dif=0,
-               additional_information=False,
-               additional_information_column_list=[2],
-               cluster=None,
+def setup_data(name: str,
+               column_index: int = 1,
+               namecolumn_index: int = 0,
+               ascending: bool = False,
+               treat_missing_data_as_bad: bool = False,
+               dif: int = 0,
+               additional_information: bool = False,
+               additional_information_column_list: List[int] = [2],
+               cluster: str = "",
                is_end_only: bool = False,
-               debug=False):
+               ) -> None:
+    """
+    Loads data from a CSV file, processes rankings, and initializes a game category (e.g. Gini wealth index).
+
+    Args:
+        name (str): The name of the CSV file in the 'data/' directory.
+        column_index (int): The index of the column containing the attribute values.
+        namecolumn_index (int): The index of the column containing country names.
+        ascending (bool): Whether to sort the data in ascending order for ranking.
+        treat_missing_data_as_bad (bool): If False, rows with -1 are excluded from ranking.
+        dif (int): The difficulty level of the category.
+        additional_information (bool): Whether the category is 'active' and the player 
+        can do another turn after guessing the additional information subject correctly.
+        additional_information_column_list (List[int]): Column indices for extra information (name, wikipedia summary, link).
+        cluster (str): The category cluster this attribute belongs to. (e.g. "production stuff")
+        is_end_only (bool): If True, the category is only shown at the end of the game.
+    """
 
     # just for convenience
     if "lower is better" in name:
         ascending = True
 
     # load the data
-    data = pd.read_csv("data/" + name, index_col=None, header=0)
+    data = pd.read_csv(f"data/{name}", index_col=None, header=0)
 
     if treat_missing_data_as_bad == False:
-        data = data[data.iloc[:, column] != float(-1)]
+        data = data[data.iloc[:, column_index] != float(-1)]
 
     # normalize the country names
-    data.iloc[:, namecolumn] = data.iloc[:, namecolumn].apply(
-        lambda x: normalize_country_name(x))
+    data.iloc[:, namecolumn_index] = data.iloc[:, namecolumn_index].map(
+        normalize_country_name)
 
     # get the relative ranking of each country in the countrylist
-
     # TODO rank only the countries, which are in the game
 
-    data.sort_values(by=data.columns[column],
+    data.sort_values(by=data.columns[column_index],
                      ascending=ascending,
                      inplace=True)
     data = data.reset_index(drop=True)
@@ -93,20 +110,32 @@ def setup_data(name,
     ranking_list = list(range(1, len(data.index) + 1))
     data["ranking"] = ranking_list
 
-    # get the data from the rows
-    data.apply(lambda x: extract_data_from_series(
-        x,
-        nameofattribute=name,
-        numberofranked=len(ranking_list),
-        additional_information=additional_information,
-        additional_information_column_list=additional_information_column_list),
-        axis=1)
+    data.rename(columns={data.columns[namecolumn_index]: 'name'}, inplace=True)
+    data.rename(columns={data.columns[column_index]: 'value'}, inplace=True)
+
+    if additional_information:
+        for index, additional_information_column_index in enumerate(additional_information_column_list):
+            if index == 0:
+                data.rename(columns={
+                            data.columns[additional_information_column_index]: 'additional_information_name'}, inplace=True)
+            if index == 1:
+                data.rename(columns={
+                            data.columns[additional_information_column_index]: 'additional_information'}, inplace=True)
+            if index == 2:
+                data.rename(columns={
+                            data.columns[additional_information_column_index]: 'additional_information_link'}, inplace=True)
+
+    data_as_dict = data.to_dict('records')
+    for record in data_as_dict:
+        extract_data_from_record(
+            record,
+            name_of_attribute=name,
+            number_of_ranked=len(ranking_list),
+            additional_information=additional_information,
+        )
 
     # get additional explanations, if it is provided
-    try:
-        explanation = additional_explanations.additional_explanations[name]
-    except KeyError:
-        explanation = ""
+    explanation = additional_explanations.additional_explanations.get(name, "")
 
     # create Category with information provided
     category.Category(name,
@@ -124,7 +153,11 @@ def setup_data(name,
             country.dict_of_attributes[name] = LocalAttribute()
 
 
-def setup_all_data():
+def setup_all_data() -> None:
+    """
+    Core entry point that orchestrates the loading and initialization of all game categories.
+    This function calls setup_data for every CSV file used in the game.
+    """
 
     # # misc
     # setup_data("Chess grandmasters per capita (higher is better).csv",
