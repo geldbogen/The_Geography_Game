@@ -93,10 +93,10 @@ def setup_data(name: str,
     data = pd.read_csv(f"data/{name}", index_col=None, header=0)
 
     if treat_missing_data_as_bad == False:
-        data = data[data.iloc[:, column_index] != float(-1)]
+        data = data[data.iloc[:, column_index] != float(-1)].copy()
 
     # normalize the country names
-    data.iloc[:, namecolumn_index] = data.iloc[:, namecolumn_index].map(
+    data[data.columns[namecolumn_index]] = data.iloc[:, namecolumn_index].map(
         normalize_country_name)
 
     # get the relative ranking of each country in the countrylist
