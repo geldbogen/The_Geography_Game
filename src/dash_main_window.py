@@ -107,7 +107,7 @@ def create_main_window_layout(list_of_players : list[Player], number_of_rounds :
     
     
     dmc.AppShellFooter([
-        dmc.Text("© 2025 Julius Niemeyer. All rights reserved. Built with ❤️ using Dash and Mantine.",
+        dmc.Text("© 2026 Julius Niemeyer. All rights reserved. Built with ❤️ using Dash and Mantine.",
                   style={'textAlign': 'center', 'fontSize': '0.8rem'})
     ])
 ])
