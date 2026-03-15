@@ -1,5 +1,5 @@
 from __future__ import annotations
-from PIL import ImageDraw, Image, ImageTk
+from PIL import ImageDraw, Image
 import numpy as np
 
 from global_definitions import (resize_ratio, all_countries_available, 
@@ -73,6 +73,9 @@ class Country:
 
 
     def get_resized_flag(self, height : int):
+        # Lazy import keeps Dash/runtime free from tkinter dependency unless
+        # legacy Tkinter UI explicitly requests a PhotoImage.
+        from PIL import ImageTk
         country_url = "pictures/flag_pictures/w1280/" + self.get_two_country_code(
         ).lower() + ".png"
         flag_image = (Image.open(country_url))

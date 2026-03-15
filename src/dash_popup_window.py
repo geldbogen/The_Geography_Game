@@ -9,9 +9,13 @@ from dash_extensions.javascript import Namespace, assign
 import dash_bootstrap_components as dbc
 import dash_mantine_components as dmc
 
+from game_logging import get_game_logger
 from game_state import get_backend_game
 from dash_popup_extra_information_card import get_two_popup_extra_information_window_cards
 from dash_iconify import DashIconify
+
+
+LOGGER = get_game_logger("dash_popup_window")
 
 
 def _get_flag_asset_path(country) -> str:
@@ -276,6 +280,11 @@ def close_popup(n_clicks, segmented_control_data, is_open, hideout):
         
         # Get which country was guessed
         same_player_again = (button_id["is_guessed_correct_or_not"] == 'guessed_correct')  
+        LOGGER.info(
+            "popup_closed | same_player_again=%s | previous_active_player=%s",
+            same_player_again,
+            getattr(get_backend_game().active_player, "name", None),
+        )
         
         hideout['selected'] = []
         backend_game = get_backend_game()
@@ -285,8 +294,15 @@ def close_popup(n_clicks, segmented_control_data, is_open, hideout):
 
         game_should_end = backend_game.go_to_next_turn_and_check_if_game_should_end(same_player_again=same_player_again)
         if game_should_end:
+            LOGGER.info("popup_transition_completed | game_should_end=True")
             pass
             # do endscreen later
+        else:
+            LOGGER.info(
+                "popup_transition_completed | game_should_end=False | next_active_player=%s | round=%s",
+                backend_game.active_player.name,
+                backend_game.which_round_counter + 1,
+            )
 
         segmented_control_data[0] = f'Round: {backend_game.which_round_counter + 1} / {backend_game.number_of_rounds}' 
         to_display_string = backend_game.get_replaced_A_and_B_category_string_for_current_attribute()

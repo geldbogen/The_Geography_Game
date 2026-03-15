@@ -13,6 +13,10 @@ from player import No_Data_Body, mr_nobody
 
 from global_definitions import all_countries_in_game, all_categories_names_and_clusters, all_countries_available, neighboring_countries_data
 from country import Country, Unknown_country
+from game_logging import get_game_logger
+
+
+LOGGER = get_game_logger("backend_game")
 
 
 class BackendGame():
@@ -97,6 +101,38 @@ class BackendGame():
         # get the first attribute
         self.roll_a_new_attribute(
             activating_player=self.active_player, pressed_reroll_button=False)
+        self._log_game_state(
+            "backend_game_initialized",
+            winning_condition=self.winning_condition,
+            wormhole_mode=self.wormhole_mode,
+            starting_countries=self.starting_countries,
+            number_of_rounds=self.number_of_rounds,
+        )
+
+    def _ownership_snapshot(self) -> dict[str, list[str]]:
+        snapshot = {
+            player.name: sorted(country.name for country in player.list_of_possessed_countries)
+            for player in self.list_of_players
+        }
+        unowned_countries = sorted(
+            country.name for country in self.countries_in_game if country.owner.name == "Nobody"
+        )
+        if unowned_countries:
+            snapshot["Nobody"] = unowned_countries
+        return snapshot
+
+    def _log_game_state(self, event: str, **context) -> None:
+        payload = {
+            "round": self.which_round_counter + 1,
+            "active_turn_index": self.active_player_counter + 1,
+            "active_player": getattr(self.active_player, "name", None),
+            "current_attribute": getattr(self.current_attribute, "name", None),
+            "chosen_country_1": getattr(self.chosen_country_1, "name", None),
+            "chosen_country_2": getattr(self.chosen_country_2, "name", None),
+            "ownership": self._ownership_snapshot(),
+        }
+        payload.update(context)
+        LOGGER.info("%s | %s", event, payload)
 
     def _setup_country_connections(self):
 
@@ -142,6 +178,11 @@ class BackendGame():
                 loose_player=mr_nobody,
                 win_player=player,
                 country=random_country
+            )
+            self._log_game_state(
+                "starting_country_assigned",
+                assigned_player=player.name,
+                country=random_country.name,
             )
 
     def get_starting_attribute(self):
@@ -205,6 +246,12 @@ class BackendGame():
         # replenish the list of clusters if it is too small
         if len(self.list_of_clusters) <= 3:
             self.list_of_clusters = all_categories_names_and_clusters.copy()
+        self._log_game_state(
+            "attribute_rolled",
+            activating_player=activating_player.name,
+            pressed_reroll_button=pressed_reroll_button,
+            rerolls_left=activating_player.rerolls_left,
+        )
         return None
 
     def check_if_game_should_end(self):
@@ -232,20 +279,25 @@ class BackendGame():
         print('the game is asked to end')
         print('active_player_counter')
         print(self.active_player_counter)
+        self._log_game_state("game_end_check_started")
         
         if self.active_player_counter == len(
                 self.list_of_players) * self.number_of_rounds - 1:
+            self._log_game_state("game_end_check_passed", reason="turn_limit_reached")
             return True
         match self.winning_condition:
             case "claim 2 countries":
                 if self.targetcountry1.owner.name != "Nobody" and self.targetcountry1.owner == self.targetcountry2.owner:
+                    self._log_game_state("game_end_check_passed", reason="claim_2_countries_completed")
                     return True
             case "get gold":
                 if len(self.goldlist) == 0:
+                    self._log_game_state("game_end_check_passed", reason="gold_depleted")
                     return True
             case "secret targets":
                 if set(self.dict_of_targets[self.active_player]).issubset(
                         set(self.active_player.list_of_possessed_countries)):
+                    self._log_game_state("game_end_check_passed", reason="secret_targets_completed")
                     return True
             case "secret attribute":
                 if len(
@@ -255,11 +307,24 @@ class BackendGame():
                     for country in self.active_player.list_of_possessed_countries:
                         if country in self.dict_of_targets[self.active_player]:
                             self.winning_country = country
+                            self._log_game_state(
+                                "game_end_check_passed",
+                                reason="secret_attribute_completed",
+                                winning_country=country.name,
+                            )
                             return True
+                    self._log_game_state("game_end_check_passed", reason="secret_attribute_completed")
                     return True
             case _:
                 print('illegal winning condition will never end')
+                self._log_game_state(
+                    "game_end_check_skipped",
+                    reason="unsupported_winning_condition",
+                    winning_condition=self.winning_condition,
+                )
                 return False
+        self._log_game_state("game_end_check_completed", result=False)
+        return False
 
     def get_replaced_A_and_B_category_string_for_current_attribute(self) -> dmc.Highlight:
         return self.current_attribute.replace_A_and_B_in_category_name(self.chosen_country_1, self.chosen_country_2)
@@ -302,6 +367,12 @@ class BackendGame():
                     win_player.gold = win_player.gold + 1
                     self.goldlist.remove(country)
                     win_player.list_of_possessed_countries_gold.append(country)
+        self._log_game_state(
+            "country_claimed",
+            country=country.name,
+            previous_owner=loose_player.name,
+            new_owner=win_player.name,
+        )
 
     def score(self, countrylist: list[Country]) -> list[float]:
         """
@@ -486,6 +557,11 @@ class BackendGame():
     def attack_backend(self) -> Literal['no data', 'draw', 'win', 'loose', 'hard defeat']:
         
         if self.chosen_country_1 is not None and self.chosen_country_2 is not None:
+            self._log_game_state(
+                "attack_started",
+                attacker_country=self.chosen_country_1.name,
+                defender_country=self.chosen_country_2.name,
+            )
             result = self.active_player.check_if_attack_is_succesful(self.current_attribute,
                                                                             self.chosen_country_1, self.chosen_country_2)
         else:
@@ -499,15 +575,26 @@ class BackendGame():
                 if self.chosen_country_1.owner.name != "Nobody":
                     self.claim_country_backend(self.active_player, self.chosen_country_1.owner, self.chosen_country_1)
 
+        self._log_game_state(
+            "attack_resolved",
+            attacker_country=self.chosen_country_1.name,
+            defender_country=self.chosen_country_2.name,
+            result=result,
+        )
         return result
 
     def go_to_next_turn_and_check_if_game_should_end(self, same_player_again: bool = False) -> bool:
+        self._log_game_state(
+            "turn_transition_started",
+            same_player_again=same_player_again,
+        )
 
         self.chosen_country_1 = None
         self.chosen_country_2 = None
         
         if not same_player_again:
             if self.check_if_game_should_end():
+                self._log_game_state("turn_transition_aborted", reason="game_should_end")
                 return True
 
             self.active_player_counter = self.active_player_counter + 1
@@ -524,6 +611,10 @@ class BackendGame():
         self.roll_a_new_attribute(activating_player=self.active_player,
                                           pressed_reroll_button=False
                                           )
+        self._log_game_state(
+            "turn_transition_completed",
+            same_player_again=same_player_again,
+        )
 
         return False
 

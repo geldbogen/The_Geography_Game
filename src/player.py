@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import random
-import tkinter as tk
 
 from global_definitions import (
     all_players,
@@ -13,7 +12,7 @@ from global_definitions import (
 
 
 
-from typing import TYPE_CHECKING, Literal
+from typing import TYPE_CHECKING, Literal, Any
 if TYPE_CHECKING:
     from category import Category
     from country import Country
@@ -28,8 +27,8 @@ class Player:
         # color of the player (on the map)
         self.color : tuple[int,int,int] = color
 
-        # a collection of the flags of the countries that player possesses
-        self.labeldict : dict[Country,tk.Label]= dict()
+        # tkinter-specific labels were removed; keep this as a generic UI cache.
+        self.labeldict : dict[Country, Any] = dict()
 
         # a list of all countries the player currently controls
         self.list_of_possessed_countries: list[Country] = []

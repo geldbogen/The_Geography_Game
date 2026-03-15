@@ -6,6 +6,7 @@ from dash_extensions.javascript import Namespace, assign, arrow_function
 
 from country import call_country_by_name
 from error_handler import ErrorHandler
+from game_logging import get_game_logger
 from game_state import BACKEND_GAME, get_backend_game
 from player import Player
 
@@ -13,6 +14,9 @@ import dash_popup_window
 import dash_mantine_components as dmc
 
 from dash_iconify import DashIconify
+
+
+LOGGER = get_game_logger("dash_main_window")
 
 
 class MainWindow():
@@ -140,7 +144,13 @@ def click_on_map(_, feature, hideout, popup_is_open):
         return dash.no_update, dash.no_update, dash.no_update, dash.no_update, dash.no_update
     print(f'countryname clicked: {feature["properties"]["sovereignt"]}')
     country = call_country_by_name(feature["properties"]["sovereignt"])
-    owner = country.owner
+    LOGGER.info(
+        "map_click_received | clicked_country=%s | active_player=%s | chosen_country_1=%s | chosen_country_2=%s",
+        country.name,
+        getattr(backend_game.active_player, "name", None),
+        getattr(backend_game.chosen_country_1, "name", None),
+        getattr(backend_game.chosen_country_2, "name", None),
+    )
 
     to_display_string_header = 'Error'
     to_display_string = 'ERROR'
@@ -152,8 +162,14 @@ def click_on_map(_, feature, hideout, popup_is_open):
         case None, None:
             notifications = ErrorHandler.invalid_attacker_notifications(backend_game, country)
             if notifications:
+                LOGGER.info(
+                    "attacker_selection_rejected | country=%s | reason=%s",
+                    country.name,
+                    notifications[0]["message"],
+                )
                 return dash.no_update, dash.no_update, dash.no_update, dash.no_update, notifications
             backend_game.chosen_country_1 = country
+            LOGGER.info("attacker_selected | country=%s", country.name)
 
         case _, None:
             is_valid_selection, notifications, should_clear_attacker = ErrorHandler.validate_second_country_selection(
@@ -161,10 +177,21 @@ def click_on_map(_, feature, hideout, popup_is_open):
             )
             if is_valid_selection:
                 backend_game.chosen_country_2 = country
+                LOGGER.info(
+                    "defender_selected | attacker=%s | defender=%s",
+                    backend_game.chosen_country_1.name,
+                    country.name,
+                )
             else:
                 if should_clear_attacker:
                     backend_game.chosen_country_1 = None
                 hideout = ErrorHandler.sync_selected_countries(backend_game, backend_game.hideout_dict_for_dash)
+                LOGGER.info(
+                    "defender_selection_rejected | clicked_country=%s | reason=%s | clear_attacker=%s",
+                    country.name,
+                    notifications[0]["message"],
+                    should_clear_attacker,
+                )
                 return (
                     backend_game.get_replaced_A_and_B_category_string_for_current_attribute(),
                     hideout,
@@ -179,6 +206,12 @@ def click_on_map(_, feature, hideout, popup_is_open):
                 # attack function triggered
                 country_a_name = a.name if a else "Unknown"
                 country_b_name = b.name if b else "Unknown"
+                LOGGER.info(
+                    "attack_triggered_from_map | attacker=%s | defender=%s | attribute=%s",
+                    country_a_name,
+                    country_b_name,
+                    getattr(backend_game.current_attribute, "name", None),
+                )
                 result = backend_game.attack_backend()
                 popup_window_is_open = True
                 
@@ -238,6 +271,10 @@ def click_on_map(_, feature, hideout, popup_is_open):
             else:
                 backend_game.chosen_country_1 = None
                 backend_game.chosen_country_2 = None
+                LOGGER.info(
+                    "selection_reset_after_third_click | clicked_country=%s",
+                    country.name,
+                )
     
     
     
@@ -258,10 +295,20 @@ def click_reroll_button(n_clicks):
     backend_game = get_backend_game()
     if n_clicks:
         if backend_game.active_player.rerolls_left == 0:
+            LOGGER.info(
+                "reroll_rejected | active_player=%s | rerolls_left=%s",
+                backend_game.active_player.name,
+                backend_game.active_player.rerolls_left,
+            )
             return dash.no_update, dash.no_update
         else:
             backend_game.roll_a_new_attribute(backend_game.active_player, pressed_reroll_button=True)
+            LOGGER.info(
+                "reroll_used | active_player=%s | rerolls_left=%s | new_attribute=%s",
+                backend_game.active_player.name,
+                backend_game.active_player.rerolls_left,
+                getattr(backend_game.current_attribute, "name", None),
+            )
             return backend_game.get_replaced_A_and_B_category_string_for_current_attribute(), f'Rerolls left: {backend_game.active_player.rerolls_left}'
-
 
 

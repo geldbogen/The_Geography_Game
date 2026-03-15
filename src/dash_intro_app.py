@@ -6,12 +6,15 @@ from global_definitions import all_categories
 import dash_main_window
 import datetime
 from backend_game import BackendGame
+from game_logging import get_game_logger
 import game_state  # Import shared state module
 from game_state import get_backend_game
 import dash_bootstrap_components as dbc
 import dash_mantine_components as dmc
 
 # Initialize the Dash app with a Bootstrap theme
+LOGGER = get_game_logger("dash_intro_app")
+
 app = dash.Dash(__name__, 
                 external_stylesheets=[dbc.themes.FLATLY, "https://cdn.tailwindcss.com"],
                 assets_folder="./assets",
@@ -319,6 +322,16 @@ def start_game(n_clicks, players, number_of_rounds, start_country, winning_condi
     if not n_clicks or not players:
         print(f'not starting the game')
         return no_update, no_update
+    LOGGER.info(
+        "start_game_requested | players=%s | number_of_rounds=%s | start_country=%s | winning_condition=%s | wormhole_option=%s | peace_mode=%s | continents=%s",
+        [player["name"] for player in players],
+        number_of_rounds,
+        start_country,
+        winning_condition,
+        wormhole_option,
+        bool(peace_mode),
+        continents,
+    )
     
     # Process game setup data
     end_attribute = "Random.csv"
@@ -368,9 +381,15 @@ def start_game(n_clicks, players, number_of_rounds, start_country, winning_condi
         # Set the backend game in shared state
         game_state.set_backend_game(backend_game)
         print(f"BackendGame created successfully with {len(player_objects)} players")
+        LOGGER.info(
+            "start_game_completed | players=%s | ownership=%s",
+            [player.name for player in player_objects],
+            backend_game._ownership_snapshot(),
+        )
         
     except Exception as e:
         print(f"Error creating BackendGame: {e}")
+        LOGGER.exception("start_game_failed")
         raise e
         return no_update, no_update
     

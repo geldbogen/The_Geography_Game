@@ -1,0 +1,28 @@
+2026-03-15 13:43:25,654 | geography_game.dash_main_window | INFO | map_click_received | clicked_country=Attackerland | active_player=Player 1 | chosen_country_1=None | chosen_country_2=None
+2026-03-15 13:43:25,654 | geography_game.dash_main_window | INFO | attacker_selected | country=Attackerland
+2026-03-15 13:43:25,654 | geography_game.dash_main_window | INFO | map_click_received | clicked_country=Defenderland | active_player=Player 1 | chosen_country_1=Attackerland | chosen_country_2=None
+2026-03-15 13:43:25,654 | geography_game.dash_main_window | INFO | defender_selection_rejected | clicked_country=Defenderland | reason=You can not attack another player's countries in peace mode! Choose another country! | clear_attacker=True
+2026-03-15 13:43:25,660 | geography_game.dash_main_window | INFO | map_click_received | clicked_country=Far Away | active_player=Player 1 | chosen_country_1=Attackerland | chosen_country_2=None
+2026-03-15 13:43:25,660 | geography_game.dash_main_window | INFO | defender_selection_rejected | clicked_country=Far Away | reason=These countries don't share a border! Choose another pair! | clear_attacker=True
+2026-03-15 13:43:25,660 | geography_game.dash_main_window | INFO | map_click_received | clicked_country=Friendlyland | active_player=Player 1 | chosen_country_1=Attackerland | chosen_country_2=None
+2026-03-15 13:43:25,660 | geography_game.dash_main_window | INFO | defender_selection_rejected | clicked_country=Friendlyland | reason=You already own this country! | clear_attacker=False
+2026-03-15 13:43:25,660 | geography_game.dash_main_window | INFO | map_click_received | clicked_country=Mysteryland | active_player=Player 1 | chosen_country_1=Attackerland | chosen_country_2=None
+2026-03-15 13:43:25,660 | geography_game.dash_main_window | INFO | defender_selection_rejected | clicked_country=Mysteryland | reason=Uh-oh! This country has no data for the current attribute! | clear_attacker=False
+2026-03-15 13:43:25,660 | geography_game.dash_main_window | INFO | map_click_received | clicked_country=Defenderland | active_player=Player 1 | chosen_country_1=Attackerland | chosen_country_2=None
+2026-03-15 13:43:25,660 | geography_game.dash_main_window | INFO | defender_selected | attacker=Attackerland | defender=Defenderland
+2026-03-15 13:43:25,667 | geography_game.dash_popup_window | INFO | popup_closed | same_player_again=True | previous_active_player=Player 2
+2026-03-15 13:43:25,667 | geography_game.dash_popup_window | INFO | popup_transition_completed | game_should_end=False | next_active_player=Player 2 | round=2
+2026-03-15 13:43:45,132 | geography_game.dash_main_window | INFO | map_click_received | clicked_country=Attackerland | active_player=Player 1 | chosen_country_1=None | chosen_country_2=None
+2026-03-15 13:43:45,132 | geography_game.dash_main_window | INFO | attacker_selected | country=Attackerland
+2026-03-15 13:43:45,137 | geography_game.dash_main_window | INFO | map_click_received | clicked_country=Defenderland | active_player=Player 1 | chosen_country_1=Attackerland | chosen_country_2=None
+2026-03-15 13:43:45,137 | geography_game.dash_main_window | INFO | defender_selection_rejected | clicked_country=Defenderland | reason=You can not attack another player's countries in peace mode! Choose another country! | clear_attacker=True
+2026-03-15 13:43:45,138 | geography_game.dash_main_window | INFO | map_click_received | clicked_country=Far Away | active_player=Player 1 | chosen_country_1=Attackerland | chosen_country_2=None
+2026-03-15 13:43:45,138 | geography_game.dash_main_window | INFO | defender_selection_rejected | clicked_country=Far Away | reason=These countries don't share a border! Choose another pair! | clear_attacker=True
+2026-03-15 13:43:45,139 | geography_game.dash_main_window | INFO | map_click_received | clicked_country=Friendlyland | active_player=Player 1 | chosen_country_1=Attackerland | chosen_country_2=None
+2026-03-15 13:43:45,139 | geography_game.dash_main_window | INFO | defender_selection_rejected | clicked_country=Friendlyland | reason=You already own this country! | clear_attacker=False
+2026-03-15 13:43:45,139 | geography_game.dash_main_window | INFO | map_click_received | clicked_country=Mysteryland | active_player=Player 1 | chosen_country_1=Attackerland | chosen_country_2=None
+2026-03-15 13:43:45,139 | geography_game.dash_main_window | INFO | defender_selection_rejected | clicked_country=Mysteryland | reason=Uh-oh! This country has no data for the current attribute! | clear_attacker=False
+2026-03-15 13:43:45,139 | geography_game.dash_main_window | INFO | map_click_received | clicked_country=Defenderland | active_player=Player 1 | chosen_country_1=Attackerland | chosen_country_2=None
+2026-03-15 13:43:45,139 | geography_game.dash_main_window | INFO | defender_selected | attacker=Attackerland | defender=Defenderland
+2026-03-15 13:43:45,145 | geography_game.dash_popup_window | INFO | popup_closed | same_player_again=True | previous_active_player=Player 2
+2026-03-15 13:43:45,145 | geography_game.dash_popup_window | INFO | popup_transition_completed | game_should_end=False | next_active_player=Player 2 | round=2
