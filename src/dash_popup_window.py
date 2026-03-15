@@ -14,11 +14,9 @@ from dash_popup_extra_information_card import get_two_popup_extra_information_wi
 from dash_iconify import DashIconify
 
 
-def _get_flag_emoji(country) -> str:
-    country_code = country.get_two_country_code().upper()
-    if len(country_code) != 2 or not country_code.isalpha() or country_code == "NOFLAG":
-        return "🌍"
-    return "".join(chr(127397 + ord(letter)) for letter in country_code)
+def _get_flag_asset_path(country) -> str:
+    country_code = country.get_two_country_code().lower()
+    return f"/assets/pictures/flag_pictures/w320/{country_code}.png"
 
 
 def _build_country_info(country, current_attribute, accent_color: str):
@@ -43,7 +41,28 @@ def _build_country_info(country, current_attribute, accent_color: str):
     return html.Div(
         [
             html.H5(country.name, style={'fontWeight': 'bold', 'marginBottom': '8px', 'minHeight': '3rem'}),
-            html.Div(_get_flag_emoji(country), style={'fontSize': '2.5rem', 'lineHeight': '1', 'marginBottom': '12px'}),
+            html.Div(
+                dmc.Image(
+                    src=_get_flag_asset_path(country),
+                    fallbackSrc='/assets/pictures/flag_pictures/w320/noflag.png',
+                    fit="contain",
+                    h=72,
+                    w=116,
+                    radius="sm",
+                ),
+                style={
+                    'width': '116px',
+                    'height': '72px',
+                    'display': 'flex',
+                    'alignItems': 'center',
+                    'justifyContent': 'center',
+                    'marginBottom': '14px',
+                    'borderRadius': '10px',
+                    'overflow': 'hidden',
+                    'background': 'linear-gradient(180deg, #f8fafc 0%, #eef2f7 100%)',
+                    'boxShadow': 'inset 0 0 0 1px rgba(148, 163, 184, 0.25)',
+                },
+            ),
             html.Div(details),
         ],
         style={

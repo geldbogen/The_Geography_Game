@@ -3,7 +3,13 @@ from __future__ import annotations
 import random
 import tkinter as tk
 
-from global_definitions import all_players, realgrey, white, dictionary_attribute_name_to_attribute
+from global_definitions import (
+    all_players,
+    realgrey,
+    white,
+    dictionary_attribute_name_to_attribute,
+    all_categories_names_and_clusters,
+)
 
 
 
@@ -143,7 +149,11 @@ class Player:
         return returndict
 
 
-    def get_good_attribute(self, threshold: float = 0.25, at_least_one_win: bool = True, peacemode : bool = False, list_of_clusters : list[str] = []) -> Category:
+    def get_good_attribute(self,
+                           threshold: float = 0.25,
+                           at_least_one_win: bool = True,
+                           peacemode : bool = False,
+                           list_of_clusters : list[str] | None = None) -> Category:
         """
         Selects a random attribute that provides a reasonably good chance of winning attacks.
         This method repeatedly selects random attributes until finding one that meets
@@ -163,32 +173,52 @@ class Player:
             Category: A suitable attribute meeting the specified criteria
         """
 
-        is_good_attribute = False
+        cluster_pool = list_of_clusters if list_of_clusters is not None else all_categories_names_and_clusters.copy()
+        if len(cluster_pool) == 0:
+            cluster_pool = all_categories_names_and_clusters.copy()
+        if len(cluster_pool) == 0:
+            raise ValueError("No categories are available to choose from.")
 
-        while (not is_good_attribute):
+        # Remember the first playable option so we can still return a sensible
+        # attribute if none of the random picks meets the win/draw threshold.
+        backup_attribute: Category | None = None
+        backup_cluster_name: str | None = None
+        max_attempts = max(len(cluster_pool) * 3, 1)
 
-            current_attribute = self.get_random_attribute_with_cluster(list_of_clusters)
-            is_good_attribute = True
-            
-            attack_analysis_dict = self.player_win_analysis(current_attribute,peacemode=peacemode)
+        for _ in range(max_attempts):
+            current_attribute = self.get_random_attribute_with_cluster(cluster_pool)
+            current_cluster_name = self.current_clustername
 
-            number_of_all_possible_attacks = sum(
-                [value for _, value in attack_analysis_dict.items()])
-            probability = float(
-                attack_analysis_dict['win'] + attack_analysis_dict['draw']) / float(number_of_all_possible_attacks)
+            if backup_attribute is None and not current_attribute.is_end_only:
+                backup_attribute = current_attribute
+                backup_cluster_name = current_cluster_name
+
+            attack_analysis_dict = self.player_win_analysis(current_attribute, peacemode=peacemode)
+            number_of_all_possible_attacks = sum(attack_analysis_dict.values())
+
+            if number_of_all_possible_attacks == 0:
+                continue
+
+            probability = (
+                float(attack_analysis_dict['win'] + attack_analysis_dict['draw'])
+                / float(number_of_all_possible_attacks)
+            )
             threshold_condition = probability >= threshold
+            at_least_one_req = (attack_analysis_dict['win'] >= 1) if at_least_one_win else True
 
-            is_good_attribute = is_good_attribute and threshold_condition
-            is_good_attribute = is_good_attribute and not current_attribute.is_end_only
+            if threshold_condition and not current_attribute.is_end_only and at_least_one_req:
+                if list_of_clusters is not None and current_cluster_name in list_of_clusters:
+                    list_of_clusters.remove(current_cluster_name)
+                return current_attribute
 
-            if at_least_one_win:
-                at_least_one_req = attack_analysis_dict['win'] >= 1
-                is_good_attribute = is_good_attribute and at_least_one_req
+        if backup_attribute is None:
+            backup_attribute = self.get_random_attribute_with_cluster(cluster_pool)
+            backup_cluster_name = self.current_clustername
 
-        # remove the attribute from the list of attributes, so that it cannot be chosen again
-        list_of_clusters.remove(self.current_clustername)
-        
-        return current_attribute
+        if list_of_clusters is not None and backup_cluster_name in list_of_clusters:
+            list_of_clusters.remove(backup_cluster_name)
+
+        return backup_attribute
 
 
 def call_player_by_name(name: str) -> Player:
