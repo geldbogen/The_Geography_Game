@@ -110,15 +110,19 @@ class BackendGame():
         )
 
     def _ownership_snapshot(self) -> dict[str, list[str]]:
-        snapshot = {
-            player.name: sorted(country.name for country in player.list_of_possessed_countries)
-            for player in self.list_of_players
-        }
+        snapshot = {}
+        for player in self.list_of_players:
+            owned_countries = sorted(country.name for country in player.list_of_possessed_countries)
+            if player.name == "Nobody":
+                snapshot[player.name] = len(owned_countries)
+            else:
+                snapshot[player.name] = owned_countries
+
         unowned_countries = sorted(
             country.name for country in self.countries_in_game if country.owner.name == "Nobody"
         )
         if unowned_countries:
-            snapshot["Nobody"] = unowned_countries
+            snapshot["Nobody"] = len(unowned_countries)
         return snapshot
 
     def _log_game_state(self, event: str, **context) -> None:
