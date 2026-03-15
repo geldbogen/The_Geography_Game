@@ -5,6 +5,7 @@ from dash.dependencies import Output, Input
 from dash_extensions.javascript import Namespace, assign, arrow_function
 
 from country import call_country_by_name
+from error_handler import ErrorHandler
 from game_state import BACKEND_GAME, get_backend_game
 from player import Player
 
@@ -13,10 +14,12 @@ import dash_mantine_components as dmc
 
 from dash_iconify import DashIconify
 
+
 class MainWindow():
 
     def __init__(self):
         pass
+
 
 def create_main_window_layout(list_of_players : list[Player], number_of_rounds : int = 10):
 
@@ -147,55 +150,28 @@ def click_on_map(_, feature, hideout, popup_is_open):
 
     match backend_game.chosen_country_1, backend_game.chosen_country_2:
         case None, None:
-            if country.owner == backend_game.active_player:
-
-                if country.dict_of_attributes[backend_game.current_attribute.name].rank != 0:
-                    backend_game.chosen_country_1 = country
-                else:
-                    error_popup = dict(
-                        title="Whoops!",
-                        id="show-notify",
-                        action="show",
-                        message="Uh-oh! This country has no data for the current attribute!",
-                        icon=DashIconify(icon="tabler:face-id-error"),
-                    )
-                    return dash.no_update, dash.no_update, dash.no_update, dash.no_update, [error_popup]
-            else:
-                error_popup = dict(
-                    title="Whoops!",
-                    id="show-notify",
-                    action="show",
-                    message="You cannot attack with a country that you do not own!",
-                    icon=DashIconify(icon="tabler:face-id-error"),
-                    
-                )
-                return dash.no_update, dash.no_update, dash.no_update, dash.no_update, [error_popup]
+            notifications = ErrorHandler.invalid_attacker_notifications(backend_game, country)
+            if notifications:
+                return dash.no_update, dash.no_update, dash.no_update, dash.no_update, notifications
+            backend_game.chosen_country_1 = country
 
         case _, None:
-            if country.is_connected_with(backend_game.chosen_country_1):
-                if country.dict_of_attributes[backend_game.current_attribute.name].rank != 0:
-                    backend_game.chosen_country_2 = country
-                else:
-                    error_popup = dict(
-                        title="Whoops!",
-                        id="show-notify",
-                        action="show",
-                        message="Uh-oh! This country has no data for the current attribute!",
-                        icon=DashIconify(icon="tabler:face-id-error"),
-                    )
-                    return dash.no_update, dash.no_update, dash.no_update, dash.no_update, [error_popup]
+            is_valid_selection, notifications, should_clear_attacker = ErrorHandler.validate_second_country_selection(
+                backend_game, country
+            )
+            if is_valid_selection:
+                backend_game.chosen_country_2 = country
             else:
-                # this doesnt work
-                error_popup = dict(
-                    title="Whoops!",
-                    id="show-notify",
-                    action="show",
-                    message="These countries don't share a border! Choose another pair!",
-                    icon=DashIconify(icon="tabler:face-id-error"),
+                if should_clear_attacker:
+                    backend_game.chosen_country_1 = None
+                hideout = ErrorHandler.sync_selected_countries(backend_game, backend_game.hideout_dict_for_dash)
+                return (
+                    backend_game.get_replaced_A_and_B_category_string_for_current_attribute(),
+                    hideout,
+                    dash.no_update,
+                    dash.no_update,
+                    notifications,
                 )
-                hideout["selected"] = []
-                backend_game.chosen_country_1 = None
-                return backend_game.get_replaced_A_and_B_category_string_for_current_attribute(), hideout, dash.no_update, dash.no_update, [error_popup]
 
         case a, b if a is not None and b is not None:
             if b == country:
@@ -266,10 +242,7 @@ def click_on_map(_, feature, hideout, popup_is_open):
     
     
     hideout = backend_game.hideout_dict_for_dash
-    if backend_game.chosen_country_1:
-        hideout["selected"] = [backend_game.chosen_country_1.name, backend_game.chosen_country_2.name] if backend_game.chosen_country_2 else [backend_game.chosen_country_1.name]
-    else:
-        hideout["selected"] = []
+    hideout = ErrorHandler.sync_selected_countries(backend_game, hideout)
 
     return backend_game.get_replaced_A_and_B_category_string_for_current_attribute(), hideout, popup_window_is_open, win_or_lose, []
 
