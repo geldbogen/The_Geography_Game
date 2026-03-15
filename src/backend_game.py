@@ -89,6 +89,7 @@ class BackendGame():
             "player_color_dict": self.player_name_color_dict,
             "country_owner_dict": {country.name: country.owner.name for country in self.countries_in_game}
         }
+        self.ignore_next_map_click: bool = False
         
         # Initialize game state
         self._get_starting_countries()

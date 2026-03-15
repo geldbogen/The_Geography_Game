@@ -123,10 +123,18 @@ def create_main_window_layout(list_of_players : list[Player], number_of_rounds :
     Input("main-window-geojson", "n_clicks"),
     State("main-window-geojson", "clickData"),
     State("main-window-geojson", "hideout"),
+    State("popup-window", "opened"),
     prevent_initial_call=True,
 )
-def click_on_map(_, feature, hideout):
+def click_on_map(_, feature, hideout, popup_is_open):
     backend_game = get_backend_game()
+
+    if getattr(backend_game, "ignore_next_map_click", False):
+        backend_game.ignore_next_map_click = False
+        return dash.no_update, dash.no_update, dash.no_update, dash.no_update, dash.no_update
+
+    if popup_is_open or not feature:
+        return dash.no_update, dash.no_update, dash.no_update, dash.no_update, dash.no_update
     print(f'countryname clicked: {feature["properties"]["sovereignt"]}')
     country = call_country_by_name(feature["properties"]["sovereignt"])
     owner = country.owner

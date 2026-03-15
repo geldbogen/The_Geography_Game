@@ -279,6 +279,7 @@ def close_popup(n_clicks, segmented_control_data, is_open, hideout):
         
         hideout['selected'] = []
         backend_game = get_backend_game()
+        backend_game.ignore_next_map_click = True
         # Reset the chosen countries after battle
         # do transition
 
