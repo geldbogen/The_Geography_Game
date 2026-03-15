@@ -13,6 +13,54 @@ from game_state import get_backend_game
 from dash_popup_extra_information_card import get_two_popup_extra_information_window_cards
 from dash_iconify import DashIconify
 
+
+def _get_flag_emoji(country) -> str:
+    country_code = country.get_two_country_code().upper()
+    if len(country_code) != 2 or not country_code.isalpha() or country_code == "NOFLAG":
+        return "🌍"
+    return "".join(chr(127397 + ord(letter)) for letter in country_code)
+
+
+def _build_country_info(country, current_attribute, accent_color: str):
+    try:
+        local_attribute = country.dict_of_attributes[current_attribute.name]
+        displayed_world_rank = str(local_attribute.rank) if local_attribute.rank != 0 else "--"
+        displayed_how_many_ranked = (
+            str(local_attribute.number_of_countries_ranked)
+            if local_attribute.number_of_countries_ranked != 1 else "--"
+        )
+        formatted_value = format(local_attribute.value, ",") if local_attribute.value != -1.0 else "--"
+        details = [
+            html.P(f"Value: {formatted_value}", style={'margin': '4px 0', 'fontSize': '1rem'}),
+            html.P(
+                f"World Rank: #{displayed_world_rank} / {displayed_how_many_ranked}",
+                style={'margin': '4px 0', 'fontSize': '1rem'},
+            ),
+        ]
+    except Exception:
+        details = [html.P("No data available", style={'margin': '4px 0', 'fontSize': '1rem'})]
+
+    return html.Div(
+        [
+            html.H5(country.name, style={'fontWeight': 'bold', 'marginBottom': '8px', 'minHeight': '3rem'}),
+            html.Div(_get_flag_emoji(country), style={'fontSize': '2.5rem', 'lineHeight': '1', 'marginBottom': '12px'}),
+            html.Div(details),
+        ],
+        style={
+            'padding': '18px',
+            'borderRadius': '14px',
+            'border': f'2px solid {accent_color}',
+            'background': 'linear-gradient(180deg, rgba(255,255,255,0.98) 0%, rgba(245,247,250,0.92) 100%)',
+            'textAlign': 'center',
+            'minHeight': '220px',
+            'display': 'flex',
+            'flexDirection': 'column',
+            'justifyContent': 'center',
+            'alignItems': 'center',
+            'boxShadow': '0 10px 24px rgba(0,0,0,0.08)',
+        },
+    )
+
 pop_up_window_content = html.Div([
     # Modal Header with beautiful styling
     html.Div([
@@ -58,7 +106,7 @@ pop_up_window_content = html.Div([
                 'fontWeight': 'bold',
                 'fontSize': '1.2rem'
             })
-        ], style={'marginBottom': '20px'}),
+        ], style={'marginBottom': '28px'}),
 
         dmc.Grid([
             dmc.GridCol([
@@ -68,7 +116,7 @@ pop_up_window_content = html.Div([
                     'border': '2px solid #e74c3c',
                     'textAlign': 'center'
                 }),
-                html.Div(id="country-a-info-card",)
+                html.Div(id="country-a-info-card", style={'marginTop': '18px'})
             ],
             span=6),
 
@@ -79,24 +127,26 @@ pop_up_window_content = html.Div([
                     'border': '2px solid #3498db',
                     'textAlign': 'center'
                 }),
-                html.Div(id="country-b-info-card",)
+                html.Div(id="country-b-info-card", style={'marginTop': '18px'})
             ],
             span=6)
         ],
+        gutter="xl",
         ),
         
 
     # Modal Footer with close button
     dmc.Group(id='footer-buttons', children=[
-        dmc.Button(
-            "Continue Game", 
-            id={"type": "close-button", "is_guessed_correct_or_not": "not_guessed_correct"},
-            size="lg",
-            justify="flex-end",
-
-        ),        
+            dmc.Button(
+                "Continue Game", 
+                id={"type": "close-button", "is_guessed_correct_or_not": "not_guessed_correct"},
+                size="lg",
+                justify="center",
+                variant="filled",
+            ),        
     ],
-    style={'padding': '20px', 'textAlign': 'center', 'background': 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)', 'borderRadius': '0 0 15px 15px', 'border': 'none'}
+    justify='center',
+    style={'padding': '20px', 'textAlign': 'center', 'background': 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)', 'borderRadius': '0 0 15px 15px', 'border': 'none', 'width': '100%'}
     )
     
     ], style={
@@ -140,49 +190,8 @@ def populate_popup_content(is_open, footer_buttons_content):
     country_b = backend_game.chosen_country_2
     current_attribute = backend_game.current_attribute
     
-    # Country A information
-    try:
-        displayed_world_rank_a = str(
-            country_a.dict_of_attributes[current_attribute.name].rank) if country_a.dict_of_attributes[current_attribute.name].rank != 0 else "--"
-        displayed_how_many_ranked_a = str(
-            country_a.dict_of_attributes[current_attribute.name].number_of_countries_ranked) if country_a.dict_of_attributes[current_attribute.name].number_of_countries_ranked != 1 else "--"
-        
-        value_a = country_a.dict_of_attributes[current_attribute.name].value
-        formatted_value_a = format(value_a, ",") if value_a != -1.0 else "--"
-        
-        country_a_info = html.Div([
-            html.H5(country_a.name, style={'fontWeight': 'bold', 'marginBottom': '10px'}),
-            html.P(f"Value: {formatted_value_a}", style={'margin': '5px 0'}),
-            html.P(f"World Rank: #{displayed_world_rank_a} / {displayed_how_many_ranked_a}", style={'margin': '5px 0'}),
-        ])
-    except:
-        country_a_info = html.Div([
-            html.H5(country_a.name, style={'fontWeight': 'bold', 'marginBottom': '10px'}),
-            html.P("No data available", style={'margin': '5px 0'})
-        ])
-    
-    # Country B information
-    try:
-        displayed_world_rank_b = str(
-            country_b.dict_of_attributes[current_attribute.name].rank) if country_b.dict_of_attributes[current_attribute.name].rank != 0 else "--"
-        displayed_how_many_ranked_b = str(
-            country_b.dict_of_attributes[current_attribute.name].number_of_countries_ranked) if country_b.dict_of_attributes[current_attribute.name].number_of_countries_ranked != 1 else "--"
-        
-        value_b = country_b.dict_of_attributes[current_attribute.name].value
-        formatted_value_b = format(value_b, ",") if value_b != -1.0 else "--"
-        print('This is the country code: ')
-        print(country_b.get_two_country_code())
-        country_b_info = html.Div([
-            dmc.Image(src=f'/assets/pictures/flag_pictures/w1280/{country_b.get_two_country_code()}.png', radius='50%'),
-            html.H5(country_b.name, style={'fontWeight': 'bold', 'marginBottom': '10px'}),
-            html.P(f"Value: {formatted_value_b}", style={'margin': '5px 0'}),
-            html.P(f"World Rank: #{displayed_world_rank_b} / {displayed_how_many_ranked_b}", style={'margin': '5px 0'}),
-        ])
-    except:
-        country_b_info = html.Div([
-            html.H5(country_b.name, style={'fontWeight': 'bold', 'marginBottom': '10px'}),
-            html.P("No data available", style={'margin': '5px 0'})
-        ])
+    country_a_info = _build_country_info(country_a, current_attribute, '#e74c3c')
+    country_b_info = _build_country_info(country_b, current_attribute, '#3498db')
     
     # Attribute information
     attribute_info = current_attribute.name.replace(".csv", "")
@@ -213,6 +222,9 @@ def populate_popup_content(is_open, footer_buttons_content):
         guessed_correct_button = dmc.Button(
             "Guessed Correct",
             id = {"type": "close-button", "is_guessed_correct_or_not": "guessed_correct"},
+            size="lg",
+            justify="center",
+            variant="filled",
         )
         footer_buttons_content = [guessed_correct_button]
 
