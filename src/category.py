@@ -1,5 +1,4 @@
 import dash_mantine_components as dmc
-import flag
 
 from global_definitions import (
     all_categories, all_categories_names_and_clusters,
@@ -168,7 +167,7 @@ class Category:
 
         match first_country, second_country:
             case None, None:
-                ans = dmc.Highlight(formatted_category_string.replace("CountryA", f"(your country) 🇬🇶").replace("CountryB", "(target country)"), highlight=[])
+                ans = dmc.Highlight(formatted_category_string.replace("CountryA", "(your country)").replace("CountryB", "(target country)"), highlight=[])
             case _, None:
                 ans = dmc.Highlight(formatted_category_string.replace("CountryA", first_country.name).replace("CountryB", "(target country)"),
                                      highlight=[first_country.name],

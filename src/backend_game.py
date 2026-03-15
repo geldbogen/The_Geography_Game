@@ -492,6 +492,8 @@ class BackendGame():
         match result:
             case 'win':
                 self.claim_country_backend(self.chosen_country_2.owner, self.active_player, self.chosen_country_2)
+            case 'hard defeat':
+                self.claim_country_backend(self.chosen_country_2.owner, self.active_player, self.chosen_country_2)
             case 'loose':
                 if self.chosen_country_1.owner.name != "Nobody":
                     self.claim_country_backend(self.active_player, self.chosen_country_1.owner, self.chosen_country_1)
