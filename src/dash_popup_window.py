@@ -173,7 +173,7 @@ def populate_popup_content(is_open, footer_buttons_content):
         print('This is the country code: ')
         print(country_b.get_two_country_code())
         country_b_info = html.Div([
-            dmc.Image(src=f'assets/pictures/flag_pictures/w1280/{country_b.get_two_country_code()}.png', radius='50%', ),
+            dmc.Image(src=f'/assets/pictures/flag_pictures/w1280/{country_b.get_two_country_code()}.png', radius='50%'),
             html.H5(country_b.name, style={'fontWeight': 'bold', 'marginBottom': '10px'}),
             html.P(f"Value: {formatted_value_b}", style={'margin': '5px 0'}),
             html.P(f"World Rank: #{displayed_world_rank_b} / {displayed_how_many_ranked_b}", style={'margin': '5px 0'}),
@@ -197,11 +197,11 @@ def populate_popup_content(is_open, footer_buttons_content):
     first_wiki_link = country_a.dict_of_attributes[current_attribute.name].additional_information_link
     second_wiki_link = country_b.dict_of_attributes[current_attribute.name].additional_information_link
 
-    first_image_path = "assets/pictures/attribute_pictures/" + current_attribute.name.replace(
+    first_image_path = "/assets/pictures/attribute_pictures/" + current_attribute.name.replace(
                     ".csv", "") + "/" + country_a.dict_of_attributes[
                         current_attribute.name].additional_information_name + ".jpg"
 
-    second_image_path = "assets/pictures/attribute_pictures/" + current_attribute.name.replace(
+    second_image_path = "/assets/pictures/attribute_pictures/" + current_attribute.name.replace(
                     ".csv", "") + "/" + country_b.dict_of_attributes[
                         current_attribute.name].additional_information_name + ".jpg"
 
@@ -211,6 +211,7 @@ def populate_popup_content(is_open, footer_buttons_content):
     )
     if backend_game.current_attribute.is_active:
         guessed_correct_button = dmc.Button(
+            "Guessed Correct",
             id = {"type": "close-button", "is_guessed_correct_or_not": "guessed_correct"},
         )
         footer_buttons_content = [guessed_correct_button]

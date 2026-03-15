@@ -8,12 +8,16 @@ def get_popup_extra_information_window_card(image_path : str, wiki_title : str, 
         [
             dmc.CardSection(
                 [
-                    dmc.Image(src=image_path, fallbackSrc='assets/pictures/no_image_available.png'),
+                    dmc.Image(src=image_path, fallbackSrc='/assets/pictures/no_image_available.png'),
                     dmc.Title(order=4, children=wiki_title),
                     dmc.Text(
                         wiki_description,
                     ),
-                    dmc.Button("See more on Wikipedia", justify="center", size={'padding': '20px'}),
+                    dmc.Anchor(
+                        dmc.Button("See more on Wikipedia", justify="center"),
+                        href=wiki_link,
+                        target="_blank",
+                    ),
                 ],
                 className='overflow-auto'
             ),
