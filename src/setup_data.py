@@ -112,17 +112,17 @@ def setup_data(name: str,
         pl.Series("ranking", ranking_list)
     ])
 
-    data.rename({data.columns[namecolumn_index]: 'name'})
-    data.rename({data.columns[column_index]: 'value'})
+    data = data.rename({data.columns[namecolumn_index]: 'name'})
+    data = data.rename({data.columns[column_index]: 'value'})
 
     if additional_information:
         for index, additional_information_column_index in enumerate(additional_information_column_list):
             if index == 0:
-                data.rename({data.columns[additional_information_column_index]: 'additional_information_name'})
+                data = data.rename({data.columns[additional_information_column_index]: 'additional_information_name'})
             if index == 1:
-                data.rename({data.columns[additional_information_column_index]: 'additional_information'})
+                data = data.rename({data.columns[additional_information_column_index]: 'additional_information'})
             if index == 2:
-                data.rename({data.columns[additional_information_column_index]: 'additional_information_link'})
+                data = data.rename({data.columns[additional_information_column_index]: 'additional_information_link'})
 
     data_as_dict = data.to_dicts()
     for record in data_as_dict:
