@@ -4,7 +4,7 @@ from help_functions import normalize_country_name
 from country import all_countries_available, call_country_by_name
 import category
 import additional_explanations
-import pandas as pd
+import polars as pl
 
 """
 Core data loading and processing module
@@ -90,42 +90,41 @@ def setup_data(name: str,
         ascending = True
 
     # load the data
-    data = pd.read_csv(f"data/{name}", index_col=None, header=0)
+    data = pl.read_csv(f"data/{name}")
 
     if treat_missing_data_as_bad == False:
-        data = data[data.iloc[:, column_index] != float(-1)].copy()
+        col_name = data.columns[column_index]
+        data = data.filter(pl.col(col_name) != float(-1))
 
     # normalize the country names
-    data[data.columns[namecolumn_index]] = data.iloc[:, namecolumn_index].map(
-        normalize_country_name)
+    data = data.with_columns([
+        pl.col(data.columns[namecolumn_index]).map_elements(normalize_country_name).alias(data.columns[namecolumn_index])
+    ])
 
     # get the relative ranking of each country in the countrylist
     # TODO rank only the countries, which are in the game
 
-    data.sort_values(by=data.columns[column_index],
-                     ascending=ascending,
-                     inplace=True)
-    data = data.reset_index(drop=True)
+    data = data.sort(by=data.columns[column_index],
+                     descending=not ascending)
 
-    ranking_list = list(range(1, len(data.index) + 1))
-    data["ranking"] = ranking_list
+    ranking_list = list(range(1, len(data) + 1))
+    data = data.with_columns([
+        pl.Series("ranking", ranking_list)
+    ])
 
-    data.rename(columns={data.columns[namecolumn_index]: 'name'}, inplace=True)
-    data.rename(columns={data.columns[column_index]: 'value'}, inplace=True)
+    data.rename({data.columns[namecolumn_index]: 'name'})
+    data.rename({data.columns[column_index]: 'value'})
 
     if additional_information:
         for index, additional_information_column_index in enumerate(additional_information_column_list):
             if index == 0:
-                data.rename(columns={
-                            data.columns[additional_information_column_index]: 'additional_information_name'}, inplace=True)
+                data.rename({data.columns[additional_information_column_index]: 'additional_information_name'})
             if index == 1:
-                data.rename(columns={
-                            data.columns[additional_information_column_index]: 'additional_information'}, inplace=True)
+                data.rename({data.columns[additional_information_column_index]: 'additional_information'})
             if index == 2:
-                data.rename(columns={
-                            data.columns[additional_information_column_index]: 'additional_information_link'}, inplace=True)
+                data.rename({data.columns[additional_information_column_index]: 'additional_information_link'})
 
-    data_as_dict = data.to_dict('records')
+    data_as_dict = data.to_dicts()
     for record in data_as_dict:
         extract_data_from_record(
             record,
