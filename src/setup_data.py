@@ -91,6 +91,10 @@ def setup_data(name: str,
 
     # load the data
     data = pl.read_csv(f"data/{name}")
+    # transfrom everything in column_index to float, if it is not possible, set it to null
+    data = data.with_columns([
+        pl.col(data.columns[column_index]).cast(pl.Float64, strict=False)
+    ])
     data = data.filter(pl.col(data.columns[namecolumn_index]).is_not_null())
 
     if treat_missing_data_as_bad == False:
