@@ -159,220 +159,220 @@ def setup_all_data() -> None:
     This function calls setup_data for every CSV file used in the game.
     """
 
-    # # misc
-    # setup_data("Chess grandmasters per capita (higher is better).csv",
-    #            treat_missing_data_as_bad=True, dif=4, cluster="misc")
-    # setup_data(
-    #     "Books published in that country per year (by 10,000 population) (higher is better).csv", treat_missing_data_as_bad=True, dif=4, cluster="misc")
+    # misc
+    setup_data("Chess grandmasters per capita (higher is better).csv",
+               treat_missing_data_as_bad=True, dif=4, cluster="misc")
+    setup_data(
+        "Books published in that country per year (by 10,000 population) (higher is better).csv", treat_missing_data_as_bad=True, dif=4, cluster="misc")
 
-    # setup_data(
-    #     "Number of urban areas with more than 1 mio. citizens (higher is better).csv", dif=1, cluster="misc")
+    setup_data(
+        "Number of urban areas with more than 1 mio. citizens (higher is better).csv", dif=1, cluster="misc")
 
-    # setup_data(
-    #     "Number of models from that country with a wiki-page (by 1,000,000 population) (higher is better).csv", dif=2, cluster="misc")
+    setup_data(
+        "Number of models from that country with a wiki-page (by 1,000,000 population) (higher is better).csv", dif=2, cluster="misc")
 
-    # setup_data("Number of different established languages and dialects (higher is better).csv",
-    #            dif=3, cluster='misc')  # was ist eine Sprache
+    setup_data("Number of different established languages and dialects (higher is better).csv",
+               dif=3, cluster='misc')  # was ist eine Sprache
 
-    # setup_data(
-    #     "Number of international tourists arriving per year (higher is better).csv", dif=2, cluster="misc")
+    setup_data(
+        "Number of international tourists arriving per year (higher is better).csv", dif=2, cluster="misc")
 
-    # setup_data(
-    #     "Sum of the three most populated cities of that country (higher is better).csv", dif=2, cluster="misc")
+    setup_data(
+        "Sum of the three most populated cities of that country (higher is better).csv", dif=2, cluster="misc")
 
-    # setup_data(
-    #     "Number of scientific and technical journal articles in English from that country (by 1,000,000 population) (higher is better).csv", cluster="misc")
+    setup_data(
+        "Number of scientific and technical journal articles in English from that country (by 1,000,000 population) (higher is better).csv", cluster="misc")
 
-    # setup_data("Person of that country with the most social media follower (higher is better).csv",
-    #            additional_information=True, additional_information_column_list=[2, 3, 4], cluster="misc")
-    # setup_data("ATM's per 100,000 adults (higher is better).csv", cluster="misc")
-    # setup_data(
-    #     "Number of Nobel Laureates (by 10,000,000 population) (higher is better).csv", cluster="misc")
+    setup_data("Person of that country with the most social media follower (higher is better).csv",
+               additional_information=True, additional_information_column_list=[2, 3, 4], cluster="misc")
+    setup_data("ATM's per 100,000 adults (higher is better).csv", cluster="misc")
+    setup_data(
+        "Number of Nobel Laureates (by 10,000,000 population) (higher is better).csv", cluster="misc")
 
-    # # diversity and sustainability stuff
-    # setup_data("Share of clean energy (higher is better).csv",
-    #            cluster="diversity and sustainability stuff")
-    # setup_data("Air cleanliness in percent (higher is better).csv",
-    #            dif=3, cluster="diversity and sustainability stuff")
-    # setup_data("Drinking water quality score (higher is better).csv",
-    #            cluster="diversity and sustainability stuff")
-    # setup_data("Religious diversity score (higher is better).csv",
-    #            cluster="diversity and sustainability stuff")
-    # setup_data("Ethnic diversity score (higher is better).csv",
-    #            cluster="diversity and sustainability stuff")
-    # setup_data("Pupil-teacher ratio (lower is better).csv",
-    #            dif=2, ascending=True, cluster="diversity and sustainability stuff")
-    # setup_data(
-    #     "Percentage of marriages getting divorced in percent (lower is better).csv", ascending=True, cluster="diversity and sustainability stuff")
-    # setup_data("Obesity rate (lower is better).csv", ascending=True,
-    #            dif=2, cluster="diversity and sustainability stuff")
-    # # setup_data("health expenditure per capita in Int$ (lower is better).csv",cluster="diversity and sustainability stuff", ascending=True, dif=2)
+    # diversity and sustainability stuff
+    setup_data("Share of clean energy (higher is better).csv",
+               cluster="diversity and sustainability stuff")
+    setup_data("Air cleanliness in percent (higher is better).csv",
+               dif=3, cluster="diversity and sustainability stuff")
+    setup_data("Drinking water quality score (higher is better).csv",
+               cluster="diversity and sustainability stuff")
+    setup_data("Religious diversity score (higher is better).csv",
+               cluster="diversity and sustainability stuff")
+    setup_data("Ethnic diversity score (higher is better).csv",
+               cluster="diversity and sustainability stuff")
+    setup_data("Pupil-teacher ratio (lower is better).csv",
+               dif=2, ascending=True, cluster="diversity and sustainability stuff")
+    setup_data(
+        "Percentage of marriages getting divorced in percent (lower is better).csv", ascending=True, cluster="diversity and sustainability stuff")
+    setup_data("Obesity rate (lower is better).csv", ascending=True,
+               dif=2, cluster="diversity and sustainability stuff")
+    # setup_data("health expenditure per capita in Int$ (lower is better).csv",cluster="diversity and sustainability stuff", ascending=True, dif=2)
 
-    # #  geography stuff
-    # setup_data("Forest area in 1000 hectars (by 100 km^2) (higher is better).csv",
-    #            dif=1, cluster="geography stuff")
-    # setup_data("Size of largest island in km2 (higher is better).csv",
-    #            treat_missing_data_as_bad=True, dif=1, cluster="geography stuff")
-    # setup_data("Average elevation (higher is better).csv",
-    #            cluster="geography stuff")
-    # setup_data(
-    #     "Natural disaster risk in percent (lower is better).csv", ascending=True, cluster="geography stuff")
-    # setup_data(
-    #     "Number of volcanos in that country (higher is better).csv", dif=2, cluster="geography stuff")
-    # setup_data("Yearly average temperature in (in Celsius) (higher is better).csv",
-    #            dif=2, cluster="geography stuff")
-    # setup_data("Annual precipiation (in mm) (higher is better).csv",
-    #            dif=2, cluster="geography stuff")
-    # setup_data(
-    #     "Percentage of land being protected (higher is better).csv", dif=4, cluster="geography stuff")
-    # setup_data("number of total renewable water resources per capita (higher is better).csv",
-    #            cluster="geography stuff")
+    #  geography stuff
+    setup_data("Forest area in 1000 hectars (by 100 km^2) (higher is better).csv",
+               dif=1, cluster="geography stuff")
+    setup_data("Size of largest island in km2 (higher is better).csv",
+               treat_missing_data_as_bad=True, dif=1, cluster="geography stuff")
+    setup_data("Average elevation (higher is better).csv",
+               cluster="geography stuff")
+    setup_data(
+        "Natural disaster risk in percent (lower is better).csv", ascending=True, cluster="geography stuff")
+    setup_data(
+        "Number of volcanos in that country (higher is better).csv", dif=2, cluster="geography stuff")
+    setup_data("Yearly average temperature in (in Celsius) (higher is better).csv",
+               dif=2, cluster="geography stuff")
+    setup_data("Annual precipiation (in mm) (higher is better).csv",
+               dif=2, cluster="geography stuff")
+    setup_data(
+        "Percentage of land being protected (higher is better).csv", dif=4, cluster="geography stuff")
+    setup_data("number of total renewable water resources per capita (higher is better).csv",
+               cluster="geography stuff")
 
-    # # political stuff
-    # setup_data(
-    #     "Side of traffic (left hand side beats right hand side) (higher is better).csv", dif=1, cluster="political stuff")
-    # setup_data(
-    #     "Number of first level administrative regions (i.e. states in the US or prefectures in Japan) (higher is better).csv", dif=4, cluster="political stuff")
-    # setup_data("First use of current flag (older is better).csv",
-    #            ascending=True, dif=4, cluster="political stuff")
-    # setup_data(
-    #     "Percentage of parliament member being female (higher is better).csv", dif=2, cluster="political stuff")
-    # setup_data(
-    #     "Size of the lower house (or equivalent) of that country (higher is better).csv", dif=2, cluster="political stuff")
-    # setup_data(
-    #     "Number of chambers of the government (two chambers beat one chamber) (higher is better).csv", dif=2, cluster="political stuff")
-    # setup_data(
-    #     "First year in which (some) women were granted (restricted) suffrage (lower is better) .csv", dif=2, ascending=True, cluster="political stuff")
-    # setup_data(
-    #     "Year of last executed death penalty (lower is better).csv", dif=3, ascending=True, cluster="political stuff")
-    # setup_data("Strength of passport (in countries enterable without need of visa) (higher is better).csv",
-    #            dif=2, additional_information=True, additional_information_column_list=[2, 3, 4], cluster="political stuff")
-    # setup_data("National Holiday (earlier in the year is better).csv", ascending=True,
-    #            additional_information=True, additional_information_column_list=[2, 3, 4], cluster="political stuff")
-    # setup_data("Number of twitter followers of head of state resp. head of government (higher is better).csv",
-    #            dif=1, additional_information=True, additional_information_column_list=[2, 3, 4], cluster="political stuff")
-    # setup_data("Number of UNESCO World Heritage Sites (higher is better).csv",
-    #            treat_missing_data_as_bad=True, dif=2, cluster="political stuff")
-    # setup_data("Number of embassies around the world (higher is better).csv",
-    #            cluster="political stuff")
+    # political stuff
+    setup_data(
+        "Side of traffic (left hand side beats right hand side) (higher is better).csv", dif=1, cluster="political stuff")
+    setup_data(
+        "Number of first level administrative regions (i.e. states in the US or prefectures in Japan) (higher is better).csv", dif=4, cluster="political stuff")
+    setup_data("First use of current flag (older is better).csv",
+               ascending=True, dif=4, cluster="political stuff")
+    setup_data(
+        "Percentage of parliament member being female (higher is better).csv", dif=2, cluster="political stuff")
+    setup_data(
+        "Size of the lower house (or equivalent) of that country (higher is better).csv", dif=2, cluster="political stuff")
+    setup_data(
+        "Number of chambers of the government (two chambers beat one chamber) (higher is better).csv", dif=2, cluster="political stuff")
+    setup_data(
+        "First year in which (some) women were granted (restricted) suffrage (lower is better) .csv", dif=2, ascending=True, cluster="political stuff")
+    setup_data(
+        "Year of last executed death penalty (lower is better).csv", dif=3, ascending=True, cluster="political stuff")
+    setup_data("Strength of passport (in countries enterable without need of visa) (higher is better).csv",
+               dif=2, additional_information=True, additional_information_column_list=[2, 3, 4], cluster="political stuff")
+    setup_data("National Holiday (earlier in the year is better).csv", ascending=True,
+               additional_information=True, additional_information_column_list=[2, 3, 4], cluster="political stuff")
+    setup_data("Number of twitter followers of head of state resp. head of government (higher is better).csv",
+               dif=1, additional_information=True, additional_information_column_list=[2, 3, 4], cluster="political stuff")
+    setup_data("Number of UNESCO World Heritage Sites (higher is better).csv",
+               treat_missing_data_as_bad=True, dif=2, cluster="political stuff")
+    setup_data("Number of embassies around the world (higher is better).csv",
+               cluster="political stuff")
 
-    # # US-friendliness stuff
-    # setup_data(
-    #     "Year of first KFC opening in that country (lower is better).csv", ascending=True, cluster="US-friendliness stuff")
-    # setup_data(
-    #     "Year of first Burger King opening in that country (lower is better).csv", ascending=True, cluster="US-friendliness stuff")
-    # setup_data("Number of mcdonalds restaurants (by 1,000,000 population) (higher is better).csv",
-    #            treat_missing_data_as_bad=True, dif=2, cluster="US-friendliness stuff")
-    # setup_data(
-    #     "Unpaid diplomatic parking fines in NYC (lower is better).csv", ascending=True, dif=4, cluster="US-friendliness stuff")
-    # setup_data(
-    #     "Percentage of US-american citizens having a positive opinion about that country (higher is better).csv", cluster="US-friendliness stuff")
-    # setup_data(
-    #     "Percentage of US-american citizens having heard of that country (higher is better).csv", treat_missing_data_as_bad=True, cluster="US-friendliness stuff")
-    # setup_data(
-    #     "Number of mentions of that countrys name in the NYT from 2000 to 2016 (higher is better).csv", cluster="US-friendliness stuff")
-    # setup_data("Number of visits by an US-President (since formation of the country) (higher is better).csv",
-    #            dif=2, treat_missing_data_as_bad=True, cluster="US-friendliness stuff")
-    # setup_data("Number of subway restaurants (by 10,000,000 population) (higher is better).csv",
-    #            treat_missing_data_as_bad=True, dif=2, cluster="US-friendliness stuff")
+    # US-friendliness stuff
+    setup_data(
+        "Year of first KFC opening in that country (lower is better).csv", ascending=True, cluster="US-friendliness stuff")
+    setup_data(
+        "Year of first Burger King opening in that country (lower is better).csv", ascending=True, cluster="US-friendliness stuff")
+    setup_data("Number of mcdonalds restaurants (by 1,000,000 population) (higher is better).csv",
+               treat_missing_data_as_bad=True, dif=2, cluster="US-friendliness stuff")
+    setup_data(
+        "Unpaid diplomatic parking fines in NYC (lower is better).csv", ascending=True, dif=4, cluster="US-friendliness stuff")
+    setup_data(
+        "Percentage of US-american citizens having a positive opinion about that country (higher is better).csv", cluster="US-friendliness stuff")
+    setup_data(
+        "Percentage of US-american citizens having heard of that country (higher is better).csv", treat_missing_data_as_bad=True, cluster="US-friendliness stuff")
+    setup_data(
+        "Number of mentions of that countrys name in the NYT from 2000 to 2016 (higher is better).csv", cluster="US-friendliness stuff")
+    setup_data("Number of visits by an US-President (since formation of the country) (higher is better).csv",
+               dif=2, treat_missing_data_as_bad=True, cluster="US-friendliness stuff")
+    setup_data("Number of subway restaurants (by 10,000,000 population) (higher is better).csv",
+               treat_missing_data_as_bad=True, dif=2, cluster="US-friendliness stuff")
 
-    # #  general indexes
-    # setup_data("Democracy index (higher is better).csv",
-    #            cluster="general indexes")
-    # setup_data("Index of Economic Freedom (higher is better).csv",
-    #            cluster="general indexes")
-    # setup_data("Gay friendly travel index (higher is better).csv",
-    #            cluster="general indexes")
-    # setup_data(
-    #     "Ease of doing business index (easier is better).csv", ascending=True, cluster="general indexes")
-    # setup_data("Economic Complexity Index (more complex is better).csv",
-    #            cluster="general indexes")
-    # setup_data(
-    #     "Fragile state index (more stable is better) (lower is better).csv", ascending=True, cluster="general indexes")
-    # setup_data("Gender Gap Index (more equal is better).csv",
-    #            dif=2, cluster="general indexes")
-    # setup_data(
-    #     "Perception of corruption score (less corrupt is higher) (higher is better).csv", dif=2, cluster="general indexes")
-    # setup_data("Generosity score (higher is better).csv",
-    #            dif=2, cluster="general indexes")
-    # setup_data(
-    #     "Freedom to make life choices score (higher is better).csv", dif=2, cluster="general indexes")
-    # setup_data(
-    #     "Healthy life expectancy score (higher is better).csv", dif=2, cluster="general indexes")
-    # setup_data("Social support score (higher is better).csv",
-    #            dif=2, cluster="general indexes")
-    # setup_data("World Happiness Index (higher is better).csv",
-    #            dif=1, cluster="general indexes")
-    # setup_data("Press Freedom Index (more free is better).csv",
-    #            ascending=True, dif=2, cluster="general indexes")
-    # setup_data(
-    #     "Global peace index (more peaceful is better) (lower is better).csv", dif=2, ascending=True, cluster="general indexes")
-    # setup_data("Factionalized Elites Index (lower is better).csv",
-    #            ascending=True, dif=2, cluster="general indexes")
-    # setup_data("Global Innovation Index (higher is better).csv",
-    #            cluster="general indexes")
-    # setup_data("Global Food Security Index 2019 (higher is better).csv",
-    #            cluster="general indexes")
+    #  general indexes
+    setup_data("Democracy index (higher is better).csv",
+               cluster="general indexes")
+    setup_data("Index of Economic Freedom (higher is better).csv",
+               cluster="general indexes")
+    setup_data("Gay friendly travel index (higher is better).csv",
+               cluster="general indexes")
+    setup_data(
+        "Ease of doing business index (easier is better).csv", ascending=True, cluster="general indexes")
+    setup_data("Economic Complexity Index (more complex is better).csv",
+               cluster="general indexes")
+    setup_data(
+        "Fragile state index (more stable is better) (lower is better).csv", ascending=True, cluster="general indexes")
+    setup_data("Gender Gap Index (more equal is better).csv",
+               dif=2, cluster="general indexes")
+    setup_data(
+        "Perception of corruption score (less corrupt is higher) (higher is better).csv", dif=2, cluster="general indexes")
+    setup_data("Generosity score (higher is better).csv",
+               dif=2, cluster="general indexes")
+    setup_data(
+        "Freedom to make life choices score (higher is better).csv", dif=2, cluster="general indexes")
+    setup_data(
+        "Healthy life expectancy score (higher is better).csv", dif=2, cluster="general indexes")
+    setup_data("Social support score (higher is better).csv",
+               dif=2, cluster="general indexes")
+    setup_data("World Happiness Index (higher is better).csv",
+               dif=1, cluster="general indexes")
+    setup_data("Press Freedom Index (more free is better).csv",
+               ascending=True, dif=2, cluster="general indexes")
+    setup_data(
+        "Global peace index (more peaceful is better) (lower is better).csv", dif=2, ascending=True, cluster="general indexes")
+    setup_data("Factionalized Elites Index (lower is better).csv",
+               ascending=True, dif=2, cluster="general indexes")
+    setup_data("Global Innovation Index (higher is better).csv",
+               cluster="general indexes")
+    setup_data("Global Food Security Index 2019 (higher is better).csv",
+               cluster="general indexes")
 
-    # # military and infrastructure stuff
-    # setup_data("Number of tanks (by 10,000,000 population) (higher is better).csv",
-    #            treat_missing_data_as_bad=True, cluster="military and infrastructure")
-    # setup_data("Number of military ships (by 100,000,000 population) (higher is better).csv",
-    #            treat_missing_data_as_bad=True, cluster="military and infrastructure")
-    # setup_data("Number of military aircrafts (by 10,000,000 population) (higher is better).csv",
-    #            treat_missing_data_as_bad=True, cluster="military and infrastructure")
-    # setup_data(
-    #     "Number of guns per 100 inhabitants (lower is better).csv", ascending=True, dif=4, cluster="military and infrastructure")
-    # setup_data(
-    #     "Number of soldiers per 1000 population (higher is better).csv", dif=3, cluster="military and infrastructure")
-    # setup_data("Number of airports (higher is better).csv",
-    #            treat_missing_data_as_bad=True, dif=2, cluster="military and infrastructure")
-    # setup_data("Number of airports (by 1,000,000 population) (higher is better).csv",
-    #            treat_missing_data_as_bad=True, dif=3, cluster="military and infrastructure")
-    # setup_data("Road Quality Index (higher is better).csv",
-    #            cluster="military and infrastructure")
-    # setup_data(
-    #     "Number of mobile phone lines (by 100 population) (higher is better).csv", cluster="military and infrastructure")
-    # setup_data("length of rail per country size (in km) (higher is better).csv",
-    #            cluster="military and infrastructure")
-    # setup_data("percentage of railway being electrified (higher is better).csv",
-    #            cluster="military and infrastructure")
-    # setup_data("cumulative number of objects launched into space (higher is better).csv",
-    #            treat_missing_data_as_bad=True, cluster="military and infrastructure")
+    # military and infrastructure stuff
+    setup_data("Number of tanks (by 10,000,000 population) (higher is better).csv",
+               treat_missing_data_as_bad=True, cluster="military and infrastructure")
+    setup_data("Number of military ships (by 100,000,000 population) (higher is better).csv",
+               treat_missing_data_as_bad=True, cluster="military and infrastructure")
+    setup_data("Number of military aircrafts (by 10,000,000 population) (higher is better).csv",
+               treat_missing_data_as_bad=True, cluster="military and infrastructure")
+    setup_data(
+        "Number of guns per 100 inhabitants (lower is better).csv", ascending=True, dif=4, cluster="military and infrastructure")
+    setup_data(
+        "Number of soldiers per 1000 population (higher is better).csv", dif=3, cluster="military and infrastructure")
+    setup_data("Number of airports (higher is better).csv",
+               treat_missing_data_as_bad=True, dif=2, cluster="military and infrastructure")
+    setup_data("Number of airports (by 1,000,000 population) (higher is better).csv",
+               treat_missing_data_as_bad=True, dif=3, cluster="military and infrastructure")
+    setup_data("Road Quality Index (higher is better).csv",
+               cluster="military and infrastructure")
+    setup_data(
+        "Number of mobile phone lines (by 100 population) (higher is better).csv", cluster="military and infrastructure")
+    setup_data("length of rail per country size (in km) (higher is better).csv",
+               cluster="military and infrastructure")
+    setup_data("percentage of railway being electrified (higher is better).csv",
+               cluster="military and infrastructure")
+    setup_data("cumulative number of objects launched into space (higher is better).csv",
+               treat_missing_data_as_bad=True, cluster="military and infrastructure")
 
-    # # demographic stuff
-    # setup_data(
-    #     "Projected population growth until 2100 in percent (higher is better).csv", cluster="demographic stuff")
-    # setup_data(
-    #     "Estimated population growth 1950-2020 (higher is better).csv", cluster="demographic stuff")
-    # setup_data("Estimated population in 1950 (higher is better).csv",
-    #            cluster="demographic stuff")
-    # setup_data(
-    #     "Percentage of population being female (higher is better).csv", cluster="demographic stuff")
-    # setup_data(
-    #     "Percentage of population being female (lower is better).csv", ascending=True, cluster="demographic stuff")
-    # setup_data("Projected population in 2100 (higher is better).csv",
-    #            cluster="demographic stuff")
-    # setup_data(
-    #     "Population growth rate in 2021 in percent (higher is better).csv", cluster="demographic stuff")
-    # setup_data(
-    #     "Population density (in citizens per km^2) (higher is better).csv", cluster="demographic stuff")
-    # setup_data("Median age (lower is better).csv",
-    #            ascending=True, cluster="demographic stuff")
-    # setup_data(
-    #     "Net migration rate per 1000 population (higher is better).csv", dif=2, cluster="demographic stuff")
-    # setup_data(
-    #     "Refugee population (by 100,000 population) (higher is better).csv", dif=2, cluster="demographic stuff")
-    # setup_data(
-    #     "Number of emigrants from that country (by 1,000 population) (higher is better).csv", dif=2, cluster="demographic stuff")
-    # setup_data(
-    #     "Percentage of population being immigrants (higher is better).csv", cluster="demographic stuff")
-    # setup_data("number of births per woman (higher is better).csv",
-    #            cluster="demographic stuff")
-    # setup_data("Percentage of population living in the capital (higher is better).csv",
-    #            cluster="demographic stuff")
-    # setup_data("Percentage of urban population (higher is better).csv",
-    #            cluster="demographic stuff")
+    # demographic stuff
+    setup_data(
+        "Projected population growth until 2100 in percent (higher is better).csv", cluster="demographic stuff")
+    setup_data(
+        "Estimated population growth 1950-2020 (higher is better).csv", cluster="demographic stuff")
+    setup_data("Estimated population in 1950 (higher is better).csv",
+               cluster="demographic stuff")
+    setup_data(
+        "Percentage of population being female (higher is better).csv", cluster="demographic stuff")
+    setup_data(
+        "Percentage of population being female (lower is better).csv", ascending=True, cluster="demographic stuff")
+    setup_data("Projected population in 2100 (higher is better).csv",
+               cluster="demographic stuff")
+    setup_data(
+        "Population growth rate in 2021 in percent (higher is better).csv", cluster="demographic stuff")
+    setup_data(
+        "Population density (in citizens per km^2) (higher is better).csv", cluster="demographic stuff")
+    setup_data("Median age (lower is better).csv",
+               ascending=True, cluster="demographic stuff")
+    setup_data(
+        "Net migration rate per 1000 population (higher is better).csv", dif=2, cluster="demographic stuff")
+    setup_data(
+        "Refugee population (by 100,000 population) (higher is better).csv", dif=2, cluster="demographic stuff")
+    setup_data(
+        "Number of emigrants from that country (by 1,000 population) (higher is better).csv", dif=2, cluster="demographic stuff")
+    setup_data(
+        "Percentage of population being immigrants (higher is better).csv", cluster="demographic stuff")
+    setup_data("number of births per woman (higher is better).csv",
+               cluster="demographic stuff")
+    setup_data("Percentage of population living in the capital (higher is better).csv",
+               cluster="demographic stuff")
+    setup_data("Percentage of urban population (higher is better).csv",
+               cluster="demographic stuff")
 
     # # production stuff
     # setup_data("Fishing in tons (by 1000 population) (higher is better).csv",
