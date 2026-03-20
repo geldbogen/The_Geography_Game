@@ -91,10 +91,11 @@ def setup_data(name: str,
 
     # load the data
     data = pl.read_csv(f"data/{name}")
+    data = data.filter(pl.col(data.columns[namecolumn_index]).is_not_null())
 
     if treat_missing_data_as_bad == False:
         col_name = data.columns[column_index]
-        data = data.filter(pl.col(col_name) != float(-1))
+        data = data.filter(pl.col(col_name).is_not_null() & (pl.col(col_name) != -1.0))
 
     # normalize the country names
     data = data.with_columns([
@@ -107,7 +108,7 @@ def setup_data(name: str,
     data = data.sort(by=data.columns[column_index],
                      descending=not ascending)
 
-    ranking_list = list(range(1, len(data) + 1))
+    ranking_list = range(1, len(data) + 1)
     data = data.with_columns([
         pl.Series("ranking", ranking_list)
     ])
