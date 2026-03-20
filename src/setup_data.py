@@ -463,217 +463,217 @@ def setup_all_data() -> None:
     setup_data(
         "Number of different taxes (lower is better).csv", ascending=True, cluster="taxes and duties stuff")
 
-    # # general economic stuff
-    # setup_data("Export to import ratio (higher is better).csv",
-    #            cluster="general economic stuff")
-    # setup_data(
-    #     "Gini wealth index (more equal is better) (lower is better).csv", ascending=True, cluster="general economic stuff")
-    # setup_data(
-    #     "Gini income index (more equal is better) (lower is better).csv", ascending=True, cluster="general economic stuff")
-    # setup_data("Home ownership rate (higher is better).csv",
-    #            dif=2, cluster="general economic stuff")
-    # setup_data(
-    #     "Percentage of people having a credit card (higher is better).csv", dif=2, cluster="general economic stuff")
-    # setup_data("Minimum wage PPP-adjusted in Int$ (higher is better).csv",
-    #            cluster="general economic stuff", dif=2)
-    # setup_data("Female labor force participation rate (higher is better).csv",
-    #            cluster="general economic stuff", dif=2)
-    # setup_data("Male labor force participation rate (higher is better).csv",
-    #            cluster="general economic stuff", dif=2)
-    # setup_data("Labor force participation rate (higher is better).csv",
-    #            cluster="general economic stuff", dif=2)
-    # setup_data(
-    #     "Male- to female income ratio (more equal is better) (lower is better).csv", ascending=True, cluster="general economic stuff")
-    # setup_data(
-    #     "Average inflation rate 2017-2021 (lower is better).csv", ascending=True, cluster="general economic stuff")
-    # setup_data("S&P credit rating (better rating is better) (lower is better).csv",
-    #            ascending=True, additional_information=True, additional_information_column_list=[2], cluster="general economic stuff")
-    # setup_data("Median wealth in US$ (nominal) (higher is better).csv",
-    #            additional_information=False, cluster="general economic stuff")
-    # setup_data("Unemployment rate (lower is better).csv",
-    #            ascending=True, dif=3, cluster="general economic stuff")
-    # setup_data(
-    #     "Youth unemployment in 2021 (lower is better).csv", ascending=True, cluster="general economic stuff")
-    # setup_data("Shadow economy (lower is better).csv",
-    #            ascending=True, cluster="general economic stuff")
-    # setup_data("Inflation rate in 2021 (lower is better).csv",
-    #            ascending=True, cluster="general economic stuff")
-    # setup_data(
-    #     "Foreign currency reserves of that country (incl. gold and special drawing rights) (by 10,000 population) (higher is better).csv", cluster="general economic stuff")
-    # setup_data(
-    #     "Percentage of people working in the agricultural sector (higher is better).csv", cluster="general economic stuff")
-    # setup_data(
-    #     "Percentage of people working in the agricultural sector (lower is better).csv", ascending=True, cluster="general economic stuff")
-    # setup_data("billionaires per million people (higher is better).csv",
-    #            treat_missing_data_as_bad=False, dif=2, cluster="general economic stuff")
-    # setup_data("Percentage of non-performing loans (lower is better).csv",
-    #            ascending=True, cluster="general economic stuff")
+    # general economic stuff
+    setup_data("Export to import ratio (higher is better).csv",
+               cluster="general economic stuff")
+    setup_data(
+        "Gini wealth index (more equal is better) (lower is better).csv", ascending=True, cluster="general economic stuff")
+    setup_data(
+        "Gini income index (more equal is better) (lower is better).csv", ascending=True, cluster="general economic stuff")
+    setup_data("Home ownership rate (higher is better).csv",
+               dif=2, cluster="general economic stuff")
+    setup_data(
+        "Percentage of people having a credit card (higher is better).csv", dif=2, cluster="general economic stuff")
+    setup_data("Minimum wage PPP-adjusted in Int$ (higher is better).csv",
+               cluster="general economic stuff", dif=2)
+    setup_data("Female labor force participation rate (higher is better).csv",
+               cluster="general economic stuff", dif=2)
+    setup_data("Male labor force participation rate (higher is better).csv",
+               cluster="general economic stuff", dif=2)
+    setup_data("Labor force participation rate (higher is better).csv",
+               cluster="general economic stuff", dif=2)
+    setup_data(
+        "Male- to female income ratio (more equal is better) (lower is better).csv", ascending=True, cluster="general economic stuff")
+    setup_data(
+        "Average inflation rate 2017-2021 (lower is better).csv", ascending=True, cluster="general economic stuff")
+    setup_data("S&P credit rating (better rating is better) (lower is better).csv",
+               ascending=True, additional_information=True, additional_information_column_list=[2], cluster="general economic stuff")
+    setup_data("Median wealth in US$ (nominal) (higher is better).csv",
+               additional_information=False, cluster="general economic stuff")
+    setup_data("Unemployment rate (lower is better).csv",
+               ascending=True, dif=3, cluster="general economic stuff")
+    setup_data(
+        "Youth unemployment in 2021 (lower is better).csv", ascending=True, cluster="general economic stuff")
+    setup_data("Shadow economy (lower is better).csv",
+               ascending=True, cluster="general economic stuff")
+    setup_data("Inflation rate in 2021 (lower is better).csv",
+               ascending=True, cluster="general economic stuff")
+    setup_data(
+        "Foreign currency reserves of that country (incl. gold and special drawing rights) (by 10,000 population) (higher is better).csv", cluster="general economic stuff")
+    setup_data(
+        "Percentage of people working in the agricultural sector (higher is better).csv", cluster="general economic stuff")
+    setup_data(
+        "Percentage of people working in the agricultural sector (lower is better).csv", ascending=True, cluster="general economic stuff")
+    setup_data("billionaires per million people (higher is better).csv",
+               treat_missing_data_as_bad=False, dif=2, cluster="general economic stuff")
+    setup_data("Percentage of non-performing loans (lower is better).csv",
+               ascending=True, cluster="general economic stuff")
 
-    # # animal stuff
-    # setup_data("Number of different breeding bird species (higher is better).csv",
-    #            dif=4, cluster="number of animalcluster")
-    # setup_data("Number of different reptile species (higher is better).csv",
-    #            dif=4, cluster="number of animalcluster")
-    # setup_data("Number of different fish species (higher is better).csv",
-    #            dif=4, cluster="number of animalcluster")
-    # setup_data("Number of different amphibian species (higher is better).csv",
-    #            dif=4, cluster="number of animalcluster")
-    # setup_data("Number of different mammal species (higher is better).csv",
-    #            dif=4, cluster="number of animalcluster")
-    # setup_data("number of different plant species (higher is better).csv",
-    #            cluster="number of animalcluster")
+    # animal stuff
+    setup_data("Number of different breeding bird species (higher is better).csv",
+               dif=4, cluster="number of animalcluster")
+    setup_data("Number of different reptile species (higher is better).csv",
+               dif=4, cluster="number of animalcluster")
+    setup_data("Number of different fish species (higher is better).csv",
+               dif=4, cluster="number of animalcluster")
+    setup_data("Number of different amphibian species (higher is better).csv",
+               dif=4, cluster="number of animalcluster")
+    setup_data("Number of different mammal species (higher is better).csv",
+               dif=4, cluster="number of animalcluster")
+    setup_data("number of different plant species (higher is better).csv",
+               cluster="number of animalcluster")
 
-    # # consumption
-    # setup_data(
-    #     "Electrical power consumption per capita per year (in watts) (lower is better).csv", ascending=True, cluster="consumption")
-    # setup_data(
-    #     "Meat consumption in kg per year and person (lower is better).csv", dif=2, ascending=True, cluster="consumption")
-    # setup_data("Percentage of people using the internet (higher is better).csv",
-    #            treat_missing_data_as_bad=True, dif=2, cluster="consumption")
-    # setup_data("Fertilizer use (lower is better).csv",
-    #            ascending=True, cluster="consumption")
-    # setup_data(
-    #     "Roller coasters per million inhabitants (higher is better).csv", dif=4, cluster="consumption")
-    # setup_data(
-    #     "CO2 emission in tons per capita (lower is better).csv", ascending=True, dif=1, cluster="consumption")
-    # setup_data("Facebook accounts (by 10 population) (higher is better).csv",
-    #            treat_missing_data_as_bad=True, dif=2, cluster="consumption")
-    # setup_data("milk consumption per capita (in kg per year) (higher is better).csv",
-    #            treat_missing_data_as_bad=False, dif=2, cluster="consumption")
-    # setup_data("vehicles per 1000 population (higher is better).csv",
-    #            treat_missing_data_as_bad=False, dif=2, cluster="consumption")
-    # setup_data("average fixed broadband download speed in mbps (higher is better).csv",
-    #            cluster="consumption")
-    # setup_data("average mobile cellular download speed in mbps (higher is better).csv",
-    #            cluster="consumption")
+    # consumption
+    setup_data(
+        "Electrical power consumption per capita per year (in watts) (lower is better).csv", ascending=True, cluster="consumption")
+    setup_data(
+        "Meat consumption in kg per year and person (lower is better).csv", dif=2, ascending=True, cluster="consumption")
+    setup_data("Percentage of people using the internet (higher is better).csv",
+               treat_missing_data_as_bad=True, dif=2, cluster="consumption")
+    setup_data("Fertilizer use (lower is better).csv",
+               ascending=True, cluster="consumption")
+    setup_data(
+        "Roller coasters per million inhabitants (higher is better).csv", dif=4, cluster="consumption")
+    setup_data(
+        "CO2 emission in tons per capita (lower is better).csv", ascending=True, dif=1, cluster="consumption")
+    setup_data("Facebook accounts (by 10 population) (higher is better).csv",
+               treat_missing_data_as_bad=True, dif=2, cluster="consumption")
+    setup_data("milk consumption per capita (in kg per year) (higher is better).csv",
+               treat_missing_data_as_bad=False, dif=2, cluster="consumption")
+    setup_data("vehicles per 1000 population (higher is better).csv",
+               treat_missing_data_as_bad=False, dif=2, cluster="consumption")
+    setup_data("average fixed broadband download speed in mbps (higher is better).csv",
+               cluster="consumption")
+    setup_data("average mobile cellular download speed in mbps (higher is better).csv",
+               cluster="consumption")
 
-    # # drugs consumption
-    # setup_data(
-    #     "Annual cannabis prevalence in percent (lower is better).csv", ascending=True, cluster="drugsconsumption")
-    # setup_data(
-    #     "Annual cocaine prevalence (lower is better).csv", ascending=True, cluster="drugsconsumption")
-    # setup_data(
-    #     "Annual opioid prevalence (lower is better).csv", ascending=True, cluster="drugsconsumption")
-    # setup_data(
-    #     "Alcohol consumption per person per year (lower is better) (in l).csv", ascending=True, dif=2, cluster="drugsconsumption")
-    # setup_data(
-    #     "Number of cigarettes smoked per year per person (lower is better).csv", ascending=True, cluster="drugsconsumption")
-    # setup_data("Percentage of alcohol being consumed is wine (higher is better).csv",
-    #            dif=3, cluster="drugsconsumption")
-    # setup_data("Percentage of alcohol being consumed is beer (higher is better).csv",
-    #            dif=3, cluster="drugsconsumption")
-    # setup_data(
-    #     "Drug deaths per 100,000 population (lower is better).csv", ascending=True, cluster="drugsconsumption")
+    # drugs consumption
+    setup_data(
+        "Annual cannabis prevalence in percent (lower is better).csv", ascending=True, cluster="drugsconsumption")
+    setup_data(
+        "Annual cocaine prevalence (lower is better).csv", ascending=True, cluster="drugsconsumption")
+    setup_data(
+        "Annual opioid prevalence (lower is better).csv", ascending=True, cluster="drugsconsumption")
+    setup_data(
+        "Alcohol consumption per person per year (lower is better) (in l).csv", ascending=True, dif=2, cluster="drugsconsumption")
+    setup_data(
+        "Number of cigarettes smoked per year per person (lower is better).csv", ascending=True, cluster="drugsconsumption")
+    setup_data("Percentage of alcohol being consumed is wine (higher is better).csv",
+               dif=3, cluster="drugsconsumption")
+    setup_data("Percentage of alcohol being consumed is beer (higher is better).csv",
+               dif=3, cluster="drugsconsumption")
+    setup_data(
+        "Drug deaths per 100,000 population (lower is better).csv", ascending=True, cluster="drugsconsumption")
 
-    # # prices
-    # setup_data("Taxi price per 1km in US$ (lower is better).csv",
-    #            ascending=True, dif=3, cluster="pricecluster")
-    # setup_data("Average price for public transport in US$ (one-way-ticket) (lower is better).csv",
-    #            ascending=True, dif=3, cluster="pricecluster")
-    # setup_data("Average price for public transport in US$ (monthly pass) (lower is better).csv",
-    #            ascending=True, dif=3, cluster="pricecluster")
-    # setup_data("Price of 1l of milk in US$ (lower is better).csv",
-    #            ascending=True, dif=4, cluster="pricecluster")
-    # setup_data("Price of 1kg of rice in US$ (lower is better).csv",
-    #            ascending=True, dif=4, cluster="pricecluster")
-    # setup_data("Price of a dozen eggs in US$ (lower is better).csv",
-    #            ascending=True, dif=4, cluster="pricecluster")
-    # setup_data("Price of a kg of apples in US$ (lower is better).csv",
-    #            ascending=True, dif=4, cluster="pricecluster")
-    # setup_data("Price of a skinless, boneless chicken breast in US$ (lower is better).csv",
-    #            ascending=True, dif=4, cluster="pricecluster")
-    # setup_data("Price of 1.5l water bottle in supermarket in US$ (lower is better).csv",
-    #            ascending=True, dif=4, cluster="pricecluster")
-    # setup_data("Price of 0.5l local beer in supermarket in US$ (lower is better).csv",
-    #            ascending=True, dif=4, cluster="pricecluster")
-    # setup_data("Price of one head of lettuce in supermarket in US$ (lower is better).csv",
-    #            ascending=True, dif=4, cluster="pricecluster")
-    # setup_data("Price of 1kg of tomatoes in US$ (lower is better).csv",
-    #            ascending=True, dif=4, cluster="pricecluster")
-    # setup_data("Price of 1kg of potatoes in US$ (lower is better).csv",
-    #            ascending=True, dif=4, cluster="pricecluster")
-    # setup_data("Price of newest nike shoes in US$ (lower is better).csv",
-    #            ascending=True, dif=3, cluster="pricecluster")
-    # setup_data("Price of one pair of Levi 501s or equivalent in US$ (lower is better).csv",
-    #            ascending=True, dif=3, cluster="pricecluster")
-    # setup_data("Price for garbage, water, heating, electricity for 85 sqm apartment in US$ (lower is better).csv",
-    #            ascending=True, dif=3, cluster="pricecluster")
-    # setup_data("Price of a regular cappuchino in a restaurant in US$ (lower is better).csv",
-    #            ascending=True, dif=3, cluster="pricecluster")
-    # setup_data("Price of a mcdonalds menu in US$ (lower is better).csv",
-    #            ascending=True, dif=3, cluster="pricecluster")
-    # setup_data("Price for a 3 course meal for 2 in a normal restaurant in US$ (lower is better).csv",
-    #            ascending=True, dif=3, cluster="pricecluster")
-    # setup_data("Price of 0.5 l normal beer in a restaurant in US$ (lower is better).csv",
-    #            ascending=True, dif=3, cluster="pricecluster")
-    # setup_data("Price of a bottled water in a restaurant in US$ (lower is better).csv",
-    #            ascending=True, dif=3, cluster="pricecluster")
-    # setup_data("Price of a new Volkswagen Golf 1.4 in US$ (lower is better).csv",
-    #            ascending=True, dif=4, cluster="pricecluster")
-    # setup_data("Monthly price of broadband internet 6Mpbs, uncapped data in US$ (lower is better).csv",
-    #            ascending=True, dif=4, cluster="pricecluster")
-    # setup_data("Price of local 1kg cheese in US$ (lower is better).csv",
-    #            ascending=True, dif=4, cluster="pricecluster")
-    # setup_data("Price of one pack of Marlboro in US$ (lower is better).csv",
-    #            ascending=True, dif=4, cluster="pricecluster")
-    # setup_data("Gasoline prices in US$ (lower is better).csv",
-    #            ascending=True, dif=2, cluster="pricecluster")
-    # setup_data("Cinema ticket price in US$ (lower is better).csv",
-    #            ascending=True, dif=3, cluster="pricecluster")
+    # prices
+    setup_data("Taxi price per 1km in US$ (lower is better).csv",
+               ascending=True, dif=3, cluster="pricecluster")
+    setup_data("Average price for public transport in US$ (one-way-ticket) (lower is better).csv",
+               ascending=True, dif=3, cluster="pricecluster")
+    setup_data("Average price for public transport in US$ (monthly pass) (lower is better).csv",
+               ascending=True, dif=3, cluster="pricecluster")
+    setup_data("Price of 1l of milk in US$ (lower is better).csv",
+               ascending=True, dif=4, cluster="pricecluster")
+    setup_data("Price of 1kg of rice in US$ (lower is better).csv",
+               ascending=True, dif=4, cluster="pricecluster")
+    setup_data("Price of a dozen eggs in US$ (lower is better).csv",
+               ascending=True, dif=4, cluster="pricecluster")
+    setup_data("Price of a kg of apples in US$ (lower is better).csv",
+               ascending=True, dif=4, cluster="pricecluster")
+    setup_data("Price of a skinless, boneless chicken breast in US$ (lower is better).csv",
+               ascending=True, dif=4, cluster="pricecluster")
+    setup_data("Price of 1.5l water bottle in supermarket in US$ (lower is better).csv",
+               ascending=True, dif=4, cluster="pricecluster")
+    setup_data("Price of 0.5l local beer in supermarket in US$ (lower is better).csv",
+               ascending=True, dif=4, cluster="pricecluster")
+    setup_data("Price of one head of lettuce in supermarket in US$ (lower is better).csv",
+               ascending=True, dif=4, cluster="pricecluster")
+    setup_data("Price of 1kg of tomatoes in US$ (lower is better).csv",
+               ascending=True, dif=4, cluster="pricecluster")
+    setup_data("Price of 1kg of potatoes in US$ (lower is better).csv",
+               ascending=True, dif=4, cluster="pricecluster")
+    setup_data("Price of newest nike shoes in US$ (lower is better).csv",
+               ascending=True, dif=3, cluster="pricecluster")
+    setup_data("Price of one pair of Levi 501s or equivalent in US$ (lower is better).csv",
+               ascending=True, dif=3, cluster="pricecluster")
+    setup_data("Price for garbage, water, heating, electricity for 85 sqm apartment in US$ (lower is better).csv",
+               ascending=True, dif=3, cluster="pricecluster")
+    setup_data("Price of a regular cappuchino in a restaurant in US$ (lower is better).csv",
+               ascending=True, dif=3, cluster="pricecluster")
+    setup_data("Price of a mcdonalds menu in US$ (lower is better).csv",
+               ascending=True, dif=3, cluster="pricecluster")
+    setup_data("Price for a 3 course meal for 2 in a normal restaurant in US$ (lower is better).csv",
+               ascending=True, dif=3, cluster="pricecluster")
+    setup_data("Price of 0.5 l normal beer in a restaurant in US$ (lower is better).csv",
+               ascending=True, dif=3, cluster="pricecluster")
+    setup_data("Price of a bottled water in a restaurant in US$ (lower is better).csv",
+               ascending=True, dif=3, cluster="pricecluster")
+    setup_data("Price of a new Volkswagen Golf 1.4 in US$ (lower is better).csv",
+               ascending=True, dif=4, cluster="pricecluster")
+    setup_data("Monthly price of broadband internet 6Mpbs, uncapped data in US$ (lower is better).csv",
+               ascending=True, dif=4, cluster="pricecluster")
+    setup_data("Price of local 1kg cheese in US$ (lower is better).csv",
+               ascending=True, dif=4, cluster="pricecluster")
+    setup_data("Price of one pack of Marlboro in US$ (lower is better).csv",
+               ascending=True, dif=4, cluster="pricecluster")
+    setup_data("Gasoline prices in US$ (lower is better).csv",
+               ascending=True, dif=2, cluster="pricecluster")
+    setup_data("Cinema ticket price in US$ (lower is better).csv",
+               ascending=True, dif=3, cluster="pricecluster")
 
-    # # religious people
-    # setup_data(
-    #     "Percentage of population being christian (higher is better).csv", dif=2, cluster="religious people")
-    # setup_data(
-    #     "Percentage of population being hindu (higher is better).csv", dif=1, cluster="religious people")
-    # setup_data(
-    #     "Percentage of population being muslim (higher is better).csv", dif=2, cluster="religious people")
-    # setup_data(
-    #     "Agreement to the statement religion is important (higher is better).csv", dif=2, cluster="religious people")
-    # setup_data(
-    #     "Percentage of people being atheist (higher is better).csv", dif=1, cluster="religious people")
-    # setup_data(
-    #     "Chinese population (by 1000 population) (higher is better).csv", dif=3, cluster="religious people")
+    # religious people
+    setup_data(
+        "Percentage of population being christian (higher is better).csv", dif=2, cluster="religious people")
+    setup_data(
+        "Percentage of population being hindu (higher is better).csv", dif=1, cluster="religious people")
+    setup_data(
+        "Percentage of population being muslim (higher is better).csv", dif=2, cluster="religious people")
+    setup_data(
+        "Agreement to the statement religion is important (higher is better).csv", dif=2, cluster="religious people")
+    setup_data(
+        "Percentage of people being atheist (higher is better).csv", dif=1, cluster="religious people")
+    setup_data(
+        "Chinese population (by 1000 population) (higher is better).csv", dif=3, cluster="religious people")
 
-    # # percentage of people being satisfied with stuff
-    # setup_data(
-    #     "Percentage of people trusting their national government (higher is better).csv", cluster="percentage of people being satisfied with stuff")
-    # setup_data(
-    #     "Percentage of people being satsified with environment policy of government (higher is better).csv", cluster="percentage of people being satisfied with stuff")
-    # setup_data(
-    #     "Percentage of people having confidence in the judical system (higher is better).csv", cluster="percentage of people being satisfied with stuff")
-    # setup_data(
-    #     "Percentage of people having volunteered at least once (higher is better).csv", cluster="percentage of people being satisfied with stuff")
-    # setup_data(
-    #     "Percentage of people saying that the local labour market is good (higher is better).csv", cluster="percentage of people being satisfied with stuff")
-    # setup_data(
-    #     "Percentage of people being satisfied with their health care quality (higher is better).csv", cluster="percentage of people being satisfied with stuff")
-    # setup_data(
-    #     "Percentage of people being satisfied with their standard of living (higher is better).csv", cluster="percentage of people being satisfied with stuff")
-    # setup_data(
-    #     "Percentage of people being satisfied with their education quality (higher is better).csv", cluster="percentage of people being satisfied with stuff")
+    # percentage of people being satisfied with stuff
+    setup_data(
+        "Percentage of people trusting their national government (higher is better).csv", cluster="percentage of people being satisfied with stuff")
+    setup_data(
+        "Percentage of people being satsified with environment policy of government (higher is better).csv", cluster="percentage of people being satisfied with stuff")
+    setup_data(
+        "Percentage of people having confidence in the judical system (higher is better).csv", cluster="percentage of people being satisfied with stuff")
+    setup_data(
+        "Percentage of people having volunteered at least once (higher is better).csv", cluster="percentage of people being satisfied with stuff")
+    setup_data(
+        "Percentage of people saying that the local labour market is good (higher is better).csv", cluster="percentage of people being satisfied with stuff")
+    setup_data(
+        "Percentage of people being satisfied with their health care quality (higher is better).csv", cluster="percentage of people being satisfied with stuff")
+    setup_data(
+        "Percentage of people being satisfied with their standard of living (higher is better).csv", cluster="percentage of people being satisfied with stuff")
+    setup_data(
+        "Percentage of people being satisfied with their education quality (higher is better).csv", cluster="percentage of people being satisfied with stuff")
 
-    # # language proficiency stuff
-    # setup_data(
-    #     "Percentage of people who are proficient in English (higher is better).csv", dif=1, cluster="language proficiency")
-    # setup_data(
-    #     "Percentage of people being proficient in French (higher is better).csv", dif=1, cluster="language proficiency")
+    # language proficiency stuff
+    setup_data(
+        "Percentage of people who are proficient in English (higher is better).csv", dif=1, cluster="language proficiency")
+    setup_data(
+        "Percentage of people being proficient in French (higher is better).csv", dif=1, cluster="language proficiency")
 
-    # # prison stuff
-    # setup_data("Prison occupacy (lower is better).csv",
-    #            ascending=True, dif=4, cluster="prison stuff")
-    # setup_data("Percentage of prisoners being female (higher is better).csv",
-    #            dif=5, cluster="prison stuff")
-    # setup_data(
-    #     "Number of prisoners per 100,000 population (lower is better).csv", ascending=True, dif=3, cluster="prison stuff")
+    # prison stuff
+    setup_data("Prison occupacy (lower is better).csv",
+               ascending=True, dif=4, cluster="prison stuff")
+    setup_data("Percentage of prisoners being female (higher is better).csv",
+               dif=5, cluster="prison stuff")
+    setup_data(
+        "Number of prisoners per 100,000 population (lower is better).csv", ascending=True, dif=3, cluster="prison stuff")
 
-    # # vacation policies
-    # setup_data(
-    #     "Minimum number of paid annual leave (higher is better).csv", dif=2, cluster="vacation policies")
-    # setup_data(
-    #     "Number of paid annual public holidays (higher is better).csv", dif=2, cluster="vacation policies")
-    # setup_data(
-    #     "Minimum number of paid annual vacation (higher is better).csv", dif=2, cluster="vacation policies")
+    # vacation policies
+    setup_data(
+        "Minimum number of paid annual leave (higher is better).csv", dif=2, cluster="vacation policies")
+    setup_data(
+        "Number of paid annual public holidays (higher is better).csv", dif=2, cluster="vacation policies")
+    setup_data(
+        "Minimum number of paid annual vacation (higher is better).csv", dif=2, cluster="vacation policies")
 
     # safety stuff
     setup_data(
